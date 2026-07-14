@@ -251,6 +251,7 @@ const CONFIG = {
   <form class="gate-form" id="gateForm">
     <input type="text" id="g_nombre" placeholder="Tu nombre completo" required>
     <input type="email" id="g_email" placeholder="Tu correo" required>
+    <input type="tel" id="g_telefono" placeholder="Tu WhatsApp (10 dígitos)" required inputmode="numeric" pattern="[0-9\+\(\)\- ]{10,15}" title="Escribe tu WhatsApp a 10 dígitos">
     <button class="btn-red" type="submit">Quiero mi diagnóstico gratis →</button>
   </form>
   <p class="trust small">Sin costo. Sin spam. Resultados al instante.</p>
@@ -551,7 +552,7 @@ const FLOW_MAP = {leadgen:[0,1,9], filtro:[7,1], seguimiento:[2,4,8], cierre:[6,
 /* =====================================================================
    ESTADO + ARRANQUE
    ===================================================================== */
-let state = {nombre:"", email:"", B:[], C:[], idx:0, phase:"B", etapa:null, weak:[], done:false, utm:{}};
+let state = {nombre:"", email:"", telefono:"", B:[], C:[], idx:0, phase:"B", etapa:null, weak:[], done:false, utm:{}};
 
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
@@ -568,11 +569,13 @@ function init(){
   // ¿Viene de la landing GHL con datos?
   state.nombre = params.get("nombre") || params.get("first_name") || "";
   state.email  = params.get("email") || "";
+  state.telefono = params.get("telefono") || params.get("phone") || "";
   if(state.email){ startQuiz(); } // directo al quiz
   $("gateForm").addEventListener("submit", e=>{
     e.preventDefault();
     state.nombre = $("g_nombre").value.trim();
     state.email  = $("g_email").value.trim();
+    state.telefono = $("g_telefono").value.replace(/[^\d+]/g,"");
     startQuiz();
   });
 }
@@ -888,7 +891,7 @@ function toast(msg){
    BACKEND · webhook a GHL + Meta Pixel
    ===================================================================== */
 function payload(action, extra={}){
-  const p={ action, nombre:state.nombre, email:state.email,
+  const p={ action, nombre:state.nombre, email:state.email, telefono:state.telefono,
     etapa: state.etapa, etapa_nombre: state.etapa?STAGES[state.etapa-1]:null,
     perfil_curso: computePerfil(),
     ultima_pregunta: quizProgress(),
