@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico Express · Mapa de Crecimiento</title>
+<!-- v2.1-draft quick-wins UX (matriz móvil + bio comprimida + acordeón áreas) · v2.0-draft A/B (captura WhatsApp gate vs reveal) · v1.9-draft: conversión (costo inacción + CTA value stack + calendario embebido + nombre) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0A2E5C; --red:#D42A2A; --ink:#333333; --bg:#FFFFFF; --soft:#F5F5F5;
+  --line:#E4E7EC; --ok:#0A7A3D; --warn:#B7791F;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased}
+.bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:.5px}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+.hidden{display:none!important}
+button{font-family:inherit;cursor:pointer;border:none}
+.btn-red{background:var(--red);color:#fff;font-weight:800;font-size:17px;padding:16px 28px;border-radius:10px;box-shadow:0 4px 14px rgba(212,42,42,.28);transition:transform .12s ease}
+.btn-red:hover{transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--navy);font-weight:700;font-size:14px;padding:12px 18px;border-radius:8px;border:2px solid var(--navy)}
+.small{font-size:13px;color:#777}
+
+/* ---------- TOP BAR ---------- */
+.topbar{border-bottom:1px solid var(--line);padding:12px 0;position:sticky;top:0;background:#fff;z-index:50}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:800;font-size:14px;color:var(--navy);text-transform:uppercase;letter-spacing:.06em}
+.brand span{color:var(--red)}
+.badge-mini{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.08em}
+
+/* ---------- INTRO / GATE ---------- */
+.screen{padding:56px 0 80px}
+.kicker{display:inline-block;border:1.5px dashed var(--red);color:var(--red);font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:8px 16px;border-radius:999px;margin-bottom:22px}
+h1.hero{font-size:clamp(40px,7vw,72px);line-height:.95;color:var(--navy);text-transform:uppercase}
+h1.hero em{font-style:normal;color:var(--red)}
+.sub{font-size:18px;margin-top:18px;max-width:560px;color:#444}
+.gate-form{margin-top:28px;display:flex;flex-direction:column;gap:12px;max-width:420px}
+.gate-form input{padding:14px 16px;border:1.5px solid var(--line);border-radius:10px;font-size:16px;font-family:inherit}
+.gate-form input:focus{outline:2px solid var(--navy)}
+.trust{margin-top:14px}
+
+/* ---------- QUIZ ---------- */
+.progress-rail{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;margin:26px 0 8px}
+.progress-fill{height:100%;background:var(--red);width:0%;transition:width .3s ease}
+.progress-label{font-size:12px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.08em}
+.qcard{margin-top:26px}
+.qnum{color:var(--red);font-weight:800;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+.qtext{font-size:clamp(24px,4vw,34px);font-weight:800;color:var(--navy);margin:10px 0 24px;line-height:1.2}
+.opts{display:flex;flex-direction:column;gap:12px}
+.opt{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:16px 18px;font-size:16.5px;text-align:left;transition:border-color .12s ease, background .12s ease;color:var(--ink);font-weight:600}
+.opt:hover{border-color:var(--navy);background:#FAFBFF}
+.opt.picked{border-color:var(--red);background:#FFF6F6}
+.qnav{margin-top:22px;display:flex;justify-content:space-between;align-items:center}
+.backlink{background:none;color:#999;font-size:14px;font-weight:700}
+.skiplink{background:none;color:#999;font-size:14px;font-weight:700;text-decoration:underline}
+.ctx-note{background:var(--soft);border-radius:12px;padding:16px 18px;font-size:15px;margin-bottom:22px}
+
+/* ---------- RESULTS ---------- */
+.res-hero{padding:64px 0 40px;text-align:center}
+.res-hero .kicker{margin-bottom:26px}
+.here{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:10px}
+.stage-badge{display:inline-flex;align-items:center;gap:14px;margin:6px 0 18px}
+.stage-badge .arrows{color:var(--navy);font-size:20px;letter-spacing:-2px}
+.stage-pill{border:2px dashed #9AA4B2;border-radius:999px;padding:12px 26px;font-size:clamp(20px,3.5vw,30px);color:var(--red);text-transform:uppercase}
+.res-sub{font-style:italic;color:var(--red);font-weight:600;max-width:520px;margin:0 auto}
+section.block{padding:46px 0;border-top:1px solid var(--line)}
+h2.sec{font-size:clamp(34px,5vw,52px);color:var(--navy);text-transform:uppercase;text-align:center;margin-bottom:8px}
+.sec-sub{text-align:center;color:#666;max-width:640px;margin:0 auto 30px;font-size:15.5px}
+
+/* video slots (estructura Hormozi: se activan al pegar link en CONFIG) */
+.vframe{position:relative;width:100%;aspect-ratio:16/9;background:#0d1522;border-radius:14px;overflow:hidden;margin:8px 0 22px}
+.vframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vicons{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px}
+.vi{text-align:center;font-size:13px;font-weight:700;color:#555}
+.vi .vi-i{font-size:26px;margin-bottom:6px}
+.vcta{text-align:center;color:#98a2b3;font-size:clamp(18px,3vw,26px);text-transform:uppercase;margin-top:26px}
+.stage-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:10px}
+.smcard{border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center}
+.smcard .t{font-size:10.5px;font-weight:800;color:#8a94a6;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.smcard .v{font-size:14.5px;font-weight:800;color:var(--navy);line-height:1.3}
+@media(max-width:720px){.vicons{grid-template-columns:1fr 1fr}.stage-meta{grid-template-columns:1fr 1fr}}
+
+/* diagnostic table */
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table.diag{border-collapse:collapse;width:100%;min-width:760px;font-size:13px}
+table.diag th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#8a94a6;font-weight:700;padding:12px 10px;border-bottom:2px solid var(--line);text-align:left;vertical-align:bottom}
+table.diag th.you{color:var(--navy);border-bottom:2px solid var(--red)}
+table.diag th .st-desc{display:block;font-size:10px;font-weight:600;color:#b3bac6;text-transform:none;letter-spacing:0}
+table.diag td{padding:10px;border-bottom:1px solid #F0F2F5;vertical-align:top}
+table.diag td.area{font-weight:800;color:var(--navy);font-size:12.5px;white-space:nowrap}
+td.ans{font-weight:800;color:var(--navy);background:#FFF9F0}
+td.ans .mark{color:var(--red)}
+td.low{background:#FFF3F3}
+td.you-col{background:#FBFCFF}
+.legend{display:flex;gap:22px;font-size:13px;margin-top:12px;flex-wrap:wrap}
+.tbl-note{margin-top:18px;background:var(--soft);border-left:4px solid var(--navy);padding:14px 18px;border-radius:0 10px 10px 0;font-size:14.5px}
+.tbl-note strong{color:var(--navy)}
+.diag-verdict{font-size:17px;margin:24px 0 6px}
+.diag-verdict b{color:var(--navy)}
+.diag-verdict .crit{color:var(--red);font-weight:800}
+tr.locked td{color:#98a2b3;background:#FAFAFA;font-style:italic}
+tr.locked td.area{color:#98a2b3}
+
+/* ruedas */
+.ruedas{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.rueda{border:1px solid var(--line);border-radius:14px;padding:20px}
+.rueda h4{font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.rueda p{font-size:12.5px;color:#777;margin-bottom:12px;min-height:36px}
+.meter{height:10px;border-radius:99px;background:var(--soft);overflow:hidden}
+.meter i{display:block;height:100%;border-radius:99px}
+.rueda .verdict{font-weight:800;font-size:13px;margin-top:8px;text-transform:uppercase;letter-spacing:.04em}
+.r1 h4{color:var(--red)} .r2 h4{color:var(--warn)} .r3 h4{color:var(--navy)}
+.desbalance{margin-top:22px;text-align:center;font-size:16.5px;max-width:640px;margin-left:auto;margin-right:auto}
+.desbalance b{color:var(--red)}
+
+/* proceso */
+.flow{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:26px 0 18px}
+.flow .step{border:1.5px solid var(--line);border-radius:10px;padding:12px 18px;font-weight:800;font-size:14px;color:#8a94a6;text-transform:uppercase;letter-spacing:.04em}
+.flow .step.hot{border-color:var(--red);color:var(--red);background:#FFF6F6;position:relative}
+.flow .step.hot::after{content:"TU TRABA";position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:9px;padding:2px 8px;border-radius:99px;letter-spacing:.08em}
+.flow .arrow{color:#c3cad5;font-weight:800}
+.flow-copy{max-width:640px;margin:0 auto;text-align:center;font-size:16px}
+
+/* areas criticas */
+.acard{border:1px solid var(--line);border-radius:16px;padding:26px;margin-top:20px}
+.acard .ahead{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.acard .anum{width:34px;height:34px;background:var(--red);color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0}
+.acard h3{font-size:clamp(20px,3vw,26px);color:var(--navy);text-transform:uppercase}
+.acard p{font-size:15.5px;margin-bottom:12px}
+.acard .caso{background:var(--soft);border-radius:10px;padding:14px 16px;font-size:14.5px;margin:14px 0}
+.acard .caso b{color:var(--red)}
+.hazlo{border-left:4px solid var(--navy);padding:12px 16px;background:#F8FAFD;border-radius:0 10px 10px 0;font-size:14.5px;margin:14px 0}
+.hazlo b{color:var(--navy);text-transform:uppercase;font-size:12px;letter-spacing:.08em;display:block;margin-bottom:4px}
+.ads-ex{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.ads-ex .ex{border-radius:10px;padding:12px 14px;font-size:13.5px}
+.ads-ex .bad{background:#FFF3F3;border:1px solid #F5C9C9}
+.ads-ex .good{background:#F0FAF4;border:1px solid #BFE3CC}
+.ads-ex .tag{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:4px}
+.ads-ex .bad .tag{color:var(--red)} .ads-ex .good .tag{color:var(--ok)}
+.moneyflow{display:flex;align-items:stretch;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0}
+.mstep{text-align:center;background:var(--soft);border-radius:10px;padding:12px 16px;min-width:96px}
+.mstep .n{font-size:24px;font-weight:800;color:var(--navy)}
+.mstep .l{font-size:11.5px;color:#777;text-transform:uppercase;letter-spacing:.04em}
+.mstep .c{font-size:11.5px;color:var(--red);font-weight:700}
+.marrow{align-self:center;color:#c3cad5;font-weight:800}
+.wl-row{display:flex;justify-content:space-between;align-items:center;gap:14px;border-top:1px dashed var(--line);padding-top:14px;margin-top:6px;flex-wrap:wrap}
+.wl-row span{font-size:13.5px;color:#666}
+.btn-wl{background:var(--navy);color:#fff;font-weight:800;font-size:13.5px;padding:11px 18px;border-radius:8px;white-space:nowrap}
+.btn-wl.done{background:var(--ok)}
+.areas-close{text-align:center;margin-top:30px}
+.areas-close .bebas{font-size:clamp(20px,3vw,28px);color:#98a2b3;text-transform:uppercase}
+.areas-close p{font-size:14.5px;color:#777;max-width:560px;margin:8px auto 0}
+
+/* tabla 11 areas expandible */
+.expander{border:1px solid var(--line);border-radius:14px;margin-top:24px;overflow:hidden}
+.expander>button{width:100%;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:18px 22px;font-weight:800;color:var(--navy);font-size:15.5px}
+.expander .chev{transition:transform .2s}
+.expander.open .chev{transform:rotate(180deg)}
+.exp-body{display:none;padding:0 22px 22px}
+.expander.open .exp-body{display:block}
+table.hz{width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px}
+table.hz th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#8a94a6;padding:10px;border-bottom:2px solid var(--line)}
+table.hz td{padding:10px;border-bottom:1px solid #F0F2F5;vertical-align:top}
+table.hz td:first-child{font-weight:800;color:#8a94a6;text-transform:uppercase;font-size:11.5px;white-space:nowrap}
+table.hz td.weak-row{background:#FFF9F0}
+
+/* bottom line */
+.bottomline{background:var(--navy);color:#fff;text-align:center;padding:70px 20px}
+.bottomline .en{font-size:12px;letter-spacing:.24em;color:var(--red);font-weight:800;margin-bottom:18px;text-transform:uppercase}
+.bottomline h2{font-size:clamp(30px,5vw,48px);text-transform:uppercase;line-height:1.05;max-width:760px;margin:0 auto 22px}
+.bottomline p{max-width:560px;margin:0 auto 14px;color:#C7D2E4;font-size:16px}
+.bottomline p.strong{color:#fff;font-weight:700}
+
+/* bio */
+.bio h2{text-align:left}
+.bio .lead{font-size:16px;margin-bottom:12px}
+.bio .promise{font-weight:800;color:var(--navy);font-size:16.5px;margin:16px 0}
+.caso-real{margin-top:26px}
+.caso-real h3{font-size:22px;color:var(--navy);text-transform:uppercase;margin-bottom:10px}
+.resultado{text-align:center;margin:26px 0}
+.resultado .lbl{color:var(--red);font-weight:800;font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+.resultado .big{font-size:clamp(30px,5vw,44px);font-weight:800;color:#98a2b3;margin:6px 0}
+.resultado .big b{color:var(--navy)}
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.card3{border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center}
+.card3 .t{font-size:11px;font-weight:800;color:#8a94a6;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.card3 .v{font-size:19px;font-weight:800;color:var(--navy)}
+
+/* CTA final */
+.cta-final{text-align:center;padding:60px 0 80px}
+.cta-final h2{margin-bottom:8px}
+.cta-final .sub2{color:#777;margin-bottom:26px}
+.cal-box{border:1px solid var(--line);border-radius:14px;min-height:120px;display:flex;align-items:center;justify-content:center;margin-top:26px;color:#98a2b3;font-size:14px}
+
+/* export bar */
+.exportbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:10px 16px;display:none;z-index:60}
+.exportbar.on{display:block}
+.exportbar .inner{max-width:860px;margin:0 auto;display:flex;gap:10px;justify-content:space-between;align-items:center}
+.exportbar .left{display:flex;gap:10px}
+body.has-bar{padding-bottom:74px}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 22px;border-radius:99px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .25s;z-index:70}
+.toast.on{opacity:1}
+
+@media(max-width:720px){
+  .ruedas{grid-template-columns:1fr}
+  .cards3{grid-template-columns:1fr}
+  .ads-ex{grid-template-columns:1fr}
+  .exportbar .inner{flex-direction:column;align-items:stretch}
+  .exportbar .left{flex-direction:column}
+}
+
+/* ---------- PRINT (export PDF) ---------- */
+@media print{
+  .topbar,.exportbar,.qnav,.toast,#screen-gate,#screen-quiz,.btn-red,.btn-wl,.btn-ghost,.cal-box,#sec-video-gen,.vframe{display:none!important}
+  body{padding-bottom:0}
+  section.block{padding:24px 0;page-break-inside:avoid}
+  .bottomline{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .expander .exp-body{display:block!important}
+  .expander>button .chev{display:none}
+}
+
+/* -------- CONVERSIÓN v1.9 (borrador para pasada de voz) -------- */
+.costo-wrap{padding-top:8px;padding-bottom:8px}
+.costo-inaccion{background:#FFF6F6;border:1px solid #F2C9C9;border-left:4px solid var(--red);border-radius:14px;padding:22px 26px;font-size:16.5px;max-width:720px;margin:0 auto;line-height:1.55}
+.costo-inaccion b{color:var(--red)}
+.costo-inaccion .k{font-size:12px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.12em;display:block;margin-bottom:10px}
+.valuestack{list-style:none;max-width:600px;margin:22px auto 0;text-align:left;display:flex;flex-direction:column;gap:14px}
+.valuestack li{position:relative;padding-left:36px;font-size:16px;color:var(--ink);line-height:1.5}
+.valuestack li::before{content:"✓";position:absolute;left:0;top:1px;width:24px;height:24px;background:var(--ok);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
+.valuestack li b{color:var(--navy)}
+.guarantee{max-width:600px;margin:24px auto 0;background:var(--soft);border-radius:12px;padding:16px 20px;font-size:15px;color:#444;line-height:1.5}
+.guarantee b{color:var(--navy)}
+.scarcity{font-size:13.5px;color:#8a94a6;margin-top:16px;font-style:italic}
+.cal-box iframe{width:100%;min-height:680px;border:0;border-radius:14px;margin-top:22px;background:#fff}
+
+/* -------- QUICK-WINS UX v2.1 -------- */
+/* QW1 · matriz -> lista en móvil */
+.dlm{display:none}
+.dlm-callout{background:#FFF6F6;border:1.5px solid #F2C9C9;border-radius:12px;padding:14px 16px;font-size:14.5px;margin-bottom:14px}
+.dlm-callout b{color:var(--red)}
+.dlm-row{display:flex;align-items:flex-start;gap:10px;padding:12px 4px;border-bottom:1px solid #F0F2F5;font-size:14px}
+.dlm-row .a{font-weight:800;color:var(--navy);min-width:96px;font-size:12.5px;padding-top:2px}
+.dlm-row .r{flex:1;color:var(--ink)}
+.dlm-row .dots{display:flex;gap:4px;padding-top:5px}
+.dlm-row .dots i{width:8px;height:8px;border-radius:50%;background:#E4E7EC}
+.dlm-row .dots i.on{background:var(--navy)}
+.dlm-row.weak .dots i.on{background:var(--red)}
+.dlm-row.weak .r::after{content:" ⚠️"}
+.dlm-toggle{width:100%;min-height:44px;background:#fff;border:1.5px solid var(--line);border-radius:10px;font-weight:700;color:var(--navy);font-size:14px;margin-top:14px}
+@media(max-width:720px){
+  #sec-diag .tbl-scroll,#sec-diag .legend{display:none}
+  #sec-diag .diag-verdict{display:none}
+  #sec-diag.show-matrix .tbl-scroll,#sec-diag.show-matrix .legend{display:block}
+  .dlm{display:block}
+  #sec-diag.show-matrix .dlm-toggle{margin-bottom:14px}
+}
+/* QW3 · acordeón en áreas críticas */
+.acard-more{overflow:hidden;max-height:0;transition:max-height .25s ease}
+.acard.open .acard-more{max-height:3000px}
+.acard-toggle{width:100%;min-height:44px;display:flex;justify-content:space-between;align-items:center;background:var(--soft);border-radius:10px;padding:10px 16px;font-weight:700;font-size:14px;color:var(--navy);margin:4px 0 12px}
+.acard-toggle .chev2{transition:transform .2s}
+.acard.open .acard-toggle .chev2{transform:rotate(180deg)}
+.acard.open .caso-mini{display:none}
+
+/* -------- v2.2 · spec unificado UX×conversión -------- */
+.stage-strip{display:flex;gap:6px;justify-content:center;margin:14px 0 4px;flex-wrap:wrap}
+.stage-strip .st{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#98a2b3;border:1.5px solid var(--line);border-radius:999px;padding:6px 12px}
+@media(max-width:720px){.stage-strip{gap:4px}.stage-strip .st{font-size:9.5px;padding:4px 8px;letter-spacing:.02em}}
+.stage-strip .st.cur{color:#fff;background:var(--red);border-color:var(--red)}
+.acard .caso-mini{font-size:14.5px;color:var(--ink);background:var(--soft);border-left:3px solid var(--navy);border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0 4px}
+.acard .caso-mini b{color:var(--navy)}
+.cta-mid{text-align:center;margin-top:26px}
+.kit-block{border:2px dashed var(--navy);border-radius:16px;padding:24px;max-width:640px;margin:30px auto 0;text-align:center;background:#FBFCFF}
+.kit-block h3{color:var(--navy);font-size:clamp(22px,3.5vw,30px);text-transform:uppercase}
+.kit-block p{font-size:15px;color:#444;margin:10px 0 4px}
+.kit-block .precio{font-weight:800;color:var(--red);font-size:15px;margin:6px 0 14px}
+.cta-fallback{max-width:600px;margin:26px auto 0;border-top:1px dashed var(--line);padding-top:18px;text-align:center;font-size:14.5px;color:#666}
+.proof-line{font-size:13.5px;color:#666;margin-top:14px;font-style:italic;text-align:center}
+.proof-line b{color:var(--navy)}
+.gap-note{font-size:12px;color:var(--red);font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- ======================= CONFIG · EDITAR ANTES DE PUBLICAR ======================= -->
+<script>
+const CONFIG = {
+  WEBHOOK_URL: "https://hook.us2.make.com/136bp8giaczmgcv5mh8k4betdqh7uwd1",  // Make · escenario DX Intake
+  CALENDLY_URL: "https://api.leadconnectorhq.com/widget/bookings/llamada-de-15-minutos-anwar",  // GHL · Llamada 15 min (link permanente)
+  PIXEL_ID: "2192907038266074",  // Meta dataset · BM Anwar Sepúlveda
+  VIDEO_GENERAL_URL: "",     // Video "Ve esto primero" (YouTube/Vimeo/Loom). Vacío = la sección NO aparece.
+  VIDEO_ETAPA_URLS: {1:"",2:"",3:"",4:""}, // Video por etapa. Vacío = solo se muestran las tarjetas, sin video.
+  BRAND_URL: "anwarsepulveda.com"
+};
+</script>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">Mapa de <span>Crecimiento</span></div>
+    <div class="badge-mini" id="topbadge">Diagnóstico gratuito · 2 minutos</div>
+  </div>
+</div>
+
+<!-- ======================= PANTALLA 0 · GATE (fallback si no viene de la landing) ======================= -->
+<div class="screen wrap" id="screen-gate">
+  <span class="kicker">Diagnóstico gratuito · 2 minutos</span>
+  <h1 class="hero bebas">Descubre en qué enfocarte<br>para crecer <em>este mes</em></h1>
+  <p class="sub">Contesta 10 preguntas rápidas. Al terminar ves tu diagnóstico completo aquí mismo: en qué etapa está tu negocio, qué áreas te están frenando y qué mover primero.</p>
+  <form class="gate-form" id="gateForm">
+    <input type="text" id="g_nombre" placeholder="Tu nombre completo" required>
+    <input type="email" id="g_email" placeholder="Tu correo" required>
+    <input type="tel" id="g_telefono" placeholder="Tu WhatsApp (10 dígitos)" required inputmode="numeric" pattern="[0-9\+\(\)\- ]{10,15}" title="Escribe tu WhatsApp a 10 dígitos">
+    <button class="btn-red" type="submit">Quiero mi diagnóstico gratis →</button>
+  </form>
+  <p class="trust small">Sin costo. Sin spam. Resultados al instante.</p>
+</div>
+
+<!-- ======================= PANTALLA 1 · QUIZ ======================= -->
+<div class="screen wrap hidden" id="screen-quiz">
+  <div class="progress-label" id="progLabel">Pregunta 1 de 10</div>
+  <div class="progress-rail"><div class="progress-fill" id="progFill"></div></div>
+  <div class="qcard" id="qcard"></div>
+</div>
+
+<!-- ============ PANTALLA 1.5 · WhatsApp (solo variante B del A/B) ============ -->
+<div class="screen wrap hidden" id="screen-phone">
+  <span class="kicker">Tu diagnóstico está listo</span>
+  <h1 class="hero bebas" style="font-size:clamp(30px,5vw,50px)" id="phoneName">Ya casi.</h1>
+  <p class="sub">¿A qué WhatsApp te mando tu mapa completo + el Kit de Cierre por WhatsApp? Lo abres aquí mismo en cuanto lo pongas.</p>
+  <form class="gate-form" id="phoneForm">
+    <input type="tel" id="p_telefono" placeholder="Tu WhatsApp (10 dígitos)" inputmode="numeric" pattern="[0-9\+\(\)\- ]{10,15}" title="Escribe tu WhatsApp a 10 dígitos" required>
+    <button class="btn-red" type="submit">Ver mi diagnóstico →</button>
+  </form>
+  <button class="skiplink" id="phoneSkip" style="margin-top:16px">Prefiero verlo sin dejar mi WhatsApp →</button>
+</div>
+
+<!-- ======================= PANTALLA 2 · RESULTADOS ======================= -->
+<div class="hidden" id="screen-results">
+
+  <div class="res-hero wrap">
+    <span class="kicker">Tu diagnóstico está listo</span>
+    <div class="here bebas" style="font-size:22px" id="heroName">Aquí está tu negocio</div>
+    <div class="stage-badge">
+      <span class="arrows">▶▶</span>
+      <span class="stage-pill bebas" id="stagePill">ETAPA 3: VENTAS ESTANCADAS</span>
+      <span class="arrows">◀◀</span>
+    </div>
+    <div class="stage-strip" id="stageStrip"></div>
+    <p class="here bebas hidden" id="heroPunto" style="font-size:19px;margin-top:14px;color:var(--navy)"></p>
+    <p class="res-sub" id="stageSub">Vendes. Tu equipo trabaja. Tu publicidad corre. Pero llevas meses en el mismo número.</p>
+  </div>
+
+  <!-- VE ESTO PRIMERO · video general (aparece solo si hay link en CONFIG.VIDEO_GENERAL_URL) -->
+  <section class="block wrap hidden" id="sec-video-gen">
+    <h2 class="sec bebas">Ve esto primero</h2>
+    <p class="sec-sub">Este video explica todo el Mapa de Crecimiento. Esto incluye:</p>
+    <div class="vframe" id="vGen"></div>
+    <div class="vicons">
+      <div class="vi"><div class="vi-i">📊</div>La metodología</div>
+      <div class="vi"><div class="vi-i">📋</div>Las diferencias entre etapas</div>
+      <div class="vi"><div class="vi-i">⚙️</div>Patrones que se repiten siempre</div>
+      <div class="vi"><div class="vi-i">📈</div>Cómo sacar el máximo de tu negocio</div>
+    </div>
+    <div class="vcta bebas">¿Listo? Vamos a ver tu diagnóstico ▶▶▶</div>
+  </section>
+
+  <!-- TU ETAPA · tarjetas siempre visibles + video por etapa si hay link -->
+  <section class="block wrap hidden" id="sec-etapa">
+    <h2 class="sec bebas" id="etTitle">Tu etapa</h2>
+    <p class="sec-sub" id="etSub">Así se ve un negocio en tu etapa. Más abajo está el detalle de qué mover.</p>
+    <div class="vframe hidden" id="vEt"></div>
+    <div class="stage-meta" id="stageMeta"></div>
+  </section>
+
+  <!-- TU DIAGNÓSTICO -->
+  <section class="block wrap" id="sec-diag">
+    <h2 class="sec bebas">Tu diagnóstico</h2>
+    <p class="sec-sub">Cada fila es un área de tu operación con lo que TÚ contestaste. Lo marcado con ⚠️ está por debajo de tu etapa: eso es lo que te frena.</p>
+    <div class="dlm" id="diagListMobile"></div>
+    <div class="tbl-scroll"><table class="diag" id="diagTable"></table></div>
+    <div class="legend"><span>→ = tu respuesta</span><span>⚠️ = por debajo de tu etapa</span></div>
+    <p class="diag-verdict" id="diagVerdict"></p>
+    <div class="tbl-note" id="diagNote"></div>
+    <div class="cta-mid"><button class="btn-red" onclick="goCall('diag')">Quiero mi llamada de 15 minutos →</button></div>
+  </section>
+
+  <!-- CUELLO DE BOTELLA (flow + ruedas fusionadas · síntoma → causa) -->
+  <section class="block wrap" id="sec-flow">
+    <h2 class="sec bebas">Tu cuello de botella</h2>
+    <div class="flow" id="flowRow"></div>
+    <p class="flow-copy" id="flowCopy"></p>
+    <div class="ruedas" style="margin-top:34px">
+      <div class="rueda r1"><h4>1 · Estructura del negocio</h4><div class="meter"><i id="m1" style="background:var(--red)"></i></div><div class="verdict" id="v1"></div></div>
+      <div class="rueda r2"><h4>2 · Estructura de campañas</h4><div class="meter"><i id="m2" style="background:var(--warn)"></i></div><div class="verdict" id="v2"></div></div>
+      <div class="rueda r3"><h4>3 · Métricas y control</h4><div class="meter"><i id="m3" style="background:var(--navy)"></i></div><div class="verdict" id="v3"></div></div>
+    </div>
+    <p class="desbalance" id="desbalance"></p>
+  </section>
+
+  <!-- BOTTOM LINE -->
+  <div class="bottomline" id="sec-bottom">
+    <div class="en">En resumen:</div>
+    <h2 class="bebas" id="blTitle">La Etapa 3 se trata de pasar de vender bien a vender con sistema.</h2>
+    <p id="blP1">Llevas meses vendiendo lo mismo no porque estés haciendo las cosas mal, sino porque el cuello de botella ya no está donde crees.</p>
+    <p id="blP2">Lo que te trajo hasta aquí no te va a llevar más lejos. Tu trabajo ahora es dejar de operar y empezar a ver tu negocio desde afuera.</p>
+    <p class="strong" id="blP3">Si logras pasar esta etapa, vas a tener un negocio que vende sin que todo dependa de ti. Y eso cambia todo.</p>
+  </div>
+
+  <!-- BIO -->
+  <section class="block wrap bio" id="sec-bio">
+    <h2 class="sec bebas" style="text-align:left">Hola, soy Anwar.</h2>
+    <p class="lead">Llevo más de 7 años ayudando a negocios a vender más con publicidad digital. Empecé con Völtoch, una marca que creé desde cero, donde aprendí todo lo que sé sobre ads, embudos y conversión.</p>
+    <p class="lead">Después vino la pandemia y con ella OptimizAds, la agencia que hoy administra más de $250,000 USD al mes en campañas para negocios en México, Estados Unidos y Latinoamérica.</p>
+    <p class="promise">No te voy a decir que "hagas más anuncios". Te voy a ayudar a ver tu sistema comercial completo para encontrar exactamente qué es lo que te tiene atorado.</p>
+    <div class="caso-real">
+      <h3 class="bebas">Resultados reales</h3>
+      <div class="cards3">
+        <div class="card3"><div class="t">Spa estético</div><div class="v">$482K → ROAS 4.1×</div></div>
+        <div class="card3"><div class="t">Equipos y maquinaria</div><div class="v">$180K → $850K</div></div>
+        <div class="card3"><div class="t">Inmobiliaria</div><div class="v">Costo por cliente: $6.6K → $2.3K</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 ÁREAS CRÍTICAS (Etapa 3 · clínicas) -->
+  <section class="block wrap" id="sec-areas">
+    <h2 class="sec bebas">3 de tus 11 áreas, a fondo</h2>
+    <p class="sec-sub">Del mapa completo de 11 áreas, estas 3 son donde más dinero se fuga en negocios que venden por chat. Míralas con tus propios números en mente.</p>
+
+    <div class="acard" data-area="citas">
+      <div class="ahead"><div class="anum">1</div><h3 class="bebas">Convierte mensajes en citas</h3></div>
+      <p><b>De cada 100 personas que te escriben por WhatsApp, solo 7 agendan cita.</b> Las otras 93 preguntan algo y desaparecen. El 78% compra al primero que responde, pero en clínicas estéticas el problema no es solo la velocidad: es que tu recepcionista no tiene un proceso para convertir "¿cuánto cuesta el hydrafacial?" en una cita agendada.</p>
+      <div class="caso"><b>Caso real:</b> Un spa estético recibía 5,600 mensajes al mes. Solo 393 agendaban cita (7%). La recepcionista respondía con el precio y esperaba. Sin guion de agendamiento, sin seguimiento, sin meta de citas por día. El 93% se perdía en WhatsApp. Y de las que sí agendaban, solo la mitad se presentaba.</div>
+      <div class="hazlo"><b>Hazlo hoy</b>Abre tus últimos 50 chats de WhatsApp con pacientes que preguntaron pero NO agendaron. Anota en cuántos la conversación se quedó en el precio. Si más de la mitad preguntó precio y no le ofreciste agendar, ahí está tu fuga.</div>
+      <div class="wl-row"><span>Tenemos un playbook con guion de agendamiento + seguimiento + protocolo de confirmación para clínicas.</span><button class="btn-wl" data-wl="playbook_whatsapp">Quiero el Playbook →</button></div>
+    </div>
+
+    <div class="acard" data-area="anuncios">
+      <div class="ahead"><div class="anum">2</div><h3 class="bebas">Mejora tus anuncios con un sistema</h3></div>
+      <p>Usamos una metodología de 5 pasos: <b>momento del cliente → ángulo → tipo de anuncio → formato → primera línea.</b> Si tu anuncio atrae a quien solo pregunta precio, ningún guion de agendamiento lo va a arreglar. Si tu mensaje no es claro, el algoritmo tampoco.</p>
+      <div class="ads-ex">
+        <div class="ex bad"><span class="tag">✗ Clínica estética</span>"5 razones para un tratamiento facial"</div>
+        <div class="ex good"><span class="tag">✓ Clínica estética</span>"Hydrafacial + Vitamina C. $1,200. Polanco, citas mañana."</div>
+        <div class="ex bad"><span class="tag">✗ Spa corporal</span>"Recupera tu figura con nuestros tratamientos"</div>
+        <div class="ex good"><span class="tag">✓ Spa corporal</span>"Criolipólisis $2,800/zona. 45 min. Sin cirugía. Agenda hoy."</div>
+      </div>
+      <div class="hazlo"><b>Hazlo hoy</b>¿Tu paciente ya decidió qué quiere? Si sí, revisa cuántos de tus anuncios abren con pregunta o con "sabías que". Reescribe la primera línea: qué tratamiento, a qué precio, dónde, cuándo puede agendar.</div>
+      <div class="wl-row"><span>El sistema completo tiene 5 pasos y 5 momentos. Cada combinación produce un anuncio listo para tu clínica.</span><button class="btn-wl" data-wl="guia_creativos">Quiero la Guía →</button></div>
+    </div>
+
+    <div class="acard" data-area="dinero">
+      <div class="ahead"><div class="anum">3</div><h3 class="bebas">¿Dónde se queda tu dinero?</h3></div>
+      <p>Mides cuánto te cuesta cada mensaje. Pero no sabes cuánto te cuesta cada <b>paciente que llega a tu clínica y paga.</b> Son dos números completamente diferentes:</p>
+      <div class="moneyflow">
+        <div class="mstep"><div class="n">100</div><div class="l">mensajes</div><div class="c">$15 c/u</div></div>
+        <div class="marrow">→</div>
+        <div class="mstep"><div class="n">7</div><div class="l">agendan</div><div class="c">$214 c/u</div></div>
+        <div class="marrow">→</div>
+        <div class="mstep"><div class="n">3</div><div class="l">llegan</div><div class="c">$500 c/u</div></div>
+        <div class="marrow">→</div>
+        <div class="mstep"><div class="n">2.1</div><div class="l">compran</div><div class="c">$711 c/u</div></div>
+      </div>
+      <p><b>Dato real de una clínica en México:</b> el costo por mensaje era $15. Parecía barato. Pero el costo por paciente que compró un plan fue de $711. Son 47 veces más. Si solo mides el costo por mensaje, crees que todo funciona cuando en realidad estás perdiendo dinero entre cada paso.</p>
+      <div class="hazlo"><b>Hazlo hoy (1 minuto)</b>Toma tu inversión del mes pasado. Divide entre el número de pacientes nuevos que REALMENTE pagaron un tratamiento. Ese es tu costo real por paciente. Si no tienes ese número, ahí está tu primer problema.</div>
+      <div class="wl-row"><span>Plantilla donde solo llenas tus números y ves exactamente dónde se te queda el dinero en cada paso.</span><button class="btn-wl" data-wl="plantilla_dinero">Quiero la Plantilla →</button></div>
+    </div>
+
+    <div class="areas-close">
+      <div class="bebas">Estas son 3 de las 11 áreas que evaluamos en clínicas estéticas.</div>
+      <p>Si alguna te hizo decir "eso me pasa a mí", imagina lo que podemos encontrar en las otras 8. 15 minutos. Sin costo. Sin compromiso.</p>
+      <button class="btn-red" style="margin-top:18px" onclick="goCall('areas')">Agendar llamada de 15 minutos</button>
+    </div>
+
+    <!-- Tabla completa 11 áreas -->
+    <div class="expander" id="hzExp">
+      <button onclick="toggleHz()"><span>Ver el detalle de tus 11 áreas: qué te frena y qué mover para pasar de etapa</span><span class="chev">▼</span></button>
+      <div class="exp-body">
+        <div class="tbl-scroll" style="border:none"><table class="hz" id="hzTable"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KIT DE CIERRE · solo E1/E2 (evento primario nurture) -->
+  <section class="block wrap hidden" id="sec-kit">
+    <div class="kit-block">
+      <h3 class="bebas">El Kit de Cierre por WhatsApp</h3>
+      <p>Playbook de agendamiento + Guía de anuncios + Plantilla de dinero. Los tres, juntos, para instalar tu proceso de venta por chat.</p>
+      <p class="precio">Precio de fundador: $499 MXN (primeros 50) · después $990</p>
+      <button class="btn-red" data-wl="kit_cierre">Apartar mi Kit a precio fundador →</button>
+      <p class="small" style="margin-top:10px">Se libera el 31 de julio. Al apartar, te avisamos primero — sin cargo hoy.</p>
+    </div>
+  </section>
+
+  <!-- COSTO DE INACCIÓN (solo E3/E4) -->
+  <section class="block wrap costo-wrap hidden" id="sec-costo">
+    <div class="costo-inaccion" id="costoInaccion"></div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final wrap" id="sec-cta">
+    <h2 class="sec bebas" id="ctaTitle">Agenda tu llamada de 15 minutos</h2>
+    <p class="sub2" id="ctaSub"></p>
+    <ul class="valuestack hidden" id="ctaStack"></ul>
+    <div class="guarantee hidden" id="ctaGuarantee"></div>
+    <button class="btn-red" onclick="goCall('final')">Quiero mi llamada de 15 minutos →</button>
+    <div class="scarcity hidden" id="ctaScarcity"></div>
+    <p class="proof-line hidden" id="ctaProof"><b>Caso real:</b> un spa estético pasó a $482K vendidos con ROAS 4.1× con este mismo sistema.</p>
+    <div class="cal-box" id="calBox"></div>
+    <div class="cta-fallback hidden" id="ctaFallback">¿Prefieres empezar por tu cuenta? Aparta el <b>Kit de Cierre por WhatsApp</b> — $499 fundador, después $990. <button class="btn-wl" style="margin-left:8px" data-wl="kit_cierre">Apartar mi Kit →</button></div>
+  </section>
+</div>
+
+<!-- EXPORT BAR -->
+<div class="exportbar" id="exportbar">
+  <div class="inner">
+    <div class="left">
+      <button class="btn-ghost" onclick="exportPDF()">⬇ Descargar mi Mapa en PDF</button>
+      <button class="btn-ghost" onclick="emailMe()">✉ Enviármelo a mi correo</button>
+    </div>
+    <button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="goCall('bar')">Agendar llamada →</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =====================================================================
+   DIAGNÓSTICO EXPRESS · Frontend vivo
+   Arquitectura: HTML frontend · GHL backend (webhook + tags + emails)
+   ===================================================================== */
+
+/* ---------- DATA · 10 preguntas (B) · opciones = niveles Etapa 1-4 ---------- */
+const QUIZ = [
+ {id:"b1_presupuesto", area:"Presupuesto", q:"¿Cuánto inviertes al mes en publicidad?",
+  opts:["Menos de $10,000","Entre $10,000 y $40,000","Entre $40,000 y $120,000","Más de $120,000"]},
+ {id:"b2_campanas", area:"Campañas", q:"¿Cómo manejas tus campañas de publicidad?",
+  opts:["Le pico al botón azul de promocionar","Uso Ads Manager, pero de forma irregular","Uso Ads Manager con estructura","Tengo equipo o agencia manejándolas"]},
+ {id:"b3_equipo", area:"Equipo ventas", q:"¿Quién contesta los mensajes que llegan de tus anuncios?",
+  opts:["Contesto yo mismo","1 persona, sin proceso definido","2 a 3 personas, cada quien a su manera","Un equipo con líder y guion"]},
+ {id:"b4_metricas", area:"Métricas", q:"¿Qué mides de tus campañas y ventas?",
+  opts:["No mido nada","Solo cuántos leads y cuántas ventas","Costo por lead y por cliente, pero no cuánto me deja cada cliente","Tengo control completo de mis números"]},
+ {id:"b5_automatizacion", area:"Automatización", q:"¿Qué tan automatizado está tu proceso de ventas?",
+  opts:["Todo es manual","Tengo un embudo básico, sin CRM","Tengo un CRM básico","CRM robusto con seguimiento automático"]},
+ {id:"b6_ventas", area:"Ventas", q:"¿Qué tan estables y predecibles son tus ventas?",
+  opts:["Bajas y impredecibles","Moderadas, con altibajos","Buen volumen, pero con picos y valles","Altas y predecibles"]},
+ {id:"b7_oferta", area:"Oferta", q:"¿Qué tan validado está lo que vendes?",
+  opts:["Todavía estoy probando","Validado a medias","Validado, lo estoy optimizando","Totalmente validado"]},
+ {id:"b8_cliente", area:"Cliente ideal", q:"¿Qué tan bien conoces a tu cliente ideal?",
+  opts:["Tengo una idea general","Tengo una definición inicial","Tengo un perfil claro con datos","Tengo segmentos avanzados y les hablo diferente"]},
+ {id:"b9_respuesta", area:"Resp. a leads", q:"¿Qué tan rápido responden a las personas que escriben?",
+  opts:["Sin reglas, a veces horas tarde","Intentamos rápido, pero sin regla fija","Con horarios y guiones básicos","Tiempo medido, con revisión semanal"]},
+ {id:"b10_creatividades", area:"Creatividades", q:"¿Cómo manejas tus creatividades y anuncios?",
+  opts:["Subo publicaciones genéricas","Hago pruebas, sin estrategia","Hago pruebas A/B con proceso","Tengo banco de ganadores y calendario"]}
+];
+
+/* ---------- Bloque C · 4 preguntas de contexto (post-quiz, saltables) ---------- */
+const CTX = [
+ {id:"c1_rubro", q:"¿A qué se dedica tu negocio?",
+  opts:["Salud y belleza (clínicas, estéticas, dentistas, spas)","Bienes raíces","Educación y coaching","Servicios profesionales","Comercio y retail","Restaurantes y alimentos","Automotriz","Fitness y deporte","Otro"]},
+ {id:"c2_modelo", q:"¿Cuál es tu modelo de negocio?",
+  opts:["Vendo productos al cliente final","Vendo servicios al cliente final","Vendo a otras empresas","Vendo a distribuidores o mayoristas"]},
+ {id:"c3_costo", q:"El costo que pagas por cada persona que te contacta, ¿cómo lo sientes?",
+  opts:["No lo sé, no mido eso","Me parece barato, me sobra margen","Está bien, pero podría mejorar","Se siente caro para lo que vendo","Es tan caro que dudo si vale la pena"]},
+ {id:"c4_traba", q:"¿Cuál sientes que es tu mayor traba para vender más?",
+  opts:["Me llegan pocos interesados","Me llegan muchos, pero no del perfil correcto","Me contactan, pero no compran","Vendo bien, pero el costo es alto y me queda poco","Vendo bien, pero no puedo crecer sin que todo dependa de mí"]}
+];
+
+/* ---------- Tabla diagnóstica · descriptores por área × etapa ---------- */
+const STAGES = ["Empezando a vender","Ventas inestables","Ventas estancadas","Ventas topadas"];
+const STAGE_DESC = ["Estás probando, aún sin flujo constante","Vendes, pero sube y baja sin control","Vendes bien, pero llevas meses igual","Vendes mucho, pero llegaste a un techo"];
+const TABLE = [
+ ["Menos de $10K/mes","$10K a $40K/mes","$40K a $120K/mes","Más de $120K/mes"],
+ ["Le pico al botón azul","Ads Manager pero irregular","Ads Manager con estructura","Equipo + agencia"],
+ ["Contesto yo mismo","1 persona sin proceso","2 a 3 sin estándar","Equipo con líder y guion"],
+ ["No mido nada","Solo leads y ventas","Sabes por mensaje, no por paciente","Control completo de números"],
+ ["Todo manual","Embudo básico sin CRM","CRM básico","CRM robusto + automatizaciones"],
+ ["Bajas e impredecibles","Moderadas con altibajos","Buen volumen con picos","Altas y predecibles"],
+ ["Aún validando","Validación parcial","Validada, optimizando","Totalmente validada"],
+ ["Idea general","Definición inicial","Perfil claro con datos","Segmentación avanzada"],
+ ["Sin reglas, horas tarde","Intento rápido sin regla fija","Horarios y guiones","Tiempo medido + revisión semanal"],
+ ["Orgánicas genéricas","Pruebas sin estrategia","A/B testing con proceso","Banco ganador + calendario"]
+];
+
+/* ---------- Tabla Hormozi 11 áreas · Etapa 3 (frena / para pasar) ---------- */
+const HZ = [
+ ["Presupuesto","Inviertes sin saber qué porcentaje regresa como cliente.","Conocer tu costo por cliente real, no por lead."],
+ ["Campañas","Cambias cosas sin un proceso claro de prueba.","Cambiar UNA variable, medir 7 días, decidir con datos."],
+ ["Equipo","Cada quien vende a su manera. Depende de quién conteste.","Que los 2-3 cierren igual: un guion que todos siguen y se mide quién lo cumple."],
+ ["Métricas","Sabes cuánto pagas por mensaje pero no cuánto te cuesta cada paciente que paga.","4 números: costo por mensaje, por paciente, valor por paciente, margen."],
+ ["Automatización","Ya tienes un CRM básico, pero el seguimiento es manual: depende de que alguien se acuerde.","Un CRM que trabaje solo: estatus por lead y seguimiento automático que nadie tenga que empujar a mano."],
+ ["Ventas","Ya tienes buen volumen, pero con picos y valles que no puedes predecir.","Metes X, salen Y leads, Z cierran, quedan $W."],
+ ["Oferta","Validada pero no optimizada. Sin variaciones.","2 o 3 versiones probadas. Saber cuál convierte más."],
+ ["Cliente ideal","Perfil claro pero le hablas igual a todos.","Al menos 2 segmentos con mensajes diferentes."],
+ ["Respuesta","Ya tienes horarios y guiones, pero no mides si de verdad contestas a tiempo.","Tiempo de respuesta medido bajo 5 min — el 78% compra al primero que contesta."],
+ ["Creatividades","A/B testing sin banco. Cada mes de cero.","Banco organizado. Lo que funciona, se escala."],
+ ["Asistencia","Confirmas, pero sin anticipo se te sigue cayendo más de la mitad de los que agendan.","Anticipo + recordatorio 24h + confirmación → que se presente al menos el 75%."]
+];
+
+/* ---------- Tabla 11 áreas · Etapa 4 (techo: frena / para romper el techo) ---------- */
+const HZ4 = [
+ ["Presupuesto","Inviertes fuerte, pero cada peso extra rinde menos: el costo sube y el volumen ya no acompaña.","Saber qué campaña y qué anuncio te dan CLIENTES —no mensajes— y mover el dinero ahí."],
+ ["Campañas","Estructura sólida, pero el canal que te trajo aquí ya muestra saturación: el mismo peso compra menos.","Diversificar con método: nueva audiencia, canal u oferta — una a la vez, con piloto."],
+ ["Equipo","El equipo cierra parejo con guion, pero nadie revisa sus conversaciones: no sabes por qué se gana o se pierde cada trato.","QA de conversaciones: cada conversación analizada y coaching con evidencia, no con opinión."],
+ ["Métricas","Mides todo, pero los números viven regados —plataforma, hojas, CRM— y llegan tarde para decidir.","Ventas y ads en un solo lugar, actualizados en automático: decidir con el dato del día."],
+ ["Automatización","CRM robusto, pero tus cierres reales nunca regresan a Meta: el algoritmo optimiza a ciegas.","Cerrar el loop: ventas reales de vuelta a Meta para que compre clientes, no clics."],
+ ["Ventas","Predecibles pero planas: creces 5% cuando quieres 50%.","Un motor nuevo validado: segmento, oferta o plaza — con piloto, no con fe."],
+ ["Oferta","Optimizada para el cliente de hoy; sin escalera para subir el ticket.","Escalera de valor: entrada, core y premium que suben el promedio."],
+ ["Cliente ideal","Segmentas bien, pero llevas años exprimiendo el mismo pool.","Abrir el segmento adyacente con mensaje propio, medido contra el actual."],
+ ["Respuesta","Respondes en minutos; lo que se fuga es el seguimiento a 30-90 días.","Cadencia de recontacto automática: ningún calificado se enfría."],
+ ["Creatividades","Tienes banco ganador, pero los ganadores duran cada vez menos.","Sistema de relevo: producción constante que sustituye al ganador antes de que muera."],
+ ["Asistencia","Se presentan y compran; lo que nadie mide es cuántos regresan.","Retención medida: recompra y referidos como canal propio."]
+];
+
+/* ---------- Tabla 11 áreas · Etapa 1 (validación: frena / para pasar de etapa) ---------- */
+const HZ1 = [
+ ["Presupuesto","Metes dinero a ads sin saber si tu oferta ya jala. Cada peso te dice poco porque aún no sabes qué funciona.","Confirmar que ya ganas con lo que vendes hoy —aunque sea en chico— antes de escalar el gasto."],
+ ["Campañas","Le picas al botón de promocionar. No hay campaña, hay impulsos sueltos.","Una campaña bien armada con un objetivo claro, no el botón azul, para ver si el canal te trae compradores."],
+ ["Equipo","Vendes tú todo. Cuando no estás, no se vende: el negocio eres tú.","Vender con un mismo paso a paso cada vez — que el resultado no dependa de tu día."],
+ ["Métricas","No mides nada. No sabes qué anuncio, qué mensaje ni qué cliente te deja dinero.","Lo básico: cuántos te escriben, cuántos compran, y tu costo por venta a grandes rasgos."],
+ ["Automatización","Todo a mano. Los leads viven en tu WhatsApp y se pierden entre la conversación.","Un lugar simple donde no se te caiga ningún interesado — aunque sea una hoja o un embudo básico."],
+ ["Ventas","Ventas bajas e impredecibles. Un día cae algo, otro nada, sin patrón.","Que llegar a una venta deje de ser suerte: repetir a propósito lo que funcionó la última vez."],
+ ["Oferta","Aún estás validando qué vendes y a qué precio. No hay certeza de que lo quieran a lo que pides.","Tus primeras ventas reales: gente que paga tu oferta al precio de hoy sin que la tengas que convencer a la fuerza."],
+ ["Cliente ideal","Le vendes a quien caiga. Todavía no sabes quién es tu mejor cliente.","Una idea clara de a quién le sirve más lo que vendes, para dejar de hablarle a todos."],
+ ["Respuesta","Contestas cuando puedes, a veces horas después: responder rápido todavía no es prioridad.","Un compromiso simple: responder en minutos, no en horas — ahí es donde se cierra."],
+ ["Creatividades","Publicas lo orgánico o lo primero que se te ocurre, sin probar qué conecta.","Probar 2 o 3 mensajes distintos y quedarte con el que más gente responde."],
+ ["Asistencia","Los que dicen que van, muchos no llegan — y ni cuenta te das.","Empezar a llevar la cuenta y mandar un recordatorio simple antes de la cita."]
+];
+
+/* ---------- Tabla 11 áreas · Etapa 2 (inestable: frena / para pasar de etapa) ---------- */
+const HZ2 = [
+ ["Presupuesto","Inviertes entre $10K y $40K, pero subes y bajas el gasto por corazonada. No sabes cuánto puedes meter sin perder.","Gastar de forma sostenida a un nivel que te dé volumen constante, en vez de arranques y frenones."],
+ ["Campañas","Armas campañas cuando te acuerdas: corren a ratos, sin que trabajen parejo.","Una estructura de campañas corriendo estable, no a arranques — para que el flujo no dependa de tu ánimo."],
+ ["Equipo","Tienes UNA persona ayudando, pero sin proceso: si falta, paras tú.","Ese paso a paso escrito y entregable, para que tu ayudante venda sin ti encima."],
+ ["Métricas","Ves leads y ventas, pero nada más. No sabes qué campaña ni qué mensaje los trajo.","Conectar la venta con su origen: saber qué anuncio y qué mensaje te traen a los que sí compran."],
+ ["Automatización","Tienes un embudo básico pero sin CRM: los leads entran y se pierden sin rastro.","Un CRM simple donde cada lead tenga estatus, para que ninguno se caiga por olvido."],
+ ["Ventas","Vendes moderado pero con altibajos fuertes: un mes bueno, otro flojo.","Sostener un piso de ventas — que el mes flojo deje de caer tanto."],
+ ["Oferta","Vende, pero no parejo: no sabes si el freno es el precio o cómo está armado el paquete.","Fijar precio y paquete que se vendan solos: el mismo pitch cierra, sin regateo, mes con mes."],
+ ["Cliente ideal","Tienes una idea de tu cliente, pero sin datos que la confirmen — es más corazonada que perfil.","Un perfil claro basado en quién SÍ te compra, no en suposición."],
+ ["Respuesta","Intentas contestar rápido pero sin regla fija: a veces 5 minutos, a veces medio día.","Una regla de tiempo que se cumpla siempre, no solo cuando te acuerdas."],
+ ["Creatividades","Haces pruebas sueltas, sin estrategia: cambias el anuncio sin saber qué estás probando.","Un A/B con método: probar una cosa a la vez y anotar cuál ganó."],
+ ["Asistencia","Sabes que faltan seguido, pero confirmas solo a veces y a mano.","Un recordatorio fijo para todos los que agendan, no cuando te acuerdas."]
+];
+
+/* ---------- Copy por etapa (v1: Etapa 3 completa · 1/2/4 base, se completan en Bloque 2) ---------- */
+const STAGE_COPY = {
+ 1:{sub:"Estás arrancando. Todavía no hay flujo constante, y está bien: todos empiezan aquí.",
+    bl:"La Etapa 1 se trata de validar antes de acelerar.",
+    bl1:"Tu prioridad no es invertir más, es confirmar que lo que vendes, a quien se lo vendes y el precio funcionan.",
+    bl2:"Cada peso que metas antes de validar es un peso que te dice menos de lo que crees.",
+    bl3:"Valida la oferta y todo lo demás se vuelve más fácil.", cta:"pdf"},
+ 2:{sub:"Vendes, pero sube y baja sin control. Un mes bueno, otro flojo, y no sabes por qué.",
+    bl:"La Etapa 2 se trata de pasar de vender a veces a vender con consistencia.",
+    bl1:"Tus campañas corren sin estructura y tu seguimiento depende del ánimo del día.",
+    bl2:"No necesitas más presupuesto. Necesitas estructura: campañas ordenadas y un proceso de respuesta.",
+    bl3:"Cuando la estructura aparece, los altibajos se aplanan.", cta:"pdf"},
+ 3:{sub:"Vendes. Tu equipo trabaja. Tu publicidad corre. Pero llevas meses en el mismo número.",
+    bl:"La Etapa 3 se trata de pasar de vender bien a vender con sistema.",
+    bl1:"Llevas meses vendiendo lo mismo no porque estés haciendo las cosas mal, sino porque el cuello de botella ya no está donde crees.",
+    bl2:"Lo que te trajo hasta aquí no te va a llevar más lejos. Tu trabajo ahora es dejar de operar y empezar a ver tu negocio desde afuera.",
+    bl3:"Si logras pasar esta etapa, vas a tener un negocio que vende sin que todo dependa de ti. Y eso cambia todo.", cta:"call"},
+ 4:{sub:"Vendes mucho, pero llegaste a un techo. Meterle más ya no mueve la aguja como antes.",
+    bl:"La Etapa 4 se trata de romper el techo con precisión, no con fuerza.",
+    bl1:"A tu nivel, el crecimiento ya no sale de más presupuesto: sale de atribución real, retención y optimización fina.",
+    bl2:"Cada punto porcentual que recuperas en el embudo vale más que cualquier campaña nueva.",
+    bl3:"Los negocios que rompen este techo son los que ven su sistema completo con números reales.", cta:"call"}
+};
+
+/* ---------- Meta por etapa (tarjetas "Tu etapa", estilo Hormozi p.4-5) ---------- */
+const STAGE_META = {
+ 1:{rol:"Haces de todo tú", inv:"Menos de $10K/mes", punto:"Validar antes de acelerar", grad:"Oferta y cliente validados"},
+ 2:{rol:"Vendedor principal", inv:"$10K a $40K/mes", punto:"Te falta estructura, no presupuesto", grad:"Campañas ordenadas + proceso de respuesta"},
+ 3:{rol:"Operador", inv:"$40K a $120K/mes", punto:"El cuello de botella ya no está en los ads", grad:"Ver tu negocio completo"},
+ 4:{rol:"Director", inv:"Más de $120K/mes", punto:"El techo se rompe con precisión, no con fuerza", grad:"Atribución real + retención"}
+};
+
+/* ---------- Mapeo a 3 Ruedas y proceso horizontal ---------- */
+const RUEDA_MAP = {r1:[2,6,7,8], r2:[0,1,9], r3:[3,4]};          // índices de QUIZ
+const FLOW_MAP = {leadgen:[0,1,9], filtro:[7,1], seguimiento:[2,4,8], cierre:[6,3]};
+
+/* =====================================================================
+   ESTADO + ARRANQUE
+   ===================================================================== */
+let state = {nombre:"", email:"", telefono:"", B:[], C:[], idx:0, phase:"B", etapa:null, weak:[], done:false, utm:{}, ab:""};
+
+const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const esc = s => { const d=document.createElement("div"); d.textContent=s||""; return d.innerHTML; }; // nombre viene de la URL: nunca inyectarlo crudo
+
+init();
+function init(){
+  // A/B: variante de captura de WhatsApp (A=en el gate · B=en el reveal). ?ab=A|B fuerza.
+  state.ab = (params.get("ab")||"").toUpperCase();
+  if(state.ab!=="A" && state.ab!=="B") state.ab = Math.random()<0.5 ? "A" : "B";
+  loadPixel();
+  if(state.ab==="B"){ const t=$("g_telefono"); if(t){ t.style.display="none"; t.required=false; } }
+  ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(k=>{
+    if(params.get(k)) state.utm[k]=params.get(k);
+  });
+  setupAcards();
+  // ¿Viene con resultados en la URL? (link permanente del correo)
+  if(params.get("r")){ hydrateFromURL(); return; }
+  // ¿Viene de la landing GHL con datos?
+  state.nombre = params.get("nombre") || params.get("first_name") || "";
+  state.email  = params.get("email") || "";
+  state.telefono = params.get("telefono") || params.get("phone") || "";
+  if(state.email){ startQuiz(); } // directo al quiz
+  $("gateForm").addEventListener("submit", e=>{
+    e.preventDefault();
+    state.nombre = $("g_nombre").value.trim();
+    state.email  = $("g_email").value.trim();
+    state.telefono = state.ab==="A" ? $("g_telefono").value.replace(/[^\d+]/g,"") : "";
+    startQuiz();
+  });
+  // Variante B: captura de WhatsApp en el reveal
+  const pf=$("phoneForm"); if(pf) pf.addEventListener("submit", e=>{
+    e.preventDefault();
+    const v=$("p_telefono").value.replace(/[^\d+]/g,""); if(v) state.telefono=v;
+    completeAndShow();
+  });
+  const ps=$("phoneSkip"); if(ps) ps.addEventListener("click", ()=>completeAndShow());
+  setupAcards();
+}
+
+/* v2.2 · T4: visible = título + caso condensado con número gancho; oculto = hook + caso completo + hazlo (+extras) */
+function setupAcards(){
+  const CASO_MINI = {
+    citas: `<b>Caso real:</b> 5,600 mensajes al mes; solo 393 agendaban (7%). El 93% se perdía en WhatsApp.`,
+    anuncios: `<b>El sistema de 5 pasos:</b> momento del cliente → ángulo → tipo de anuncio → formato → primera línea.`,
+    dinero: `<b>Dato real:</b> costo por mensaje $15… costo por cliente que pagó: $711. Son 47 veces más.`
+  };
+  document.querySelectorAll('#sec-areas .acard').forEach(card=>{
+    if(card.dataset.acc) return; card.dataset.acc='1';
+    const kids = [...card.children];
+    const head = card.querySelector('.ahead');
+    const wl   = card.querySelector('.wl-row');
+    const mini = document.createElement('div');
+    mini.className = 'caso-mini';
+    mini.innerHTML = CASO_MINI[card.dataset.area] || '';
+    const more = document.createElement('div');
+    more.className = 'acard-more';
+    kids.forEach(k=>{ if(k!==head && k!==wl) more.appendChild(k); });
+    const btn = document.createElement('button');
+    btn.className = 'acard-toggle';
+    btn.innerHTML = `<span>Ver el detalle y qué hacer hoy</span><span class="chev2">▼</span>`;
+    btn.addEventListener('click', ()=>card.classList.toggle('open'));
+    card.appendChild(mini);
+    card.appendChild(more);
+    card.appendChild(btn);
+    if(wl) card.appendChild(wl);
+  });
+}
+
+function startQuiz(){
+  $("screen-gate").classList.add("hidden");
+  $("screen-quiz").classList.remove("hidden");
+  track("QuizStart",{});
+  sendWebhook("quiz_start");
+  renderQ();
+}
+
+/* ---------- Abandono: si se va a medio quiz, avisamos con la última pregunta contestada ---------- */
+let lastBeacon = -1;
+window.addEventListener("pagehide", sendAbandon);
+document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="hidden") sendAbandon(); });
+function quizProgress(){
+  const b = state.B.filter(v=>v!=null).length;
+  const c = state.C.filter(v=>v!=null).length;
+  return state.phase==="B" ? b : QUIZ.length + c;
+}
+function sendAbandon(){
+  if(state.done || !state.email) return;
+  const prog = quizProgress();
+  if(prog===0 || prog===lastBeacon) return;
+  lastBeacon = prog;
+  const data = payload("quiz_abandono");
+  if(CONFIG.WEBHOOK_URL && navigator.sendBeacon){
+    // text/plain: Safari bloquea beacons application/json (preflight imposible al cerrar). Make parsea el JSON igual.
+    navigator.sendBeacon(CONFIG.WEBHOOK_URL, new Blob([JSON.stringify(data)],{type:"text/plain;charset=UTF-8"}));
+  } else { console.log("[webhook·simulado]", data); }
+}
+
+/* =====================================================================
+   QUIZ ENGINE
+   ===================================================================== */
+function renderQ(){
+  const inB = state.phase==="B";
+  const list = inB ? QUIZ : CTX;
+  const i = state.idx;
+  const total = inB ? QUIZ.length : CTX.length;
+  $("progLabel").textContent = inB ? `Pregunta ${i+1} de ${total}` : `Para personalizar tu Mapa · ${i+1} de ${total}`;
+  $("progFill").style.width = ((inB ? i : QUIZ.length+i) / (QUIZ.length+CTX.length) * 100) + "%";
+
+  const q = list[i];
+  let html = "";
+  if(!inB && i===0){
+    html += `<div class="ctx-note"><b>Ya casi.</b> Solo 4 preguntas más para personalizar tu Mapa de Crecimiento. Si tienes prisa, puedes saltarlas.</div>`;
+  }
+  html += `<div class="qnum">${inB ? q.area : "Contexto"}</div><div class="qtext">${q.q}</div><div class="opts">`;
+  q.opts.forEach((o,oi)=>{ html += `<button class="opt" onclick="pick(${oi})">${o}</button>`; });
+  html += `</div><div class="qnav">`;
+  html += (i>0 || !inB) ? `<button class="backlink" onclick="goBack()">← Regresar</button>` : `<span></span>`;
+  html += inB ? `<span class="small">${state.nombre ? "Vas bien, "+esc(state.nombre.split(" ")[0])+"." : ""}</span>`
+              : `<button class="skiplink" onclick="skipCtx()">Saltar y ver mi diagnóstico →</button>`;
+  html += `</div>`;
+  $("qcard").innerHTML = html;
+  window.scrollTo({top:0});
+}
+
+let pickLock = 0;
+function pick(oi){
+  const now = Date.now();               // doble-tap en móvil: dos clics rápidos contestarían 2 preguntas
+  if(now - pickLock < 300) return;
+  pickLock = now;
+  if(state.phase==="B"){
+    state.B[state.idx] = oi;                 // 0..3 = Etapa 1..4
+    state.idx++;
+    if(state.idx >= QUIZ.length){ state.phase="C"; state.idx=0; track("QuizComplete",{}); }
+  } else {
+    state.C[state.idx] = oi;
+    state.idx++;
+    if(state.idx >= CTX.length){ return finish(); }
+  }
+  renderQ();
+}
+function goBack(){
+  if(state.phase==="C" && state.idx===0){ state.phase="B"; state.idx=QUIZ.length-1; }
+  else if(state.idx>0){ state.idx--; }
+  renderQ();
+}
+function skipCtx(){ track("CtxSkipped",{}); finish(); }
+
+/* =====================================================================
+   SCORING · mayoría simple, empate favorece etapa más alta
+   ===================================================================== */
+function computeEtapa(B){
+  const count=[0,0,0,0];
+  B.forEach(v=>count[v]++);
+  let best=0;
+  for(let s=0;s<4;s++){ if(count[s]>=count[best]) best=s; }  // >= favorece alta
+  return best+1;
+}
+function computeWeak(B, etapa){
+  const w=[];
+  B.forEach((v,i)=>{ if(v+1 < etapa) w.push(i); });
+  return w;
+}
+
+/* ---------- Perfil de curso 4P: se deduce de C3 (costo) + C4 (traba) ---------- */
+function computePerfil(){
+  const c3 = state.C[2], c4 = state.C[3];
+  if(c3==null || c4==null) return null;
+  if(c4===4) return 1;                              // escalamiento → estancado, vende bien
+  if(c4===2 && (c3===1||c3===2)) return 2;          // no compran + mensajes baratos
+  if((c4===0||c4===1) && (c3===3||c3===4)) return 3;// atracción/segmentación + caros
+  if(c4===3 && (c3===3||c3===4)) return 4;          // rentabilidad + caros
+  if(c4===3) return 5;                              // rentabilidad, costo ok → gana poco
+  return null;
+}
+
+function finish(){
+  state.etapa = computeEtapa(state.B);
+  state.weak  = computeWeak(state.B, state.etapa);
+  // Variante B: pedir WhatsApp en el pico de deseo, antes de revelar (no marcamos done: si se va, cuenta como abandono en pregunta 14)
+  if(state.ab==="B" && !state.telefono){ showPhoneGate(); return; }
+  completeAndShow();
+}
+function completeAndShow(){
+  state.done = true;
+  sendWebhook("quiz_complete");
+  track("Diagnostico_Etapa"+state.etapa,{});
+  const enc = encodeResults();
+  history.replaceState(null,"", location.pathname+"?r="+enc);
+  showResults();
+}
+function showPhoneGate(){
+  $("screen-quiz").classList.add("hidden");
+  const f=$("phoneName"); if(f) f.textContent = state.nombre ? esc(state.nombre.trim().split(/\s+/)[0])+", ya casi." : "Ya casi.";
+  $("screen-phone").classList.remove("hidden");
+  window.scrollTo({top:0});
+}
+
+/* ---------- Permalink: respuestas codificadas en la URL ---------- */
+function encodeResults(){
+  const payload = {n:state.nombre, e:state.email, b:state.B, c:state.C};
+  return btoa(unescape(encodeURIComponent(JSON.stringify(payload)))).replace(/=+$/,"");
+}
+function hydrateFromURL(){
+  try{
+    const raw = JSON.parse(decodeURIComponent(escape(atob(params.get("r")))));
+    state.nombre=raw.n||""; state.email=raw.e||""; state.B=raw.b||[]; state.C=raw.c||[];
+    if(state.B.length!==10) throw 0;
+    state.etapa=computeEtapa(state.B); state.weak=computeWeak(state.B,state.etapa);
+    showResults();
+  }catch(err){ console.warn("hydrate error:", err); /* URL corrupta: flujo normal */ }
+}
+
+/* =====================================================================
+   RESULTADOS
+   ===================================================================== */
+function showResults(){
+  state.done = true; // visitas por permalink nunca cuentan como abandono
+  $("screen-gate").classList.add("hidden");
+  $("screen-quiz").classList.add("hidden");
+  $("screen-results").classList.remove("hidden");
+  $("exportbar").classList.add("on");
+  document.body.classList.add("has-bar");
+  $("topbadge").textContent = "Tu Mapa de Crecimiento";
+
+  const et = state.etapa, copy = STAGE_COPY[et];
+  $("stagePill").textContent = `ETAPA ${et}: ${STAGES[et-1].toUpperCase()}`;
+  $("stageSub").textContent = copy.sub;
+  $("blTitle").textContent = copy.bl;
+  $("blP1").textContent = copy.bl1; $("blP2").textContent = copy.bl2; $("blP3").textContent = copy.bl3;
+
+  // v2.2 · hero personalizado + tira de 4 etapas ("estás aquí")
+  if(state.nombre){ $("heroName").textContent = esc(state.nombre.trim().split(/\s+/)[0]) + ", aquí está tu negocio"; }
+  $("stageStrip").innerHTML = STAGES.map((st,i)=>`<span class="st ${i+1===et?'cur':''}">${i+1}. ${st}${i+1===et?' · estás aquí':''}</span>`).join("");
+  renderOffers(et);
+  renderVideos(et);
+  renderDiagTable();
+  renderRuedas();
+  renderFlow();
+  renderHz();
+  applySkin();
+  renderMoneyCTA(et);
+  window.scrollTo({top:0});
+}
+
+/* ===== CONVERSIÓN v1.9 (borrador · pasada de voz pendiente) ===== */
+
+/* v2.2 · T1: oferta segmentada por etapa. E1/E2 → Kit único (evento primario).
+   E3/E4 → cero waitlist antes de la llamada; fallback bajo el calendario. */
+function renderOffers(et){
+  const money = (STAGE_COPY[et]||{}).cta === "call";
+  document.querySelectorAll('#sec-areas .wl-row').forEach(w=>w.classList.toggle('hidden', true)); // fuera de las tarjetas SIEMPRE (el ask vive en Kit o fallback)
+  $("sec-kit").classList.toggle("hidden", money);       // Kit visible solo E1/E2
+  $("ctaFallback").classList.toggle("hidden", !money);  // fallback bajo calendario solo E3/E4
+  $("ctaProof").classList.toggle("hidden", !money);     // prueba junto al botón solo E3/E4
+  // D3: en nurture, los CTAs intermedios apuntan al Kit, no a la llamada
+  const midBtn = document.querySelector("#sec-diag .cta-mid button");
+  const areasBtn = document.querySelector("#sec-areas .areas-close .btn-red");
+  const toKit = ()=>{ const k=$("sec-kit"); if(k) k.scrollIntoView({behavior:"smooth"}); };
+  if(!money){
+    if(midBtn){ midBtn.textContent="Apartar mi Kit a precio fundador →"; midBtn.onclick=toKit; }
+    if(areasBtn){ areasBtn.textContent="Apartar mi Kit a precio fundador →"; areasBtn.onclick=toKit; }
+  } else {
+    if(midBtn){ midBtn.textContent="Quiero mi llamada de 15 minutos →"; midBtn.onclick=()=>goCall('diag'); }
+    if(areasBtn){ areasBtn.textContent="Agendar llamada de 15 minutos"; areasBtn.onclick=()=>goCall('areas'); }
+  }
+}
+function renderMoneyCTA(et){
+  const nom = state.nombre ? esc(state.nombre.trim().split(/\s+/)[0])+", " : "";
+  const esCall = (STAGE_COPY[et]||{}).cta === "call"; // E3/E4
+  const bracket = TABLE[0][state.B[0]] || "lo que inviertes hoy";
+  const wk = state.weak.length ? QUIZ[state.weak[0]].area.toLowerCase() : null;
+
+  // --- Costo de inacción (solo E3/E4) ---
+  if(esCall){
+    let cuerpo;
+    if(et===4){
+      cuerpo = `${nom}${nom?'inviertes':'Inviertes'} <b>${bracket}</b> y ya sabes que meterle más no mueve la aguja como antes. Cada mes en el mismo techo no es un mes neutral: es un mes que tu competencia usa para acortar la distancia. <b>En la llamada te calculo, con tus números, dónde está el punto exacto que te tiene topado</b> — y qué se destraba primero.`;
+    } else {
+      cuerpo = `${nom}${nom?'inviertes':'Inviertes'} <b>${bracket}</b> en publicidad. El problema no es que no te llegue gente — es que se te queda en el camino${wk?`, y <b>${wk}</b> es hoy tu fuga más cara`:''}. Cada mes que este número sigue igual no es neutral: es otra tanda de esa inversión que entra… y se va en cierres que nunca ocurrieron. <b>En la llamada te calculo, con tus números, cuánto te está costando exactamente</b> — y por dónde se tapa primero.`;
+    }
+    $("costoInaccion").innerHTML = `<span class="k">Lo que está en juego</span>${cuerpo}`;
+    $("sec-costo").classList.remove("hidden");
+  } else {
+    $("sec-costo").classList.add("hidden");
+  }
+
+  // --- CTA copy: value stack (money) vs soft (nurture) ---
+  if(esCall){
+    $("ctaTitle").textContent = "Agenda tu llamada de 15 minutos";
+    $("ctaSub").innerHTML = "15 minutos, en vivo conmigo, sobre TUS números. Sales con:";
+    $("ctaStack").innerHTML = [
+      "Tu <b>costo real por cliente</b>, calculado con TUS números — no el costo por mensaje que engaña.",
+      "Las <b>áreas exactas que te frenan</b>, priorizadas: por cuál empezar y por qué.",
+      "El <b>primer movimiento a hacer esta semana</b> — te lo llevas, trabajemos juntos o no."
+    ].map(t=>`<li>${t}</li>`).join("");
+    $("ctaGuarantee").innerHTML = `<b>Mi garantía:</b> si en esos 15 minutos no te doy al menos una idea que valga tu tiempo, te mando el Kit de Cierre por WhatsApp completo, gratis.`;
+    $("ctaScarcity").textContent = "Reviso personalmente cada diagnóstico antes de la llamada, por eso tomo pocas por semana.";
+    ["ctaStack","ctaGuarantee","ctaScarcity"].forEach(id=>$(id).classList.remove("hidden"));
+  } else {
+    $("ctaTitle").textContent = "¿Quieres que veamos tu caso a fondo?";
+    $("ctaSub").innerHTML = `${nom}cuando quieras, agenda una llamada de 15 minutos sin costo y le entramos a tus números juntos. Sin prisa: primero llévate tu mapa.`;
+    ["ctaStack","ctaGuarantee","ctaScarcity"].forEach(id=>$(id).classList.add("hidden"));
+  }
+
+  // --- Calendario embebido inline ---
+  const cb = $("calBox");
+  if(CONFIG.CALENDLY_URL){
+    cb.innerHTML = `<iframe src="${CONFIG.CALENDLY_URL}" loading="lazy" title="Agenda tu llamada"></iframe>`;
+  } else {
+    cb.textContent = "Aquí se incrusta tu calendario cuando pegues CONFIG.CALENDLY_URL.";
+  }
+}
+
+/* =====================================================================
+   SKIN · un motor, dos pieles. C1 = "Salud y belleza" → clínicas (HTML
+   base, no se toca). Cualquier otro rubro o Bloque C saltado → general.
+   ===================================================================== */
+function isClinica(){ return state.C[0] === 0; }
+
+function GEN_SKIN(){ return {
+  citas: {
+    p: `<b>De cada 100 personas que te escriben por WhatsApp, solo 7 agendan una cita o dan el siguiente paso.</b> Las otras 93 preguntan algo y desaparecen. El 78% le compra al primero que responde, pero el problema no es solo la velocidad: es que quien contesta tus chats no tiene un proceso para convertir "¿cuánto cuesta?" en una cita o una venta.`,
+    caso: `<b>Caso real:</b> Un negocio de servicios recibía 5,600 mensajes al mes. Solo 393 agendaban (7%). Quien contestaba respondía con el precio y esperaba. Sin guion de agendamiento, sin seguimiento, sin meta de citas por día. El 93% se perdía en WhatsApp. Y de los que sí agendaban, solo la mitad llegaba.`,
+    hazlo: `<b>Hazlo hoy</b>Abre tus últimos 50 chats de WhatsApp con interesados que preguntaron pero NO avanzaron. Anota en cuántos la conversación se quedó en el precio. Si más de la mitad preguntó precio y no le ofreciste el siguiente paso, ahí está tu fuga.`,
+    wl: `Tenemos un playbook con guion de agendamiento + seguimiento + protocolo de confirmación para negocios que venden por chat.`
+  },
+  anuncios: {
+    hazlo: `<b>Hazlo hoy</b>¿Tu cliente ya decidió qué quiere? Si sí, revisa cuántos de tus anuncios abren con pregunta o con "sabías que". Reescribe la primera línea: qué vendes, a qué precio, dónde, y cuál es el siguiente paso.`,
+    wl: `El sistema completo tiene 5 pasos y 5 momentos. Cada combinación produce un anuncio listo para tu negocio.`,
+    ads: [
+      ['bad','✗ Inmobiliaria','"¿Buscas la casa de tus sueños?"'],
+      ['good','✓ Inmobiliaria','"Casa 3 recámaras en Cumbres. $2.85M. Recorridos este sábado."'],
+      ['bad','✗ Servicios','"Somos expertos con 10 años de experiencia"'],
+      ['good','✓ Servicios','"Instalación completa $4,900. Agenda esta semana, garantía 1 año."']
+    ]
+  },
+  dinero: {
+    p: `Mides cuánto te cuesta cada mensaje. Pero no sabes cuánto te cuesta cada <b>cliente que llega y paga.</b> Son dos números completamente diferentes:`,
+    dato: `<b>Dato real de un negocio en México:</b> el costo por mensaje era $15. Parecía barato. Pero el costo por cliente que compró fue de $711. Son 47 veces más. Si solo mides el costo por mensaje, crees que todo funciona cuando en realidad estás perdiendo dinero entre cada paso.`,
+    hazlo: `<b>Hazlo hoy (1 minuto)</b>Toma tu inversión del mes pasado. Divide entre el número de clientes nuevos que REALMENTE pagaron. Ese es tu costo real por cliente. Si no tienes ese número, ahí está tu primer problema.`
+  },
+  close: `Estas son 3 de las 11 áreas que evaluamos en negocios que venden por chat.`
+};}
+
+function applySkin(){
+  if(isClinica()) return; // clínicas = HTML base intacto
+  const sec = $("sec-areas");
+  const card = a => sec.querySelector(`.acard[data-area="${a}"]`);
+  const G = GEN_SKIN();
+
+  // Tarjeta 1 · citas
+  const c1 = card("citas");
+  c1.querySelector("p").innerHTML = G.citas.p;
+  c1.querySelector(".caso").innerHTML = G.citas.caso;
+  c1.querySelector(".hazlo").innerHTML = G.citas.hazlo;
+  c1.querySelector(".wl-row span").textContent = G.citas.wl;
+
+  // Tarjeta 2 · anuncios (ejemplos + hazlo + waitlist; la metodología es la misma)
+  const c2 = card("anuncios");
+  c2.querySelector(".ads-ex").innerHTML = G.anuncios.ads.map(([cls,tag,txt])=>
+    `<div class="ex ${cls}"><span class="tag">${tag}</span>${txt}</div>`).join("");
+  c2.querySelector(".hazlo").innerHTML = G.anuncios.hazlo;
+  c2.querySelector(".wl-row span").textContent = G.anuncios.wl;
+
+  // Tarjeta 3 · dinero
+  const c3 = card("dinero");
+  const ps = c3.querySelectorAll("p");
+  ps[0].innerHTML = G.dinero.p;
+  if(ps[1]) ps[1].innerHTML = G.dinero.dato;
+  c3.querySelector(".hazlo").innerHTML = G.dinero.hazlo;
+
+  // Cierre de sección
+  sec.querySelector(".areas-close .bebas").textContent = G.close;
+
+  // Tablas y nota del diagnóstico: traducción de dominio puntual
+  ["diagTable","diagNote","hzTable","diagListMobile"].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.innerHTML = el.innerHTML
+      .replace(/pacientes/gi,"clientes")
+      .replace(/paciente/gi,"cliente")
+      .replace(/dinero fuga en clínicas/gi,"dinero fuga en negocios que venden por cita");
+  });
+}
+
+/* ---------- Video slots (Hormozi) · se activan al pegar links en CONFIG ---------- */
+function embedHTML(url){
+  let src = null;
+  const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,})/);
+  const vm = url.match(/vimeo\.com\/(\d+)/);
+  const lo = url.match(/loom\.com\/(?:share|embed)\/([\w]+)/);
+  if(yt) src = "https://www.youtube.com/embed/"+yt[1];
+  else if(vm) src = "https://player.vimeo.com/video/"+vm[1];
+  else if(lo) src = "https://www.loom.com/embed/"+lo[1];
+  else src = url; // link directo de embed
+  return `<iframe src="${src}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+}
+function renderVideos(et){
+  if(CONFIG.VIDEO_GENERAL_URL){
+    $("sec-video-gen").classList.remove("hidden");
+    $("vGen").innerHTML = embedHTML(CONFIG.VIDEO_GENERAL_URL);
+  }
+  $("etTitle").textContent = `Tu etapa: ${STAGES[et-1]}`;
+  const vu = CONFIG.VIDEO_ETAPA_URLS[et];
+  // v2.3: "EL PUNTO" promovido al hero; la sección etapa solo aparece si hay video
+  const hp = $("heroPunto");
+  if(hp){ hp.textContent = "El punto: " + STAGE_META[et].punto.toLowerCase(); hp.classList.remove("hidden"); }
+  if(vu){
+    $("sec-etapa").classList.remove("hidden");
+    $("vEt").classList.remove("hidden");
+    $("vEt").innerHTML = embedHTML(vu);
+    $("etSub").textContent = "Este video te explica a detalle lo que pasa en tu etapa y cómo resolverlo.";
+  }
+  const m = STAGE_META[et];
+  $("stageMeta").innerHTML = `
+    <div class="smcard"><div class="t">👤 Tu rol</div><div class="v">${m.rol}</div></div>
+    <div class="smcard"><div class="t">💰 Inversión</div><div class="v">${m.inv}</div></div>
+    <div class="smcard"><div class="t">🎯 El punto</div><div class="v">${m.punto}</div></div>
+    <div class="smcard"><div class="t">🎓 ${et===4?'Para romper el techo':'Para pasar de etapa'}</div><div class="v">${m.grad}</div></div>`;
+}
+
+function renderDiagTable(){
+  const et=state.etapa;
+  let h = `<thead><tr><th>Área</th>`;
+  STAGES.forEach((s,si)=>{
+    h += `<th class="${si+1===et?'you':''}">${si+1}. ${s}${si+1===et?' · ESTÁS AQUÍ':''}<span class="st-desc">${STAGE_DESC[si]}</span></th>`;
+  });
+  h += `</tr></thead><tbody>`;
+  QUIZ.forEach((q,qi)=>{
+    h += `<tr><td class="area">${q.area}</td>`;
+    for(let s=0;s<4;s++){
+      const isAns = state.B[qi]===s;
+      const isWeak = isAns && (s+1<et);
+      let cls = isAns ? "ans" : (s+1===et ? "you-col" : "");
+      if(isWeak) cls += " low";
+      h += `<td class="${cls}">${isAns?'<span class="mark">→ </span>':''}${TABLE[qi][s]}${isWeak?' ⚠️':''}</td>`;
+    }
+    h += `</tr>`;
+  });
+  // Fila 11 · Asistencia: no medible desde afuera → gancho a llamada
+  h += `<tr class="locked"><td class="area">Asistencia</td><td colspan="4">Esta área no se puede medir desde afuera (cuántos de los que agendan sí llegan). Es de las que más dinero fuga en clínicas, y la revisamos juntos en tu llamada.</td></tr>`;
+  h += `</tbody>`;
+  $("diagTable").innerHTML = h;
+
+  // QW1 · vista móvil: callout de áreas débiles + lista de 1 columna + toggle a la matriz
+  const weakNames0 = state.weak.map(i=>QUIZ[i].area);
+  let ml = "";
+  if(weakNames0.length){
+    ml += `<div class="dlm-callout">Esto es lo que te frena: <b>${weakNames0.join(" · ")}</b>. El resto de tu operación ya está lista para crecer — pero esto la está deteniendo. Abajo, tu mapa área por área.</div>`;
+  }
+  QUIZ.forEach((q,qi)=>{
+    const ans = state.B[qi]; if(ans==null) return;
+    const isWeak = ans+1 < et;
+    const dots = [0,1,2,3].map(d=>`<i class="${d===ans?'on':''}"></i>`).join("");
+    const gap = isWeak ? `<div class="gap-note">Nivel ${ans+1} de 4 — tu etapa pide ${et}</div>` : "";
+    ml += `<div class="dlm-row ${isWeak?'weak':''}"><span class="a">${q.area}</span><span class="r">${TABLE[qi][ans]}${gap}</span><span class="dots">${dots}</span></div>`;
+  });
+  ml += `<button class="dlm-toggle" onclick="document.getElementById('sec-diag').classList.toggle('show-matrix');this.textContent=this.textContent.includes('Ver')?'Ocultar la tabla de 4 etapas ▲':'Ver la tabla completa de 4 etapas ▼'">Ver la tabla completa de 4 etapas ▼</button>`;
+  $("diagListMobile").innerHTML = ml;
+
+  const nomDash = state.nombre ? esc(state.nombre.trim().split(/\s+/)[0])+" — " : "";
+  const weakNames = state.weak.map(i=>QUIZ[i].area);
+  if(state.weak.length){
+    const pl = state.weak.length>1;
+    $("diagVerdict").innerHTML = `${nomDash}Tu negocio está mayormente en <b>Etapa ${et}</b>, pero tienes <span class="crit">${state.weak.length} área${pl?'s':''} por debajo</span> de tu nivel. ${pl?'Las más urgentes':'La más urgente'}: <span class="crit">${weakNames.join(", ")}</span>. El resto de tu operación ya está lista para crecer, pero ${pl?'estas áreas lo están frenando':'esta área lo está frenando'}.`;
+  } else {
+    $("diagVerdict").innerHTML = `${nomDash}Tu negocio está parejo en <b>Etapa ${et}</b>. Ninguna área está rezagada, lo cual es raro y bueno. Tu siguiente movimiento es de nivel, no de parches.`;
+  }
+  $("diagNote").innerHTML = `Que las demás estén "a nivel" <strong>no significa que estén resueltas.</strong> Saber cuánto pagas por mensaje no es saber cuánto te cuesta cada paciente. Tener Ads Manager con estructura no significa que estés optimizando. En las siguientes secciones vas a ver qué más necesita atención.`;
+}
+
+function renderRuedas(){
+  const avg = idxs => idxs.reduce((a,i)=>a+state.B[i]+1,0)/idxs.length;   // 1..4
+  const vals = {r1:avg(RUEDA_MAP.r1), r2:avg(RUEDA_MAP.r2), r3:avg(RUEDA_MAP.r3)};
+  const label = v => v>=3.4 ? "FUERTE" : v>=2.4 ? "A MEDIAS" : "ATORADA";
+  [["m1","v1",vals.r1],["m2","v2",vals.r2],["m3","v3",vals.r3]].forEach(([m,v,val])=>{
+    $(m).style.width = (val/4*100)+"%";
+    $(v).textContent = label(val)+" · nivel "+val.toFixed(1)+" de 4";
+  });
+  const entries=[["la Estructura del negocio",vals.r1],["la Estructura de campañas",vals.r2],["las Métricas y control",vals.r3]];
+  entries.sort((a,b)=>a[1]-b[1]);
+  const low=entries[0], high=entries[2];
+  if(high[1]-low[1] >= 0.8){
+    const hook = (STAGE_COPY[state.etapa]||{}).cta==="call" ? ` Por cuál engranaje empezar —y en qué orden— es exactamente lo que resolvemos en tu llamada.` : ``;
+    $("desbalance").innerHTML = `Aquí está tu desbalance: estás avanzado en <b>${high[0]}</b> pero atorado en <b>${low[0]}</b>. Ese desbalance, no la falta de esfuerzo, es lo que tiene tu número detenido. El engranaje lento frena a los otros dos.${hook}`;
+  } else {
+    $("desbalance").innerHTML = `Tus 3 engranajes están parejos. Eso significa que para crecer no hay que parchar uno: hay que subir el nivel de los tres juntos, en orden. En tu llamada te digo por cuál empezar.`;
+  }
+}
+
+function renderFlow(){
+  const score = idxs => idxs.reduce((a,i)=>a+state.B[i]+1,0)/idxs.length;
+  const phases=[["Lead gen","leadgen"],["Filtro","filtro"],["Seguimiento","seguimiento"],["Cierre","cierre"]];
+  let worst="seguimiento", worstV=99;
+  phases.forEach(([_,k])=>{ const v=score(FLOW_MAP[k]); if(v<worstV){worstV=v;worst=k;} });
+  $("flowRow").innerHTML = phases.map(([nm,k],i)=>
+    `<div class="step ${k===worst?'hot':''}">${nm}</div>${i<3?'<span class="arrow">→</span>':''}`).join("");
+  const copyMap={
+    leadgen:"tu traba principal está en la <b>generación</b>: no te llega suficiente gente, o llega sin estructura. Antes de tocar el seguimiento, hay que arreglar cómo atraes.",
+    filtro:"tu traba principal está en el <b>filtro</b>: te llega gente, pero no del perfil correcto. Tus campañas están atrayendo curiosos, no compradores.",
+    seguimiento:"tu traba principal está en el <b>seguimiento</b>: te llegan interesados, algunos son buenos, pero se pierden antes de cerrar. Ahí se está fugando el dinero.",
+    cierre:"tu traba principal está en el <b>cierre</b>: llegas hasta la conversación final, pero no se concreta. El problema es de oferta o de proceso de cierre."};
+  $("flowCopy").innerHTML = `Según tus respuestas, ${copyMap[worst]}`;
+}
+
+function renderHz(){
+  const weakAreas = state.weak.map(i=>QUIZ[i].area.toLowerCase());
+  const top = state.etapa===4;
+  const rows = state.etapa===1 ? HZ1 : state.etapa===2 ? HZ2 : top ? HZ4 : HZ;
+  const btn = document.querySelector("#hzExp button span");
+  if(btn) btn.textContent = top ? "Ver el detalle de tus 11 áreas: qué te frena y qué mover para romper el techo"
+                                : "Ver el detalle de tus 11 áreas: qué te frena y qué mover para pasar de etapa";
+  let h = `<thead><tr><th>Área</th><th>Lo que te frena</th><th>${top?'Para romper el techo':'Para pasar de etapa'}</th></tr></thead><tbody>`;
+  rows.forEach(row=>{
+    const isWeak = weakAreas.some(w=>row[0].toLowerCase().startsWith(w.slice(0,5)));
+    h += `<tr>${row.map((c,ci)=>`<td class="${isWeak&&ci>0?'weak-row':''}">${c}</td>`).join("")}</tr>`;
+  });
+  h += `</tbody>`;
+  $("hzTable").innerHTML = h;
+}
+
+function toggleHz(){
+  const ex=$("hzExp"); ex.classList.toggle("open");
+  if(ex.classList.contains("open")) track("VerTabla11Areas",{});
+}
+
+/* =====================================================================
+   ACCIONES · waitlist, llamada, export, email
+   ===================================================================== */
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-wl]");
+  if(!b) return;
+  const prod = b.dataset.wl;
+  b.classList.add("done"); b.textContent="✓ Listo, te avisamos";
+  sendWebhook("waitlist", {producto:prod});
+  track("Waitlist_"+prod,{});
+  toast("Anotado. Te avisamos en cuanto esté listo.");
+});
+
+function goCall(src){
+  sendWebhook("cta_llamada",{source:src});
+  track("CTA_Llamada",{source:src});
+  const c = $("sec-cta");
+  if(c){ c.scrollIntoView({behavior:"smooth"}); }
+  else if(CONFIG.CALENDLY_URL){ window.open(CONFIG.CALENDLY_URL,"_blank"); }
+}
+function exportPDF(){
+  track("ExportPDF",{});
+  document.querySelectorAll(".expander").forEach(x=>x.classList.add("open"));
+  window.print();
+}
+function emailMe(){
+  sendWebhook("send_email",{results_url: location.href});
+  track("EmailResultados",{});
+  toast("Listo. Te llega el link de tu Mapa a "+ (state.email||"tu correo") +".");
+}
+function toast(msg){
+  const t=$("toast"); t.textContent=msg; t.classList.add("on");
+  setTimeout(()=>t.classList.remove("on"), 3200);
+}
+
+/* =====================================================================
+   BACKEND · webhook a GHL + Meta Pixel
+   ===================================================================== */
+function payload(action, extra={}){
+  const p={ action, nombre:state.nombre, email:state.email, telefono:state.telefono, ab_gate:state.ab,
+    etapa: state.etapa, etapa_nombre: state.etapa?STAGES[state.etapa-1]:null,
+    perfil_curso: computePerfil(),
+    ultima_pregunta: quizProgress(),
+    areas_debiles: state.weak.map(i=>QUIZ[i].id).join(", "),
+    results_url: location.origin+location.pathname+"?r="+encodeResults(),
+    fecha: new Date().toISOString(), ...state.utm, ...extra };
+  QUIZ.forEach((q,i)=>{ if(state.B[i]!=null) p[q.id]=state.B[i]+1; });
+  CTX.forEach((q,i)=>{ if(state.C[i]!=null) p[q.id]=q.opts[state.C[i]]; });
+  return p;
+}
+function sendWebhook(action, extra){
+  const data = payload(action, extra);
+  if(!CONFIG.WEBHOOK_URL){ console.log("[webhook·simulado]", data); return; }
+  fetch(CONFIG.WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})
+    .catch(err=>console.warn("webhook error", err));
+}
+function loadPixel(){
+  if(!CONFIG.PIXEL_ID) return;
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', CONFIG.PIXEL_ID); fbq('track','PageView',{ab_gate:state.ab}); fbq('trackCustom','GateVariant',{variant:state.ab});
+}
+function track(ev, data){
+  console.log("[evento]", ev, data);
+  if(window.fbq) fbq('trackCustom', ev, data);
+}
+</script>
+</body>
+</html>
