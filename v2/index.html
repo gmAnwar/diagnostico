@@ -166,6 +166,10 @@ table.hz th{text-align:left;font-size:11px;text-transform:uppercase;letter-spaci
 table.hz td{padding:10px;border-bottom:1px solid #F0F2F5;vertical-align:top}
 table.hz td:first-child{font-weight:800;color:#8a94a6;text-transform:uppercase;font-size:11.5px;white-space:nowrap}
 table.hz td.weak-row{background:#FFF9F0}
+/* Primera columna congelada al hacer scroll horizontal (tablas anchas en ventana angosta) */
+table.diag th:first-child,table.diag td.area,
+table.hz th:first-child,table.hz td:first-child{position:sticky;left:0;background:#fff;z-index:2;box-shadow:1px 0 0 var(--line)}
+table.diag td.area.weak-row,table.hz td:first-child.weak-row{background:#FFF9F0}
 
 /* bottom line */
 .bottomline{background:var(--navy);color:#fff;text-align:center;padding:70px clamp(20px,5vw,48px)}
@@ -390,7 +394,7 @@ const CONFIG = {
     <div class="legend"><span>→ = tu respuesta</span><span>⚠️ = por debajo de tu etapa</span></div>
     <p class="diag-verdict" id="diagVerdict"></p>
     <div class="tbl-note" id="diagNote"></div>
-    <div class="cta-mid"><button class="btn-red">Apartar mi lugar a precio fundador →</button></div>
+    <div class="cta-mid"><button class="btn-red">Ver el Kit de Cierre →</button></div>
   </section>
 
   <!-- CUELLO DE BOTELLA (flow + ruedas fusionadas · síntoma → causa) -->
@@ -418,8 +422,8 @@ const CONFIG = {
   <!-- BIO -->
   <section class="block wrap bio" id="sec-bio">
     <h2 class="sec bebas" style="text-align:left">Hola, soy Anwar.</h2>
-    <p class="lead">En 2011 fundé Völtoch, una marca de artículos deportivos que llegó a venderse en las cadenas de retail más grandes de México — más de 5,000 puntos de venta, todo físico. Cuando llegó la pandemia y el piso de venta se cayó, tuve que reinventar el negocio hacia lo digital. Ahí aprendí ads, embudos y atribución por necesidad, no por teoría.</p>
-    <p class="lead">De esa reinvención nació OptimizAds, la agencia que hoy administra más de $250,000 USD al mes en campañas para negocios en México, Estados Unidos y Latinoamérica.</p>
+    <p class="lead">En 2011 fundé Völtoch, una marca de artículos deportivos que llegó a venderse en las cadenas de retail más grandes de México — más de 5,000 puntos de venta, todo físico. Cuando llegó la pandemia y las ventas físicas se frenaron de golpe, tuve que reinventar el negocio hacia lo digital. Ahí aprendí ads, embudos y atribución por necesidad, no por teoría.</p>
+    <p class="lead">De esa reinvención nació OptimizAds, la agencia que hoy administra más de $250,000 USD al mes en campañas para negocios en México y Estados Unidos.</p>
     <p class="promise">No te voy a decir que "hagas más anuncios". Te voy a ayudar a ver tu sistema comercial completo para encontrar exactamente qué es lo que te tiene atorado.</p>
   </section>
 
@@ -469,7 +473,7 @@ const CONFIG = {
     <div class="areas-close">
       <div class="bebas">Estas son 3 de las 11 áreas que evaluamos en clínicas estéticas.</div>
       <p>Si alguna te hizo decir "eso me pasa a mí", el Kit de Cierre trae el proceso para las tres — y para las otras 8.</p>
-      <button class="btn-red" style="margin-top:18px">Apartar mi lugar a precio fundador →</button>
+      <button class="btn-red" style="margin-top:18px">Ver el Kit de Cierre →</button>
     </div>
 
     <!-- Tabla completa 11 áreas -->
@@ -503,7 +507,7 @@ const CONFIG = {
     <p class="sub2" id="ctaSub"></p>
     <ul class="valuestack hidden" id="ctaStack"></ul>
     <div class="guarantee hidden" id="ctaGuarantee"></div>
-    <button class="btn-red" data-wl="kit_cierre">Apartar mi lugar a precio fundador →</button>
+    <button class="btn-red" data-wl="kit_cierre">Apartar mi Kit — precio fundador →</button>
     <div class="scarcity hidden" id="ctaScarcity"></div>
     <p class="proof-line hidden" id="ctaProof"></p>
     <div class="cal-box hidden" id="calBox"></div>
@@ -682,6 +686,8 @@ const FLOW_MAP = {leadgen:[0,1,9], filtro:[7,1], seguimiento:[2,4,8], cierre:[6,
 let state = {nombre:"", email:"", telefono:"", B:[], C:[], idx:0, phase:"B", etapa:null, weak:[], done:false, utm:{}, ab:""};
 
 const $ = id => document.getElementById(id);
+// Nombre en Title Case: "julia gonzález" → "Julia González"
+function capName(s){ return (s||"").trim().replace(/\s+/g," ").toLowerCase().replace(/(^|\s|-)(\p{L})/gu,(m,p1,p2)=>p1+p2.toUpperCase()); }
 const params = new URLSearchParams(location.search);
 const esc = s => { const d=document.createElement("div"); d.textContent=s||""; return d.innerHTML; }; // nombre viene de la URL: nunca inyectarlo crudo
 
@@ -699,13 +705,13 @@ function init(){
   // ¿Viene con resultados en la URL? (link permanente del correo)
   if(params.get("r")){ hydrateFromURL(); return; }
   // ¿Viene de la landing GHL con datos?
-  state.nombre = params.get("nombre") || params.get("first_name") || "";
+  state.nombre = capName(params.get("nombre") || params.get("first_name") || "");
   state.email  = params.get("email") || "";
   state.telefono = params.get("telefono") || params.get("phone") || "";
   if(state.email){ startQuiz(); } // directo al quiz
   $("gateForm").addEventListener("submit", e=>{
     e.preventDefault();
-    state.nombre = $("g_nombre").value.trim();
+    state.nombre = capName($("g_nombre").value);
     state.email  = $("g_email").value.trim();
     state.telefono = state.ab==="A" ? $("g_telefono").value.replace(/[^\d+]/g,"") : "";
     startQuiz();
@@ -785,14 +791,18 @@ function renderQ(){
   const inB = state.phase==="B";
   const list = inB ? QUIZ : CTX;
   const i = state.idx;
-  const total = inB ? QUIZ.length : CTX.length;
-  $("progLabel").textContent = inB ? `Pregunta ${i+1} de ${total}` : `Para personalizar tu Mapa · ${i+1} de ${total}`;
-  $("progFill").style.width = ((inB ? i : QUIZ.length+i) / (QUIZ.length+CTX.length) * 100) + "%";
+  const clin = !inB && state.C[0]===0;                 // clínica salta la pregunta de modelo (idx 1)
+  const ctxTot = clin ? CTX.length-1 : CTX.length;
+  const total = inB ? QUIZ.length : ctxTot;
+  const pos = inB ? i+1 : (clin && i>=2 ? i : i+1);    // idx0→1, idx2→2, idx3→3
+  const totalAll = QUIZ.length + ctxTot;
+  $("progLabel").textContent = inB ? `Pregunta ${pos} de ${total}` : `Para personalizar tu Mapa · ${pos} de ${total}`;
+  $("progFill").style.width = ((inB ? i : QUIZ.length + (pos-1)) / totalAll * 100) + "%";
 
   const q = list[i];
   let html = "";
   if(!inB && i===0){
-    html += `<div class="ctx-note"><b>Ya casi.</b> Solo 4 preguntas más para personalizar tu Mapa de Crecimiento. Si tienes prisa, puedes saltarlas.</div>`;
+    html += `<div class="ctx-note"><b>Ya casi.</b> Unas preguntas rápidas más para personalizar tu Mapa de Crecimiento. Si tienes prisa, puedes saltarlas.</div>`;
   }
   html += `<div class="qnum">${inB ? q.area : "Contexto"}</div><div class="qtext">${q.q}</div><div class="opts">`;
   q.opts.forEach((o,oi)=>{ html += `<button class="opt" onclick="pick(${oi})">${o}</button>`; });
@@ -817,12 +827,15 @@ function pick(oi){
   } else {
     state.C[state.idx] = oi;
     state.idx++;
+    // Clínica: el modelo de negocio (servicios a cliente final) es obvio → autocompletar y saltar
+    if(state.idx===1 && state.C[0]===0){ state.C[1]=1; state.idx=2; }
     if(state.idx >= CTX.length){ return finish(); }
   }
   renderQ();
 }
 function goBack(){
   if(state.phase==="C" && state.idx===0){ state.phase="B"; state.idx=QUIZ.length-1; }
+  else if(state.phase==="C" && state.idx===2 && state.C[0]===0){ state.idx=0; } // clínica: saltó el modelo
   else if(state.idx>0){ state.idx--; }
   renderQ();
 }
@@ -886,7 +899,7 @@ function encodeResults(){
 function hydrateFromURL(){
   try{
     const raw = JSON.parse(decodeURIComponent(escape(atob(params.get("r")))));
-    state.nombre=raw.n||""; state.email=raw.e||""; state.B=raw.b||[]; state.C=raw.c||[];
+    state.nombre=capName(raw.n||""); state.email=raw.e||""; state.B=raw.b||[]; state.C=raw.c||[];
     if(state.B.length!==10) throw 0;
     state.etapa=computeEtapa(state.B); state.weak=computeWeak(state.B,state.etapa);
     showResults();
@@ -940,8 +953,8 @@ function renderOffers(et){
   const toCTA = ()=>{ const c=$("sec-cta"); if(c) c.scrollIntoView({behavior:"smooth"}); };
   const midBtn = document.querySelector("#sec-diag .cta-mid button");
   const areasBtn = document.querySelector("#sec-areas .areas-close .btn-red");
-  if(midBtn){ midBtn.textContent="Apartar mi lugar a precio fundador →"; midBtn.onclick=toCTA; }
-  if(areasBtn){ areasBtn.textContent="Apartar mi lugar a precio fundador →"; areasBtn.onclick=toCTA; }
+  if(midBtn){ midBtn.textContent="Ver el Kit de Cierre →"; midBtn.onclick=toCTA; }
+  if(areasBtn){ areasBtn.textContent="Ver el Kit de Cierre →"; areasBtn.onclick=toCTA; }
 }
 function renderMoneyCTA(et){
   const nom = state.nombre ? esc(state.nombre.trim().split(/\s+/)[0])+", " : "";
@@ -1146,9 +1159,9 @@ function renderRuedas(){
   entries.sort((a,b)=>a[1]-b[1]);
   const low=entries[0], high=entries[2];
   if(high[1]-low[1] >= 0.8){
-    $("desbalance").innerHTML = `Aquí está tu desbalance: estás avanzado en <b>${high[0]}</b> pero atorado en <b>${low[0]}</b>. Ese desbalance, no la falta de esfuerzo, es lo que tiene tu número detenido. El engranaje lento frena a los otros dos. El orden para destrabarlos viene en el Kit.`;
+    $("desbalance").innerHTML = `Aquí está tu desbalance: estás avanzado en <b>${high[0]}</b> pero atorado en <b>${low[0]}</b>. Ese desbalance, no la falta de esfuerzo, es lo que tiene tu número detenido. El área más lenta frena a las otras dos.`;
   } else {
-    $("desbalance").innerHTML = `Tus 3 engranajes están parejos. Eso significa que para crecer no hay que parchar uno: hay que subir el nivel de los tres juntos, en orden. El Kit trae ese orden.`;
+    $("desbalance").innerHTML = `Tus 3 áreas base están parejas. Para crecer no hay que parchar una: hay que subir el nivel de las tres juntas, en orden.`;
   }
 }
 
