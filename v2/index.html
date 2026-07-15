@@ -390,7 +390,7 @@ const CONFIG = {
     <div class="legend"><span>→ = tu respuesta</span><span>⚠️ = por debajo de tu etapa</span></div>
     <p class="diag-verdict" id="diagVerdict"></p>
     <div class="tbl-note" id="diagNote"></div>
-    <div class="cta-mid"><button class="btn-red" onclick="goCall('diag')">Quiero mi llamada de 15 minutos →</button></div>
+    <div class="cta-mid"><button class="btn-red">Apartar mi lugar a precio fundador →</button></div>
   </section>
 
   <!-- CUELLO DE BOTELLA (flow + ruedas fusionadas · síntoma → causa) -->
@@ -468,8 +468,8 @@ const CONFIG = {
 
     <div class="areas-close">
       <div class="bebas">Estas son 3 de las 11 áreas que evaluamos en clínicas estéticas.</div>
-      <p>Si alguna te hizo decir "eso me pasa a mí", imagina lo que podemos encontrar en las otras 8. 15 minutos. Sin costo. Sin compromiso.</p>
-      <button class="btn-red" style="margin-top:18px" onclick="goCall('areas')">Agendar llamada de 15 minutos</button>
+      <p>Si alguna te hizo decir "eso me pasa a mí", el Kit de Cierre trae el proceso para las tres — y para las otras 8.</p>
+      <button class="btn-red" style="margin-top:18px">Apartar mi lugar a precio fundador →</button>
     </div>
 
     <!-- Tabla completa 11 áreas -->
@@ -499,15 +499,15 @@ const CONFIG = {
 
   <!-- CTA FINAL -->
   <section class="cta-final wrap" id="sec-cta">
-    <h2 class="sec bebas" id="ctaTitle">Agenda tu llamada de 15 minutos</h2>
+    <h2 class="sec bebas" id="ctaTitle">El Kit de Cierre — precio de fundador</h2>
     <p class="sub2" id="ctaSub"></p>
     <ul class="valuestack hidden" id="ctaStack"></ul>
     <div class="guarantee hidden" id="ctaGuarantee"></div>
-    <button class="btn-red" onclick="goCall('final')">Quiero mi llamada de 15 minutos →</button>
+    <button class="btn-red" data-wl="kit_cierre">Apartar mi lugar a precio fundador →</button>
     <div class="scarcity hidden" id="ctaScarcity"></div>
-    <p class="proof-line hidden" id="ctaProof"><b>Caso real:</b> un spa estético pasó a $482K vendidos con ROAS 4.1× con este mismo sistema.</p>
-    <div class="cal-box" id="calBox"></div>
-    <div class="cta-fallback hidden" id="ctaFallback">¿Prefieres empezar por tu cuenta? Aparta el <b>Kit de Cierre por WhatsApp</b> — $499 fundador, después $990. <button class="btn-wl" style="margin-left:8px" data-wl="kit_cierre">Apartar mi Kit →</button></div>
+    <p class="proof-line hidden" id="ctaProof"></p>
+    <div class="cal-box hidden" id="calBox"></div>
+    <div class="cta-fallback hidden" id="ctaFallback"></div>
   </section>
 </div>
 
@@ -515,10 +515,9 @@ const CONFIG = {
 <div class="exportbar" id="exportbar">
   <div class="inner">
     <div class="left">
-      <button class="btn-ghost" onclick="exportPDF()">⬇ Descargar mi Mapa en PDF</button>
       <button class="btn-ghost" onclick="emailMe()">✉ Enviármelo a mi correo</button>
     </div>
-    <button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="goCall('bar')">Agendar llamada →</button>
+    <button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="document.getElementById('sec-cta').scrollIntoView({behavior:'smooth'})">Apartar mi lugar →</button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -929,39 +928,34 @@ function showResults(){
 
 /* ===== CONVERSIÓN v1.9 (borrador · pasada de voz pendiente) ===== */
 
-/* v2.2 · T1: oferta segmentada por etapa. E1/E2 → Kit único (evento primario).
-   E3/E4 → cero waitlist antes de la llamada; fallback bajo el calendario. */
+/* v2.4 · Sin llamadas: un solo destino para todas las etapas = el Kit/Playbook
+   (lista de espera, precio fundador). El offer canónico vive en #sec-cta. */
 function renderOffers(et){
-  const money = (STAGE_COPY[et]||{}).cta === "call";
-  document.querySelectorAll('#sec-areas .wl-row').forEach(w=>w.classList.toggle('hidden', true)); // fuera de las tarjetas SIEMPRE (el ask vive en Kit o fallback)
-  $("sec-kit").classList.toggle("hidden", money);       // Kit visible solo E1/E2
-  $("ctaFallback").classList.toggle("hidden", !money);  // fallback bajo calendario solo E3/E4
-  $("ctaProof").classList.toggle("hidden", !money);     // prueba junto al botón solo E3/E4
-  // D3: en nurture, los CTAs intermedios apuntan al Kit, no a la llamada
+  document.querySelectorAll('#sec-areas .wl-row').forEach(w=>w.classList.toggle('hidden', true)); // el ask vive en el offer final, no en las tarjetas
+  $("sec-kit").classList.add("hidden");      // consolidado en #sec-cta
+  $("ctaFallback").classList.add("hidden");  // sin fallback de llamada
+  $("ctaProof").classList.add("hidden");     // fuera el caso fake
+  $("calBox").classList.add("hidden");       // sin Calendly
+  // CTAs intermedios → bajan al offer final
+  const toCTA = ()=>{ const c=$("sec-cta"); if(c) c.scrollIntoView({behavior:"smooth"}); };
   const midBtn = document.querySelector("#sec-diag .cta-mid button");
   const areasBtn = document.querySelector("#sec-areas .areas-close .btn-red");
-  const toKit = ()=>{ const k=$("sec-kit"); if(k) k.scrollIntoView({behavior:"smooth"}); };
-  if(!money){
-    if(midBtn){ midBtn.textContent="Apartar mi Kit a precio fundador →"; midBtn.onclick=toKit; }
-    if(areasBtn){ areasBtn.textContent="Apartar mi Kit a precio fundador →"; areasBtn.onclick=toKit; }
-  } else {
-    if(midBtn){ midBtn.textContent="Quiero mi llamada de 15 minutos →"; midBtn.onclick=()=>goCall('diag'); }
-    if(areasBtn){ areasBtn.textContent="Agendar llamada de 15 minutos"; areasBtn.onclick=()=>goCall('areas'); }
-  }
+  if(midBtn){ midBtn.textContent="Apartar mi lugar a precio fundador →"; midBtn.onclick=toCTA; }
+  if(areasBtn){ areasBtn.textContent="Apartar mi lugar a precio fundador →"; areasBtn.onclick=toCTA; }
 }
 function renderMoneyCTA(et){
   const nom = state.nombre ? esc(state.nombre.trim().split(/\s+/)[0])+", " : "";
-  const esCall = (STAGE_COPY[et]||{}).cta === "call"; // E3/E4
+  const esTecho = et===4;
   const bracket = TABLE[0][state.B[0]] || "lo que inviertes hoy";
   const wk = state.weak.length ? QUIZ[state.weak[0]].area.toLowerCase() : null;
 
-  // --- Costo de inacción (solo E3/E4) ---
-  if(esCall){
+  // --- Lo que está en juego (E3/E4: tensión antes del offer) ---
+  if(et>=3){
     let cuerpo;
-    if(et===4){
-      cuerpo = `${nom}${nom?'inviertes':'Inviertes'} <b>${bracket}</b> y ya sabes que meterle más no mueve la aguja como antes. Cada mes en el mismo techo no es un mes neutral: es un mes que tu competencia usa para acortar la distancia. <b>En la llamada te calculo, con tus números, dónde está el punto exacto que te tiene topado</b> — y qué se destraba primero.`;
+    if(esTecho){
+      cuerpo = `${nom}${nom?'inviertes':'Inviertes'} <b>${bracket}</b> y ya sabes que meterle más no mueve la aguja como antes. Cada mes en el mismo techo no es neutral: es un mes que tu competencia usa para acortar la distancia.`;
     } else {
-      cuerpo = `${nom}${nom?'inviertes':'Inviertes'} <b>${bracket}</b> en publicidad. El problema no es que no te llegue gente — es que se te queda en el camino${wk?`, y hoy tu fuga más cara está en <b>${wk}</b>`:''}. Cada mes que este número sigue igual no es neutral: es otra tanda de esa inversión que entra… y se va en cierres que nunca ocurrieron. <b>En la llamada te calculo, con tus números, cuánto te está costando exactamente</b> — y por dónde se tapa primero.`;
+      cuerpo = `${nom}${nom?'inviertes':'Inviertes'} <b>${bracket}</b> en publicidad. El problema no es que no te llegue gente — es que se te queda en el camino${wk?`, y hoy tu fuga más cara está en <b>${wk}</b>`:''}. Cada mes que este número sigue igual es otra tanda de inversión que entra… y se va en cierres que nunca ocurrieron.`;
     }
     $("costoInaccion").innerHTML = `<span class="k">Lo que está en juego</span>${cuerpo}`;
     $("sec-costo").classList.remove("hidden");
@@ -969,31 +963,17 @@ function renderMoneyCTA(et){
     $("sec-costo").classList.add("hidden");
   }
 
-  // --- CTA copy: value stack (money) vs soft (nurture) ---
-  if(esCall){
-    $("ctaTitle").textContent = "Agenda tu llamada de 15 minutos";
-    $("ctaSub").innerHTML = "15 minutos, en vivo conmigo, sobre TUS números. Sales con:";
-    $("ctaStack").innerHTML = [
-      "Tu <b>costo real por cliente</b>, calculado con TUS números — no el costo por mensaje que engaña.",
-      "Las <b>áreas exactas que te frenan</b>, priorizadas: por cuál empezar y por qué.",
-      "El <b>primer movimiento a hacer esta semana</b> — te lo llevas, trabajemos juntos o no."
-    ].map(t=>`<li>${t}</li>`).join("");
-    $("ctaGuarantee").innerHTML = `<b>Mi garantía:</b> si en esos 15 minutos no te doy al menos una idea que valga tu tiempo, te mando el Kit de Cierre por WhatsApp completo, gratis.`;
-    $("ctaScarcity").textContent = "Reviso personalmente cada diagnóstico antes de la llamada, por eso tomo pocas por semana.";
-    ["ctaStack","ctaGuarantee","ctaScarcity"].forEach(id=>$(id).classList.remove("hidden"));
-  } else {
-    $("ctaTitle").textContent = "¿Quieres que veamos tu caso a fondo?";
-    $("ctaSub").innerHTML = `${nom}cuando quieras, agenda una llamada de 15 minutos sin costo y le entramos a tus números juntos. Sin prisa: primero llévate tu mapa.`;
-    ["ctaStack","ctaGuarantee","ctaScarcity"].forEach(id=>$(id).classList.add("hidden"));
-  }
-
-  // --- Calendario embebido inline ---
-  const cb = $("calBox");
-  if(CONFIG.CALENDLY_URL){
-    cb.innerHTML = `<iframe src="${CONFIG.CALENDLY_URL}" loading="lazy" title="Agenda tu llamada"></iframe>`;
-  } else {
-    cb.textContent = "Aquí se incrusta tu calendario cuando pegues CONFIG.CALENDLY_URL.";
-  }
+  // --- Offer único: el Kit de Cierre (lista de espera, precio fundador) ---
+  $("ctaTitle").textContent = et>=3 ? "El Kit de Cierre — para tapar esa fuga" : "El Kit de Cierre — instala tu proceso";
+  $("ctaSub").innerHTML = `${nom}el playbook completo para instalar tu proceso de venta por chat. Se libera el <b>31 de julio</b> — apartas hoy a precio de fundador, sin cargo ahora.`;
+  $("ctaStack").innerHTML = [
+    "<b>Playbook de agendamiento</b>: guion + seguimiento + protocolo de confirmación.",
+    "<b>Guía de anuncios</b>: los 5 pasos para que tu anuncio atraiga a quien SÍ compra.",
+    "<b>Plantilla de dinero</b>: llenas tus números y ves dónde se te queda en cada paso."
+  ].map(t=>`<li>${t}</li>`).join("");
+  $("ctaGuarantee").innerHTML = `<b>Precio de fundador:</b> $499 MXN para los primeros 50 · después $990. <span style="opacity:.6">(precio por confirmar)</span>`;
+  $("ctaScarcity").textContent = "Al apartar entras a la lista y te avisamos primero el día del lanzamiento.";
+  ["ctaStack","ctaGuarantee","ctaScarcity"].forEach(id=>$(id).classList.remove("hidden"));
 }
 
 /* =====================================================================
@@ -1122,8 +1102,8 @@ function renderDiagTable(){
     }
     h += `</tr>`;
   });
-  // Fila 11 · Asistencia: no medible desde afuera → gancho a llamada
-  h += `<tr class="locked"><td class="area">Asistencia</td><td colspan="4">Esta área no se puede medir desde afuera (cuántos de los que agendan sí llegan). Es de las que más dinero fuga en clínicas, y la revisamos juntos en tu llamada.</td></tr>`;
+  // Fila 11 · Asistencia: no medible desde afuera
+  h += `<tr class="locked"><td class="area">Asistencia</td><td colspan="4">Esta área no se puede medir desde afuera (cuántos de los que agendan sí llegan). Es de las que más dinero fuga en clínicas, y el Kit trae el protocolo de confirmación para taparla.</td></tr>`;
   h += `</tbody>`;
   $("diagTable").innerHTML = h;
 
@@ -1166,10 +1146,9 @@ function renderRuedas(){
   entries.sort((a,b)=>a[1]-b[1]);
   const low=entries[0], high=entries[2];
   if(high[1]-low[1] >= 0.8){
-    const hook = (STAGE_COPY[state.etapa]||{}).cta==="call" ? ` Por cuál engranaje empezar —y en qué orden— es exactamente lo que resolvemos en tu llamada.` : ``;
-    $("desbalance").innerHTML = `Aquí está tu desbalance: estás avanzado en <b>${high[0]}</b> pero atorado en <b>${low[0]}</b>. Ese desbalance, no la falta de esfuerzo, es lo que tiene tu número detenido. El engranaje lento frena a los otros dos.${hook}`;
+    $("desbalance").innerHTML = `Aquí está tu desbalance: estás avanzado en <b>${high[0]}</b> pero atorado en <b>${low[0]}</b>. Ese desbalance, no la falta de esfuerzo, es lo que tiene tu número detenido. El engranaje lento frena a los otros dos. El orden para destrabarlos viene en el Kit.`;
   } else {
-    $("desbalance").innerHTML = `Tus 3 engranajes están parejos. Eso significa que para crecer no hay que parchar uno: hay que subir el nivel de los tres juntos, en orden. En tu llamada te digo por cuál empezar.`;
+    $("desbalance").innerHTML = `Tus 3 engranajes están parejos. Eso significa que para crecer no hay que parchar uno: hay que subir el nivel de los tres juntos, en orden. El Kit trae ese orden.`;
   }
 }
 
