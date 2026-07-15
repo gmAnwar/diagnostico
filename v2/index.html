@@ -384,7 +384,7 @@ const CONFIG = {
   <!-- TU DIAGNÓSTICO -->
   <section class="block wrap" id="sec-diag">
     <h2 class="sec bebas">Tu diagnóstico</h2>
-    <p class="sec-sub">Cada fila es un área de tu operación con lo que TÚ contestaste. Lo marcado con ⚠️ está por debajo de tu etapa: eso es lo que te frena.</p>
+    <p class="sec-sub">Lo marcado con ⚠️ está por debajo de tu etapa: <b>eso es lo que te está frenando ahora mismo</b>. El resto de tu operación ya lo tienes listo.</p>
     <div class="dlm" id="diagListMobile"></div>
     <div class="tbl-scroll"><table class="diag" id="diagTable"></table></div>
     <div class="legend"><span>→ = tu respuesta</span><span>⚠️ = por debajo de tu etapa</span></div>
@@ -418,22 +418,14 @@ const CONFIG = {
   <!-- BIO -->
   <section class="block wrap bio" id="sec-bio">
     <h2 class="sec bebas" style="text-align:left">Hola, soy Anwar.</h2>
-    <p class="lead">Llevo más de 7 años ayudando a negocios a vender más con publicidad digital. Empecé con Völtoch, una marca que creé desde cero, donde aprendí todo lo que sé sobre ads, embudos y conversión.</p>
-    <p class="lead">Después vino la pandemia y con ella OptimizAds, la agencia que hoy administra más de $250,000 USD al mes en campañas para negocios en México, Estados Unidos y Latinoamérica.</p>
+    <p class="lead">En 2011 fundé Völtoch, una marca de artículos deportivos que llegó a venderse en las cadenas de retail más grandes de México — más de 5,000 puntos de venta, todo físico. Cuando llegó la pandemia y el piso de venta se cayó, tuve que reinventar el negocio hacia lo digital. Ahí aprendí ads, embudos y atribución por necesidad, no por teoría.</p>
+    <p class="lead">De esa reinvención nació OptimizAds, la agencia que hoy administra más de $250,000 USD al mes en campañas para negocios en México, Estados Unidos y Latinoamérica.</p>
     <p class="promise">No te voy a decir que "hagas más anuncios". Te voy a ayudar a ver tu sistema comercial completo para encontrar exactamente qué es lo que te tiene atorado.</p>
-    <div class="caso-real">
-      <h3 class="bebas">Resultados reales</h3>
-      <div class="cards3">
-        <div class="card3"><div class="t">Spa estético</div><div class="v">$482K → ROAS 4.1×</div></div>
-        <div class="card3"><div class="t">Equipos y maquinaria</div><div class="v">$180K → $850K</div></div>
-        <div class="card3"><div class="t">Inmobiliaria</div><div class="v">Costo por cliente: $6.6K → $2.3K</div></div>
-      </div>
-    </div>
   </section>
 
   <!-- 3 ÁREAS CRÍTICAS (Etapa 3 · clínicas) -->
   <section class="block wrap" id="sec-areas">
-    <h2 class="sec bebas">3 de tus 11 áreas, a fondo</h2>
+    <h2 class="sec bebas">3 de tus 11 áreas, a detalle</h2>
     <p class="sec-sub">Del mapa completo de 11 áreas, estas 3 son donde más dinero se fuga en negocios que venden por chat. Míralas con tus propios números en mente.</p>
 
     <div class="acard" data-area="citas">
@@ -910,6 +902,7 @@ function showResults(){
   $("screen-gate").classList.add("hidden");
   $("screen-quiz").classList.add("hidden");
   $("screen-results").classList.remove("hidden");
+  window.scrollTo({top:0}); // el diagnóstico arranca desde arriba, no donde quedó el gate
   $("exportbar").classList.add("on");
   document.body.classList.add("has-bar");
   $("topbadge").textContent = "Tu Mapa de Crecimiento";
@@ -968,7 +961,7 @@ function renderMoneyCTA(et){
     if(et===4){
       cuerpo = `${nom}${nom?'inviertes':'Inviertes'} <b>${bracket}</b> y ya sabes que meterle más no mueve la aguja como antes. Cada mes en el mismo techo no es un mes neutral: es un mes que tu competencia usa para acortar la distancia. <b>En la llamada te calculo, con tus números, dónde está el punto exacto que te tiene topado</b> — y qué se destraba primero.`;
     } else {
-      cuerpo = `${nom}${nom?'inviertes':'Inviertes'} <b>${bracket}</b> en publicidad. El problema no es que no te llegue gente — es que se te queda en el camino${wk?`, y <b>${wk}</b> es hoy tu fuga más cara`:''}. Cada mes que este número sigue igual no es neutral: es otra tanda de esa inversión que entra… y se va en cierres que nunca ocurrieron. <b>En la llamada te calculo, con tus números, cuánto te está costando exactamente</b> — y por dónde se tapa primero.`;
+      cuerpo = `${nom}${nom?'inviertes':'Inviertes'} <b>${bracket}</b> en publicidad. El problema no es que no te llegue gente — es que se te queda en el camino${wk?`, y hoy tu fuga más cara está en <b>${wk}</b>`:''}. Cada mes que este número sigue igual no es neutral: es otra tanda de esa inversión que entra… y se va en cierres que nunca ocurrieron. <b>En la llamada te calculo, con tus números, cuánto te está costando exactamente</b> — y por dónde se tapa primero.`;
     }
     $("costoInaccion").innerHTML = `<span class="k">Lo que está en juego</span>${cuerpo}`;
     $("sec-costo").classList.remove("hidden");
