@@ -513,6 +513,21 @@ const HZ = [
  ["Asistencia","Más de la mitad que agenda no se presenta. Sin anticipo ni recordatorio.","Que se presente al menos el 75%. Anticipo + recordatorio 24hrs + confirmación."]
 ];
 
+/* ---------- Tabla 11 áreas · Etapa 4 (techo: frena / para romper el techo) ---------- */
+const HZ4 = [
+ ["Presupuesto","Inviertes fuerte, pero cada peso extra rinde menos: el costo sube y el volumen ya no acompaña.","Saber qué campaña y qué anuncio te dan CLIENTES —no mensajes— y mover el dinero ahí."],
+ ["Campañas","Estructura sólida, pero el canal que te trajo aquí ya muestra saturación: el mismo peso compra menos.","Diversificar con método: nueva audiencia, canal u oferta — una a la vez, con piloto."],
+ ["Equipo","El equipo cierra parejo con guion, pero nadie escucha sus llamadas: no sabes por qué se gana o se pierde cada trato.","QA de conversaciones: cada llamada analizada y coaching con evidencia, no con opinión."],
+ ["Métricas","Mides todo, pero los números viven regados —plataforma, hojas, CRM— y llegan tarde para decidir.","Ventas y ads en un solo lugar, actualizados en automático: decidir con el dato del día."],
+ ["Automatización","CRM robusto, pero tus cierres reales nunca regresan a Meta: el algoritmo optimiza a ciegas.","Cerrar el loop: ventas reales de vuelta a Meta para que compre clientes, no clics."],
+ ["Ventas","Predecibles pero planas: creces 5% cuando quieres 50%.","Un motor nuevo validado: segmento, oferta o plaza — con piloto, no con fe."],
+ ["Oferta","Optimizada para el cliente de hoy; sin escalera para subir el ticket.","Escalera de valor: entrada, core y premium que suben el promedio."],
+ ["Cliente ideal","Segmentas bien, pero llevas años exprimiendo el mismo pool.","Abrir el segmento adyacente con mensaje propio, medido contra el actual."],
+ ["Respuesta","Respondes en minutos; lo que se fuga es el seguimiento a 30-90 días.","Cadencia de recontacto automática: ningún calificado se enfría."],
+ ["Creatividades","Tienes banco ganador, pero los ganadores duran cada vez menos.","Sistema de relevo: producción constante que sustituye al ganador antes de que muera."],
+ ["Asistencia","Se presentan y compran; lo que nadie mide es cuántos regresan.","Retención medida: recompra y referidos como canal propio."]
+];
+
 /* ---------- Copy por etapa (v1: Etapa 3 completa · 1/2/4 base, se completan en Bloque 2) ---------- */
 const STAGE_COPY = {
  1:{sub:"Estás arrancando. Todavía no hay flujo constante, y está bien: todos empiezan aquí.",
@@ -841,7 +856,7 @@ function renderVideos(et){
     <div class="smcard"><div class="t">👤 Tu rol</div><div class="v">${m.rol}</div></div>
     <div class="smcard"><div class="t">💰 Inversión</div><div class="v">${m.inv}</div></div>
     <div class="smcard"><div class="t">🎯 El punto</div><div class="v">${m.punto}</div></div>
-    <div class="smcard"><div class="t">🎓 Para pasar de etapa</div><div class="v">${m.grad}</div></div>`;
+    <div class="smcard"><div class="t">🎓 ${et===4?'Para romper el techo':'Para pasar de etapa'}</div><div class="v">${m.grad}</div></div>`;
 }
 
 function renderDiagTable(){
@@ -912,8 +927,13 @@ function renderFlow(){
 
 function renderHz(){
   const weakAreas = state.weak.map(i=>QUIZ[i].area.toLowerCase());
-  let h = `<thead><tr><th>Área</th><th>Lo que te frena</th><th>Para pasar de etapa</th></tr></thead><tbody>`;
-  HZ.forEach(row=>{
+  const top = state.etapa===4;
+  const rows = top ? HZ4 : HZ;
+  const btn = document.querySelector("#hzExp button span");
+  if(btn) btn.textContent = top ? "Ver el detalle de tus 11 áreas: qué te frena y qué mover para romper el techo"
+                                : "Ver el detalle de tus 11 áreas: qué te frena y qué mover para pasar de etapa";
+  let h = `<thead><tr><th>Área</th><th>Lo que te frena</th><th>${top?'Para romper el techo':'Para pasar de etapa'}</th></tr></thead><tbody>`;
+  rows.forEach(row=>{
     const isWeak = weakAreas.some(w=>row[0].toLowerCase().startsWith(w.slice(0,5)));
     h += `<tr>${row.map((c,ci)=>`<td class="${isWeak&&ci>0?'weak-row':''}">${c}</td>`).join("")}</tr>`;
   });
