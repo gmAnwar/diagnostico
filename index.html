@@ -710,7 +710,7 @@ function hydrateFromURL(){
     if(state.B.length!==10) throw 0;
     state.etapa=computeEtapa(state.B); state.weak=computeWeak(state.B,state.etapa);
     showResults();
-  }catch(err){ /* URL corrupta: flujo normal */ }
+  }catch(err){ console.warn("hydrate error:", err); /* URL corrupta: flujo normal */ }
 }
 
 /* =====================================================================
@@ -736,7 +736,80 @@ function showResults(){
   renderRuedas();
   renderFlow();
   renderHz();
+  applySkin();
   window.scrollTo({top:0});
+}
+
+/* =====================================================================
+   SKIN · un motor, dos pieles. C1 = "Salud y belleza" → clínicas (HTML
+   base, no se toca). Cualquier otro rubro o Bloque C saltado → general.
+   ===================================================================== */
+function isClinica(){ return state.C[0] === 0; }
+
+function GEN_SKIN(){ return {
+  citas: {
+    p: `<b>De cada 100 personas que te escriben por WhatsApp, solo 7 agendan una cita o dan el siguiente paso.</b> Las otras 93 preguntan algo y desaparecen. El 78% le compra al primero que responde, pero el problema no es solo la velocidad: es que quien contesta tus chats no tiene un proceso para convertir "¿cuánto cuesta?" en una cita o una venta.`,
+    caso: `<b>Caso real:</b> Un negocio de servicios recibía 5,600 mensajes al mes. Solo 393 agendaban (7%). Quien contestaba respondía con el precio y esperaba. Sin guion de agendamiento, sin seguimiento, sin meta de citas por día. El 93% se perdía en WhatsApp. Y de los que sí agendaban, solo la mitad llegaba.`,
+    hazlo: `<b>Hazlo hoy</b>Abre tus últimos 50 chats de WhatsApp con interesados que preguntaron pero NO avanzaron. Anota en cuántos la conversación se quedó en el precio. Si más de la mitad preguntó precio y no le ofreciste el siguiente paso, ahí está tu fuga.`,
+    wl: `Tenemos un playbook con guion de agendamiento + seguimiento + protocolo de confirmación para negocios que venden por chat.`
+  },
+  anuncios: {
+    hazlo: `<b>Hazlo hoy</b>¿Tu cliente ya decidió qué quiere? Si sí, revisa cuántos de tus anuncios abren con pregunta o con "sabías que". Reescribe la primera línea: qué vendes, a qué precio, dónde, y cuál es el siguiente paso.`,
+    wl: `El sistema completo tiene 5 pasos y 5 momentos. Cada combinación produce un anuncio listo para tu negocio.`,
+    ads: [
+      ['bad','✗ Inmobiliaria','"¿Buscas la casa de tus sueños?"'],
+      ['good','✓ Inmobiliaria','"Casa 3 recámaras en Cumbres. $2.85M. Recorridos este sábado."'],
+      ['bad','✗ Servicios','"Somos expertos con 10 años de experiencia"'],
+      ['good','✓ Servicios','"Instalación completa $4,900. Agenda esta semana, garantía 1 año."']
+    ]
+  },
+  dinero: {
+    p: `Mides cuánto te cuesta cada mensaje. Pero no sabes cuánto te cuesta cada <b>cliente que llega y paga.</b> Son dos números completamente diferentes:`,
+    dato: `<b>Dato real de un negocio en México:</b> el costo por mensaje era $15. Parecía barato. Pero el costo por cliente que compró fue de $711. Son 47 veces más. Si solo mides el costo por mensaje, crees que todo funciona cuando en realidad estás perdiendo dinero entre cada paso.`,
+    hazlo: `<b>Hazlo hoy (1 minuto)</b>Toma tu inversión del mes pasado. Divide entre el número de clientes nuevos que REALMENTE pagaron. Ese es tu costo real por cliente. Si no tienes ese número, ahí está tu primer problema.`
+  },
+  close: `Estas son 3 de las 11 áreas que evaluamos en negocios que venden por chat.`
+};}
+
+function applySkin(){
+  if(isClinica()) return; // clínicas = HTML base intacto
+  const sec = $("sec-areas");
+  const card = a => sec.querySelector(`.acard[data-area="${a}"]`);
+  const G = GEN_SKIN();
+
+  // Tarjeta 1 · citas
+  const c1 = card("citas");
+  c1.querySelector("p").innerHTML = G.citas.p;
+  c1.querySelector(".caso").innerHTML = G.citas.caso;
+  c1.querySelector(".hazlo").innerHTML = G.citas.hazlo;
+  c1.querySelector(".wl-row span").textContent = G.citas.wl;
+
+  // Tarjeta 2 · anuncios (ejemplos + hazlo + waitlist; la metodología es la misma)
+  const c2 = card("anuncios");
+  c2.querySelector(".ads-ex").innerHTML = G.anuncios.ads.map(([cls,tag,txt])=>
+    `<div class="ex ${cls}"><span class="tag">${tag}</span>${txt}</div>`).join("");
+  c2.querySelector(".hazlo").innerHTML = G.anuncios.hazlo;
+  c2.querySelector(".wl-row span").textContent = G.anuncios.wl;
+
+  // Tarjeta 3 · dinero
+  const c3 = card("dinero");
+  const ps = c3.querySelectorAll("p");
+  ps[0].innerHTML = G.dinero.p;
+  if(ps[1]) ps[1].innerHTML = G.dinero.dato;
+  c3.querySelector(".hazlo").innerHTML = G.dinero.hazlo;
+
+  // Cierre de sección
+  sec.querySelector(".areas-close .bebas").textContent = G.close;
+
+  // Tablas y nota del diagnóstico: traducción de dominio puntual
+  ["diagTable","diagNote","hzTable"].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.innerHTML = el.innerHTML
+      .replace(/pacientes/gi,"clientes")
+      .replace(/paciente/gi,"cliente")
+      .replace(/dinero fuga en clínicas/gi,"dinero fuga en negocios que venden por cita");
+  });
 }
 
 /* ---------- Video slots (Hormozi) · se activan al pegar links en CONFIG ---------- */
