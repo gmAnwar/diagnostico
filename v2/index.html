@@ -7,6 +7,7 @@
 <!-- v2.1-draft quick-wins UX (matriz móvil + bio comprimida + acordeón áreas) · v2.0-draft A/B (captura WhatsApp gate vs reveal) · v1.9-draft: conversión (costo inacción + CTA value stack + calendario embebido + nombre) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#0A2E5C; --red:#D42A2A; --ink:#333333; --bg:#FFFFFF; --soft:#F5F5F5;
@@ -291,6 +292,109 @@ body.has-bar{padding-bottom:74px}
 #screen-gate .gate-form,#screen-phone .gate-form{margin-left:auto;margin-right:auto}
 #screen-gate .sub,#screen-phone .sub{margin-left:auto;margin-right:auto}
 #screen-gate h1.hero{margin-left:auto;margin-right:auto;max-width:700px}
+/* ================= ENGRANE (Círculo de los Engranes) · pantalla de resultados ================= */
+#engrane-root{
+  --navy:#0A2540;--ink:#1c3550;--green:#83C341;--green-d:#5C9A2E;--amber:#F5A524;--amber-d:#C97E10;
+  --red:#FF4438;--red-d:#D8271B;--paper:#EFEDE7;--card:#FFFFFF;--line:#E7E4DD;--muted:#657787;
+  --shadow:0 24px 60px -24px rgba(10,37,64,.28),0 4px 14px -6px rgba(10,37,64,.14);
+  --f-head:'Manrope',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;--f-body:'Inter',-apple-system,system-ui,sans-serif;
+  font-family:var(--f-body);color:var(--ink);
+  background:radial-gradient(1200px 600px at 50% -10%,#F7F5F0 0%,var(--paper) 60%);
+  padding:28px 16px 40px;display:flex;justify-content:center;
+}
+#engrane-root .wrap{width:100%;max-width:900px;padding:0;}
+#engrane-root .card{background:var(--card);border-radius:26px;box-shadow:var(--shadow);border:1px solid rgba(10,37,64,.05);overflow:hidden;}
+#engrane-root .card-inner{padding:30px 26px 34px;}
+#engrane-root .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+#engrane-root .brand{display:flex;align-items:center;gap:9px;}
+#engrane-root .brand .dot{width:11px;height:11px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(131,195,65,.16);}
+#engrane-root .brand .name{font-family:var(--f-head);font-weight:800;font-size:17px;letter-spacing:-.02em;color:var(--navy);}
+#engrane-root .brand .name small{display:block;font-weight:600;font-size:11.5px;color:var(--muted);letter-spacing:0;margin-top:1px}
+#engrane-root .tag{font-family:var(--f-head);font-weight:700;font-size:11px;letter-spacing:.13em;color:var(--navy);background:rgba(131,195,65,.16);padding:7px 13px;border-radius:999px;border:1px solid rgba(131,195,65,.35);}
+#engrane-root .head-block{margin-bottom:14px;max-width:660px;}
+#engrane-root h1{font-family:var(--f-head);font-weight:800;color:var(--navy);font-size:32px;line-height:1.08;letter-spacing:-.025em;margin-bottom:9px;text-transform:none;}
+#engrane-root h1 .k{position:relative;white-space:nowrap;}
+#engrane-root h1 .k::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:9px;background:rgba(131,195,65,.32);z-index:-1;border-radius:3px;}
+#engrane-root .sub{font-size:15px;line-height:1.5;color:var(--muted);max-width:none;margin-top:0;}
+#engrane-root .sub b{color:var(--ink);font-weight:600;}
+#engrane-root .authority{display:flex;align-items:center;gap:9px;margin:14px 0 4px;padding:10px 14px;border-radius:12px;background:#0A2540;color:#fff;font-size:13px;font-weight:500;line-height:1.4;}
+#engrane-root .authority b{color:var(--green);font-weight:700}
+#engrane-root .legend{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 6px;}
+#engrane-root .lg{display:flex;align-items:center;gap:8px;padding:8px 13px 8px 9px;border-radius:12px;background:#FBFAF7;border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--ink);}
+#engrane-root .lg .sw{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+#engrane-root .lg .txt small{display:block;font-weight:500;color:var(--muted);font-size:11px;line-height:1.2;margin-top:1px;}
+#engrane-root .hero{margin:16px -8px 4px;}
+#engrane-root .hero svg{width:100%;height:auto;display:block;}
+#engrane-root .tooth{cursor:pointer}
+#engrane-root .tooth:active{opacity:.82}
+#engrane-root .lectura{margin:16px 0 2px;display:flex;gap:13px;align-items:flex-start;padding:16px 18px;border-radius:16px;background:#FFFBF0;border:1px solid #F0E4C0;border-left:4px solid var(--amber);}
+#engrane-root .lectura .av{width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;font-family:var(--f-head);font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+#engrane-root .lectura .lx{flex:1;min-width:0}
+#engrane-root .lectura .lk2{font-family:var(--f-head);font-weight:800;font-size:11.5px;letter-spacing:.05em;color:var(--amber-d);text-transform:uppercase;margin-bottom:3px}
+#engrane-root .lectura .lt{font-size:14.5px;line-height:1.5;color:var(--ink)}
+#engrane-root .lectura .lt b{color:var(--navy)}
+#engrane-root .etapa{margin:12px 0 2px;background:linear-gradient(120deg,var(--navy),#123556);border-radius:16px;padding:18px 20px 16px;color:#fff;}
+#engrane-root .ladder{display:flex;margin-bottom:12px}
+#engrane-root .ladder .step{flex:1;text-align:center;position:relative;}
+#engrane-root .ladder .step .n{width:30px;height:30px;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.12);color:rgba(255,255,255,.5);font-family:var(--f-head);font-weight:800;font-size:14px;position:relative;z-index:2}
+#engrane-root .ladder .step .lb2{font-size:10.5px;font-weight:700;display:block;line-height:1.2;color:rgba(255,255,255,.5)}
+#engrane-root .ladder .step::before{content:"";position:absolute;top:15px;right:50%;width:100%;height:2px;background:rgba(255,255,255,.15);z-index:1}
+#engrane-root .ladder .step:first-child::before{display:none}
+#engrane-root .ladder .step.done .n{background:rgba(255,255,255,.3);color:#fff}
+#engrane-root .ladder .step.done .lb2{color:rgba(255,255,255,.7)}
+#engrane-root .ladder .step.cur .n{background:var(--green);color:var(--navy);box-shadow:0 0 0 4px rgba(131,195,65,.3)}
+#engrane-root .ladder .step.cur .lb2{color:#fff;font-weight:800}
+#engrane-root .ladder .step.next .n{background:transparent;border:2px dashed var(--green);color:var(--green)}
+#engrane-root .ladder .step.next .lb2{color:var(--green)}
+#engrane-root .et-line{font-size:13.5px;color:rgba(255,255,255,.9);line-height:1.45;text-align:center}
+#engrane-root .et-line b{color:#fff}
+#engrane-root .hero-cta{margin:16px 0 2px;border:2px solid var(--red);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#FFF7F6;}
+#engrane-root .hero-cta .hc-tx{flex:1;min-width:210px}
+#engrane-root .hero-cta .hc-k{font-family:var(--f-head);font-weight:800;font-size:12px;letter-spacing:.06em;color:var(--red-d);text-transform:uppercase;}
+#engrane-root .hero-cta .hc-t{font-family:var(--f-head);font-weight:800;font-size:18px;color:var(--navy);margin:2px 0 1px}
+#engrane-root .hero-cta .hc-s{font-size:13px;color:var(--muted);line-height:1.4}
+#engrane-root .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px;}
+#engrane-root .col{background:#FBFAF7;border:1px solid var(--line);border-radius:16px;padding:15px 15px 8px;min-width:0;}
+#engrane-root .col.anchor{border-color:var(--green);box-shadow:inset 0 0 0 2px rgba(131,195,65,.30);}
+#engrane-root .col-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding-bottom:10px;margin-bottom:4px;border-bottom:1px solid var(--line);}
+#engrane-root .col-h .nm{font-family:var(--f-head);font-weight:800;font-size:15px;color:var(--navy);letter-spacing:-.01em;}
+#engrane-root .col-h .sc{font-family:var(--f-head);font-weight:700;font-size:12px;color:var(--muted);white-space:nowrap;}
+#engrane-root .col-h .sc b{color:var(--green-d);}
+#engrane-root .row{display:flex;align-items:flex-start;gap:10px;padding:11px 4px;border-bottom:1px solid rgba(231,228,221,.7);border-radius:8px;transition:background .3s;}
+#engrane-root .row:last-child{border-bottom:none;}
+#engrane-root .row.flash{background:rgba(245,165,36,.18);}
+#engrane-root .row .ch{width:25px;height:25px;border-radius:7px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+#engrane-root .row .txt{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0;}
+#engrane-root .row .lb{font-size:13.8px;font-weight:700;color:var(--navy);line-height:1.2;hyphens:auto;overflow-wrap:normal;}
+#engrane-root .row .sub2{font-size:11.6px;font-weight:500;color:var(--muted);line-height:1.3;hyphens:auto;}
+#engrane-root .grid{gap:13px}
+@media(min-width:721px){#engrane-root .row .lq{font-size:11.5px;padding:8px 11px}}
+#engrane-root .row .st{font-size:11px;font-weight:700;white-space:nowrap;flex:0 0 auto;margin-top:3px;color:var(--green-d);}
+#engrane-root .lq{font-family:var(--f-head);font-weight:700;font-size:12.5px;min-height:40px;padding:9px 14px;border-radius:10px;border:none;cursor:pointer;white-space:nowrap;flex:0 0 auto;background:var(--navy);color:#fff;}
+#engrane-root .lq.y{background:var(--amber);color:var(--navy);}
+#engrane-root .lq.big{min-height:46px;font-size:14px;padding:12px 20px;}
+#engrane-root .lq.done{background:var(--green);color:#fff;pointer-events:none;font-size:11.5px;white-space:normal;max-width:170px;line-height:1.25;}
+#engrane-root .row.locked .lb{color:#8a94a6;font-weight:700}
+#engrane-root .row.locked .sub2{color:#aab2bc}
+#engrane-root .row .lk{font-size:10.5px;font-weight:700;color:#9aa3ad;white-space:nowrap;flex:0 0 auto;margin-top:3px;letter-spacing:.02em}
+#engrane-root .lock-note{margin-top:14px;padding:13px 18px;border-radius:14px;background:#F1F3F6;border:1px dashed #C9CFD6;font-size:13px;color:#5a6472;line-height:1.45}
+#engrane-root .lock-note b{color:var(--navy)}
+#engrane-root .summary{margin-top:16px;background:#FBFAF7;border:1px solid var(--line);border-radius:16px;padding:16px 20px;font-size:13.5px;color:var(--ink);line-height:1.5;}
+#engrane-root .summary b{color:var(--navy);font-weight:700;}
+#engrane-root .summary .cr{color:var(--red-d);font-weight:700;}
+#engrane-root .summary .ok{color:var(--green-d);font-weight:700;}
+@media(max-width:720px){#engrane-root .card-inner{padding:22px 15px}#engrane-root .grid{grid-template-columns:1fr}#engrane-root h1{font-size:25px}}
+
+/* --- b4 métricas · checklist multi-select (pantalla quiz) --- */
+.opt-multi{display:flex;align-items:center;gap:14px}
+.opt-multi .mbox{width:26px;height:26px;flex:0 0 auto;border:2px solid var(--line);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;background:#fff;transition:all .12s ease}
+.opt-multi.on{border-color:var(--red);background:#FFF6F6}
+.opt-multi.on .mbox{background:var(--red);border-color:var(--red)}
+.opt-multi .mlbl{flex:1}
+.opt-none{color:#777;font-weight:700;text-align:center}
+.opt-none.on{border-color:var(--navy);background:#F8FAFD;color:var(--navy)}
+.multi-hint{font-size:13.5px;color:#777;margin:16px 0 4px;line-height:1.45}
+.btn-continue{margin-top:12px;width:100%}
 </style>
 </head>
 <body>
@@ -350,168 +454,37 @@ const CONFIG = {
 <!-- ======================= PANTALLA 2 · RESULTADOS ======================= -->
 <div class="hidden" id="screen-results">
 
-  <div class="res-hero wrap">
-    <span class="kicker">Tu diagnóstico está listo</span>
-    <div class="here bebas" style="font-size:22px" id="heroName">Aquí está tu negocio</div>
-    <div class="stage-badge">
-      <span class="arrows">▶▶</span>
-      <span class="stage-pill bebas" id="stagePill">ETAPA 3: VENTAS ESTANCADAS</span>
-      <span class="arrows">◀◀</span>
+  <!-- ======================= RESULTADO · CÍRCULO DE LOS ENGRANES ======================= -->
+  <div id="engrane-root">
+    <div class="wrap">
+    <div class="card"><div class="card-inner">
+      <div class="top">
+        <div class="brand"><span class="dot"></span><span class="name">El Lente<small>por Anwar Sepúlveda · OptimizAds</small></span></div>
+        <span class="tag">DIAGNÓSTICO DE CRECIMIENTO</span>
+      </div>
+      <div class="head-block">
+        <h1>Los <span class="k">3 Engranes</span> de tu negocio</h1>
+        <p class="sub">Cada diente es un área de tu negocio, pintada según cómo la tienes hoy. De un vistazo ves dónde estás fuerte y <b>dónde se te fuga el dinero.</b></p>
+      </div>
+      <div class="authority">🔍 <span>El mismo proceso con el que auditamos empresas que invierten <b>+$100K USD al mes</b> en publicidad.</span></div>
+      <div class="legend" id="legend"></div>
+      <div class="hero"><div id="hero"></div></div>
+      <div class="lectura" id="lectura"></div>
+      <div class="etapa" id="etapa"></div>
+      <div class="hero-cta" id="heroCta" style="display:none"></div>
+      <div class="grid" id="grid"></div>
+      <div class="lock-note">🔒 Acabas de ver <b>13 puntos</b> de tu negocio. La <b>Auditoría completa</b> revisa <b>40+</b> — el triple de profundidad, donde está el detalle fino que de verdad mueve la aguja.</div>
+      <div class="summary" id="summary"></div>
+    </div></div>
     </div>
-    <div class="stage-strip" id="stageStrip"></div>
-    <p class="here bebas hidden" id="heroPunto" style="font-size:19px;margin-top:14px;color:var(--navy)"></p>
-    <p class="res-sub" id="stageSub">Vendes. Tu equipo trabaja. Tu publicidad corre. Pero llevas meses en el mismo número.</p>
   </div>
 
-  <!-- VE ESTO PRIMERO · video general (aparece solo si hay link en CONFIG.VIDEO_GENERAL_URL) -->
-  <section class="block wrap hidden" id="sec-video-gen">
-    <h2 class="sec bebas">Ve esto primero</h2>
-    <p class="sec-sub">Este video explica todo el Mapa de Crecimiento. Esto incluye:</p>
-    <div class="vframe" id="vGen"></div>
-    <div class="vicons">
-      <div class="vi"><div class="vi-i">📊</div>La metodología</div>
-      <div class="vi"><div class="vi-i">📋</div>Las diferencias entre etapas</div>
-      <div class="vi"><div class="vi-i">⚙️</div>Patrones que se repiten siempre</div>
-      <div class="vi"><div class="vi-i">📈</div>Cómo sacar el máximo de tu negocio</div>
-    </div>
-    <div class="vcta bebas">¿Listo? Vamos a ver tu diagnóstico ▶▶▶</div>
-  </section>
-
-  <!-- TU ETAPA · tarjetas siempre visibles + video por etapa si hay link -->
-  <section class="block wrap hidden" id="sec-etapa">
-    <h2 class="sec bebas" id="etTitle">Tu etapa</h2>
-    <p class="sec-sub" id="etSub">Así se ve un negocio en tu etapa. Más abajo está el detalle de qué mover.</p>
-    <div class="vframe hidden" id="vEt"></div>
-    <div class="stage-meta" id="stageMeta"></div>
-  </section>
-
-  <!-- TU DIAGNÓSTICO -->
-  <section class="block wrap" id="sec-diag">
-    <h2 class="sec bebas">Tu diagnóstico</h2>
-    <p class="sec-sub">Lo marcado con ⚠️ está por debajo de tu etapa: <b>eso es lo que te está frenando ahora mismo</b>. El resto de tu operación ya lo tienes listo.</p>
-    <div class="dlm" id="diagListMobile"></div>
-    <div class="tbl-scroll"><table class="diag" id="diagTable"></table></div>
-    <div class="legend"><span>→ = tu respuesta</span><span>⚠️ = por debajo de tu etapa</span></div>
-    <p class="diag-verdict" id="diagVerdict"></p>
-    <div class="tbl-note" id="diagNote"></div>
-    <div class="cta-mid"><button class="btn-red">Ver el Kit de Cierre →</button></div>
-  </section>
-
-  <!-- CUELLO DE BOTELLA (flow + ruedas fusionadas · síntoma → causa) -->
-  <section class="block wrap" id="sec-flow">
-    <h2 class="sec bebas">Tu cuello de botella</h2>
-    <div class="flow" id="flowRow"></div>
-    <p class="flow-copy" id="flowCopy"></p>
-    <div class="ruedas" style="margin-top:34px">
-      <div class="rueda r1"><h4>1 · Estructura del negocio</h4><div class="meter"><i id="m1" style="background:var(--red)"></i></div><div class="verdict" id="v1"></div></div>
-      <div class="rueda r2"><h4>2 · Estructura de campañas</h4><div class="meter"><i id="m2" style="background:var(--warn)"></i></div><div class="verdict" id="v2"></div></div>
-      <div class="rueda r3"><h4>3 · Métricas y control</h4><div class="meter"><i id="m3" style="background:var(--navy)"></i></div><div class="verdict" id="v3"></div></div>
-    </div>
-    <p class="desbalance" id="desbalance"></p>
-  </section>
-
-  <!-- BOTTOM LINE -->
-  <div class="bottomline" id="sec-bottom">
-    <div class="en">En resumen:</div>
-    <h2 class="bebas" id="blTitle">La Etapa 3 se trata de pasar de vender bien a vender con sistema.</h2>
-    <p id="blP1">Llevas meses vendiendo lo mismo no porque estés haciendo las cosas mal, sino porque el cuello de botella ya no está donde crees.</p>
-    <p id="blP2">Lo que te trajo hasta aquí no te va a llevar más lejos. Tu trabajo ahora es dejar de operar y empezar a ver tu negocio desde afuera.</p>
-    <p class="strong" id="blP3">Si logras pasar esta etapa, vas a tener un negocio que vende sin que todo dependa de ti. Y eso cambia todo.</p>
-  </div>
-
-  <!-- BIO -->
+  <!-- BIO (reubicada: después del engrane, antes del exportbar) -->
   <section class="block wrap bio" id="sec-bio">
     <h2 class="sec bebas" style="text-align:left">Hola, soy Anwar.</h2>
     <p class="lead">En 2011 fundé Völtoch, una marca de artículos deportivos que llegó a venderse en las cadenas de retail más grandes de México — más de 5,000 puntos de venta, todo físico. Cuando llegó la pandemia y las ventas físicas se frenaron de golpe, tuve que reinventar el negocio hacia lo digital. Ahí aprendí ads, embudos y atribución por necesidad, no por teoría.</p>
     <p class="lead">De esa reinvención nació OptimizAds, la agencia que hoy administra más de $250,000 USD al mes en campañas para negocios en México y Estados Unidos.</p>
     <p class="promise">No te voy a decir que "hagas más anuncios". Te voy a ayudar a ver tu sistema comercial completo para encontrar exactamente qué es lo que te tiene atorado.</p>
-  </section>
-
-  <!-- 3 ÁREAS CRÍTICAS (Etapa 3 · clínicas) -->
-  <section class="block wrap" id="sec-areas">
-    <h2 class="sec bebas">3 de tus 11 áreas, a detalle</h2>
-    <p class="sec-sub">Del mapa completo de 11 áreas, estas 3 son donde más dinero se fuga en negocios que venden por chat. Míralas con tus propios números en mente.</p>
-
-    <div class="acard" data-area="citas">
-      <div class="ahead"><div class="anum">1</div><h3 class="bebas">Convierte mensajes en citas</h3></div>
-      <p><b>De cada 100 personas que te escriben por WhatsApp, solo 7 agendan cita.</b> Las otras 93 preguntan algo y desaparecen. El 78% compra al primero que responde, pero en clínicas estéticas el problema no es solo la velocidad: es que tu recepcionista no tiene un proceso para convertir "¿cuánto cuesta el hydrafacial?" en una cita agendada.</p>
-      <div class="caso"><b>Caso real:</b> Un spa estético recibía 5,600 mensajes al mes. Solo 393 agendaban cita (7%). La recepcionista respondía con el precio y esperaba. Sin guion de agendamiento, sin seguimiento, sin meta de citas por día. El 93% se perdía en WhatsApp. Y de las que sí agendaban, solo la mitad se presentaba.</div>
-      <div class="hazlo"><b>Hazlo hoy</b>Abre tus últimos 50 chats de WhatsApp con pacientes que preguntaron pero NO agendaron. Anota en cuántos la conversación se quedó en el precio. Si más de la mitad preguntó precio y no le ofreciste agendar, ahí está tu fuga.</div>
-      <div class="wl-row"><span>Tenemos un playbook con guion de agendamiento + seguimiento + protocolo de confirmación para clínicas.</span><button class="btn-wl" data-wl="playbook_whatsapp">Quiero el Playbook →</button></div>
-    </div>
-
-    <div class="acard" data-area="anuncios">
-      <div class="ahead"><div class="anum">2</div><h3 class="bebas">Mejora tus anuncios con un sistema</h3></div>
-      <p>Usamos una metodología de 5 pasos: <b>momento del cliente → ángulo → tipo de anuncio → formato → primera línea.</b> Si tu anuncio atrae a quien solo pregunta precio, ningún guion de agendamiento lo va a arreglar. Si tu mensaje no es claro, el algoritmo tampoco.</p>
-      <div class="ads-ex">
-        <div class="ex bad"><span class="tag">✗ Clínica estética</span>"5 razones para un tratamiento facial"</div>
-        <div class="ex good"><span class="tag">✓ Clínica estética</span>"Hydrafacial + Vitamina C. $1,200. Polanco, citas mañana."</div>
-        <div class="ex bad"><span class="tag">✗ Spa corporal</span>"Recupera tu figura con nuestros tratamientos"</div>
-        <div class="ex good"><span class="tag">✓ Spa corporal</span>"Criolipólisis $2,800/zona. 45 min. Sin cirugía. Agenda hoy."</div>
-      </div>
-      <div class="hazlo"><b>Hazlo hoy</b>¿Tu paciente ya decidió qué quiere? Si sí, revisa cuántos de tus anuncios abren con pregunta o con "sabías que". Reescribe la primera línea: qué tratamiento, a qué precio, dónde, cuándo puede agendar.</div>
-      <div class="wl-row"><span>El sistema completo tiene 5 pasos y 5 momentos. Cada combinación produce un anuncio listo para tu clínica.</span><button class="btn-wl" data-wl="guia_creativos">Quiero la Guía →</button></div>
-    </div>
-
-    <div class="acard" data-area="dinero">
-      <div class="ahead"><div class="anum">3</div><h3 class="bebas">¿Dónde se queda tu dinero?</h3></div>
-      <p>Mides cuánto te cuesta cada mensaje. Pero no sabes cuánto te cuesta cada <b>paciente que llega a tu clínica y paga.</b> Son dos números completamente diferentes:</p>
-      <div class="moneyflow">
-        <div class="mstep"><div class="n">100</div><div class="l">mensajes</div><div class="c">$15 c/u</div></div>
-        <div class="marrow">→</div>
-        <div class="mstep"><div class="n">7</div><div class="l">agendan</div><div class="c">$214 c/u</div></div>
-        <div class="marrow">→</div>
-        <div class="mstep"><div class="n">3</div><div class="l">llegan</div><div class="c">$500 c/u</div></div>
-        <div class="marrow">→</div>
-        <div class="mstep"><div class="n">2.1</div><div class="l">compran</div><div class="c">$711 c/u</div></div>
-      </div>
-      <p><b>Dato real de una clínica en México:</b> el costo por mensaje era $15. Parecía barato. Pero el costo por paciente que compró un plan fue de $711. Son 47 veces más. Si solo mides el costo por mensaje, crees que todo funciona cuando en realidad estás perdiendo dinero entre cada paso.</p>
-      <div class="hazlo"><b>Hazlo hoy (1 minuto)</b>Toma tu inversión del mes pasado. Divide entre el número de pacientes nuevos que REALMENTE pagaron un tratamiento. Ese es tu costo real por paciente. Si no tienes ese número, ahí está tu primer problema.</div>
-      <div class="wl-row"><span>Plantilla donde solo llenas tus números y ves exactamente dónde se te queda el dinero en cada paso.</span><button class="btn-wl" data-wl="plantilla_dinero">Quiero la Plantilla →</button></div>
-    </div>
-
-    <div class="areas-close">
-      <div class="bebas">Estas son 3 de las 11 áreas que evaluamos en clínicas estéticas.</div>
-      <p>Si alguna te hizo decir "eso me pasa a mí", el Kit de Cierre trae el proceso para las tres — y para las otras 8.</p>
-      <button class="btn-red" style="margin-top:18px">Ver el Kit de Cierre →</button>
-    </div>
-
-    <!-- Tabla completa 11 áreas -->
-    <div class="expander" id="hzExp">
-      <button onclick="toggleHz()"><span>Ver el detalle de tus 11 áreas: qué te frena y qué mover para pasar de etapa</span><span class="chev">▼</span></button>
-      <div class="exp-body">
-        <div class="tbl-scroll" style="border:none"><table class="hz" id="hzTable"></table></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- KIT DE CIERRE · solo E1/E2 (evento primario nurture) -->
-  <section class="block wrap hidden" id="sec-kit">
-    <div class="kit-block">
-      <h3 class="bebas">El Kit de Cierre por WhatsApp</h3>
-      <p>Playbook de agendamiento + Guía de anuncios + Plantilla de dinero. Los tres, juntos, para instalar tu proceso de venta por chat.</p>
-      <p class="precio">Precio de fundador: $499 MXN (primeros 50) · después $990</p>
-      <button class="btn-red" data-wl="kit_cierre">Apartar mi Kit a precio fundador →</button>
-      <p class="small" style="margin-top:10px">Se libera el 31 de julio. Al apartar, te avisamos primero — sin cargo hoy.</p>
-    </div>
-  </section>
-
-  <!-- COSTO DE INACCIÓN (solo E3/E4) -->
-  <section class="block wrap costo-wrap hidden" id="sec-costo">
-    <div class="costo-inaccion" id="costoInaccion"></div>
-  </section>
-
-  <!-- CTA FINAL -->
-  <section class="cta-final wrap" id="sec-cta">
-    <h2 class="sec bebas" id="ctaTitle">El Kit de Cierre — precio de fundador</h2>
-    <p class="sub2" id="ctaSub"></p>
-    <ul class="valuestack hidden" id="ctaStack"></ul>
-    <div class="guarantee hidden" id="ctaGuarantee"></div>
-    <button class="btn-red" data-wl="kit_cierre">Apartar mi Kit — precio fundador →</button>
-    <div class="scarcity hidden" id="ctaScarcity"></div>
-    <p class="proof-line hidden" id="ctaProof"></p>
-    <div class="cal-box hidden" id="calBox"></div>
-    <div class="cta-fallback hidden" id="ctaFallback"></div>
   </section>
 </div>
 
@@ -521,7 +494,7 @@ const CONFIG = {
     <div class="left">
       <button class="btn-ghost" onclick="emailMe()">✉ Enviármelo a mi correo</button>
     </div>
-    <button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="document.getElementById('sec-cta').scrollIntoView({behavior:'smooth'})">Apartar mi lugar →</button>
+    <button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="(document.getElementById('heroCta')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth'})">Apartar mi lugar →</button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -540,7 +513,8 @@ const QUIZ = [
   opts:["Le pico al botón azul de promocionar","Uso Ads Manager, pero de forma irregular","Uso Ads Manager con estructura","Tengo equipo o agencia manejándolas"]},
  {id:"b3_equipo", area:"Equipo ventas", q:"¿Quién contesta los mensajes que llegan de tus anuncios?",
   opts:["Contesto yo mismo","1 persona, sin proceso definido","2 a 3 personas, cada quien a su manera","Un equipo con líder y guion"]},
- {id:"b4_metricas", area:"Métricas", q:"¿Qué mides de tus campañas y ventas?",
+ {id:"b4_metricas", area:"Métricas", q:"¿Cuáles de estos números puedes decir hoy con certeza?", multi:true,
+  items:["Cuánto me cuesta un cliente que paga (no un mensaje)","De cada 10 que me escriben, cuántos compran","Cuántas veces recupero lo que meto en ads","De cada venta, de qué anuncio salió","Cuánto me queda limpio al final"],
   opts:["No mido nada","Solo cuántos leads y cuántas ventas","Costo por lead y por cliente, pero no cuánto me deja cada cliente","Tengo control completo de mis números"]},
  {id:"b5_automatizacion", area:"Automatización", q:"¿Qué tan automatizado está tu proceso de ventas?",
   opts:["Todo es manual","Tengo un embudo básico, sin CRM","Tengo un CRM básico","CRM robusto con seguimiento automático"]},
@@ -683,7 +657,7 @@ const FLOW_MAP = {leadgen:[0,1,9], filtro:[7,1], seguimiento:[2,4,8], cierre:[6,
 /* =====================================================================
    ESTADO + ARRANQUE
    ===================================================================== */
-let state = {nombre:"", email:"", telefono:"", B:[], C:[], idx:0, phase:"B", etapa:null, weak:[], done:false, utm:{}, ab:""};
+let state = {nombre:"", email:"", telefono:"", B:[], C:[], idx:0, phase:"B", etapa:null, weak:[], done:false, utm:{}, ab:"", metricas:[false,false,false,false,false]};
 
 const $ = id => document.getElementById(id);
 // Nombre en Title Case: "julia gonzález" → "Julia González"
@@ -691,7 +665,6 @@ function capName(s){ return (s||"").trim().replace(/\s+/g," ").toLowerCase().rep
 const params = new URLSearchParams(location.search);
 const esc = s => { const d=document.createElement("div"); d.textContent=s||""; return d.innerHTML; }; // nombre viene de la URL: nunca inyectarlo crudo
 
-init();
 function init(){
   // A/B: variante de captura de WhatsApp (A=en el gate · B=en el reveal). ?ab=A|B fuerza.
   state.ab = (params.get("ab")||"").toUpperCase();
@@ -787,7 +760,7 @@ function sendAbandon(){
 /* =====================================================================
    QUIZ ENGINE
    ===================================================================== */
-function renderQ(){
+function renderQ(keepScroll){
   const inB = state.phase==="B";
   const list = inB ? QUIZ : CTX;
   const i = state.idx;
@@ -804,15 +777,21 @@ function renderQ(){
   if(!inB && i===0){
     html += `<div class="ctx-note"><b>Ya casi.</b> Unas preguntas rápidas más para personalizar tu Mapa de Crecimiento. Si tienes prisa, puedes saltarlas.</div>`;
   }
-  html += `<div class="qnum">${inB ? q.area : "Contexto"}</div><div class="qtext">${q.q}</div><div class="opts">`;
-  q.opts.forEach((o,oi)=>{ html += `<button class="opt" onclick="pick(${oi})">${o}</button>`; });
-  html += `</div><div class="qnav">`;
+  html += `<div class="qnum">${inB ? q.area : "Contexto"}</div><div class="qtext">${q.q}</div>`;
+  if(inB && q.multi){
+    html += renderMulti(q);
+  } else {
+    html += `<div class="opts">`;
+    q.opts.forEach((o,oi)=>{ html += `<button class="opt" onclick="pick(${oi})">${o}</button>`; });
+    html += `</div>`;
+  }
+  html += `<div class="qnav">`;
   html += (i>0 || !inB) ? `<button class="backlink" onclick="goBack()">← Regresar</button>` : `<span></span>`;
   html += inB ? `<span class="small">${state.nombre ? "Vas bien, "+esc(state.nombre.split(" ")[0])+"." : ""}</span>`
               : `<button class="skiplink" onclick="skipCtx()">Saltar y ver mi diagnóstico →</button>`;
   html += `</div>`;
   $("qcard").innerHTML = html;
-  window.scrollTo({top:0});
+  if(!keepScroll) window.scrollTo({top:0});
 }
 
 let pickLock = 0;
@@ -840,6 +819,42 @@ function goBack(){
   renderQ();
 }
 function skipCtx(){ track("CtxSkipped",{}); finish(); }
+
+/* ---------- b4 · métricas como checklist multi-select ---------- */
+function renderMulti(q){
+  const m = state.metricas || [false,false,false,false,false];
+  let h = `<div class="opts">`;
+  q.items.forEach((it,ii)=>{
+    h += `<button type="button" class="opt opt-multi ${m[ii]?'on':''}" onclick="toggleMetrica(${ii})"><span class="mbox">${m[ii]?'\u2713':''}</span><span class="mlbl">${it}</span></button>`;
+  });
+  const noneOn = m.every(v=>!v);
+  h += `<button type="button" class="opt opt-none ${noneOn?'on':''}" onclick="pickNinguno()">Ninguno con certeza</button>`;
+  h += `</div>`;
+  h += `<p class="multi-hint">Marca solo los que hoy puedes responder con un número exacto. Si no marcas ninguno, no pasa nada — es justo lo que este diagnóstico te ayuda a poner en orden.</p>`;
+  h += `<button type="button" class="btn-red btn-continue" onclick="continueMetrica()">Continuar →</button>`;
+  return h;
+}
+function toggleMetrica(i){
+  if(!state.metricas) state.metricas=[false,false,false,false,false];
+  state.metricas[i] = !state.metricas[i];
+  renderQ(true);
+}
+function pickNinguno(){
+  state.metricas=[false,false,false,false,false];
+  renderQ(true);
+}
+function continueMetrica(){
+  const now = Date.now();
+  if(now - pickLock < 300) return;
+  pickLock = now;
+  const m = state.metricas || [false,false,false,false,false];
+  const n = m.filter(Boolean).length;
+  const lvl = n===0 ? 1 : n<=2 ? 2 : n<=4 ? 3 : 4;   // 0->1, 1-2->2, 3-4->3, 5->4
+  state.B[3] = lvl - 1;                               // guardar como 0..3 (consistente con las demás)
+  state.idx++;
+  if(state.idx >= QUIZ.length){ state.phase="C"; state.idx=0; track("QuizComplete",{}); }
+  renderQ();
+}
 
 /* =====================================================================
    SCORING · mayoría simple, empate favorece etapa más alta
@@ -893,13 +908,14 @@ function showPhoneGate(){
 
 /* ---------- Permalink: respuestas codificadas en la URL ---------- */
 function encodeResults(){
-  const payload = {n:state.nombre, e:state.email, b:state.B, c:state.C};
+  const payload = {n:state.nombre, e:state.email, b:state.B, c:state.C, m:state.metricas};
   return btoa(unescape(encodeURIComponent(JSON.stringify(payload)))).replace(/=+$/,"");
 }
 function hydrateFromURL(){
   try{
     const raw = JSON.parse(decodeURIComponent(escape(atob(params.get("r")))));
     state.nombre=capName(raw.n||""); state.email=raw.e||""; state.B=raw.b||[]; state.C=raw.c||[];
+    state.metricas=Array.isArray(raw.m)?raw.m:[false,false,false,false,false];
     if(state.B.length!==10) throw 0;
     state.etapa=computeEtapa(state.B); state.weak=computeWeak(state.B,state.etapa);
     showResults();
@@ -919,23 +935,12 @@ function showResults(){
   document.body.classList.add("has-bar");
   $("topbadge").textContent = "Tu Mapa de Crecimiento";
 
-  const et = state.etapa, copy = STAGE_COPY[et];
-  $("stagePill").textContent = `ETAPA ${et}: ${STAGES[et-1].toUpperCase()}`;
-  $("stageSub").textContent = copy.sub;
-  $("blTitle").textContent = copy.bl;
-  $("blP1").textContent = copy.bl1; $("blP2").textContent = copy.bl2; $("blP3").textContent = copy.bl3;
+  // (etapa/stage UI vieja reemplazada por el engrane)
 
-  // v2.2 · hero personalizado + tira de 4 etapas ("estás aquí")
-  if(state.nombre){ $("heroName").textContent = esc(state.nombre.trim().split(/\s+/)[0]) + ", aquí está tu negocio"; }
-  $("stageStrip").innerHTML = STAGES.map((st,i)=>`<span class="st ${i+1===et?'cur':''}">${i+1}. ${st}${i+1===et?' · estás aquí':''}</span>`).join("");
-  renderOffers(et);
-  renderVideos(et);
-  renderDiagTable();
-  renderRuedas();
-  renderFlow();
-  renderHz();
+  // (hero/stage strip viejos reemplazados por el engrane)
+  renderLegend();
+  render(buildLevels());
   applySkin();
-  renderMoneyCTA(et);
   window.scrollTo({top:0});
 }
 
@@ -1023,6 +1028,7 @@ function GEN_SKIN(){ return {
 function applySkin(){
   if(isClinica()) return; // clínicas = HTML base intacto
   const sec = $("sec-areas");
+  if(sec){
   const card = a => sec.querySelector(`.acard[data-area="${a}"]`);
   const G = GEN_SKIN();
 
@@ -1049,6 +1055,7 @@ function applySkin(){
 
   // Cierre de sección
   sec.querySelector(".areas-close .bebas").textContent = G.close;
+  }
 
   // Tablas y nota del diagnóstico: traducción de dominio puntual
   ["diagTable","diagNote","hzTable","diagListMobile"].forEach(id=>{
@@ -1208,7 +1215,7 @@ document.addEventListener("click", e=>{
   const b = e.target.closest("[data-wl]");
   if(!b) return;
   const prod = b.dataset.wl;
-  b.classList.add("done"); b.textContent="✓ Listo, te avisamos";
+  b.classList.add("done"); b.textContent="✓ Anotado — te aviso a tu correo";
   sendWebhook("waitlist", {producto:prod});
   track("Waitlist_"+prod,{});
   toast("Anotado. Te avisamos en cuanto esté listo.");
@@ -1266,6 +1273,165 @@ function track(ev, data){
   console.log("[evento]", ev, data);
   if(window.fbq) fbq('trackCustom', ev, data);
 }
+
+/* =====================================================================
+   CÍRCULO DE LOS ENGRANES · render de resultados (portado de engrane-wired)
+   Cableado a las respuestas reales del quiz vía buildLevels().
+   ===================================================================== */
+const ST={
+  g:{hex:'#83C341',line:'#5C9A2E',ink:'#0A2540',word:'Lo tienes',icon:'check'},
+  y:{hex:'#F5A524',line:'#C97E10',ink:'#0A2540',word:'Por mejorar',icon:'half'},
+  r:{hex:'#FF4438',line:'#D8271B',ink:'#FFFFFF',word:'Te falta',icon:'cross'},
+  locked:{hex:'#CAD0D7',line:'#AAB2BC',ink:'#FFFFFF',word:'En tu Auditoría',icon:'lock'}
+};
+/* 13 dientes. g: 0=Est.Empresa 1=Est.Campaña 2=Métricas. Métricas = ancla. */
+const TEETH=[
+ {l:'CAC',g:2,x:'Cuánto te cuesta conseguir un cliente que paga, no un mensaje.'},
+ {l:'Tasa de cierre',g:2,x:'De cada 10 que te escriben, cuántos compran.'},
+ {l:'ROAS',g:2,x:'Cuántas veces recuperas lo que metes en anuncios.'},
+ {l:'Atribución',g:2,x:'De cada venta, saber de qué anuncio salió.'},
+ {l:'Utilidad',g:2,x:'Lo que de verdad te queda después de costos.'},
+ {l:'Venta mensual',g:2,x:'Cuánto vendes al mes y qué tan predecible es.'},
+ {l:'Oferta',g:0,x:'Lo que vendes y si la gente de verdad lo quiere.'},
+ {l:'Cliente',g:0,x:'Qué tan claro tienes a quién le vendes.'},
+ {l:'Equipo de ventas',g:0,x:'Quién contesta y cierra tus mensajes.'},
+ {l:'Respuesta a leads',g:0,x:'Qué tan rápido contestas a quien te escribe.'},
+ {l:'Generación de ads',g:1,x:'Cómo produces tus anuncios: al azar o con sistema.'},
+ {l:'Creatividades',g:1,x:'La calidad y el método detrás de tus anuncios.'},
+ {l:'Automatización',g:1,x:'Qué tanto de tu proceso corre solo (CRM, flujos).'}
+];
+const LOCKED=[
+ {l:'Ticket y márgenes',g:0,x:'Cuánto deja cada venta, por línea de servicio.'},
+ {l:'Segmentación de audiencias',g:1,x:'A qué públicos exactos le hablas y cuáles convierten.'},
+ {l:'CAC por anuncio',g:2,x:'Qué anuncio específico te trae clientes al costo más bajo.'}
+];
+const GEARS_META=[{short:'Est. Empresa'},{short:'Est. Campaña'},{short:'Métricas'}];
+const VISUAL=[0,2,1]; // orden en el hero: Empresa · Métricas(centro) · Campaña
+const PRIORITY=['Oferta','Cliente','Equipo de ventas','Respuesta a leads','Generación de ads','Creatividades','Automatización','Venta mensual','Tasa de cierre','CAC','ROAS','Utilidad','Atribución'];
+function statusFor(lv){return lv<=1?'r':lv===2?'y':'g';} // 3 y 4 = verde
+function slug(l){return 'playbook_'+l.toLowerCase().replace(/[^a-z0-9]+/g,'_');}
+
+/* cableado diente -> respuesta real del quiz (state.B en 0..3 => nivel 1..4) */
+function buildLevels(){
+  const B = state.B || [];
+  const m = state.metricas || [false,false,false,false,false];
+  const g = idx => (B[idx]!=null ? B[idx]+1 : 1);   // nivel 1..4
+  const chk = i => (m[i] ? 4 : 1);                   // marcado=verde / no=rojo
+  return [
+    chk(0),  // CAC
+    chk(1),  // Tasa de cierre
+    chk(2),  // ROAS
+    chk(3),  // Atribución
+    chk(4),  // Utilidad
+    g(5),    // Venta mensual  <- B[5]
+    g(6),    // Oferta         <- B[6]
+    g(7),    // Cliente        <- B[7]
+    g(2),    // Equipo ventas  <- B[2]
+    g(8),    // Respuesta      <- B[8]
+    g(1),    // Generación ads <- B[1]
+    g(9),    // Creatividades  <- B[9]
+    g(4)     // Automatización <- B[4]
+  ];
+}
+
+/* ICONS */
+function icon(t,x,y,s,c){const w=Math.max(1.7,s*0.34);
+ if(t==='check')return `<path d="M ${x-0.52*s} ${y+0.02*s} L ${x-0.14*s} ${y+0.42*s} L ${x+0.58*s} ${y-0.46*s}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+ if(t==='cross')return `<path d="M ${x-0.42*s} ${y-0.42*s} L ${x+0.42*s} ${y+0.42*s} M ${x-0.42*s} ${y+0.42*s} L ${x+0.42*s} ${y-0.42*s}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+ if(t==='lock'){const bw=s*0.8,bh=s*0.62,bx=x-bw/2,by=y-bh*0.18,r2=s*0.3;
+  return `<path d="M ${x-r2} ${by} a ${r2} ${r2} 0 0 1 ${2*r2} 0" fill="none" stroke="${c}" stroke-width="${Math.max(1.3,s*0.17)}"/><rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="${s*0.13}" fill="${c}"/>`;}
+ const r=s*0.6;return `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${c}" stroke-width="${Math.max(1.3,s*0.2)}"/><path d="M ${x} ${y-r} A ${r} ${r} 0 0 0 ${x} ${y+r} Z" fill="${c}"/>`;}
+function iconSVG(t,c,b){return `<svg viewBox="0 0 16 16" width="${b}" height="${b}">${icon(t,8,8,8,c)}</svg>`;}
+/* GEAR GEOMETRY */
+function P(cx,cy,r,a){const g=(a-90)*Math.PI/180;return (cx+r*Math.cos(g)).toFixed(2)+' '+(cy+r*Math.sin(g)).toFixed(2);}
+function toothUnit(cx,cy,rIn,rOut,rTip,a0,a1,c){const arc=a1-a0,bH=arc*0.34,tH=arc*0.235;
+ return `M ${P(cx,cy,rIn,a0)} L ${P(cx,cy,rOut,a0)} A ${rOut} ${rOut} 0 0 1 ${P(cx,cy,rOut,c-bH)} L ${P(cx,cy,rTip,c-tH)} L ${P(cx,cy,rTip,c+tH)} L ${P(cx,cy,rOut,c+bH)} A ${rOut} ${rOut} 0 0 1 ${P(cx,cy,rOut,a1)} L ${P(cx,cy,rIn,a1)} A ${rIn} ${rIn} 0 0 0 ${P(cx,cy,rIn,a0)} Z`;}
+function gear(cx,cy,teeth,short,phase){
+ const N=teeth.length,slice=360/N,gap=4,rTip=100,rOut=87,rIn=55,rDisc=57,rHub=20,rIcon=(rIn+rOut)/2+1;
+ let s=`<g filter="url(#soft)"><circle cx="${cx}" cy="${cy}" r="${rDisc}" fill="url(#body)"/>`;
+ for(let k=0;k<6;k++){const a=k*60,p1=P(cx,cy,rHub+4,a).split(' '),p2=P(cx,cy,rDisc-5,a).split(' ');
+  s+=`<line x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}" stroke="rgba(255,255,255,.06)" stroke-width="9" stroke-linecap="round"/>`;}
+ teeth.forEach((t,i)=>{const st=ST[t.s],c=phase+i*slice,a0=c-(slice-gap)/2,a1=c+(slice-gap)/2,ip=P(cx,cy,rIcon,c).split(' ');
+  s+=`<g class="tooth" data-l="${t.l}"><path d="${toothUnit(cx,cy,rIn,rOut,rTip,a0,a1,c)}" fill="${st.hex}" stroke="${st.line}" stroke-width="1.1" stroke-linejoin="round"/>`+icon(st.icon,+ip[0],+ip[1],8.4,st.ink)+`</g>`;});
+ s+=`<circle cx="${cx}" cy="${cy}" r="${rHub}" fill="#12395c" stroke="rgba(255,255,255,.10)" stroke-width="1.5"/><circle cx="${cx}" cy="${cy}" r="6.5" fill="#83C341"/></g>`;
+ s+=`<text x="${cx}" y="${cy+rTip+26}" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="800" font-size="15" fill="#0A2540">${short}</text>`;
+ return s;}
+function renderHero(byGear){
+ const CX=[125,340,555],CY=118,W=680,H=286;
+ let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Los 3 engranes">
+  <defs><radialGradient id="body" cx="42%" cy="36%" r="72%"><stop offset="0%" stop-color="#1b466c"/><stop offset="70%" stop-color="#0d2c48"/><stop offset="100%" stop-color="#081f37"/></radialGradient>
+  <filter id="soft" x="-25%" y="-25%" width="150%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0A2540" flood-opacity="0.16"/></filter></defs>`;
+ VISUAL.forEach((gi,pos)=>{svg+=gear(CX[pos],CY,byGear[gi],GEARS_META[gi].short,pos===1?18:0);});
+ svg+=`</svg>`;document.getElementById('hero').innerHTML=svg;
+}
+function renderLegend(){document.getElementById('legend').innerHTML=['g','y','r'].map(k=>{const st=ST[k];
+ return `<div class="lg"><span class="sw" style="background:${st.hex}">${iconSVG(st.icon,st.ink,15)}</span><span class="txt"><b>${st.word}</b><small>${k==='g'?'sólido, funcionando':k==='y'?'existe, hay que afinarlo':'no existe, urge'}</small></span></div>`;}).join('');}
+
+/* LA LECTURA · cruza engranes y dispara el insight por patrón (voz de Anwar) */
+function laLectura(real,tg,tr){
+ const st=l=>{const t=real.find(x=>x.l===l);return t?t.s:null;};
+ const gGood=gi=>real.filter(t=>t.g===gi&&t.s==='g').length;
+ const gReds=gi=>real.filter(t=>t.g===gi&&t.s==='r').length;
+ if(tg<=1) return `Estás construyendo casi todo desde cero — normal a esta altura, no es mala señal. La trampa aquí es querer con todo a la vez: se hace <b>en orden, una cosa a la vez</b>, empezando por la de arriba.`;
+ if(st('Generación de ads')!=='r' && (st('Atribución')==='r'||st('CAC')==='r'))
+  return `Traes el motor prendido —campañas corriendo— pero <b>manejas sin tablero</b>: metes dinero en ads y no sabes qué anuncio te devuelve clientes de verdad. Eso que sientes como "ya no jala como antes" casi nunca es que jale menos: es que <b>dejaste de verlo</b>. Ahí es donde entro yo.`;
+ if(gGood(1)>=1 && (st('Equipo de ventas')==='r'||st('Respuesta a leads')==='r'))
+  return `No tienes problema de atracción: te llega gente. El dinero se te cae <b>en la conversación</b> —llegan y no cierran—. Meterle más ads sin arreglar el cierre es echarle agua a una cubeta con hoyo.`;
+ if((st('Cliente')==='r'||st('Oferta')==='r') && gGood(2)>=1)
+  return `Estás vendiendo, pero <b>sin saber con precisión a quién</b>. Eso funciona hasta cierto techo; después cada peso de ads rinde menos, porque le hablas a todos.`;
+ if(tr>0){const worst=[0,1,2].map(gi=>({gi,r:gReds(gi)})).sort((a,b)=>b.r-a.r)[0],best=[0,1,2].map(gi=>({gi,g:gGood(gi)})).sort((a,b)=>b.g-a.g)[0];
+  return `Tu <b>${GEARS_META[best.gi].short}</b> está sólido, pero tu <b>${GEARS_META[worst.gi].short}</b> lo frena. El engrane más lento manda: no importa qué tan bueno seas en lo demás si se atora ahí.`;}
+ return `Tu sistema está parejo y sólido. A esta altura ya no se trata de tapar un hueco — es <b>escalar sin romper</b> lo que ya funciona. Ese es otro juego, y es justo el mío.`;
+}
+function render(levels){
+ const real=TEETH.map((t,i)=>({...t,s:statusFor(levels[i])}));
+ const locked=LOCKED.map(t=>({...t,s:'locked'}));
+ const byGear=[0,1,2].map(gi=>real.filter(t=>t.g===gi).concat(locked.filter(t=>t.g===gi)));
+ renderHero(byGear);
+ const tg=real.filter(t=>t.s==='g').length,ty=real.filter(t=>t.s==='y').length,tr=real.filter(t=>t.s==='r').length;
+ const et=state.etapa;
+ let es;
+ if(tr===0){ es=`Tu motor está afinado — aquí ya no es arreglar, es <b>escalar sin romperlo</b>. Justo mi terreno.`; }
+ else if(et<4){ es = tg>0
+   ? `Ya tienes <b>${tg} cosa${tg>1?'s':''} sólida${tg>1?'s':''}</b>. Arreglando tus focos rojos saltas a <b>Etapa ${et+1}</b>.`
+   : `Estás empezando — normal a esta altura. Arreglando estos focos, uno por uno, saltas a <b>Etapa ${et+1}</b>.`; }
+ else { es=`Estás arriba, pero tu motor tiene <b>${tr} fuga${tr>1?'s':''}</b> que te frena${tr>1?'n':''}. Ciérra${tr>1?'las':'la'} y despegas.`; }
+ document.getElementById('lectura').innerHTML=`<div class="av">A</div><div class="lx"><div class="lk2">🔎 La lectura de Anwar</div><div class="lt">${laLectura(real,tg,tr)}</div></div>`;
+ const SHORT=["Empezando","Inestables","Estancadas","Topadas"];
+ let steps='';
+ for(let i=1;i<=4;i++){const cls=i<et?'done':i===et?'cur':i===et+1?'next':'';const tag=i===et?' · TÚ':i===et+1?' · meta':'';steps+=`<div class="step ${cls}"><div class="n">${i}</div><span class="lb2">${SHORT[i-1]}${tag}</span></div>`;}
+ document.getElementById('etapa').innerHTML=`<div class="ladder">${steps}</div><div class="et-line">${es}</div>`;
+ const firstRed=PRIORITY.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='r');
+ const firstAny=firstRed||PRIORITY.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='y');
+ const hc=document.getElementById('heroCta');
+ if(firstAny){ hc.style.display='';
+  hc.innerHTML=`<div class="hc-tx"><div class="hc-k">🎯 Empieza aquí</div><div class="hc-t">${firstAny.l}</div><div class="hc-s">${firstAny.x} Si esta semana arreglas UNA sola cosa, que sea esta.</div></div><button class="lq big ${firstAny.s}" data-wl="${slug(firstAny.l)}">${firstAny.s==='r'?'Arréglalo':'Mejóralo'} →</button>`;
+ } else { hc.style.display='none'; }
+ document.getElementById('grid').innerHTML=[0,1,2].map(gi=>{
+  const g=byGear[gi],realN=g.filter(t=>t.s!=='locked').length,gc=g.filter(t=>t.s==='g').length,anchor=gi===2?' anchor':'';
+  const rows=g.map(t=>{const st=ST[t.s];
+   if(t.s==='locked') return `<div class="row locked" id="row-${slug(t.l)}"><span class="ch" style="background:${st.hex}">${iconSVG('lock','#fff',13)}</span><span class="txt"><span class="lb">${t.l}</span><span class="sub2">${t.x}</span></span><span class="lk">🔒 En tu Auditoría</span></div>`;
+   const act=t.s==='g'?`<span class="st">Lo tienes</span>`:`<button class="lq ${t.s}" data-wl="${slug(t.l)}">${t.s==='r'?'Arréglalo':'Mejóralo'} →</button>`;
+   return `<div class="row" id="row-${slug(t.l)}"><span class="ch" style="background:${st.hex}">${iconSVG(st.icon,st.ink,15)}</span><span class="txt"><span class="lb">${t.l}</span><span class="sub2">${t.x}</span></span>${act}</div>`;}).join('');
+  return `<div class="col${anchor}"><div class="col-h"><span class="nm">${GEARS_META[gi].short}</span><span class="sc"><b>${gc}</b>/${realN} ok</span></div>${rows}</div>`;
+ }).join('');
+ let sm;
+ const okTxt=`<span class="ok">${tg} sólida${tg!==1?'s':''}</span>`;
+ if(tr===0){ sm=`<b>${okTxt} · ${ty} por mejorar · 0 críticas.</b> Motor afinado. El siguiente nivel no es parchar — es escalar con precisión.`; }
+ else { const worst=[0,1,2].map(gi=>({n:GEARS_META[gi].short,r:byGear[gi].filter(t=>t.s==='r').length})).sort((a,b)=>b.r-a.r)[0];
+  sm=`<b>${okTxt} · ${ty} por mejorar · <span class="cr">${tr} crítica${tr>1?'s':''}</span>.</b> Tu rueda más frenada hoy es <b>${worst.n}</b>. Empieza por el foco de arriba y lo demás se acomoda.`; }
+ document.getElementById('summary').innerHTML=sm;
+}
+/* tocar diente -> baja a su fila y la resalta */
+if(document.getElementById('hero')){
+ document.getElementById('hero').addEventListener('click',function(e){const g=e.target.closest('.tooth');if(!g)return;
+  const row=document.getElementById('row-'+slug(g.dataset.l));if(!row)return;
+  row.scrollIntoView({behavior:'smooth',block:'center'});row.classList.add('flash');setTimeout(function(){row.classList.remove('flash');},1400);
+ });
+}
+
+/* arranque: se invoca al FINAL para que todas las consts del engrane (ST, TEETH, ...) ya estén inicializadas cuando un permalink hidrate y llame a render() */
+init();
 </script>
 </body>
 </html>
