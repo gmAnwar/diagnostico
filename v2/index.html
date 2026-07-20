@@ -378,6 +378,18 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .row.locked .sub2{color:#aab2bc}
 #engrane-root .row .lk{font-size:10.5px;font-weight:700;color:#9aa3ad;white-space:nowrap;flex:0 0 auto;margin-top:3px;letter-spacing:.02em}
 #engrane-root .lock-note{margin-top:14px;padding:13px 18px;border-radius:14px;background:#F1F3F6;border:1px dashed #C9CFD6;font-size:13px;color:#5a6472;line-height:1.45}
+#engrane-root .guia-note{margin:14px 0 2px;padding:13px 18px;border-radius:14px;background:rgba(131,195,65,.10);border:1px solid rgba(131,195,65,.35);font-size:13.5px;color:var(--ink);line-height:1.5}
+#engrane-root .guia-note b{color:var(--navy)}
+#engrane-root .vermas{background:none;border:none;padding:2px 0 0;font-family:var(--f-head);font-weight:700;font-size:11.5px;color:#5C9A2E;cursor:pointer;text-align:left;text-decoration:underline;text-underline-offset:2px}
+#engrane-root .row{flex-wrap:wrap}
+#engrane-root .deep{flex-basis:100%;margin-top:8px;padding:11px 13px;border-radius:10px;background:#fff;border:1px solid var(--line);font-size:12.6px;line-height:1.5;color:var(--ink)}
+#engrane-root .deep p{margin:0 0 8px}
+#engrane-root .deep .hoy{padding:9px 11px;border-radius:8px;background:#FFFBF0;border-left:3px solid var(--amber);font-size:12.4px}
+#engrane-root .deep .puente{margin:10px 0 8px;font-size:12.6px;color:var(--ink)}
+#engrane-root .deep .lq-deep{margin-top:2px}
+#engrane-root .vslot{margin:0 0 10px;border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:#0A2540}
+#engrane-root .vslot iframe{width:100%;height:100%;border:0;display:block}
+#engrane-root .deep.hidden{display:none}
 #engrane-root .lock-note b{color:var(--navy)}
 #engrane-root .summary{margin-top:16px;background:#FBFAF7;border:1px solid var(--line);border-radius:16px;padding:16px 20px;font-size:13.5px;color:var(--ink);line-height:1.5;}
 #engrane-root .summary b{color:var(--navy);font-weight:700;}
@@ -407,6 +419,7 @@ const CONFIG = {
   PIXEL_ID: "2192907038266074",  // Meta dataset · BM Anwar Sepúlveda
   VIDEO_GENERAL_URL: "",     // Video "Ve esto primero" (YouTube/Vimeo/Loom). Vacío = la sección NO aparece.
   VIDEO_ETAPA_URLS: {1:"",2:"",3:"",4:""}, // Video por etapa. Vacío = solo se muestran las tarjetas, sin video.
+  VIDEO_AREA_URLS: {}, // Mini-video por área en el "Ver más" (key = slug, ej. playbook_cac: "https://..."). Vacío = no aparece.
   BRAND_URL: "anwarsepulveda.com"
 };
 </script>
@@ -414,7 +427,7 @@ const CONFIG = {
 <div class="topbar">
   <div class="wrap">
     <div class="brand">Mapa de <span>Crecimiento</span></div>
-    <div class="badge-mini" id="topbadge">Diagnóstico gratuito · 2 minutos</div>
+    <div class="badge-mini" id="topbadge">Diagnóstico gratuito · 2 minutos <span style="opacity:.45;font-size:10px">v3.4</span></div>
   </div>
 </div>
 
@@ -472,6 +485,7 @@ const CONFIG = {
       <div class="lectura" id="lectura"></div>
       <div class="etapa" id="etapa"></div>
       <div class="hero-cta" id="heroCta" style="display:none"></div>
+      <div class="guia-note">Estoy armando la <b>guía paso a paso de cada área</b>: qué herramienta usar, cómo montarla y en qué orden. Pícale a las que necesites y te las mando a tu correo en cuanto salgan — <b>los primeros de la lista entran con precio de fundador</b>.</div>
       <div class="grid" id="grid"></div>
       <div class="lock-note">🔒 Acabas de ver <b>13 puntos</b> de tu negocio. La <b>Auditoría completa</b> revisa <b>40+</b> — el triple de profundidad, donde está el detalle fino que de verdad mueve la aguja.</div>
       <div class="summary" id="summary"></div>
@@ -667,8 +681,7 @@ const esc = s => { const d=document.createElement("div"); d.textContent=s||""; r
 
 function init(){
   // A/B: variante de captura de WhatsApp (A=en el gate · B=en el reveal). ?ab=A|B fuerza.
-  state.ab = (params.get("ab")||"").toUpperCase();
-  if(state.ab!=="A" && state.ab!=="B") state.ab = Math.random()<0.5 ? "A" : "B";
+  state.ab = "A"; // variante B (A/B del teléfono) desactivada para el MVP · un solo camino: WhatsApp en el gate → quiz → engrane
   loadPixel();
   if(state.ab==="B"){ const t=$("g_telefono"); if(t){ t.style.display="none"; t.required=false; } }
   ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(k=>{
@@ -885,19 +898,17 @@ function computePerfil(){
 }
 
 function finish(){
-  state.etapa = computeEtapa(state.B);
-  state.weak  = computeWeak(state.B, state.etapa);
-  // Variante B: pedir WhatsApp en el pico de deseo, antes de revelar (no marcamos done: si se va, cuenta como abandono en pregunta 14)
-  if(state.ab==="B" && !state.telefono){ showPhoneGate(); return; }
+  try{ state.etapa = computeEtapa(state.B); }catch(e){ console.warn("etapa",e); state.etapa = state.etapa||1; }
+  try{ state.weak  = computeWeak(state.B, state.etapa); }catch(e){ console.warn("weak",e); state.weak = []; }
   completeAndShow();
 }
 function completeAndShow(){
   state.done = true;
-  sendWebhook("quiz_complete");
-  track("Diagnostico_Etapa"+state.etapa,{});
-  const enc = encodeResults();
-  history.replaceState(null,"", location.pathname+"?r="+enc);
-  showResults();
+  // El diagnóstico SIEMPRE se muestra primero — nada de analytics/permalink puede bloquearlo.
+  try{ showResults(); }catch(e){ console.error("showResults", e); }
+  try{ const enc = encodeResults(); history.replaceState(null,"", location.pathname+"?r="+enc); }catch(e){ console.warn("permalink",e); }
+  try{ sendWebhook("quiz_complete"); }catch(e){ console.warn("webhook",e); }
+  try{ track("Diagnostico_Etapa"+state.etapa,{}); }catch(e){ console.warn("track",e); }
 }
 function showPhoneGate(){
   $("screen-quiz").classList.add("hidden");
@@ -1215,10 +1226,10 @@ document.addEventListener("click", e=>{
   const b = e.target.closest("[data-wl]");
   if(!b) return;
   const prod = b.dataset.wl;
-  b.classList.add("done"); b.textContent="✓ Anotado — te aviso a tu correo";
+  b.classList.add("done"); b.textContent="✓ En la lista";
   sendWebhook("waitlist", {producto:prod});
   track("Waitlist_"+prod,{});
-  toast("Anotado. Te avisamos en cuanto esté listo.");
+  toast("Listo. Te mando esa guía a tu correo en cuanto salga.");
 });
 
 function goCall(src){
@@ -1286,24 +1297,89 @@ const ST={
 };
 /* 13 dientes. g: 0=Est.Empresa 1=Est.Campaña 2=Métricas. Métricas = ancla. */
 const TEETH=[
- {l:'CAC',g:2,x:'Cuánto te cuesta conseguir un cliente que paga, no un mensaje.'},
- {l:'Tasa de cierre',g:2,x:'De cada 10 que te escriben, cuántos compran.'},
- {l:'ROAS',g:2,x:'Cuántas veces recuperas lo que metes en anuncios.'},
- {l:'Atribución',g:2,x:'De cada venta, saber de qué anuncio salió.'},
- {l:'Utilidad',g:2,x:'Lo que de verdad te queda después de costos.'},
- {l:'Venta mensual',g:2,x:'Cuánto vendes al mes y qué tan predecible es.'},
- {l:'Oferta',g:0,x:'Lo que vendes y si la gente de verdad lo quiere.'},
- {l:'Cliente',g:0,x:'Qué tan claro tienes a quién le vendes.'},
- {l:'Equipo de ventas',g:0,x:'Quién contesta y cierra tus mensajes.'},
- {l:'Respuesta a leads',g:0,x:'Qué tan rápido contestas a quien te escribe.'},
- {l:'Generación de ads',g:1,x:'Cómo produces tus anuncios: al azar o con sistema.'},
- {l:'Creatividades',g:1,x:'La calidad y el método detrás de tus anuncios.'},
- {l:'Automatización',g:1,x:'Qué tanto de tu proceso corre solo (CRM, flujos).'}
+ {l:'CAC',sig:'CAC',g:2,x:'Cuánto te cuesta conseguir un cliente que paga, no un mensaje.',
+  why:'Una clínica real: el mensaje le costaba <b>$15</b> y se veía barato. El cliente que COMPRÓ le costó <b>$711 — 47 veces más</b>. Si solo ves el costo por mensaje, crees que vas bien mientras pierdes dinero entre cada paso.',
+  hoy:'Divide lo que invertiste el mes pasado entre los clientes nuevos que SÍ pagaron. Ese es tu CAC real. Si no tienes ese número, ahí está tu primer problema.',
+  why34:'Tu CAC global —inversión entre clientes— seguro ya lo conoces, o lo sacas en 2 minutos. El problema: <b>ese número ya no te sirve para decidir</b>. Te dice si ganas o pierdes en total, pero no qué apagar ni qué escalar. Dos campañas con el mismo costo por mensaje pueden traerte clientes a costos 5× distintos — viendo solo el global, le metes dinero a la equivocada sin enterarte. El juego en tu etapa es CAC <b>por campaña → por conjunto → por anuncio</b>.',
+  hoy34:'Ponle un código corto al copy de cada anuncio activo (AZUL, ROJO, M1…). Cuando alguien escriba, tu equipo registra qué código traía. En 7 días tienes tu primer CAC por anuncio — manual, pero real. Te apuesto que hay una diferencia que no esperabas.',
+  puente34:'Hacerlo a mano aguanta dos semanas; después se cae. La guía trae el sistema completo: la ruta manual (códigos + análisis diario), la semiautomática (tu CRM capturando de qué anuncio llegó cada cliente) y la automática (tus cierres regresándole a Meta para que el algoritmo te traiga compradores, no curiosos) — y cuál te conviene según tu volumen.'},
+ {l:'Tasa de cierre',sig:'T.C.',g:2,x:'De cada 10 que te escriben, cuántos compran.',
+  why:'Un spa real recibía <b>5,600 mensajes al mes y solo 393 agendaban (7%)</b>. El otro 93% se perdía en WhatsApp sin que nadie lo midiera — y por eso nadie lo arreglaba.',
+  hoy:'Cuenta tus últimos 50 chats: ¿cuántos terminaron en cita o venta? Ese porcentaje es tu tasa real de cierre.',
+  why34:'Tu tasa global esconde <b>dónde</b> se te caen. El embudo real tiene tres caídas: <b>mensaje → cita</b>, <b>cita → llegan</b>, <b>llegan → compran</b> — y cada una tiene un arreglo distinto. Un spa real: 5,600 mensajes, 393 citas (7%)… y de las que agendaban, la mitad no llegaba. Dos fugas distintas; arreglar la equivocada es tiempo tirado.',
+  hoy34:'Toma tus últimos 50 chats y saca 3 números: cuántos agendaron, cuántos llegaron, cuántos compraron. Tu peor caída de las tres es TU problema — no "el cierre" en general.',
+  puente34:'La guía trae el arreglo específico de cada caída: guion de agendamiento (mensaje→cita), protocolo de confirmación anti no-show (cita→llegan) y estructura de cierre (llegan→compran) — con el tablero semanal para ver las 3 tasas sin hacerlo a mano.'},
+ {l:'ROAS',sig:'ROAS',g:2,x:'Cuántas veces recuperas lo que metes en anuncios.',
+  why:'Sin este número no puedes decidir si apagar o escalar una campaña — lo decides por corazonada. Y las corazonadas en ads salen caras.',
+  hoy:'Ventas atribuibles del mes ÷ inversión del mes. Si no llega a 3×, hay una fuga que encontrar antes de meterle más.',
+  why34:'Hay dos ROAS: el que Meta te <b>reporta</b> (lo que su atribución alcanza a ver) y el <b>real</b> (ventas cerradas ÷ inversión). Casi nunca coinciden — la brecha es tu nivel de ceguera. Y el global mezcla todo: una campaña de 5× puede estar subsidiando a una que pierde, mientras el promedio te dice "vamos bien".',
+  hoy34:'Calcula tu ROAS real del mes (ventas cerradas ÷ inversión) y compáralo con el que Meta reporta. Luego pártelo por campaña, aunque sea a mano gruesa. La que salga abajo del promedio es tu primera candidata a cirugía.',
+  puente34:'La guía trae cómo montar tu tablero de ROAS real por campaña —con margen, no solo venta— y las reglas de decisión: cuándo apagar, cuándo escalar y cuándo aguantar. Con números, no corazonadas.'},
+ {l:'Atribución',sig:'ATRIB',g:2,x:'De cada venta, saber de qué anuncio salió.',
+  why:'Meta optimiza hacia lo que le reportas. Si solo le reportas mensajes, te trae gente que manda mensajes. Si le reportas <b>ventas</b>, te trae compradores. La mayoría nunca le regresa sus ventas a Meta — y por eso el algoritmo les trae curiosos.',
+  hoy:'De tus últimas 10 ventas, ¿sabes de qué anuncio salió cada una? Si no, estás pagando por optimizar a ciegas.',
+  why34:'Meta optimiza hacia lo que le reportas. Si solo le reportas mensajes, te consigue <b>gente que manda mensajes</b> — no compradores. Tu presupuesto se subasta todos los días hacia el público equivocado, y ningún cambio de creativo lo compensa. La palanca de tu etapa es cerrar el circuito: que tus CIERRES le regresen a Meta, para que aprenda de quien sí paga.',
+  hoy34:'De tus últimas 10 ventas, intenta decir de qué anuncio salió cada una. Si tú no puedes con 10, el algoritmo tampoco puede con miles — y mientras, está aprendiendo de los que NO compran.',
+  puente34:'La guía trae el circuito completo, sin tecnicismos: cómo capturar el cierre (sheet o CRM), cómo regresárselo a Meta, y las 3 formas de montarlo según tu stack — de la manual a la automática. Es el mismo sistema que usamos en cuentas de +$100K USD al mes.'},
+ {l:'Utilidad',sig:'UTIL',g:2,x:'Lo que de verdad te queda después de costos.',
+  why:'Puedes vender más que nunca y ganar menos que nunca. El volumen esconde el hoyo: sin utilidad por servicio, no sabes cuál te da de comer y cuál te está costando.',
+  hoy:'Toma tu servicio estrella: precio menos TODOS sus costos (insumos, comisiones, ads). Lo que queda es tu utilidad real por venta.',
+  why34:'A tu nivel, la utilidad global engaña: unas líneas subsidian a otras y no lo ves. Puedes estar escalando con ads justo el servicio que MENOS te deja — vendiendo más para ganar menos. El juego de tu etapa es utilidad <b>por línea de servicio</b>, y un paso más allá, por campaña.',
+  hoy34:'Toma tus 2 servicios más vendidos. A cada uno réstale TODOS sus costos: insumos, comisiones, tiempo de staff y su parte de ads. Compara la utilidad por venta de uno contra el otro. Casi siempre hay una sorpresa incómoda.',
+  puente34:'La guía trae el desglose de márgenes reales por línea —qué costos no se te pueden escapar— y cómo conectarlo a tus campañas para escalar UTILIDAD, no ventas.'},
+ {l:'Venta mensual',sig:'VENTA',g:2,x:'Cuánto vendes al mes y qué tan predecible es.',
+  why:'Vender bien UN mes no es negocio — es suerte hasta que se repite. La predictibilidad es lo que te deja invertir, contratar y crecer sin miedo.',
+  hoy:'Anota tus ventas de los últimos 6 meses. Pregunta dura: ¿tu peor mes aguanta tus costos fijos?',
+  why34:'Vender bien este mes no dice nada si no sabes <b>de qué está hecho el número</b>: cuánto fue cliente nuevo (caro, pagado con ads) y cuánto recurrente (barato, tuyo). Y la pregunta de tu etapa: ¿puedes ver tu venta del PRÓXIMO mes hoy? Las citas ya agendadas son tu venta futura visible — casi nadie las mira como pipeline.',
+  hoy34:'Parte tu venta del mes pasado en dos: nuevos vs recurrentes. Luego cuenta las citas ya agendadas para los próximos 15 días. Si ese número está flaco, tu "buen mes" ya se está acabando — y todavía no lo sientes.',
+  puente34:'La guía trae el tablero de composición de venta (nuevo, recurrente, recuperado) y el pipeline hacia adelante: ver el bache un mes antes de que llegue, cuando corregirlo todavía es barato.'},
+ {l:'Oferta',sig:'OFERTA',g:0,x:'Lo que vendes y si la gente de verdad lo quiere.',
+  why:'Si la oferta no jala, todo lo demás empuja en vano: el mejor anuncio del mundo no vende algo que la gente no quiere comprar.',
+  hoy:'Revisa tus últimos 10 clientes: ¿compraron lo que TÚ querías vender, o lo que ellos pidieron? Esa diferencia te dice cuál es tu oferta real.',
+  why34:'En tu etapa el problema rara vez es "qué vendes" — es que <b>cada cliente te compra una sola vez</b>. Si el anuncio vende directo tu servicio caro, el costo de adquirir sube; y si no hay una ruta de lo primero que compran hacia lo que sigue, cada venta muere ahí — y los ads tienen que pagar TODO el crecimiento solos.',
+  hoy34:'De tus últimos 20 clientes nuevos, ¿cuántos te compraron algo más en los siguientes 60 días? Si son menos de 6, tu freno no es atraer: es que no hay escalera después de la primera compra.',
+  puente34:'La guía trae cómo diseñar tu escalera de oferta: la entrada que abarata adquirir, la ruta natural hacia lo que sigue, y cómo subir el valor de cada cliente sin subir un peso el presupuesto.'},
+ {l:'Cliente',sig:'CLIENTE',g:0,x:'Qué tan claro tienes a quién le vendes.',
+  why:'Cuando le hablas a todos, el algoritmo no sabe a quién buscarte — y te trae de todo, menos compradores. La claridad de cliente es lo que abarata todo lo demás.',
+  hoy:'Describe a tu mejor cliente en una línea: quién es, qué compró y por qué a ti. Si no sale a la primera, ahí está el hueco.',
+  why34:'Ya sabes a quién le vendes — lo que casi nadie sabe es <b>quién le deja dinero</b>. No todos los clientes valen igual: unos dejan 3× más, regresan y llegan a sus citas; otros regatean, cancelan y desaparecen. Tus campañas aprenden del que LLEGA, no del que conviene — a menos que tú se lo enseñes.',
+  hoy34:'Saca tus 10 mejores clientes del año por dinero dejado (no por frecuencia). Busca qué comparten: servicio de entrada, zona, edad, cómo llegaron. Ese patrón es tu cliente real — y casi nunca es el que tenías en la cabeza.',
+  puente34:'La guía trae cómo construir tu perfil por VALOR (no demografía genérica) y cómo usarlo en tus campañas: públicos, creativos que filtran y mensajes que atraen al que sí deja — no al que solo pregunta.'},
+ {l:'Equipo de ventas',sig:'EQUIPO',g:0,x:'Quién contesta y cierra tus mensajes.',
+  why:'El <b>78% compra al primero que responde bien</b>. Sin guion ni proceso, cada quien contesta como puede — y tus ventas dependen del humor del día.',
+  hoy:'Lee los últimos 10 chats de tu equipo: ¿en cuántos ofrecieron agendar o cerrar, y en cuántos solo contestaron la pregunta y esperaron?',
+  why34:'Con equipo, tu problema ya no es "que contesten" — es la <b>varianza</b>: tu mejor persona cierra 3× más que la peor con los MISMOS leads, y no sabes por qué. Cada lead que cae con la persona equivocada es dinero de ads tirado. El 78% compra al primero que responde BIEN — y el "bien" es entrenable, pero solo si lo mides.',
+  hoy34:'Saca la tasa de cierre POR PERSONA de los últimos 50 leads (asignados vs cerrados). La brecha entre la mejor y la peor, multiplicada por tus leads del mes, es cuánto dinero hay en solo emparejar al equipo.',
+  puente34:'La guía trae el sistema de calidad de conversaciones: el guion base, qué buscar exactamente en la revisión semanal de chats, y el tablero por persona — para entrenar con datos, no con regaños.'},
+ {l:'Respuesta a leads',sig:'RESP.',g:0,x:'Qué tan rápido contestas a quien te escribe.',
+  why:'Un lead que espera horas ya le escribió a tu competencia. La velocidad de respuesta es de las palancas más baratas de arreglar y de las que más dinero regresan.',
+  hoy:'Mide cuánto tardaron en contestar los últimos 5 mensajes que llegaron de anuncios. Más de 15 minutos = dinero tirado.',
+  why34:'Ya contestas "rápido"… en horario de oficina. La espina: buena parte de tus leads llegan <b>cuando no estás</b> — noches y fines de semana, cuando la gente por fin scrollea. Ese lead de las 9pm que se contesta el lunes ya compró en otro lado. Tu velocidad promedio se ve bien; tu velocidad FUERA de horario es la fuga.',
+  hoy34:'Toma tus últimos 20 leads con hora de llegada y hora de primera respuesta. Sepáralos: horario laboral vs fuera de horario. El segundo número es el que te está costando — y casi nadie lo ha visto nunca.',
+  puente34:'La guía trae cómo cubrir 24/7 sin contratar turno de noche: respuestas de contención que sí agendan, calificación automática de entrada, y la línea clara de qué automatizar y qué jamás.'},
+ {l:'Generación de ads',sig:'ADS',g:1,x:'Cómo produces tus anuncios: al azar o con sistema.',
+  why:'Sin sistema, cada anuncio es un volado. Con sistema —momento del cliente → ángulo → formato → primera línea— cada anuncio es una prueba que te enseña algo, gane o pierda.',
+  hoy:'Abre tus últimos 3 anuncios: ¿la primera línea dice qué, cuánto y cuándo ("...$1,200, citas mañana"), o abre con rodeos?',
+  why34:'Ya corres campañas. El problema de tu etapa es la <b>fatiga</b>: tus ganadores se desgastan —la misma gente los ve una y otra vez— y no hay pipeline de reemplazo. Cuando el ganador muere, el número cae y nadie sabe por qué. Sin sistema de producción (momento del cliente → ángulo → formato → primera línea), cada anuncio nuevo es un volado.',
+  hoy34:'Abre tus 3 anuncios activos más viejos y mira su FRECUENCIA. Arriba de 3, la misma persona ya te vio varias veces: estás pagando de más por ser ignorado. Anota cuáles necesitan relevo esta semana.',
+  puente34:'La guía trae el sistema de producción semanal: la matriz de ángulos por momento del cliente, cuántas variantes probar, y las reglas de cuándo matar, escalar o refrescar — para no depender nunca de UN ganador.'},
+ {l:'Creatividades',sig:'CREAT.',g:1,x:'La calidad y el método detrás de tus anuncios.',
+  why:'Hoy en Meta, el creativo es la palanca más pesada del resultado. Publicar "lo que se ve bonito" sin método es pagar por aprender lo que otros ya pagaron.',
+  hoy:'De tus últimos 5 creativos, ¿cuál trajo CLIENTES (no likes)? Si no puedes contestar con datos, empieza por ahí.',
+  why34:'Seguro ya tuviste anuncios ganadores. La pregunta de tu etapa: ¿sabes <b>por qué</b> ganaron? Si no puedes descomponer un ganador —qué promete su primera línea, a qué momento del cliente le habla, qué lo hace creíble— no puedes replicarlo: solo copiarlo hasta que muere. Un banco de ganadores sin el porqué es un museo.',
+  hoy34:'Toma tu mejor creativo histórico y contesta 3 cosas: ¿qué promete la primera línea? ¿le habla al que ya te conoce o al que no? ¿qué lo hace creíble? Si alguna no sale, tienes un ganador que no puedes repetir.',
+  puente34:'La guía trae cómo descomponer tus ganadores en sus piezas (ángulo, promesa, formato, primera línea) y un banco de hooks por ángulo listo para adaptar a tu giro — replicar con método, no con suerte.'},
+ {l:'Automatización',sig:'AUTOM.',g:1,x:'Qué tanto de tu proceso corre solo (CRM, flujos).',
+  why:'Lo manual aguanta hasta que creces: leads sin registrar, seguimientos olvidados, ventas que se enfrían de noche. No se trata de robots — se trata de que nada se caiga.',
+  hoy:'Cuenta cuántos leads de la semana pasada NO recibieron ni un seguimiento. Cada uno de esos ya lo pagaste.',
+  why34:'Ya tienes CRM o algo parecido. La espina de tu etapa son los <b>hoyos del circuito</b>: leads que entran y no se registran, seguimientos que dependen de la memoria de alguien, y cierres que nunca se capturan — por eso tampoco hay atribución. No se trata de automatizar todo: se trata de que NADA se caiga entre pasos.',
+  hoy34:'Audita 5 leads de la semana pasada, de punta a punta: ¿los 5 están en tu CRM? ¿los 5 tuvieron seguimiento a tiempo? ¿los que cerraron quedaron REGISTRADOS como cerrados? Cada "no" es un hoyo por donde se va dinero ya pagado.',
+  puente34:'La guía trae el circuito mínimo que no tira nada —entrada, seguimiento, cierre registrado— y los 3 automatismos que más dinero regresan, en orden de montaje según tu CRM.'}
 ];
 const LOCKED=[
- {l:'Ticket y márgenes',g:0,x:'Cuánto deja cada venta, por línea de servicio.'},
- {l:'Segmentación de audiencias',g:1,x:'A qué públicos exactos le hablas y cuáles convierten.'},
- {l:'CAC por anuncio',g:2,x:'Qué anuncio específico te trae clientes al costo más bajo.'}
+ {l:'Ticket y márgenes',sig:'TICKET',g:0,x:'Cuánto deja cada venta, por línea de servicio.'},
+ {l:'Segmentación de audiencias',sig:'SEGM.',g:1,x:'A qué públicos exactos le hablas y cuáles convierten.'},
+ {l:'CAC por anuncio',sig:'CAC/AD',g:2,x:'Qué anuncio específico te trae clientes al costo más bajo.'}
 ];
 const GEARS_META=[{short:'Est. Empresa'},{short:'Est. Campaña'},{short:'Métricas'}];
 const VISUAL=[0,2,1]; // orden en el hero: Empresa · Métricas(centro) · Campaña
@@ -1352,7 +1428,11 @@ function gear(cx,cy,teeth,short,phase){
  for(let k=0;k<6;k++){const a=k*60,p1=P(cx,cy,rHub+4,a).split(' '),p2=P(cx,cy,rDisc-5,a).split(' ');
   s+=`<line x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}" stroke="rgba(255,255,255,.06)" stroke-width="9" stroke-linecap="round"/>`;}
  teeth.forEach((t,i)=>{const st=ST[t.s],c=phase+i*slice,a0=c-(slice-gap)/2,a1=c+(slice-gap)/2,ip=P(cx,cy,rIcon,c).split(' ');
-  s+=`<g class="tooth" data-l="${t.l}"><path d="${toothUnit(cx,cy,rIn,rOut,rTip,a0,a1,c)}" fill="${st.hex}" stroke="${st.line}" stroke-width="1.1" stroke-linejoin="round"/>`+icon(st.icon,+ip[0],+ip[1],8.4,st.ink)+`</g>`;});
+  const sg=t.sig||t.l; const fs=sg.length<=4?9.5:sg.length<=6?8:7;
+  const ipT=P(cx,cy,rOut+6.5,c).split(' ');
+  s+=`<g class="tooth" data-l="${t.l}"><path d="${toothUnit(cx,cy,rIn,rOut,rTip,a0,a1,c)}" fill="${st.hex}" stroke="${st.line}" stroke-width="1.1" stroke-linejoin="round"/>`
+   +`<text x="${ip[0]}" y="${ip[1]}" text-anchor="middle" dominant-baseline="central" font-family="Manrope,Inter,sans-serif" font-weight="800" font-size="${fs}" letter-spacing=".2" fill="${st.ink}">${sg}</text>`
+   +icon(st.icon,+ipT[0],+ipT[1],4.6,st.ink)+`</g>`;});
  s+=`<circle cx="${cx}" cy="${cy}" r="${rHub}" fill="#12395c" stroke="rgba(255,255,255,.10)" stroke-width="1.5"/><circle cx="${cx}" cy="${cy}" r="6.5" fill="#83C341"/></g>`;
  s+=`<text x="${cx}" y="${cy+rTip+26}" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="800" font-size="15" fill="#0A2540">${short}</text>`;
  return s;}
@@ -1374,14 +1454,14 @@ function laLectura(real,tg,tr){
  const gReds=gi=>real.filter(t=>t.g===gi&&t.s==='r').length;
  if(tg<=1) return `Estás construyendo casi todo desde cero — normal a esta altura, no es mala señal. La trampa aquí es querer con todo a la vez: se hace <b>en orden, una cosa a la vez</b>, empezando por la de arriba.`;
  if(st('Generación de ads')!=='r' && (st('Atribución')==='r'||st('CAC')==='r'))
-  return `Traes el motor prendido —campañas corriendo— pero <b>manejas sin tablero</b>: metes dinero en ads y no sabes qué anuncio te devuelve clientes de verdad. Eso que sientes como "ya no jala como antes" casi nunca es que jale menos: es que <b>dejaste de verlo</b>. Ahí es donde entro yo.`;
+  return `Traes el motor prendido —campañas corriendo— pero <b>manejas sin tablero</b>: metes dinero en ads y no sabes qué anuncio te devuelve clientes de verdad. Eso que se siente como "ya no jala como antes" casi nunca es que jale menos: es que <b>no lo estás viendo</b>.`;
  if(gGood(1)>=1 && (st('Equipo de ventas')==='r'||st('Respuesta a leads')==='r'))
   return `No tienes problema de atracción: te llega gente. El dinero se te cae <b>en la conversación</b> —llegan y no cierran—. Meterle más ads sin arreglar el cierre es echarle agua a una cubeta con hoyo.`;
  if((st('Cliente')==='r'||st('Oferta')==='r') && gGood(2)>=1)
   return `Estás vendiendo, pero <b>sin saber con precisión a quién</b>. Eso funciona hasta cierto techo; después cada peso de ads rinde menos, porque le hablas a todos.`;
  if(tr>0){const worst=[0,1,2].map(gi=>({gi,r:gReds(gi)})).sort((a,b)=>b.r-a.r)[0],best=[0,1,2].map(gi=>({gi,g:gGood(gi)})).sort((a,b)=>b.g-a.g)[0];
   return `Tu <b>${GEARS_META[best.gi].short}</b> está sólido, pero tu <b>${GEARS_META[worst.gi].short}</b> lo frena. El engrane más lento manda: no importa qué tan bueno seas en lo demás si se atora ahí.`;}
- return `Tu sistema está parejo y sólido. A esta altura ya no se trata de tapar un hueco — es <b>escalar sin romper</b> lo que ya funciona. Ese es otro juego, y es justo el mío.`;
+ return `Tu sistema está parejo y sólido. A esta altura ya no se trata de tapar un hueco — es <b>escalar sin romper</b> lo que ya funciona. Y ese es otro juego, con otras reglas.`;
 }
 function render(levels){
  const real=TEETH.map((t,i)=>({...t,s:statusFor(levels[i])}));
@@ -1391,12 +1471,12 @@ function render(levels){
  const tg=real.filter(t=>t.s==='g').length,ty=real.filter(t=>t.s==='y').length,tr=real.filter(t=>t.s==='r').length;
  const et=state.etapa;
  let es;
- if(tr===0){ es=`Tu motor está afinado — aquí ya no es arreglar, es <b>escalar sin romperlo</b>. Justo mi terreno.`; }
+ if(tr===0){ es=`Tu motor está afinado — aquí ya no es arreglar, es <b>escalar sin romperlo</b>.`; }
  else if(et<4){ es = tg>0
    ? `Ya tienes <b>${tg} cosa${tg>1?'s':''} sólida${tg>1?'s':''}</b>. Arreglando tus focos rojos saltas a <b>Etapa ${et+1}</b>.`
    : `Estás empezando — normal a esta altura. Arreglando estos focos, uno por uno, saltas a <b>Etapa ${et+1}</b>.`; }
  else { es=`Estás arriba, pero tu motor tiene <b>${tr} fuga${tr>1?'s':''}</b> que te frena${tr>1?'n':''}. Ciérra${tr>1?'las':'la'} y despegas.`; }
- document.getElementById('lectura').innerHTML=`<div class="av">A</div><div class="lx"><div class="lk2">🔎 La lectura de Anwar</div><div class="lt">${laLectura(real,tg,tr)}</div></div>`;
+ document.getElementById('lectura').innerHTML=`<div class="av">A</div><div class="lx"><div class="lk2">🔎 Mi lectura</div><div class="lt">${laLectura(real,tg,tr)} <span style="opacity:.55;font-weight:600">— Anwar</span></div></div>`;
  const SHORT=["Empezando","Inestables","Estancadas","Topadas"];
  let steps='';
  for(let i=1;i<=4;i++){const cls=i<et?'done':i===et?'cur':i===et+1?'next':'';const tag=i===et?' · TÚ':i===et+1?' · meta':'';steps+=`<div class="step ${cls}"><div class="n">${i}</div><span class="lb2">${SHORT[i-1]}${tag}</span></div>`;}
@@ -1405,14 +1485,21 @@ function render(levels){
  const firstAny=firstRed||PRIORITY.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='y');
  const hc=document.getElementById('heroCta');
  if(firstAny){ hc.style.display='';
-  hc.innerHTML=`<div class="hc-tx"><div class="hc-k">🎯 Empieza aquí</div><div class="hc-t">${firstAny.l}</div><div class="hc-s">${firstAny.x} Si esta semana arreglas UNA sola cosa, que sea esta.</div></div><button class="lq big ${firstAny.s}" data-wl="${slug(firstAny.l)}">${firstAny.s==='r'?'Arréglalo':'Mejóralo'} →</button>`;
+  hc.innerHTML=`<div class="hc-tx"><div class="hc-k">🎯 Empieza aquí</div><div class="hc-t">${firstAny.l}</div><div class="hc-s">${firstAny.x} Si esta semana arreglas UNA sola cosa, que sea esta.</div></div><button class="lq big ${firstAny.s}" data-wl="${slug(firstAny.l)}">Quiero la guía →</button>`;
  } else { hc.style.display='none'; }
  document.getElementById('grid').innerHTML=[0,1,2].map(gi=>{
   const g=byGear[gi],realN=g.filter(t=>t.s!=='locked').length,gc=g.filter(t=>t.s==='g').length,anchor=gi===2?' anchor':'';
   const rows=g.map(t=>{const st=ST[t.s];
    if(t.s==='locked') return `<div class="row locked" id="row-${slug(t.l)}"><span class="ch" style="background:${st.hex}">${iconSVG('lock','#fff',13)}</span><span class="txt"><span class="lb">${t.l}</span><span class="sub2">${t.x}</span></span><span class="lk">🔒 En tu Auditoría</span></div>`;
-   const act=t.s==='g'?`<span class="st">Lo tienes</span>`:`<button class="lq ${t.s}" data-wl="${slug(t.l)}">${t.s==='r'?'Arréglalo':'Mejóralo'} →</button>`;
-   return `<div class="row" id="row-${slug(t.l)}"><span class="ch" style="background:${st.hex}">${iconSVG(st.icon,st.ink,15)}</span><span class="txt"><span class="lb">${t.l}</span><span class="sub2">${t.x}</span></span>${act}</div>`;}).join('');
+   const act=t.s==='g'?`<span class="st">Lo tienes</span>`:`<button class="lq ${t.s}" data-wl="${slug(t.l)}">Quiero la guía →</button>`;
+   const adv = et>=3 && t.why34;                                  // E3/E4 ven la versión avanzada (espina + escalera)
+   const W=adv?t.why34:t.why, H=adv?t.hoy34:t.hoy;
+   const PU=(adv && t.s!=='g')?t.puente34:null;                   // puente de conversión solo en rojos/amarillos
+   const vurl=(CONFIG.VIDEO_AREA_URLS||{})[slug(t.l)];
+   const vid=vurl?`<div class="vslot"><iframe src="${vurl}" loading="lazy" allowfullscreen title="${t.l}"></iframe></div>`:``;
+   const vm=W?`<button class="vermas" type="button">Ver más ↓</button>`:``;
+   const deep=W?`<div class="deep hidden">${vid}<p>${W}</p><div class="hoy"><b>⚡ Hazlo hoy:</b> ${H}</div>${PU?`<p class="puente">${PU}</p><button class="lq ${t.s} lq-deep" data-wl="${slug(t.l)}">Quiero la guía →</button>`:``}</div>`:``;
+   return `<div class="row" id="row-${slug(t.l)}"><span class="ch" style="background:${st.hex}">${iconSVG(st.icon,st.ink,15)}</span><span class="txt"><span class="lb">${t.l}</span><span class="sub2">${t.x}</span>${vm}</span>${act}${deep}</div>`;}).join('');
   return `<div class="col${anchor}"><div class="col-h"><span class="nm">${GEARS_META[gi].short}</span><span class="sc"><b>${gc}</b>/${realN} ok</span></div>${rows}</div>`;
  }).join('');
  let sm;
@@ -1422,10 +1509,19 @@ function render(levels){
   sm=`<b>${okTxt} · ${ty} por mejorar · <span class="cr">${tr} crítica${tr>1?'s':''}</span>.</b> Tu rueda más frenada hoy es <b>${worst.n}</b>. Empieza por el foco de arriba y lo demás se acomoda.`; }
  document.getElementById('summary').innerHTML=sm;
 }
-/* tocar diente -> baja a su fila y la resalta */
+/* Ver más / Ver menos por área */
+document.addEventListener('click',function(e){
+ const v=e.target.closest('.vermas'); if(!v)return;
+ const r=v.closest('.row'); const d=r?r.querySelector('.deep'):null; if(!d)return;
+ const open=d.classList.toggle('hidden');
+ v.textContent = open ? 'Ver más ↓' : 'Ver menos ↑';
+});
+/* tocar diente -> baja a su fila, la resalta y ABRE su detalle */
 if(document.getElementById('hero')){
  document.getElementById('hero').addEventListener('click',function(e){const g=e.target.closest('.tooth');if(!g)return;
   const row=document.getElementById('row-'+slug(g.dataset.l));if(!row)return;
+  const d=row.querySelector('.deep'), v=row.querySelector('.vermas');
+  if(d&&d.classList.contains('hidden')){ d.classList.remove('hidden'); if(v)v.textContent='Ver menos ↑'; }
   row.scrollIntoView({behavior:'smooth',block:'center'});row.classList.add('flash');setTimeout(function(){row.classList.remove('flash');},1400);
  });
 }
