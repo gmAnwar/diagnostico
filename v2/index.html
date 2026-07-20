@@ -390,6 +390,32 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .vslot{margin:0 0 10px;border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:#0A2540}
 #engrane-root .vslot iframe{width:100%;height:100%;border:0;display:block}
 #engrane-root .deep.hidden{display:none}
+#engrane-root .btn-det{margin-top:10px;font-family:var(--f-head);font-weight:700;font-size:12.5px;min-height:40px;padding:9px 14px;border-radius:10px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);cursor:pointer}
+/* ---- Pantalla de detalle por área ---- */
+#screen-detalle{position:fixed;inset:0;z-index:300;overflow-y:auto;background:#EFEDE7;padding:18px 14px 40px;-webkit-overflow-scrolling:touch}
+#screen-detalle.hidden{display:none}
+.det-wrap{max-width:680px;margin:0 auto}
+.det-back{background:none;border:none;font-family:'Manrope',sans-serif;font-weight:700;font-size:13.5px;color:#0A2540;cursor:pointer;padding:8px 0;text-decoration:underline;text-underline-offset:3px}
+.det-back-b{margin-top:14px}
+.det-card{background:#fff;border-radius:20px;box-shadow:0 24px 60px -24px rgba(10,37,64,.25);padding:26px 22px 24px;margin-top:6px}
+.det-chip{display:inline-flex;align-items:center;gap:7px;font-family:'Manrope',sans-serif;font-weight:700;font-size:11.5px;padding:6px 11px;border-radius:999px;margin-bottom:10px}
+.det-card h2{font-family:'Manrope',sans-serif;font-weight:800;font-size:25px;color:#0A2540;letter-spacing:-.02em;margin:0 0 4px}
+.det-card .det-sub{font-size:14px;color:#657787;margin:0 0 16px;line-height:1.5}
+.det-card p{font-size:14.5px;line-height:1.65;color:#1c3550;margin:0 0 13px}
+.det-card .hoy{padding:12px 14px;border-radius:10px;background:#FFFBF0;border-left:3px solid #F5A524;font-size:13.5px;line-height:1.6;margin:16px 0}
+.det-card .ex-box{margin:16px 0;padding:14px 15px;border-radius:12px;background:#F7FAFD;border:1px solid #DCE6F0}
+.det-card .ex-t{font-family:'Manrope',sans-serif;font-weight:800;font-size:13px;color:#0A2540;margin-bottom:9px}
+.det-card .ex-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:10px}
+.det-card .ex-tbl th,.det-card .ex-tbl td{padding:7px 8px;border-bottom:1px solid #E3EAF2;text-align:left}
+.det-card .ex-tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#8a94a6}
+.det-card .ex-tbl td.good{color:#2E7D32;font-weight:700}
+.det-card .ex-box p{font-size:13px;margin:0}
+.det-offer{margin-top:18px;padding:16px 17px;border-radius:14px;background:rgba(131,195,65,.10);border:1.5px solid rgba(131,195,65,.45)}
+.det-offer .of-k{font-family:'Manrope',sans-serif;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#5C9A2E;margin-bottom:6px}
+.det-offer p{font-size:13.8px;line-height:1.6;margin:0 0 10px}
+.det-offer .of-f{font-size:12.5px;color:#657787;margin:8px 0 0}
+.det-vslot{margin:0 0 16px;border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:#0A2540}
+.det-vslot iframe{width:100%;height:100%;border:0;display:block}
 #engrane-root .lock-note b{color:var(--navy)}
 #engrane-root .summary{margin-top:16px;background:#FBFAF7;border:1px solid var(--line);border-radius:16px;padding:16px 20px;font-size:13.5px;color:var(--ink);line-height:1.5;}
 #engrane-root .summary b{color:var(--navy);font-weight:700;}
@@ -427,7 +453,7 @@ const CONFIG = {
 <div class="topbar">
   <div class="wrap">
     <div class="brand">Mapa de <span>Crecimiento</span></div>
-    <div class="badge-mini" id="topbadge">Diagnóstico gratuito · 2 minutos <span style="opacity:.45;font-size:10px">v3.4</span></div>
+    <div class="badge-mini" id="topbadge"><span id="tbLabel">Diagnóstico gratuito · 2 minutos</span> <span id="vstamp" style="opacity:.45;font-size:10px">v3.5</span></div>
   </div>
 </div>
 
@@ -502,13 +528,22 @@ const CONFIG = {
   </section>
 </div>
 
+<!-- PANTALLA DE DETALLE POR ÁREA (overlay · aquí vivirá también el video) -->
+<div id="screen-detalle" class="hidden" role="dialog" aria-modal="true">
+  <div class="det-wrap">
+    <button class="det-back" type="button" onclick="closeDetalle()">← Volver a mi diagnóstico</button>
+    <div class="det-card" id="detCard"></div>
+    <button class="det-back det-back-b" type="button" onclick="closeDetalle()">← Volver a mi diagnóstico</button>
+  </div>
+</div>
+
 <!-- EXPORT BAR -->
 <div class="exportbar" id="exportbar">
   <div class="inner">
     <div class="left">
       <button class="btn-ghost" onclick="emailMe()">✉ Enviármelo a mi correo</button>
     </div>
-    <button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="(document.getElementById('heroCta')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth'})">Apartar mi lugar →</button>
+    <button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="(document.getElementById('heroCta')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth'})">Empieza aquí →</button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -944,7 +979,7 @@ function showResults(){
   window.scrollTo({top:0}); // el diagnóstico arranca desde arriba, no donde quedó el gate
   $("exportbar").classList.add("on");
   document.body.classList.add("has-bar");
-  $("topbadge").textContent = "Tu Mapa de Crecimiento";
+  const tbl=$("tbLabel"); if(tbl){ tbl.textContent = "Tu Mapa de Crecimiento"; } else { $("topbadge").textContent = "Tu Mapa de Crecimiento"; } // conserva el sello de versión
 
   // (etapa/stage UI vieja reemplazada por el engrane)
 
@@ -1226,7 +1261,7 @@ document.addEventListener("click", e=>{
   const b = e.target.closest("[data-wl]");
   if(!b) return;
   const prod = b.dataset.wl;
-  b.classList.add("done"); b.textContent="✓ En la lista";
+  b.classList.add("done"); b.textContent="✓ Estás en la lista";
   sendWebhook("waitlist", {producto:prod});
   track("Waitlist_"+prod,{});
   toast("Listo. Te mando esa guía a tu correo en cuanto salga.");
@@ -1381,6 +1416,32 @@ const LOCKED=[
  {l:'Segmentación de audiencias',sig:'SEGM.',g:1,x:'A qué públicos exactos le hablas y cuáles convierten.'},
  {l:'CAC por anuncio',sig:'CAC/AD',g:2,x:'Qué anuncio específico te trae clientes al costo más bajo.'}
 ];
+/* PRE-READ corto por área (E3/E4) — la espina en 1-2 líneas; el detalle completo vive en su pantalla */
+const PRE34={
+ 'CAC':'Tu CAC global te dice si ganas o pierdes — pero no QUÉ apagar ni qué escalar. El juego real: CAC por campaña → por conjunto → por anuncio.',
+ 'Tasa de cierre':'Tu tasa global esconde DÓNDE se caen: mensaje→cita, cita→llegan, llegan→compran. Cada caída tiene un arreglo distinto.',
+ 'ROAS':'Hay dos ROAS: el que Meta te reporta y el real (ventas cerradas ÷ inversión). La brecha entre ambos es tu nivel de ceguera.',
+ 'Atribución':'Meta aprende de lo que le reportas. Si solo le reportas mensajes, te trae gente que manda mensajes — no compradores.',
+ 'Utilidad':'La utilidad global engaña: unas líneas subsidian a otras. Puedes estar escalando justo el servicio que menos te deja.',
+ 'Venta mensual':'No es cuánto vendes — es de qué está hecho: nuevos vs recurrentes, y cuánta venta del próximo mes ya puedes ver hoy.',
+ 'Oferta':'El problema rara vez es qué vendes — es que cada cliente compra UNA vez y los ads pagan todo el crecimiento solos.',
+ 'Cliente':'No todos los clientes valen igual. Tus campañas aprenden del que llega — no del que te deja dinero.',
+ 'Equipo de ventas':'Tu mejor persona cierra 3× más que la peor con los MISMOS leads. Esa varianza es dinero de ads tirado.',
+ 'Respuesta a leads':'Contestas rápido… en horario de oficina. Los leads de las 9pm y del sábado se enfrían para el lunes.',
+ 'Generación de ads':'Tus ganadores se desgastan y no hay reemplazo en fila. Sin sistema de producción, cada anuncio nuevo es un volado.',
+ 'Creatividades':'Sabes CUÁL anuncio ganó, pero no POR QUÉ. Y lo que no puedes descomponer, no lo puedes repetir.',
+ 'Automatización':'No es automatizar todo — es que nada se caiga: leads sin registrar, seguimientos olvidados, cierres sin capturar.'
+};
+/* Ejemplo concreto por área (se enseña en la pantalla de detalle). Por ahora: CAC (formato patrón). */
+const EXAMPLES={
+ 'CAC':`<div class="ex-box"><div class="ex-t">📊 Ejemplo real (así se ve en tu Ads Manager)</div>
+  <table class="ex-tbl"><tr><th></th><th>Campaña A</th><th>Campaña B</th></tr>
+  <tr><td>Costo por mensaje</td><td class="good">$12 ✓</td><td>$19</td></tr>
+  <tr><td>Mensajes</td><td>250</td><td>160</td></tr>
+  <tr><td>Clientes que COMPRARON</td><td>5</td><td>12</td></tr>
+  <tr><td><b>CAC real</b></td><td><b>$600</b></td><td class="good"><b>$253 ✓</b></td></tr></table>
+  <p>Viendo solo el costo por mensaje, apagas la B "porque está cara". Viendo el CAC real, <b>la B es tu ganadora</b> — la A te trae curiosos baratos; la B, compradores. Este error se comete todos los días, con dinero real.</p></div>`
+};
 const GEARS_META=[{short:'Est. Empresa'},{short:'Est. Campaña'},{short:'Métricas'}];
 const VISUAL=[0,2,1]; // orden en el hero: Empresa · Métricas(centro) · Campaña
 const PRIORITY=['Oferta','Cliente','Equipo de ventas','Respuesta a leads','Generación de ads','Creatividades','Automatización','Venta mensual','Tasa de cierre','CAC','ROAS','Utilidad','Atribución'];
@@ -1465,6 +1526,7 @@ function laLectura(real,tg,tr){
 }
 function render(levels){
  const real=TEETH.map((t,i)=>({...t,s:statusFor(levels[i])}));
+ LAST_TEETH=real; // para la pantalla de detalle
  const locked=LOCKED.map(t=>({...t,s:'locked'}));
  const byGear=[0,1,2].map(gi=>real.filter(t=>t.g===gi).concat(locked.filter(t=>t.g===gi)));
  renderHero(byGear);
@@ -1485,20 +1547,21 @@ function render(levels){
  const firstAny=firstRed||PRIORITY.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='y');
  const hc=document.getElementById('heroCta');
  if(firstAny){ hc.style.display='';
-  hc.innerHTML=`<div class="hc-tx"><div class="hc-k">🎯 Empieza aquí</div><div class="hc-t">${firstAny.l}</div><div class="hc-s">${firstAny.x} Si esta semana arreglas UNA sola cosa, que sea esta.</div></div><button class="lq big ${firstAny.s}" data-wl="${slug(firstAny.l)}">Quiero la guía →</button>`;
+  const hcAdv = (typeof et!=='undefined'?et:state.etapa)>=3 && firstAny.why34;
+  hc.innerHTML=`<div class="hc-tx"><div class="hc-k">🎯 Empieza aquí</div><div class="hc-t">${firstAny.l}</div><div class="hc-s">${firstAny.x} Si esta semana arreglas UNA sola cosa, que sea esta.</div></div>`+(hcAdv?`<button class="lq big ${firstAny.s}" data-det="${firstAny.l}">Ver con más detalle →</button>`:`<button class="lq big ${firstAny.s}" data-wl="${slug(firstAny.l)}">Quiero la guía →</button>`);
  } else { hc.style.display='none'; }
  document.getElementById('grid').innerHTML=[0,1,2].map(gi=>{
   const g=byGear[gi],realN=g.filter(t=>t.s!=='locked').length,gc=g.filter(t=>t.s==='g').length,anchor=gi===2?' anchor':'';
   const rows=g.map(t=>{const st=ST[t.s];
    if(t.s==='locked') return `<div class="row locked" id="row-${slug(t.l)}"><span class="ch" style="background:${st.hex}">${iconSVG('lock','#fff',13)}</span><span class="txt"><span class="lb">${t.l}</span><span class="sub2">${t.x}</span></span><span class="lk">🔒 En tu Auditoría</span></div>`;
-   const act=t.s==='g'?`<span class="st">Lo tienes</span>`:`<button class="lq ${t.s}" data-wl="${slug(t.l)}">Quiero la guía →</button>`;
-   const adv = et>=3 && t.why34;                                  // E3/E4 ven la versión avanzada (espina + escalera)
-   const W=adv?t.why34:t.why, H=adv?t.hoy34:t.hoy;
-   const PU=(adv && t.s!=='g')?t.puente34:null;                   // puente de conversión solo en rojos/amarillos
-   const vurl=(CONFIG.VIDEO_AREA_URLS||{})[slug(t.l)];
-   const vid=vurl?`<div class="vslot"><iframe src="${vurl}" loading="lazy" allowfullscreen title="${t.l}"></iframe></div>`:``;
+   const adv = et>=3 && t.why34;                                  // E3/E4: pre-read corto + pantalla de detalle
+   const act = t.s==='g' ? `<span class="st">Lo tienes</span>`
+             : adv       ? `<button class="lq ${t.s}" data-det="${t.l}">Ver detalle →</button>`
+                         : `<button class="lq ${t.s}" data-wl="${slug(t.l)}">Quiero la guía →</button>`;
+   const W=adv?(PRE34[t.l]||t.why34):t.why, H=adv?t.hoy34:t.hoy;
    const vm=W?`<button class="vermas" type="button">Ver más ↓</button>`:``;
-   const deep=W?`<div class="deep hidden">${vid}<p>${W}</p><div class="hoy"><b>⚡ Hazlo hoy:</b> ${H}</div>${PU?`<p class="puente">${PU}</p><button class="lq ${t.s} lq-deep" data-wl="${slug(t.l)}">Quiero la guía →</button>`:``}</div>`:``;
+   const det=adv?`<button class="btn-det" type="button" data-det="${t.l}">Ver con más detalle →</button>`:``;
+   const deep=W?`<div class="deep hidden"><p>${W}</p><div class="hoy"><b>⚡ Hazlo hoy:</b> ${H}</div>${det}</div>`:``;
    return `<div class="row" id="row-${slug(t.l)}"><span class="ch" style="background:${st.hex}">${iconSVG(st.icon,st.ink,15)}</span><span class="txt"><span class="lb">${t.l}</span><span class="sub2">${t.x}</span>${vm}</span>${act}${deep}</div>`;}).join('');
   return `<div class="col${anchor}"><div class="col-h"><span class="nm">${GEARS_META[gi].short}</span><span class="sc"><b>${gc}</b>/${realN} ok</span></div>${rows}</div>`;
  }).join('');
@@ -1515,6 +1578,38 @@ document.addEventListener('click',function(e){
  const r=v.closest('.row'); const d=r?r.querySelector('.deep'):null; if(!d)return;
  const open=d.classList.toggle('hidden');
  v.textContent = open ? 'Ver más ↓' : 'Ver menos ↑';
+});
+/* ---- Pantalla de detalle por área ---- */
+let LAST_TEETH=[];
+function paras(t){const s=t.split('. ');const out=[];for(let i=0;i<s.length;i+=2){let ch=s.slice(i,i+2).join('. ');if(!/[.!?…»")]$/.test(ch))ch+='.';out.push('<p>'+ch+'</p>');}return out.join('');}
+function openDetalle(l){
+ const t=LAST_TEETH.find(x=>x.l===l); if(!t||!t.why34)return;
+ const st=ST[t.s]||ST.r;
+ const vurl=(CONFIG.VIDEO_AREA_URLS||{})[slug(l)];
+ let h=`<span class="det-chip" style="background:${st.hex};color:${st.ink}">${iconSVG(st.icon,st.ink,13)} ${st.word.toUpperCase()}</span>`;
+ h+=`<h2>${t.l}</h2><p class="det-sub">${t.x}</p>`;
+ if(vurl)h+=`<div class="det-vslot"><iframe src="${vurl}" loading="lazy" allowfullscreen title="${t.l}"></iframe></div>`;
+ h+=paras(t.why34);
+ if(EXAMPLES[t.l])h+=EXAMPLES[t.l];
+ h+=`<div class="hoy"><b>⚡ Hazlo hoy:</b> ${t.hoy34}</div>`;
+ if(t.s!=='g' && t.puente34){
+  h+=`<div class="det-offer"><div class="of-k">El siguiente paso: llevar control</div><p>${t.puente34}</p>`+
+     `<button class="lq ${t.s}" data-wl="${slug(t.l)}">La quiero — apártame lugar →</button>`+
+     `<p class="of-f">Los primeros de la lista entran con precio de fundador. Te aviso a tu correo en cuanto salga.</p></div>`;
+ }
+ $("detCard").innerHTML=h;
+ $("screen-detalle").classList.remove('hidden');
+ $("screen-detalle").scrollTop=0;
+ document.body.style.overflow='hidden';
+ track('DetalleView',{area:slug(l)});
+}
+function closeDetalle(){
+ $("screen-detalle").classList.add('hidden');
+ document.body.style.overflow='';
+}
+document.addEventListener('click',function(e){
+ const b=e.target.closest('[data-det]'); if(!b)return;
+ openDetalle(b.dataset.det);
 });
 /* tocar diente -> baja a su fila, la resalta y ABRE su detalle */
 if(document.getElementById('hero')){
