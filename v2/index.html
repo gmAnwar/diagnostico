@@ -403,7 +403,16 @@ body.has-bar{padding-bottom:74px}
 .det-card h2{font-family:'Manrope',sans-serif;font-weight:800;font-size:25px;color:#0A2540;letter-spacing:-.02em;margin:0 0 4px}
 .det-card .det-sub{font-size:14px;color:#657787;margin:0 0 16px;line-height:1.5}
 .det-card p{font-size:14.5px;line-height:1.65;color:#1c3550;margin:0 0 13px}
-.det-card .hoy{padding:12px 14px;border-radius:10px;background:#FFFBF0;border-left:3px solid #F5A524;font-size:13.5px;line-height:1.6;margin:16px 0}
+.det-card .hoy{padding:14px 15px;border-radius:10px;background:#FFFBF0;border-left:3px solid #F5A524;font-size:13.5px;line-height:1.6;margin:16px 0}
+.det-card .hoy-ol{margin:10px 0 0;padding-left:20px}
+.det-card .hoy-ol li{margin:0 0 11px;line-height:1.6}
+.det-card .hoy-ol li:last-child{margin-bottom:0}
+.det-card .hoy-reto{margin:11px 0 0;font-weight:700;color:#0A2540}
+.det-offer .of-int{font-size:13.8px;line-height:1.6;margin:0 0 10px}
+.det-offer .of-ul{margin:0 0 10px;padding-left:20px}
+.det-offer .of-ul li{margin:0 0 10px;line-height:1.55;font-size:13.5px}
+.det-offer .of-mid{font-size:13px;margin:0 0 12px;color:#1c3550}
+.det-offer .of-status{font-size:12.8px;font-weight:700;color:#5C9A2E;margin:0 0 12px}
 .det-card .ex-box{margin:16px 0;padding:14px 15px;border-radius:12px;background:#F7FAFD;border:1px solid #DCE6F0}
 .det-card .ex-t{font-family:'Manrope',sans-serif;font-weight:800;font-size:13px;color:#0A2540;margin-bottom:9px}
 .det-card .ex-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:10px}
@@ -456,7 +465,7 @@ const CONFIG = {
 <div class="topbar">
   <div class="wrap">
     <div class="brand">Mapa de <span>Crecimiento</span></div>
-    <div class="badge-mini" id="topbadge"><span id="tbLabel">Diagnóstico gratuito · 2 minutos</span> <span id="vstamp" style="opacity:.45;font-size:10px">v3.6</span></div>
+    <div class="badge-mini" id="topbadge"><span id="tbLabel">Diagnóstico gratuito · 2 minutos</span> <span id="vstamp" style="opacity:.45;font-size:10px">v3.7</span></div>
   </div>
 </div>
 
@@ -1265,10 +1274,10 @@ document.addEventListener("click", e=>{
   if(!b) return;
   if(b.classList.contains("done")) return;  // guard: un clic = un webhook (la métrica del MVP no se ensucia)
   const prod = b.dataset.wl;
-  b.classList.add("done"); b.textContent="✓ Lugar apartado — precio de fundador";
+  b.classList.add("done"); b.textContent="✓ Listo — te aviso en cuanto salga";
   sendWebhook("waitlist", {producto:prod});
   track("Waitlist_"+prod,{});
-  toast("Listo, tu lugar está apartado. Te aviso en cuanto abra — entras con precio de fundador.");
+  toast("Listo. Te aviso a tu correo en cuanto salga — entras con precio de fundador.");
 });
 
 function goCall(src){
@@ -1340,7 +1349,11 @@ const TEETH=[
   why:'Una clínica real: el mensaje le costaba <b>$15</b> y se veía barato. El cliente que COMPRÓ le costó <b>$711 — 47 veces más</b>. Si solo ves el costo por mensaje, crees que vas bien mientras pierdes dinero entre cada paso.',
   hoy:'Divide lo que invertiste el mes pasado entre los clientes nuevos que SÍ pagaron. Ese es tu CAC real. Si no tienes ese número, ahí está tu primer problema.',
   why34:'Tu CAC global —lo que invertiste entre los clientes que te pagaron— seguro ya lo conoces, o lo sacas en 2 minutos. El problema: <b>ese número ya no te sirve para decidir</b>. Te dice si ganas o pierdes en total, pero no qué apagar ni qué escalar. El anuncio con el mensaje más barato puede estar dándote los clientes más caros — abajo lo ves con números. Viendo solo el global, le metes dinero al equivocado sin enterarte. El juego en tu etapa es CAC <b>por campaña → por conjunto (los grupos de anuncios dentro de cada campaña) → por anuncio</b>.',
-  hoy34:'Ponle un código corto a cada anuncio activo (AZUL, ROJO, M1…) — pero no en el texto del anuncio: en el <b>mensaje prellenado</b> que se abre cuando pican el botón de WhatsApp. Se cambia en la configuración de cada anuncio en 2 minutos (o pídeselo tal cual a quien te maneja las campañas). Así cada chat llega con su código solito. Tu equipo anota tres cosas por chat: fecha · código · ¿compró? El día 7, divide lo gastado en cada anuncio entre sus compradores — tu primer CAC por anuncio: manual, pero real. Te apuesto que hay una diferencia que no esperabas.',
+  hoy34:'Ponle un código corto a cada anuncio (AZUL, ROJO…) en el <b>mensaje prellenado</b> de WhatsApp. Tu equipo anota por chat: fecha · código · ¿compró? El día 7 divides — y tienes tu CAC por anuncio: manual, pero real.',
+  pasos34:['Ponle un <b>código corto</b> a cada anuncio activo (AZUL, ROJO, M1…) — no en el texto del anuncio: en el <b>mensaje prellenado</b> que se abre cuando pican el botón de WhatsApp. Se cambia en la configuración del anuncio en 2 minutos, o pídeselo tal cual a quien te maneja las campañas.','Cada chat llega con su código solito. Tu equipo anota tres cosas por chat: <b>fecha · código · ¿compró?</b>','El día 7, divide lo gastado en cada anuncio entre sus compradores. Ese es tu <b>CAC por anuncio</b> — manual, pero real.'],
+  reto34:'Te apuesto que hay una diferencia que no esperabas.',
+  ofName:'La Guía de CAC real',
+  ofBullets:['<b>Ruta manual:</b> los códigos + la plantilla de registro, lista para dársela a tu equipo el mismo día.','<b>Ruta semiautomática:</b> tu CRM capturando de qué anuncio llegó cada cliente.','<b>Ruta automática:</b> tus cierres regresándole a Meta, para que el algoritmo te traiga compradores — no curiosos.'],
   puente34:'Hacerlo a mano aguanta dos semanas; después se cae. La guía trae el sistema completo: la ruta manual (códigos + análisis diario), la semiautomática (tu CRM capturando de qué anuncio llegó cada cliente) y la automática (tus cierres regresándole a Meta para que el algoritmo te traiga compradores, no curiosos) — y cuál te conviene según tu volumen. Viene con la plantilla de captura lista para dársela a tu equipo el mismo día.'},
  {l:'Tasa de cierre',sig:'T.C.',g:2,x:'De cada 10 que te escriben, cuántos compran.',
   why:'Un spa real recibía <b>5,600 mensajes al mes y solo 393 agendaban (7%)</b>. El otro 93% se perdía en WhatsApp sin que nadie lo midiera — y por eso nadie lo arreglaba.',
@@ -1598,11 +1611,20 @@ function openDetalle(l){
  if(vurl)h+=`<div class="det-vslot"><iframe src="${vurl}" loading="lazy" allowfullscreen title="${t.l}"></iframe></div>`;
  h+=paras(t.why34);
  if(EXAMPLES[t.l])h+=EXAMPLES[t.l];
- h+=`<div class="hoy"><b>⚡ Si esta semana solo haces UNA cosa:</b> ${t.hoy34}</div>`;
- if(t.s!=='g' && t.puente34){
-  h+=`<div class="det-offer"><div class="of-k">El siguiente paso: llevar control</div><p>${t.puente34}</p>`+
-     `<button class="lq ${t.s}" data-wl="${slug(t.l)}">La quiero — apártame lugar →</button>`+
-     `<p class="of-f">No pagas nada hoy. Los primeros de la lista entran con precio de fundador — te aviso a tu correo en cuanto salga.</p></div>`;
+ if(t.pasos34){
+  h+=`<div class="hoy"><b>⚡ Si esta semana solo haces UNA cosa:</b><ol class="hoy-ol">`+t.pasos34.map(x=>`<li>${x}</li>`).join('')+`</ol>${t.reto34?`<p class="hoy-reto">${t.reto34}</p>`:''}</div>`;
+ } else {
+  h+=`<div class="hoy"><b>⚡ Si esta semana solo haces UNA cosa:</b> ${t.hoy34}</div>`;
+ }
+ if(t.s!=='g' && (t.ofBullets||t.puente34)){
+  const name=t.ofName||('La guía de '+t.l);
+  h+=`<div class="det-offer"><div class="of-k">Para no hacerlo a mano</div>`;
+  h+=`<p class="of-int">Esto a mano aguanta dos semanas — después se cae. Por eso estoy armando <b>${name}</b>, paso a paso, para dársela a tu equipo:</p>`;
+  if(t.ofBullets){ h+=`<ul class="of-ul">`+t.ofBullets.map(x=>`<li>${x}</li>`).join('')+`</ul><p class="of-mid">Y con cuál de las rutas empezar, según tu volumen.</p>`; }
+  else { h+=`<p>${t.puente34}</p>`; }
+  h+=`<p class="of-status">🛠️ La estoy terminando — sale en las próximas semanas.</p>`;
+  h+=`<button class="lq ${t.s}" data-wl="${slug(t.l)}">Avísame cuando esté lista →</button>`;
+  h+=`<p class="of-f">Sin costo hoy. Los primeros de la lista la estrenan con precio de fundador.</p></div>`;
  }
  $("detCard").innerHTML=h;
  $("screen-detalle").classList.remove('hidden');
@@ -1614,6 +1636,8 @@ function openDetalle(l){
 function closeDetalle(){
  $("screen-detalle").classList.add('hidden');
  document.body.style.overflow='';
+ // limpia hash residual #a-... (caso: recarga/URL compartida con el hash colgado) sin tocar el stack
+ if(location.hash.indexOf('#a-')===0){ try{ history.replaceState(history.state,'',location.pathname+location.search); }catch(e){} }
 }
 /* botón atrás del teléfono / gesto iOS: cierra el detalle en vez de matar la página */
 window.addEventListener('popstate',function(){
