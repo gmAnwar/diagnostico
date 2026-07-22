@@ -474,7 +474,7 @@ const CONFIG = {
 <div class="topbar">
   <div class="wrap">
     <div class="brand">Mapa de <span>Crecimiento</span></div>
-    <div class="badge-mini" id="topbadge"><span id="tbLabel">Diagnóstico gratuito · 2 minutos</span> <span id="vstamp" style="opacity:.45;font-size:10px">v3.8</span></div>
+    <div class="badge-mini" id="topbadge"><span id="tbLabel">Diagnóstico gratuito · 2 minutos</span> <span id="vstamp" style="opacity:.45;font-size:10px">v3.9</span></div>
   </div>
 </div>
 
@@ -1354,7 +1354,7 @@ const ST={
 };
 /* 13 dientes. g: 0=Est.Empresa 1=Est.Campaña 2=Métricas. Métricas = ancla. */
 const TEETH=[
- {l:'CAC',sig:'CAC',g:2,x:'Cuánto te cuesta conseguir un cliente que paga, no un mensaje.',
+ {l:'CAC',sig:'CAC',g:2,x:'Cuánto te cuesta conseguir un cliente que paga, no un mensaje.',def:'CAC significa <b>Costo de Adquisición de Cliente</b>: cuánto dinero te cuesta conseguir UN cliente que paga. No un mensaje, no un like — un cliente.',
   why:'Una clínica real: el mensaje le costaba <b>$15</b> y se veía barato. El cliente que COMPRÓ le costó <b>$711 — 47 veces más</b>. Si solo ves el costo por mensaje, crees que vas bien mientras pierdes dinero entre cada paso.',
   hoy:'Divide lo que invertiste el mes pasado entre los clientes nuevos que SÍ pagaron. Ese es tu CAC real. Si no tienes ese número, ahí está tu primer problema.',
   why34:'Tu CAC global —lo que invertiste entre los clientes que te pagaron— seguro ya lo conoces, o lo sacas en 2 minutos. El problema: <b>ese número ya no te sirve para decidir</b>. Te dice si ganas o pierdes en total, pero no qué apagar ni qué escalar. El anuncio con el mensaje más barato puede estar dándote los clientes más caros — abajo lo ves con números. Viendo solo el global, le metes dinero al equivocado sin enterarte. El juego en tu etapa es CAC <b>por campaña → por conjunto (los grupos de anuncios dentro de cada campaña) → por anuncio</b>.',
@@ -1364,25 +1364,25 @@ const TEETH=[
   ofName:'La Guía de CAC real',
   ofBullets:['<b>Ruta manual:</b> los códigos + la plantilla de registro, lista para dársela a tu equipo el mismo día.','<b>Ruta semiautomática:</b> tu CRM capturando de qué anuncio llegó cada cliente.','<b>Ruta automática:</b> tus cierres regresándole a Meta, para que el algoritmo te traiga compradores — no curiosos.'],
   puente34:'Hacerlo a mano aguanta dos semanas; después se cae. La guía trae el sistema completo: la ruta manual (códigos + análisis diario), la semiautomática (tu CRM capturando de qué anuncio llegó cada cliente) y la automática (tus cierres regresándole a Meta para que el algoritmo te traiga compradores, no curiosos) — y cuál te conviene según tu volumen. Viene con la plantilla de captura lista para dársela a tu equipo el mismo día.'},
- {l:'Tasa de cierre',sig:'T.C.',g:2,x:'De cada 10 que te escriben, cuántos compran.',
+ {l:'Tasa de cierre',sig:'T.C.',g:2,x:'De cada 10 que te escriben, cuántos compran.',def:'De cada 10 personas que te escriben, cuántas terminan comprando. Si te escriben 100 y compran 7, tu tasa de cierre es 7%.',
   why:'Un spa real recibía <b>5,600 mensajes al mes y solo 393 agendaban (7%)</b>. El otro 93% se perdía en WhatsApp sin que nadie lo midiera — y por eso nadie lo arreglaba.',
   hoy:'Cuenta tus últimos 50 chats: ¿cuántos terminaron en cita o venta? Ese porcentaje es tu tasa real de cierre.',
   why34:'Tu tasa global esconde <b>dónde</b> se te caen. El embudo real tiene tres caídas: <b>mensaje → cita</b>, <b>cita → llegan</b>, <b>llegan → compran</b> — y cada una tiene un arreglo distinto. Un spa real: 5,600 mensajes, 393 citas (7%)… y de las que agendaban, la mitad no llegaba. Dos fugas distintas; arreglar la equivocada es tiempo tirado.',
   hoy34:'Toma tus últimos 50 chats y saca 3 números: cuántos agendaron, cuántos llegaron, cuántos compraron. Tu peor caída de las tres es TU problema — no "el cierre" en general.',
   puente34:'La guía trae el arreglo específico de cada caída: guion de agendamiento (mensaje→cita), protocolo de confirmación anti no-show (cita→llegan) y estructura de cierre (llegan→compran) — con el tablero semanal para ver las 3 tasas sin hacerlo a mano.'},
- {l:'ROAS',sig:'ROAS',g:2,x:'Cuántas veces recuperas lo que metes en anuncios.',
+ {l:'ROAS',sig:'ROAS',g:2,x:'Cuántas veces recuperas lo que metes en anuncios.',def:'ROAS significa <b>retorno de tu inversión en anuncios</b>: por cada peso que metes a publicidad, cuántos regresan en ventas. ROAS de 3 = metes $1 y regresan $3.',
   why:'Sin este número no puedes decidir si apagar o escalar una campaña — lo decides por corazonada. Y las corazonadas en ads salen caras.',
   hoy:'Ventas atribuibles del mes ÷ inversión del mes. Si no llega a 3×, hay una fuga que encontrar antes de meterle más.',
   why34:'Hay dos ROAS: el que Meta te <b>reporta</b> (lo que su atribución alcanza a ver) y el <b>real</b> (ventas cerradas ÷ inversión). Casi nunca coinciden — la brecha es tu nivel de ceguera. Y el global mezcla todo: una campaña de 5× puede estar subsidiando a una que pierde, mientras el promedio te dice "vamos bien".',
   hoy34:'Calcula tu ROAS real del mes (ventas cerradas ÷ inversión) y compáralo con el que Meta reporta. Luego pártelo por campaña, aunque sea a mano gruesa. La que salga abajo del promedio es tu primera candidata a cirugía.',
   puente34:'La guía trae cómo montar tu tablero de ROAS real por campaña —con margen, no solo venta— y las reglas de decisión: cuándo apagar, cuándo escalar y cuándo aguantar. Con números, no corazonadas.'},
- {l:'Atribución',sig:'ATRIB',g:2,x:'De cada venta, saber de qué anuncio salió.',
+ {l:'Atribución',sig:'ATRIB',g:2,x:'De cada venta, saber de qué anuncio salió.',def:'Atribuir = saber <b>de qué anuncio salió cada venta</b>. Sin esto, no sabes cuál anuncio te da clientes y cuál nada más gasta.',
   why:'Meta optimiza hacia lo que le reportas. Si solo le reportas mensajes, te trae gente que manda mensajes. Si le reportas <b>ventas</b>, te trae compradores. La mayoría nunca le regresa sus ventas a Meta — y por eso el algoritmo les trae curiosos.',
   hoy:'De tus últimas 10 ventas, ¿sabes de qué anuncio salió cada una? Si no, estás pagando por optimizar a ciegas.',
   why34:'Meta optimiza hacia lo que le reportas. Si solo le reportas mensajes, te consigue <b>gente que manda mensajes</b> — no compradores. Tu presupuesto se subasta todos los días hacia el público equivocado, y ningún cambio de creativo lo compensa. La palanca de tu etapa es cerrar el circuito: que tus CIERRES le regresen a Meta, para que aprenda de quien sí paga.',
   hoy34:'De tus últimas 10 ventas, intenta decir de qué anuncio salió cada una. Si tú no puedes con 10, el algoritmo tampoco puede con miles — y mientras, está aprendiendo de los que NO compran.',
   puente34:'La guía trae el circuito completo, sin tecnicismos: cómo capturar el cierre (sheet o CRM), cómo regresárselo a Meta, y las 3 formas de montarlo según tu stack — de la manual a la automática. Es el mismo sistema que usamos en cuentas de +$100K USD al mes.'},
- {l:'Utilidad',sig:'UTIL',g:2,x:'Lo que de verdad te queda después de costos.',
+ {l:'Utilidad',sig:'UTIL',g:2,x:'Lo que de verdad te queda después de costos.',def:'Lo que de verdad te queda en la bolsa después de pagar todo: insumos, comisiones, publicidad, equipo.',
   why:'Puedes vender más que nunca y ganar menos que nunca. El volumen esconde el hoyo: sin utilidad por servicio, no sabes cuál te da de comer y cuál te está costando.',
   hoy:'Toma tu servicio estrella: precio menos TODOS sus costos (insumos, comisiones, ads). Lo que queda es tu utilidad real por venta.',
   why34:'A tu nivel, la utilidad global engaña: unas líneas subsidian a otras y no lo ves. Puedes estar escalando con ads justo el servicio que MENOS te deja — vendiendo más para ganar menos. El juego de tu etapa es utilidad <b>por línea de servicio</b>, y un paso más allá, por campaña.',
@@ -1616,7 +1616,7 @@ function openDetalle(l){
  const st=ST[t.s]||ST.r;
  const vurl=(CONFIG.VIDEO_AREA_URLS||{})[slug(l)];
  let h=`<span class="det-chip" style="background:${st.hex};color:${st.ink}">${iconSVG(st.icon,st.ink,13)} ${st.word.toUpperCase()}</span>`;
- h+=`<h2>${t.l}</h2><p class="det-sub">${t.x}</p>`;
+ h+=`<h2>${t.l}</h2><p class="det-sub">${t.def||t.x}</p>`;
  if(vurl)h+=`<div class="det-vslot"><iframe src="${vurl}" loading="lazy" allowfullscreen title="${t.l}"></iframe></div>`;
  h+=paras(t.why34);
  if(EXAMPLES[t.l])h+=EXAMPLES[t.l];
@@ -1633,7 +1633,7 @@ function openDetalle(l){
   else { h+=`<p>${t.puente34}</p>`; }
   h+=`<p class="of-status">🛠️ La estoy terminando — sale en las próximas semanas.</p>`;
   h+=`<button class="lq ${t.s}" data-wl="${slug(t.l)}">Avísame cuando esté lista →</button>`;
-  h+=`<p class="of-f">Sin costo hoy. Los primeros de la lista la estrenan con precio de fundador.</p></div>`;
+  h+=`<p class="of-f">Anotarte en la lista no cuesta nada. La guía será de pago — los primeros de la lista la estrenan con precio de fundador.</p></div>`;
  }
  $("detCard").innerHTML=h;
  $("screen-detalle").classList.remove('hidden');
