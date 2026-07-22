@@ -413,6 +413,15 @@ body.has-bar{padding-bottom:74px}
 .det-offer .of-ul li{margin:0 0 10px;line-height:1.55;font-size:13.5px}
 .det-offer .of-mid{font-size:13px;margin:0 0 12px;color:#1c3550}
 .det-offer .of-status{font-size:12.8px;font-weight:700;color:#5C9A2E;margin:0 0 12px}
+/* mocks didácticos dentro de los pasos */
+.wa-mock{margin:10px 0 4px;padding:12px 12px 10px;border-radius:10px;background:#ECE5DD}
+.wa-b{background:#DCF8C6;border-radius:0 10px 10px 10px;padding:8px 11px;margin:0 0 7px;font-size:13px;max-width:88%;box-shadow:0 1px 1px rgba(0,0,0,.08);color:#111}
+.wa-b mark{background:#FFF3A6;padding:1px 4px;border-radius:4px;font-weight:800}
+.wa-cap{font-size:11.5px;color:#657787;margin-top:5px}
+.tell-box{margin-top:10px;padding:10px 12px;background:#F1F3F6;border-left:3px solid #0A2540;border-radius:8px;font-size:12.8px;line-height:1.55}
+.reg-mock{width:100%;border-collapse:collapse;margin-top:9px;font-size:12.5px;background:#fff;border:1px solid #E3EAF2;border-radius:8px;overflow:hidden}
+.reg-mock th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:#8a94a6;text-align:left;padding:6px 9px;border-bottom:1px solid #E3EAF2;background:#F7FAFD}
+.reg-mock td{padding:6px 9px;border-bottom:1px solid #EEF2F7}
 .det-card .ex-box{margin:16px 0;padding:14px 15px;border-radius:12px;background:#F7FAFD;border:1px solid #DCE6F0}
 .det-card .ex-t{font-family:'Manrope',sans-serif;font-weight:800;font-size:13px;color:#0A2540;margin-bottom:9px}
 .det-card .ex-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:10px}
@@ -465,7 +474,7 @@ const CONFIG = {
 <div class="topbar">
   <div class="wrap">
     <div class="brand">Mapa de <span>Crecimiento</span></div>
-    <div class="badge-mini" id="topbadge"><span id="tbLabel">Diagnóstico gratuito · 2 minutos</span> <span id="vstamp" style="opacity:.45;font-size:10px">v3.7</span></div>
+    <div class="badge-mini" id="topbadge"><span id="tbLabel">Diagnóstico gratuito · 2 minutos</span> <span id="vstamp" style="opacity:.45;font-size:10px">v3.8</span></div>
   </div>
 </div>
 
@@ -1349,9 +1358,9 @@ const TEETH=[
   why:'Una clínica real: el mensaje le costaba <b>$15</b> y se veía barato. El cliente que COMPRÓ le costó <b>$711 — 47 veces más</b>. Si solo ves el costo por mensaje, crees que vas bien mientras pierdes dinero entre cada paso.',
   hoy:'Divide lo que invertiste el mes pasado entre los clientes nuevos que SÍ pagaron. Ese es tu CAC real. Si no tienes ese número, ahí está tu primer problema.',
   why34:'Tu CAC global —lo que invertiste entre los clientes que te pagaron— seguro ya lo conoces, o lo sacas en 2 minutos. El problema: <b>ese número ya no te sirve para decidir</b>. Te dice si ganas o pierdes en total, pero no qué apagar ni qué escalar. El anuncio con el mensaje más barato puede estar dándote los clientes más caros — abajo lo ves con números. Viendo solo el global, le metes dinero al equivocado sin enterarte. El juego en tu etapa es CAC <b>por campaña → por conjunto (los grupos de anuncios dentro de cada campaña) → por anuncio</b>.',
-  hoy34:'Ponle un código corto a cada anuncio (AZUL, ROJO…) en el <b>mensaje prellenado</b> de WhatsApp. Tu equipo anota por chat: fecha · código · ¿compró? El día 7 divides — y tienes tu CAC por anuncio: manual, pero real.',
-  pasos34:['Ponle un <b>código corto</b> a cada anuncio activo (AZUL, ROJO, M1…) — no en el texto del anuncio: en el <b>mensaje prellenado</b> que se abre cuando pican el botón de WhatsApp. Se cambia en la configuración del anuncio en 2 minutos, o pídeselo tal cual a quien te maneja las campañas.','Cada chat llega con su código solito. Tu equipo anota tres cosas por chat: <b>fecha · código · ¿compró?</b>','El día 7, divide lo gastado en cada anuncio entre sus compradores. Ese es tu <b>CAC por anuncio</b> — manual, pero real.'],
-  reto34:'Te apuesto que hay una diferencia que no esperabas.',
+  hoy34:'Ponle una clave a cada anuncio (AZUL, ROJO…) en el mensaje que se abre en WhatsApp cuando lo pican. Tu equipo apunta por chat: fecha · clave · ¿compró? El día 7 divides — y sabes qué anuncio te trae clientes de verdad.',
+  pasos34:['Cuando alguien pica tu anuncio, se le abre WhatsApp con un <b>mensaje ya escrito</b> (el clásico "Hola, me interesa…"). Ese mensaje lo decides TÚ al crear el anuncio. Ponle una <b>clave distinta a cada anuncio</b>:<div class="wa-mock"><div class="wa-b">Hola, me interesa 😊 <mark>(AZUL)</mark></div><div class="wa-b">Hola, me interesa 😊 <mark>(ROJO)</mark></div><div class="wa-cap">Así te llega el chat — la clave viaja sola, sin que el cliente haga nada.</div></div><div class="tell-box">¿Alguien más te maneja las campañas? Mándale esto tal cual: <i>"Cámbiame el mensaje de bienvenida de cada anuncio para que traiga una clave distinta entre paréntesis: (AZUL), (ROJO)…"</i></div>','Tu equipo apunta 3 cosas de cada chat que llegue — en papel o en Excel, da igual:<table class="reg-mock"><tr><th>Fecha</th><th>Clave</th><th>¿Compró?</th></tr><tr><td>3 jul</td><td>AZUL</td><td>❌</td></tr><tr><td>3 jul</td><td>ROJO</td><td>✅</td></tr><tr><td>4 jul</td><td>ROJO</td><td>✅</td></tr></table>','A los 7 días, haz una cuenta por cada clave: <b>lo que gastaste en ese anuncio ÷ sus compradores</b>. Ejemplo: gastaste $1,500 en ROJO y te compraron 5 → cada cliente de ROJO te costó <b>$300</b>. Ese es tu CAC por anuncio.'],
+  reto34:'Haz la cuenta con dos anuncios y compáralos. Te apuesto que hay una diferencia que no esperabas.',
   ofName:'La Guía de CAC real',
   ofBullets:['<b>Ruta manual:</b> los códigos + la plantilla de registro, lista para dársela a tu equipo el mismo día.','<b>Ruta semiautomática:</b> tu CRM capturando de qué anuncio llegó cada cliente.','<b>Ruta automática:</b> tus cierres regresándole a Meta, para que el algoritmo te traiga compradores — no curiosos.'],
   puente34:'Hacerlo a mano aguanta dos semanas; después se cae. La guía trae el sistema completo: la ruta manual (códigos + análisis diario), la semiautomática (tu CRM capturando de qué anuncio llegó cada cliente) y la automática (tus cierres regresándole a Meta para que el algoritmo te traiga compradores, no curiosos) — y cuál te conviene según tu volumen. Viene con la plantilla de captura lista para dársela a tu equipo el mismo día.'},
