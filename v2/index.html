@@ -319,9 +319,9 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .sub b{color:var(--ink);font-weight:600;}
 #engrane-root .authority{display:flex;align-items:center;gap:9px;margin:14px 0 4px;padding:10px 14px;border-radius:12px;background:#0A2540;color:#fff;font-size:13px;font-weight:500;line-height:1.4;}
 #engrane-root .authority b{color:var(--green);font-weight:700}
-#engrane-root .legend{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 6px;}
-#engrane-root .lg{display:flex;align-items:center;gap:8px;padding:8px 13px 8px 9px;border-radius:12px;background:#FBFAF7;border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--ink);}
-#engrane-root .lg .sw{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+#engrane-root .legend{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:12px 0 2px;}
+#engrane-root .lg{display:flex;align-items:center;gap:6px;padding:5px 10px 5px 7px;border-radius:99px;background:#FBFAF7;border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink);}
+#engrane-root .lg .sw{width:18px;height:18px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
 #engrane-root .lg .txt small{display:block;font-weight:500;color:var(--muted);font-size:11px;line-height:1.2;margin-top:1px;}
 #engrane-root .hero{margin:16px -8px 4px;}
 #engrane-root .hero svg{width:100%;height:auto;display:block;}
@@ -375,6 +375,8 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .lq.big,#screen-detalle .lq.big{min-height:46px;font-size:14px;padding:12px 20px;}
 #engrane-root .lq.done,#screen-detalle .lq.done{background:var(--green);color:#fff;pointer-events:none;font-size:11.5px;white-space:normal;max-width:none;line-height:1.25;}
 #screen-detalle .det-offer .lq{width:100%;min-height:48px;font-size:15px;white-space:normal}
+#screen-detalle .det-early{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:14px 0;padding:12px 14px;border-radius:12px;background:#F3F7FE;border:1px dashed #B9CBE8;font-size:13px;line-height:1.5;}
+#screen-detalle .det-early .lq{white-space:normal;}
 #engrane-root .row.locked .lb{color:#8a94a6;font-weight:700}
 #engrane-root .row.locked .sub2{color:#aab2bc}
 #engrane-root .row .lk{font-size:10.5px;font-weight:700;color:#9aa3ad;white-space:nowrap;flex:0 0 auto;margin-top:3px;letter-spacing:.02em}
@@ -441,6 +443,10 @@ body.has-bar{padding-bottom:74px}
 .det-vslot{margin:0 0 16px;border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:#0A2540}
 .det-vslot iframe{width:100%;height:100%;border:0;display:block}
 #engrane-root .lock-note b{color:var(--navy)}
+#engrane-root .row.foco{outline:2px solid var(--red);outline-offset:-1px;background:#FFF8F6;border-radius:10px;}
+#engrane-root .foco-chip{display:inline-block;background:var(--red);color:#fff;font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:99px;margin-left:6px;vertical-align:1.5px;letter-spacing:.05em;white-space:nowrap;}
+#engrane-root .lock-note .lock-cta{margin-top:10px}
+#engrane-root .lock-note .lq{white-space:normal}
 #engrane-root .summary{margin-top:16px;background:#FBFAF7;border:1px solid var(--line);border-radius:16px;padding:16px 20px;font-size:13.5px;color:var(--ink);line-height:1.5;}
 #engrane-root .summary b{color:var(--navy);font-weight:700;}
 #engrane-root .summary .cr{color:var(--red-d);font-weight:700;}
@@ -477,7 +483,7 @@ const CONFIG = {
 <div class="topbar">
   <div class="wrap">
     <div class="brand">Mapa de <span>Crecimiento</span></div>
-    <div class="badge-mini" id="topbadge"><span id="tbLabel">Diagnóstico gratuito · 2 minutos</span> <span id="vstamp" style="opacity:.45;font-size:10px">v4.3</span></div>
+    <div class="badge-mini" id="topbadge"><span id="tbLabel">Diagnóstico gratuito · 2 minutos</span> <span id="vstamp" style="opacity:.45;font-size:10px">v4.4</span></div>
   </div>
 </div>
 
@@ -522,22 +528,21 @@ const CONFIG = {
     <div class="wrap">
     <div class="card"><div class="card-inner">
       <div class="top">
-        <div class="brand"><span class="dot"></span><span class="name">El Lente<small>por Anwar Sepúlveda · OptimizAds</small></span></div>
-        <span class="tag">DIAGNÓSTICO DE CRECIMIENTO</span>
+        <div class="brand"><span class="dot"></span><span class="name">Anwar Sepúlveda<small>OptimizAds</small></span></div>
       </div>
       <div class="head-block">
         <h1>Los <span class="k">3 Engranes</span> de tu negocio</h1>
         <p class="sub">Cada diente es un área de tu negocio, pintada según cómo la tienes hoy. De un vistazo ves dónde estás fuerte y <b>dónde se te fuga el dinero.</b></p>
       </div>
-      <div class="authority">🔍 <span>El mismo proceso con el que auditamos empresas que invierten <b>+$100K USD al mes</b> en publicidad.</span></div>
-      <div class="legend" id="legend"></div>
       <div class="hero"><div id="hero"></div></div>
+      <div class="legend" id="legend"></div>
+      <div class="authority">🔍 <span>El mismo proceso con el que auditamos empresas que invierten <b>+$100K USD al mes</b> en publicidad.</span></div>
       <div class="lectura" id="lectura"></div>
       <div class="etapa" id="etapa"></div>
       <div class="hero-cta" id="heroCta" style="display:none"></div>
       <div class="guia-note" id="guiaNote">Estoy armando la <b>guía paso a paso de cada área</b>. Anótate en las que necesites y te aviso a tu correo en cuanto salga la tuya — serán de pago, y <b>los primeros de cada lista entran con precio de fundador</b>.</div>
       <div class="grid" id="grid"></div>
-      <div class="lock-note">🔒 Acabas de ver <b>13 puntos</b> de tu negocio. La <b>Auditoría completa</b> revisa <b>40+</b> — el triple de profundidad, donde está el detalle fino que de verdad mueve la aguja.</div>
+      <div class="lock-note">🔒 Acabas de ver <b>13 puntos</b> de tu negocio. La <b>Auditoría completa</b> revisa <b>40+</b> — el triple de profundidad, donde está el detalle fino que de verdad mueve la aguja.<div class="lock-cta"><button class="lq" data-wl="auditoria_express">Avísame cuando abra la Auditoría completa →</button></div></div>
       <div class="summary" id="summary"></div>
     </div></div>
     </div>
@@ -1003,7 +1008,7 @@ function showResults(){
   window.scrollTo({top:0}); // el diagnóstico arranca desde arriba, no donde quedó el gate
   $("exportbar").classList.add("on");
   document.body.classList.add("has-bar");
-  const tbl=$("tbLabel"); if(tbl){ tbl.textContent = "Tu Mapa de Crecimiento"; } else { $("topbadge").textContent = "Tu Mapa de Crecimiento"; } // conserva el sello de versión
+  const tbl=$("tbLabel"); if(tbl){ tbl.textContent = ""; } // en resultados la topbar ya no repite el nombre; queda solo el sello de versión
 
   // (etapa/stage UI vieja reemplazada por el engrane)
 
@@ -1287,11 +1292,11 @@ document.addEventListener("click", e=>{
   if(b.classList.contains("done")) return;  // guard: un clic = un webhook
   state.wl=state.wl||{}; if(state.wl[b.dataset.wl]){ b.classList.add("done"); b.textContent="✓ Ya estás en la lista"; return; }
   const prod = b.dataset.wl;
-  state.wl[b.dataset.wl]=1;
-  b.classList.add("done"); b.textContent="✓ Listo — te aviso en cuanto salga";
+  state.wl[prod]=1;
+  document.querySelectorAll('[data-wl="'+prod+'"]').forEach(function(x){ x.classList.add("done"); x.textContent="✓ Listo — te aviso en cuanto salga"; });
   sendWebhook("waitlist", {producto:prod});
   track("Waitlist_"+prod,{});
-  toast("Listo. Te aviso a tu correo en cuanto salga — entras con precio de fundador.");
+  toast(prod==="auditoria_express" ? "Listo. Te aviso a tu correo en cuanto abra la Auditoría." : "Listo. Te aviso a tu correo en cuanto salga — entras con precio de fundador.");
 });
 
 function goCall(src){
@@ -1625,7 +1630,7 @@ function renderHero(byGear){
  svg+=`</svg>`;document.getElementById('hero').innerHTML=svg;
 }
 function renderLegend(){document.getElementById('legend').innerHTML=['g','y','r'].map(k=>{const st=ST[k];
- return `<div class="lg"><span class="sw" style="background:${st.hex}">${iconSVG(st.icon,st.ink,15)}</span><span class="txt"><b>${st.word}</b><small>${k==='g'?'sólido, funcionando':k==='y'?'existe, hay que afinarlo':'no existe, urge'}</small></span></div>`;}).join('');}
+ return `<div class="lg"><span class="sw" style="background:${st.hex}">${iconSVG(st.icon,st.ink,15)}</span><span class="txt"><b>${st.word}</b></span></div>`;}).join('');}
 
 /* LA LECTURA · cruza engranes y dispara el insight por patrón (voz de Anwar) */
 function laLectura(real,tg,tr){
@@ -1682,7 +1687,8 @@ function render(levels){
    const vm=W?`<button class="vermas" type="button">¿Por qué importa? ↓</button>`:``;
    const det=adv?`<button class="btn-det" type="button" data-det="${t.l}">Ver detalle →</button>`:``;
    const deep=W?`<div class="deep hidden"><p>${W}</p><div class="hoy"><b>⚡ Hazlo hoy:</b> ${H}</div>${det}</div>`:``;
-   return `<div class="row" id="row-${slug(t.l)}"><span class="ch" style="background:${st.hex}">${iconSVG(st.icon,st.ink,15)}</span><span class="txt"><span class="lb">${t.l}</span><span class="sub2">${t.x}</span>${vm}</span>${act}${deep}</div>`;}).join('');
+   const foco=firstAny&&t.l===firstAny.l;
+   return `<div class="row${foco?' foco':''}" id="row-${slug(t.l)}"><span class="ch" style="background:${st.hex}">${iconSVG(st.icon,st.ink,15)}</span><span class="txt"><span class="lb">${t.l}${foco?' <span class="foco-chip">🎯 TU FOCO</span>':''}</span><span class="sub2">${t.x}</span>${vm}</span>${act}${deep}</div>`;}).join('');
   return `<div class="col${anchor}"><div class="col-h"><span class="nm">${GEARS_META[gi].short}</span><span class="sc"><b>${gc}</b>/${realN} ok</span></div>${rows}</div>`;
  }).join('');
  let sm;
@@ -1714,6 +1720,10 @@ function openDetalle(l){
  if(vurl)h+=`<div class="det-vslot"><iframe src="${vurl}" loading="lazy" allowfullscreen title="${t.l}"></iframe></div>`;
  h+=paras(dW);
  if(EXAMPLES[t.l])h+=EXAMPLES[t.l];
+ if(t.s!=='g' && (t.ofBullets||t.puente34)){
+  const gnm=t.ofName||('La guía de '+t.l);
+  h+=`<div class="det-early">🛠️ Estoy terminando <b>${gnm}</b> — el paso a paso completo de esta área. <button class="lq ${t.s}" data-wl="${slug(t.l)}">Avísame cuando esté lista →</button></div>`;
+ }
  if(dP){
   h+=`<div class="hoy"><b>⚡ Si esta semana solo haces UNA cosa:</b><ol class="hoy-ol">`+dP.map(x=>`<li>${x}</li>`).join('')+`</ol>${dR?`<p class="hoy-reto">${dR}</p>`:''}</div>`;
  } else {
@@ -1736,6 +1746,7 @@ function openDetalle(l){
  document.body.style.overflow='hidden';
  try{ history.pushState({dx:1},'',location.pathname+location.search+'#a-'+slug(l)); }catch(e){}
  track('DetalleView',{area:slug(l)});
+ state.dv=state.dv||{}; if(!state.dv[slug(l)]){ state.dv[slug(l)]=1; sendWebhook("detalle_view",{area:slug(l)}); }
 }
 function closeDetalle(){
  $("screen-detalle").classList.add('hidden');
