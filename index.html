@@ -462,7 +462,9 @@ body.has-bar{padding-bottom:74px}
 .opt-none{color:#777;font-weight:700;text-align:center}
 .opt-none.on{border-color:var(--navy);background:#F8FAFD;color:var(--navy)}
 .multi-hint{font-size:13.5px;color:#777;margin:16px 0 4px;line-height:1.45}
-.btn-continue{margin-top:12px;width:100%}
+.btn-continue{margin-top:12px;width:100%;position:sticky;bottom:12px;z-index:5;box-shadow:0 8px 24px rgba(10,37,64,.22)}
+.multi-warn{display:none;font-size:14px;font-weight:700;color:var(--red);margin:10px 0 0;text-align:center}
+.multi-warn.on{display:block}
 </style>
 </head>
 <body>
@@ -493,9 +495,9 @@ const CONFIG = {
   <h1 class="hero bebas">Descubre en qué enfocarte<br>para crecer <em>este mes</em></h1>
   <p class="sub">Contesta 10 preguntas rápidas. Al terminar ves tu diagnóstico completo aquí mismo: en qué etapa está tu negocio, qué áreas te están frenando y qué mover primero.</p>
   <form class="gate-form" id="gateForm">
-    <input type="text" id="g_nombre" placeholder="Tu nombre completo" required>
-    <input type="email" id="g_email" placeholder="Tu correo" required>
-    <input type="tel" id="g_telefono" placeholder="Tu WhatsApp (10 dígitos)" required inputmode="numeric" pattern="[0-9\+\(\)\- ]{10,15}" title="Escribe tu WhatsApp a 10 dígitos">
+    <input type="text" id="g_nombre" placeholder="Tu nombre completo" required autocomplete="name">
+    <input type="email" id="g_email" placeholder="Tu correo" required autocomplete="email">
+    <input type="tel" id="g_telefono" placeholder="Tu WhatsApp (10 dígitos)" required inputmode="numeric" autocomplete="tel-national" pattern="[0-9]{10}" title="Escribe tu WhatsApp a 10 dígitos, solo números">
     <button class="btn-red" type="submit">Quiero mi diagnóstico gratis →</button>
   </form>
   <p class="trust small">Sin costo. Sin spam. Resultados al instante.</p>
@@ -514,7 +516,7 @@ const CONFIG = {
   <h1 class="hero bebas" style="font-size:clamp(30px,5vw,50px)" id="phoneName">Ya casi.</h1>
   <p class="sub">¿A qué WhatsApp te mando tu mapa completo + el Kit de Cierre por WhatsApp? Lo abres aquí mismo en cuanto lo pongas.</p>
   <form class="gate-form" id="phoneForm">
-    <input type="tel" id="p_telefono" placeholder="Tu WhatsApp (10 dígitos)" inputmode="numeric" pattern="[0-9\+\(\)\- ]{10,15}" title="Escribe tu WhatsApp a 10 dígitos" required>
+    <input type="tel" id="p_telefono" placeholder="Tu WhatsApp (10 dígitos)" inputmode="numeric" autocomplete="tel-national" pattern="[0-9]{10}" title="Escribe tu WhatsApp a 10 dígitos, solo números" required>
     <button class="btn-red" type="submit">Ver mi diagnóstico →</button>
   </form>
   <button class="skiplink" id="phoneSkip" style="margin-top:16px">Prefiero verlo sin dejar mi WhatsApp →</button>
@@ -738,9 +740,16 @@ const FLOW_MAP = {leadgen:[0,1,9], filtro:[7,1], seguimiento:[2,4,8], cierre:[6,
 /* =====================================================================
    ESTADO + ARRANQUE
    ===================================================================== */
-let state = {nombre:"", email:"", telefono:"", B:[], C:[], idx:0, phase:"B", etapa:null, weak:[], done:false, utm:{}, ab:"", metricas:[false,false,false,false,false]};
+let state = {nombre:"", email:"", telefono:"", B:[], C:[], idx:0, phase:"B", etapa:null, weak:[], done:false, utm:{}, ab:"", metricas:[false,false,false,false,false], metricasTocado:false, metricasAviso:false};
 
 const $ = id => document.getElementById(id);
+function normTel(v){
+  let d = (v||"").replace(/\D/g,"");
+  if(d.length>10 && d.slice(0,3)==="521") d=d.slice(3);
+  else if(d.length>10 && d.slice(0,2)==="52") d=d.slice(2);
+  else if(d.length===11 && d[0]==="1") d=d.slice(1);
+  return d.slice(0,10);
+}
 // Nombre en Title Case: "julia gonzález" → "Julia González"
 function capName(s){ return (s||"").trim().replace(/\s+/g," ").toLowerCase().replace(/(^|\s|-)(\p{L})/gu,(m,p1,p2)=>p1+p2.toUpperCase()); }
 const params = new URLSearchParams(location.search);
@@ -766,15 +775,16 @@ function init(){
     e.preventDefault();
     state.nombre = capName($("g_nombre").value);
     state.email  = $("g_email").value.trim();
-    state.telefono = state.ab==="A" ? $("g_telefono").value.replace(/[^\d+]/g,"") : "";
+    state.telefono = state.ab==="A" ? normTel($("g_telefono").value) : "";
     startQuiz();
   });
   // Variante B: captura de WhatsApp en el reveal
   const pf=$("phoneForm"); if(pf) pf.addEventListener("submit", e=>{
     e.preventDefault();
-    const v=$("p_telefono").value.replace(/[^\d+]/g,""); if(v) state.telefono=v;
+    const v=normTel($("p_telefono").value); if(v) state.telefono=v;
     completeAndShow();
   });
+  ["g_telefono","p_telefono"].forEach(id=>{ const el=$(id); if(el) el.addEventListener("input", ()=>{ const n=normTel(el.value); if(el.value!==n) el.value=n; }); });
   const ps=$("phoneSkip"); if(ps) ps.addEventListener("click", ()=>completeAndShow());
   setupAcards();
 }
@@ -907,26 +917,30 @@ function renderMulti(q){
   q.items.forEach((it,ii)=>{
     h += `<button type="button" class="opt opt-multi ${m[ii]?'on':''}" onclick="toggleMetrica(${ii})"><span class="mbox">${m[ii]?'\u2713':''}</span><span class="mlbl">${it}</span></button>`;
   });
-  const noneOn = m.every(v=>!v);
+  const noneOn = state.metricasTocado && m.every(v=>!v);
   h += `<button type="button" class="opt opt-none ${noneOn?'on':''}" onclick="pickNinguno()">Ninguno con certeza</button>`;
   h += `</div>`;
-  h += `<p class="multi-hint">Marca solo los que hoy puedes responder con un número exacto. Si no marcas ninguno, no pasa nada — es justo lo que este diagnóstico te ayuda a poner en orden.</p>`;
+  h += `<p class="multi-hint">Marca solo los que hoy puedes responder con un número exacto. Si no marcas ninguno, no pasa nada. Es justo lo que este diagnóstico te ayuda a poner en orden.</p>`;
+  h += `<p class="multi-warn ${state.metricasAviso?'on':''}">Marca al menos uno, o toca “Ninguno con certeza”.</p>`;
   h += `<button type="button" class="btn-red btn-continue" onclick="continueMetrica()">Continuar →</button>`;
   return h;
 }
 function toggleMetrica(i){
   if(!state.metricas) state.metricas=[false,false,false,false,false];
   state.metricas[i] = !state.metricas[i];
+  state.metricasTocado = true; state.metricasAviso = false;
   renderQ(true);
 }
 function pickNinguno(){
   state.metricas=[false,false,false,false,false];
+  state.metricasTocado = true; state.metricasAviso = false;
   renderQ(true);
 }
 function continueMetrica(){
   const now = Date.now();
   if(now - pickLock < 300) return;
   pickLock = now;
+  if(!state.metricasTocado){ state.metricasAviso = true; renderQ(true); return; }
   const m = state.metricas || [false,false,false,false,false];
   const n = m.filter(Boolean).length;
   const lvl = n===0 ? 1 : n<=2 ? 2 : n<=4 ? 3 : 4;   // 0->1, 1-2->2, 3-4->3, 5->4
@@ -955,13 +969,11 @@ function computeWeak(B, etapa){
 /* ---------- Perfil de curso 4P: se deduce de C3 (costo) + C4 (traba) ---------- */
 function computePerfil(){
   const c3 = state.C[2], c4 = state.C[3];
-  if(c3==null || c4==null) return null;
-  if(c4===4) return 1;                              // escalamiento → estancado, vende bien
-  if(c4===2 && (c3===1||c3===2)) return 2;          // no compran + mensajes baratos
-  if((c4===0||c4===1) && (c3===3||c3===4)) return 3;// atracción/segmentación + caros
-  if(c4===3 && (c3===3||c3===4)) return 4;          // rentabilidad + caros
-  if(c4===3) return 5;                              // rentabilidad, costo ok → gana poco
-  return null;
+  if(c3==null || c4==null) return null;             // null SOLO si de verdad saltó el Bloque C
+  if(c4===4) return 1;                              // escalamiento: vende bien, quiere más
+  const caro = (c3===3 || c3===4);                  // costo por contacto percibido como alto
+  if(c4===3) return caro ? 4 : 5;                   // rentabilidad: caros=4 · costo ok=5
+  return caro ? 3 : 2;                              // c4 0,1,2 = todavía no vende: caros=3 · baratos=2
 }
 
 function finish(){
