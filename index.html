@@ -485,22 +485,21 @@ const CONFIG = {
 <div class="topbar">
   <div class="wrap">
     <div class="brand">Mapa de <span>Crecimiento</span></div>
-    <div class="badge-mini" id="topbadge"><span id="tbLabel">Diagnóstico gratuito · 2 minutos</span> <span id="vstamp" style="opacity:.45;font-size:10px">v4.4</span></div>
+    <div class="badge-mini" id="topbadge"><span id="tbLabel">Diagnóstico gratis · 2 minutos</span> <span id="vstamp" style="opacity:.45;font-size:10px">v4.4</span></div>
   </div>
 </div>
 
 <!-- ======================= PANTALLA 0 · GATE (fallback si no viene de la landing) ======================= -->
 <div class="screen wrap" id="screen-gate">
-  <span class="kicker">Diagnóstico gratuito · 2 minutos</span>
-  <h1 class="hero bebas">Descubre en qué enfocarte<br>para crecer <em>este mes</em></h1>
-  <p class="sub">Contesta 10 preguntas rápidas. Al terminar ves tu diagnóstico completo aquí mismo: en qué etapa está tu negocio, qué áreas te están frenando y qué mover primero.</p>
+  <span class="kicker">Diagnóstico gratis · 2 minutos</span>
+  <h1 class="hero bebas">Tu negocio tiene 13 áreas.<br>Aquí ves cuál te está <em>frenando</em>.</h1>
+  <p class="sub">Son 10 preguntas. Al terminar ves tu diagnóstico completo aquí mismo: en qué etapa está tu negocio, qué áreas lo están frenando y por dónde empezar.</p>
   <form class="gate-form" id="gateForm">
     <input type="text" id="g_nombre" placeholder="Tu nombre completo" required autocomplete="name">
     <input type="email" id="g_email" placeholder="Tu correo" required autocomplete="email">
-    <input type="tel" id="g_telefono" placeholder="Tu WhatsApp (10 dígitos)" required inputmode="numeric" autocomplete="tel-national" pattern="[0-9]{10}" title="Escribe tu WhatsApp a 10 dígitos, solo números">
-    <button class="btn-red" type="submit">Quiero mi diagnóstico gratis →</button>
+    <button class="btn-red" type="submit">Empezar mi diagnóstico →</button>
   </form>
-  <p class="trust small">Sin costo. Sin spam. Resultados al instante.</p>
+  <p class="trust small">Tu diagnóstico sale al terminar. Nada de spam.</p>
 </div>
 
 <!-- ======================= PANTALLA 1 · QUIZ ======================= -->
@@ -590,38 +589,38 @@ const CONFIG = {
 
 /* ---------- DATA · 10 preguntas (B) · opciones = niveles Etapa 1-4 ---------- */
 const QUIZ = [
- {id:"b1_presupuesto", area:"Presupuesto", q:"¿Cuánto inviertes al mes en publicidad?",
+ {id:"b1_presupuesto", area:"Presupuesto", q:"¿Cuánto le metes al mes a anuncios?",
   opts:["Menos de $10,000","Entre $10,000 y $40,000","Entre $40,000 y $120,000","Más de $120,000"]},
- {id:"b2_campanas", area:"Campañas", q:"¿Cómo manejas tus campañas de publicidad?",
-  opts:["Le pico al botón azul de promocionar","Uso Ads Manager, pero de forma irregular","Uso Ads Manager con estructura","Tengo equipo o agencia manejándolas"]},
+ {id:"b2_campanas", area:"Campañas", q:"¿Cómo llevas tus anuncios hoy?",
+  opts:["Le pico al botón azul de promocionar","Entro al Ads Manager de vez en cuando","Uso el Ads Manager con una estructura armada","Los lleva mi equipo o una agencia"]},
  {id:"b3_equipo", area:"Equipo ventas", q:"¿Quién contesta los mensajes que llegan de tus anuncios?",
-  opts:["Contesto yo mismo","1 persona, sin proceso definido","2 a 3 personas, cada quien a su manera","Un equipo con líder y guion"]},
- {id:"b4_metricas", area:"Métricas", q:"¿Cuáles de estos números puedes decir hoy con certeza?", multi:true,
+  opts:["Los contesto yo","1 persona, sin proceso definido","2 a 3 personas, cada quien a su manera","Un equipo con líder y guion"]},
+ {id:"b4_metricas", area:"Métricas", q:"¿Cuáles de estos números me puedes decir ahorita, sin buscarlos?", multi:true,
   items:["Cuánto me cuesta un cliente que paga (no un mensaje)","De cada 10 que me escriben, cuántos compran","Cuántas veces recupero lo que meto en ads","De cada venta, de qué anuncio salió","Cuánto me queda limpio al final"],
   opts:["No mido nada","Solo cuántos leads y cuántas ventas","Costo por lead y por cliente, pero no cuánto me deja cada cliente","Tengo control completo de mis números"]},
- {id:"b5_automatizacion", area:"Automatización", q:"¿Qué tan automatizado está tu proceso de ventas?",
-  opts:["Todo es manual","Tengo un embudo básico, sin CRM","Tengo un CRM básico","CRM robusto con seguimiento automático"]},
- {id:"b6_ventas", area:"Ventas", q:"¿Qué tan estables y predecibles son tus ventas?",
-  opts:["Bajas y impredecibles","Moderadas, con altibajos","Buen volumen, pero con picos y valles","Altas y predecibles"]},
- {id:"b7_oferta", area:"Oferta", q:"¿Qué tan validado está lo que vendes?",
-  opts:["Todavía estoy probando","Validado a medias","Validado, lo estoy optimizando","Totalmente validado"]},
- {id:"b8_cliente", area:"Cliente ideal", q:"¿Qué tan bien conoces a tu cliente ideal?",
-  opts:["Tengo una idea general","Tengo una definición inicial","Tengo un perfil claro con datos","Tengo segmentos avanzados y les hablo diferente"]},
- {id:"b9_respuesta", area:"Resp. a leads", q:"¿Qué tan rápido responden a las personas que escriben?",
-  opts:["Sin reglas, a veces horas tarde","Intentamos rápido, pero sin regla fija","Con horarios y guiones básicos","Tiempo medido, con revisión semanal"]},
- {id:"b10_creatividades", area:"Creatividades", q:"¿Cómo manejas tus creatividades y anuncios?",
-  opts:["Subo publicaciones genéricas","Hago pruebas, sin estrategia","Hago pruebas A/B con proceso","Tengo banco de ganadores y calendario"]}
+ {id:"b5_automatizacion", area:"Automatización", q:"El seguimiento a los que te escriben, ¿cómo lo llevas?",
+  opts:["Todo a mano, me acuerdo o lo apunto","Lo llevo en un Google Sheet o parecido, sin CRM","Tengo un CRM básico","Tengo un CRM con seguimiento automático"]},
+ {id:"b6_ventas", area:"Ventas", q:"¿Puedes saber más o menos cuánto vas a vender el mes que entra?",
+  opts:["Ni idea, cada mes es distinto","Más o menos, pero con altibajos","Buen volumen, pero con picos y valles","Sí, le atino"]},
+ {id:"b7_oferta", area:"Oferta", q:"Lo que vendes, ¿ya está probado o todavía le estás moviendo?",
+  opts:["Todavía estoy probando qué me compran","Ya sé qué se vende, pero no siempre","Se vende bien, le estoy afinando precio y oferta","Está probado, lo compran sin que yo empuje"]},
+ {id:"b8_cliente", area:"Cliente ideal", q:"¿Tienes claro quién es tu cliente ideal?",
+  opts:["Tengo una idea, pero no con datos","Tengo una definición inicial","Tengo un perfil claro, sacado de mis datos","Tengo varios perfiles y a cada uno le hablo distinto"]},
+ {id:"b9_respuesta", area:"Resp. a leads", q:"¿Cuánto tardan en contestarle a alguien que escribe?",
+  opts:["A veces pasan horas, o hasta el otro día","En menos de una hora, solo en horario de oficina","En menos de 10 minutos, pero no de noche ni en fin de semana","En menos de 5 minutos, también noches y fines de semana"]},
+ {id:"b10_creatividades", area:"Creatividades", q:"¿Cómo decides qué va a decir tu próximo anuncio?",
+  opts:["Se me ocurre en el momento, o subo lo que tengo","Copio lo que veo que le funciona a otros","Pienso el ángulo antes y pruebo varios","Tengo un método: sé qué ángulo va para cada tipo de cliente"]}
 ];
 
 /* ---------- Bloque C · 4 preguntas de contexto (post-quiz, saltables) ---------- */
 const CTX = [
  {id:"c1_rubro", q:"¿A qué se dedica tu negocio?",
   opts:["Salud y belleza (clínicas, estéticas, dentistas, spas)","Bienes raíces","Educación y coaching","Servicios profesionales","Comercio y retail","Restaurantes y alimentos","Automotriz","Fitness y deporte","Otro"]},
- {id:"c2_modelo", q:"¿Cuál es tu modelo de negocio?",
+ {id:"c2_modelo", q:"¿A quién le vendes?",
   opts:["Vendo productos al cliente final","Vendo servicios al cliente final","Vendo a otras empresas","Vendo a distribuidores o mayoristas"]},
- {id:"c3_costo", q:"El costo que pagas por cada persona que te contacta, ¿cómo lo sientes?",
+ {id:"c3_costo", q:"Lo que te cuesta cada persona que te escribe, ¿cómo lo ves?",
   opts:["No lo sé, no mido eso","Me parece barato, me sobra margen","Está bien, pero podría mejorar","Se siente caro para lo que vendo","Es tan caro que dudo si vale la pena"]},
- {id:"c4_traba", q:"¿Cuál sientes que es tu mayor traba para vender más?",
+ {id:"c4_traba", q:"¿Qué es lo que más te está frenando para vender más?",
   opts:["Me llegan pocos interesados","Me llegan muchos, pero no del perfil correcto","Me contactan, pero no compran","Vendo bien, pero el costo es alto y me queda poco","Vendo bien, pero no puedo crecer sin que todo dependa de mí"]}
 ];
 
@@ -775,7 +774,8 @@ function init(){
     e.preventDefault();
     state.nombre = capName($("g_nombre").value);
     state.email  = $("g_email").value.trim();
-    state.telefono = state.ab==="A" ? normTel($("g_telefono").value) : "";
+    const _tel = $("g_telefono");
+    state.telefono = (state.ab==="A" && _tel) ? normTel(_tel.value) : "";
     startQuiz();
   });
   // Variante B: captura de WhatsApp en el reveal
@@ -918,10 +918,10 @@ function renderMulti(q){
     h += `<button type="button" class="opt opt-multi ${m[ii]?'on':''}" onclick="toggleMetrica(${ii})"><span class="mbox">${m[ii]?'\u2713':''}</span><span class="mlbl">${it}</span></button>`;
   });
   const noneOn = state.metricasTocado && m.every(v=>!v);
-  h += `<button type="button" class="opt opt-none ${noneOn?'on':''}" onclick="pickNinguno()">Ninguno con certeza</button>`;
+  h += `<button type="button" class="opt opt-none ${noneOn?'on':''}" onclick="pickNinguno()">Ninguno de estos</button>`;
   h += `</div>`;
   h += `<p class="multi-hint">Marca solo los que hoy puedes responder con un número exacto. Si no marcas ninguno, no pasa nada. Es justo lo que este diagnóstico te ayuda a poner en orden.</p>`;
-  h += `<p class="multi-warn ${state.metricasAviso?'on':''}">Marca al menos uno, o toca “Ninguno con certeza”.</p>`;
+  h += `<p class="multi-warn ${state.metricasAviso?'on':''}">Marca al menos uno, o toca “Ninguno de estos”.</p>`;
   h += `<button type="button" class="btn-red btn-continue" onclick="continueMetrica()">Continuar →</button>`;
   return h;
 }
