@@ -755,11 +755,41 @@ function normTel(v){
 // Nombre en Title Case: "julia gonzález" → "Julia González"
 function capName(s){ return (s||"").trim().replace(/\s+/g," ").toLowerCase().replace(/(^|\s|-)(\p{L})/gu,(m,p1,p2)=>p1+p2.toUpperCase()); }
 const params = new URLSearchParams(location.search);
+
+/* ---------- BLINDAJE DE IDENTIDAD ----------
+   El pixel manda la URL completa en cada evento. Si la identidad va en la URL,
+   Meta la recibe. Se lee a memoria y se BORRA de la barra ANTES de cargar el pixel. */
+function scrubURL(){
+  try{
+    const p = new URLSearchParams(location.search); let toco=false;
+    ["nombre","first_name","email","telefono","phone","e","n"].forEach(k=>{ if(p.has(k)){ p.delete(k); toco=true; } });
+    const r = p.get("r");
+    if(r){ try{
+      const o = JSON.parse(decodeURIComponent(escape(atob(r))));
+      if(o && (o.n || o.e)){ delete o.n; delete o.e;
+        p.set("r", btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/=+$/,"")); toco=true; }
+    }catch(e){} }
+    if(toco){ const qs=p.toString(); history.replaceState(null,"",location.pathname+(qs?"?"+qs:"")); }
+  }catch(e){}
+}
+/* ---------- llaves de clic de Meta ---------- */
+function cookieVal(n){ try{ const m=document.cookie.match("(^|;)\\s*"+n+"\\s*=\\s*([^;]+)"); return m?m[2]:""; }catch(e){ return ""; } }
+function fbIds(){
+  let fbc = cookieVal("_fbc");
+  if(!fbc){ const cid = params.get("fbclid"); if(cid) fbc = "fb.1."+Date.now()+"."+cid; }
+  return { fbp: cookieVal("_fbp"), fbc: fbc };
+}
+function evid(){ return "dx-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,10); }
 const esc = s => { const d=document.createElement("div"); d.textContent=s||""; return d.innerHTML; }; // nombre viene de la URL: nunca inyectarlo crudo
 
 function init(){
   // A/B: variante de captura de WhatsApp (A=en el gate · B=en el reveal). ?ab=A|B fuerza.
   state.ab = "A"; // variante B (A/B del teléfono) desactivada para el MVP · un solo camino: WhatsApp en el gate → quiz → engrane
+  // La identidad se lee a memoria y se limpia de la URL ANTES de que exista el pixel.
+  const _id = { nombre: params.get("nombre") || params.get("first_name") || "",
+                email:  params.get("email") || params.get("e") || "",
+                telefono: params.get("telefono") || params.get("phone") || "" };
+  scrubURL();
   loadPixel();
   if(state.ab==="B"){ const t=$("g_telefono"); if(t){ t.style.display="none"; t.required=false; } }
   ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(k=>{
@@ -780,12 +810,21 @@ function init(){
     }
   }
   setupAcards();
+  // ¿Vuelve de un checkout? Cualquier plataforma puede regresar aqui con ?compra=1
+  if(params.get("compra")){ try{ window.dxPurchase({ valor:params.get("valor"), moneda:params.get("moneda"),
+      item:params.get("item"), tx:params.get("tx") }); }catch(e){ console.warn("compra",e); } }
   // ¿Viene con resultados en la URL? (link permanente del correo)
-  if(params.get("r")){ hydrateFromURL(); return; }
+  if(params.get("r")){
+    // el link del correo puede traer &e= para saludar y para que la lista de espera
+    // sepa quien es. Ya se limpio de la barra en scrubURL(), Meta nunca lo vio.
+    if(_id.email) state.email = _id.email;
+    if(_id.nombre) state.nombre = capName(_id.nombre);
+    hydrateFromURL(); return;
+  }
   // ¿Viene de la landing GHL con datos?
-  state.nombre = capName(params.get("nombre") || params.get("first_name") || "");
-  state.email  = params.get("email") || "";
-  state.telefono = params.get("telefono") || params.get("phone") || "";
+  state.nombre = capName(_id.nombre);
+  state.email  = _id.email;
+  state.telefono = _id.telefono;
   if(state.email){ startQuiz(); } // directo al quiz
   $("gateForm").addEventListener("submit", e=>{
     e.preventDefault();
@@ -1003,8 +1042,11 @@ function completeAndShow(){
   // El diagnóstico SIEMPRE se muestra primero — nada de analytics/permalink puede bloquearlo.
   try{ showResults(); }catch(e){ console.error("showResults", e); }
   try{ const enc = encodeResults(); history.replaceState(null,"", location.pathname+"?r="+enc); }catch(e){ console.warn("permalink",e); }
-  try{ sendWebhook("quiz_complete"); }catch(e){ console.warn("webhook",e); }
-  try{ track("Diagnostico_Etapa"+state.etapa,{}); }catch(e){ console.warn("track",e); }
+  // mismo event_id en navegador y servidor: Meta los deduplica en vez de contarlos dos veces
+  const _eid = evid();
+  try{ sendWebhook("quiz_complete", {event_id:_eid}); }catch(e){ console.warn("webhook",e); }
+  try{ track("CompleteRegistration", { etapa: state.etapa,
+        etapa_alta: (state.etapa>=3 ? "si" : "no") }, _eid); }catch(e){ console.warn("track",e); }
 }
 function showPhoneGate(){
   $("screen-quiz").classList.add("hidden");
@@ -1015,13 +1057,14 @@ function showPhoneGate(){
 
 /* ---------- Permalink: respuestas codificadas en la URL ---------- */
 function encodeResults(){
-  const payload = {n:state.nombre, e:state.email, b:state.B, c:state.C, m:state.metricas};
+  const payload = {b:state.B, c:state.C, m:state.metricas}; // sin identidad: la URL la ve Meta
   return btoa(unescape(encodeURIComponent(JSON.stringify(payload)))).replace(/=+$/,"");
 }
 function hydrateFromURL(){
   try{
     const raw = JSON.parse(decodeURIComponent(escape(atob(params.get("r")))));
-    state.nombre=capName(raw.n||""); state.email=raw.e||""; state.B=raw.b||[]; state.C=raw.c||[];
+    if(raw.n && !state.nombre) state.nombre=capName(raw.n); if(raw.e && !state.email) state.email=raw.e; // links viejos
+    state.B=raw.b||[]; state.C=raw.c||[];
     state.metricas=Array.isArray(raw.m)?raw.m:[false,false,false,false,false];
     if(state.B.length!==10) throw 0;
     state.etapa=computeEtapa(state.B); state.weak=computeWeak(state.B,state.etapa);
@@ -1338,6 +1381,27 @@ function goCall(src){
   if(c){ c.scrollIntoView({behavior:"smooth"}); }
   else if(CONFIG.CALENDLY_URL){ window.open(CONFIG.CALENDLY_URL,"_blank"); }
 }
+/* ---------- RECEPTOR GENERICO DE COMPRA ----------
+   Sirve para CUALQUIER checkout (GHL, Stripe, Hotmart, Atribuye) sin tocar este archivo.
+   Dos formas de dispararlo:
+   1) redirigir a la pagina de gracias con
+      ?compra=1&valor=599&moneda=MXN&item=guia-atribucion&tx=ABC123
+   2) llamar window.dxPurchase({valor, moneda, item, tx}) desde el propio checkout.
+   El value SIEMPRE es el total real de la transaccion, no el precio de un articulo:
+   si mandas solo la mitad, le ensenas a Meta a buscar al que compra barato. */
+window.dxPurchase = function(o){
+  o = o || {};
+  const eid = o.event_id || evid();
+  const d = { value: Number(o.valor || o.value || 0),
+              currency: (o.moneda || o.currency || "MXN"),
+              content_name: o.item || o.content_name || "",
+              transaction_id: o.tx || o.transaction_id || "" };
+  if(!d.value){ console.warn("dxPurchase sin valor: no se dispara"); return null; }
+  try{ track("Purchase", d, eid); }catch(e){}
+  try{ sendWebhook("purchase", Object.assign({event_id:eid}, d)); }catch(e){}
+  return eid;
+};
+
 function exportPDF(){
   track("ExportPDF",{});
   document.querySelectorAll(".expander").forEach(x=>x.classList.add("open"));
@@ -1362,8 +1426,8 @@ function payload(action, extra={}){
     perfil_curso: computePerfil(),
     ultima_pregunta: quizProgress(),
     areas_debiles: state.weak.map(i=>QUIZ[i].id).join(", "),
-    results_url: location.origin+location.pathname+"?r="+encodeResults(),
-    fecha: new Date().toISOString(), ...state.utm, ...extra };
+    results_url: location.origin+location.pathname+"?r="+encodeResults()+(state.email?"&e="+encodeURIComponent(state.email):""),
+    fecha: new Date().toISOString(), ...fbIds(), ...state.utm, ...extra };
   QUIZ.forEach((q,i)=>{ if(state.B[i]!=null) p[q.id]=state.B[i]+1; });
   CTX.forEach((q,i)=>{ if(state.C[i]!=null) p[q.id]=q.opts[state.C[i]]; });
   return p;
@@ -1379,9 +1443,13 @@ function loadPixel(){
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', CONFIG.PIXEL_ID); fbq('track','PageView',{ab_gate:state.ab}); fbq('trackCustom','GateVariant',{variant:state.ab});
 }
-function track(ev, data){
-  console.log("[evento]", ev, data);
-  if(window.fbq) fbq('trackCustom', ev, data);
+const EV_STD = {PageView:1, Lead:1, CompleteRegistration:1, ViewContent:1, AddToWishlist:1,
+                Purchase:1, Schedule:1, InitiateCheckout:1, Subscribe:1, Contact:1};
+function track(ev, data, eid){
+  const id = eid || evid();
+  console.log("[evento]", ev, data, id);
+  if(window.fbq) fbq(EV_STD[ev] ? 'track' : 'trackCustom', ev, data||{}, {eventID:id});
+  return id;
 }
 
 /* =====================================================================
