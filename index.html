@@ -769,14 +769,18 @@ function scrubURL(){
       if(o && (o.n || o.e)){ delete o.n; delete o.e;
         p.set("r", btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/=+$/,"")); toco=true; }
     }catch(e){} }
-    if(toco){ const qs=p.toString(); history.replaceState(null,"",location.pathname+(qs?"?"+qs:"")); }
+    if(toco){ const qs=p.toString(); history.replaceState(null,"",location.pathname+(qs?"?"+qs:"")+location.hash); }
   }catch(e){}
 }
 /* ---------- llaves de clic de Meta ---------- */
 function cookieVal(n){ try{ const m=document.cookie.match("(^|;)\\s*"+n+"\\s*=\\s*([^;]+)"); return m?m[2]:""; }catch(e){ return ""; } }
+let _fbcMemo = "";
 function fbIds(){
   let fbc = cookieVal("_fbc");
-  if(!fbc){ const cid = params.get("fbclid"); if(cid) fbc = "fb.1."+Date.now()+"."+cid; }
+  if(!fbc){
+    if(!_fbcMemo){ const cid = params.get("fbclid"); if(cid) _fbcMemo = "fb.1."+Date.now()+"."+cid; }
+    fbc = _fbcMemo;
+  }
   return { fbp: cookieVal("_fbp"), fbc: fbc };
 }
 function evid(){ return "dx-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,10); }
@@ -786,7 +790,7 @@ function init(){
   // A/B: variante de captura de WhatsApp (A=en el gate · B=en el reveal). ?ab=A|B fuerza.
   state.ab = "A"; // variante B (A/B del teléfono) desactivada para el MVP · un solo camino: WhatsApp en el gate → quiz → engrane
   // La identidad se lee a memoria y se limpia de la URL ANTES de que exista el pixel.
-  const _id = { nombre: params.get("nombre") || params.get("first_name") || "",
+  const _id = { nombre: params.get("nombre") || params.get("first_name") || params.get("n") || "",
                 email:  params.get("email") || params.get("e") || "",
                 telefono: params.get("telefono") || params.get("phone") || "" };
   scrubURL();
@@ -811,8 +815,14 @@ function init(){
   }
   setupAcards();
   // ¿Vuelve de un checkout? Cualquier plataforma puede regresar aqui con ?compra=1
-  if(params.get("compra")){ try{ window.dxPurchase({ valor:params.get("valor"), moneda:params.get("moneda"),
-      item:params.get("item"), tx:params.get("tx") }); }catch(e){ console.warn("compra",e); } }
+  if(params.get("compra")){
+    try{ window.dxPurchase({ valor:params.get("valor"), moneda:params.get("moneda"),
+      item:params.get("item"), tx:params.get("tx") }); }catch(e){ console.warn("compra",e); }
+    try{ const p2=new URLSearchParams(location.search);
+      ["compra","valor","moneda","item","tx"].forEach(k=>p2.delete(k));
+      const qs2=p2.toString(); history.replaceState(null,"",location.pathname+(qs2?"?"+qs2:"")+location.hash);
+    }catch(e){}
+  }
   // ¿Viene con resultados en la URL? (link permanente del correo)
   if(params.get("r")){
     // el link del correo puede traer &e= para saludar y para que la lista de espera
@@ -1397,6 +1407,11 @@ window.dxPurchase = function(o){
               content_name: o.item || o.content_name || "",
               transaction_id: o.tx || o.transaction_id || "" };
   if(!d.value){ console.warn("dxPurchase sin valor: no se dispara"); return null; }
+  // candado: una transaccion se reporta UNA vez aunque recarguen la pagina de gracias
+  if(d.transaction_id){
+    const k = "dx_tx_" + d.transaction_id;
+    try{ if(sessionStorage.getItem(k)){ console.log("dxPurchase: tx ya reportada, no se duplica"); return null; } sessionStorage.setItem(k,"1"); }catch(e){}
+  }
   try{ track("Purchase", d, eid); }catch(e){}
   try{ sendWebhook("purchase", Object.assign({event_id:eid}, d)); }catch(e){}
   return eid;
@@ -1426,7 +1441,9 @@ function payload(action, extra={}){
     perfil_curso: computePerfil(),
     ultima_pregunta: quizProgress(),
     areas_debiles: state.weak.map(i=>QUIZ[i].id).join(", "),
-    results_url: location.origin+location.pathname+"?r="+encodeResults()+(state.email?"&e="+encodeURIComponent(state.email):""),
+    results_url: location.origin+location.pathname+"?r="+encodeResults()
+      +(state.email?"&e="+encodeURIComponent(state.email):"")
+      +(state.nombre?"&n="+encodeURIComponent(state.nombre.trim().split(/\s+/)[0]):""),
     fecha: new Date().toISOString(), ...fbIds(), ...state.utm, ...extra };
   QUIZ.forEach((q,i)=>{ if(state.B[i]!=null) p[q.id]=state.B[i]+1; });
   CTX.forEach((q,i)=>{ if(state.C[i]!=null) p[q.id]=q.opts[state.C[i]]; });
