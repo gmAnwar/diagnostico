@@ -1032,6 +1032,16 @@ function computeWeak(B, etapa){
   return w;
 }
 
+/* ---------- Banda (compuerta 24 ago): presupuesto y freno deciden el camino; el modo solo es fallback ---------- */
+function bandaSocio(){
+  try{
+    if(state.B[0]===0) return false;             // <$10K/mes: siempre camino simple
+    const c4 = state.C[3];
+    if(c4!=null) return c4>=3;                   // "vendo bien..." = socio; aun no vende = volumen
+    return state.etapa>=3;                       // bloque C saltado: cae al modo (comportamiento previo)
+  }catch(e){ return state.etapa>=3; }
+}
+
 /* ---------- Perfil de curso 4P: se deduce de C3 (costo) + C4 (traba) ---------- */
 function computePerfil(){
   const c3 = state.C[2], c4 = state.C[3];
@@ -1056,7 +1066,7 @@ function completeAndShow(){
   const _eid = evid();
   try{ sendWebhook("quiz_complete", {event_id:_eid}); }catch(e){ console.warn("webhook",e); }
   try{ track("CompleteRegistration", { etapa: state.etapa,
-        etapa_alta: (state.etapa>=3 ? "si" : "no") }, _eid); }catch(e){ console.warn("track",e); }
+        etapa_alta: (bandaSocio() ? "si" : "no") }, _eid); }catch(e){ console.warn("track",e); }
 }
 function showPhoneGate(){
   $("screen-quiz").classList.add("hidden");
@@ -1439,6 +1449,7 @@ function payload(action, extra={}){
   const p={ action, nombre:state.nombre, email:state.email, telefono:state.telefono, ab_gate:state.ab,
     etapa: state.etapa, etapa_nombre: state.etapa?STAGES[state.etapa-1]:null,
     perfil_curso: computePerfil(),
+    banda: bandaSocio() ? "socio" : "volumen",
     ultima_pregunta: quizProgress(),
     areas_debiles: state.weak.map(i=>QUIZ[i].id).join(", "),
     results_url: location.origin+location.pathname+"?r="+encodeResults()
@@ -1788,14 +1799,14 @@ function render(levels){
  const firstAny=firstRed||PRIORITY.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='y');
  const hc=document.getElementById('heroCta');
  if(firstAny){ hc.style.display='';
-  const hcAdv = (typeof et!=='undefined'?et:state.etapa)>=3 && firstAny.why34;
+  const hcAdv = bandaSocio() && firstAny.why34;
   hc.innerHTML=`<div class="hc-tx"><div class="hc-k">🎯 Empieza aquí</div><div class="hc-t">${firstAny.l}</div><div class="hc-s">${firstAny.x} Si esta semana arreglas UNA sola cosa, que sea esta.</div></div>`+(hcAdv?`<button class="lq big ${firstAny.s}" data-det="${firstAny.l}">Ver detalle →</button>`:`<button class="lq big ${firstAny.s}" data-wl="${slug(firstAny.l)}">Quiero la guía →</button>`);
  } else { hc.style.display='none'; }
  document.getElementById('grid').innerHTML=[0,1,2].map(gi=>{
   const g=byGear[gi],realN=g.filter(t=>t.s!=='locked').length,gc=g.filter(t=>t.s==='g').length,anchor=gi===2?' anchor':'';
   const rows=g.map(t=>{const st=ST[t.s];
    if(t.s==='locked') return `<div class="row locked" id="row-${slug(t.l)}"><span class="ch" style="background:${st.hex}">${iconSVG('lock','#fff',13)}</span><span class="txt"><span class="lb">${t.l}</span><span class="sub2">${t.x}</span></span><span class="lk">🔒 En tu Auditoría</span></div>`;
-   const adv = et>=3 && t.why34;                                  // E3/E4: pre-read corto + pantalla de detalle
+   const adv = bandaSocio() && t.why34;                           // banda SOCIO: pre-read corto + pantalla de detalle
    const act = t.s==='g' ? `<span class="st">Lo tienes</span>`
              : adv       ? `<button class="lq ${t.s}" data-det="${t.l}">Ver detalle →</button>`
                          : `<button class="lq ${t.s}" data-wl="${slug(t.l)}">Quiero la guía →</button>`;
