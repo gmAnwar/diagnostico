@@ -469,6 +469,7 @@ body.has-bar{padding-bottom:74px}
 .btn-continue{margin-top:12px;width:100%;position:sticky;bottom:12px;z-index:5;box-shadow:0 8px 24px rgba(10,37,64,.22)}
 .multi-warn{display:none;font-size:14px;font-weight:700;color:var(--red);margin:10px 0 0;text-align:center}
 .multi-warn.on{display:block}
+.et-head{font-size:14px;line-height:1.5;color:var(--muted);margin:0 0 14px;font-weight:600}
 </style>
 <script src="vis.js"></script>
 </head>
@@ -1789,7 +1790,7 @@ function laLectura(real,tg,tr){
  const st=l=>{const t=real.find(x=>x.l===l);return t?t.s:null;};
  const gGood=gi=>real.filter(t=>t.g===gi&&t.s==='g').length;
  const gReds=gi=>real.filter(t=>t.g===gi&&t.s==='r').length;
- if(tg<=1) return `Estás construyendo casi todo desde cero: normal a esta altura, no es mala señal. La trampa aquí es querer con todo a la vez: se hace <b>en orden, una cosa a la vez</b>, empezando por la de arriba.`;
+ if(tg<=1) return `Estás construyendo casi todo desde cero: normal a esta altura, no es mala señal. La trampa aquí es querer hacer todo a la vez: se hace <b>en orden, una cosa a la vez</b>, empezando por la de arriba.`;
  if(st('Generación de ads')!=='r' && st('Tasa de cierre')!=='r' && (st('Atribución')==='r'||st('CAC')==='r'))
   return `Traes el motor prendido (campañas corriendo) pero <b>manejas sin tablero</b>: metes dinero en ads y no sabes qué anuncio te devuelve clientes de verdad. Eso que se siente como "ya no jala como antes" casi nunca es que jale menos: es que <b>no lo estás viendo</b>.`;
  if(gGood(1)>=1 && (st('Equipo de ventas')==='r'||st('Respuesta a leads')==='r'))
@@ -1818,14 +1819,14 @@ function render(levels){
  const SHORT=["Empezando","Inestables","Estancadas","Topadas"];
  let steps='';
  for(let i=1;i<=4;i++){const cls=i<et?'done':i===et?'cur':i===et+1?'next':'';const tag=i===et?' · TÚ':i===et+1?' · siguiente':'';steps+=`<div class="step ${cls}"><div class="n">${i}</div><span class="lb2">${SHORT[i-1]}${tag}</span></div>`;}
- document.getElementById('etapa').innerHTML=`<div class="ladder">${steps}</div><div class="et-line">${es}</div>`;
+ document.getElementById('etapa').innerHTML=`<div class="et-head">Todo negocio que vende por mensaje pasa por estas 4 etapas. Según tus respuestas, estás en la ${et}.</div><div class="ladder">${steps}</div><div class="et-line">${es}</div>`;
  const PRI=priority();
  const firstRed=PRI.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='r');
  const firstAny=firstRed||PRI.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='y');
  const hc=document.getElementById('heroCta');
  if(firstAny){ hc.style.display='';
   const hcAdv = bandaSocio() && firstAny.why34;
-  hc.innerHTML=`<div class="hc-tx"><div class="hc-k">🎯 Empieza aquí</div><div class="hc-t">${firstAny.l}</div><div class="hc-s">${firstAny.x} Si esta semana arreglas UNA sola cosa, que sea esta.</div></div>`+(hcAdv?`<button class="lq big ${firstAny.s}" data-det="${firstAny.l}">Ver detalle →</button>`:(firstAny.ofName?`<button class="lq big ${firstAny.s}" data-wl="${slug(firstAny.l)}">Quiero la guía →</button>`:`<button class="lq big ${firstAny.s}" data-goto="${slug(firstAny.l)}">Ver qué hacer esta semana →</button>`));
+  hc.innerHTML=`<div class="hc-tx"><div class="hc-k">🎯 Empieza aquí</div><div class="hc-t">${firstAny.l}</div><div class="hc-s">${firstAny.x} Si esta semana arreglas UNA sola cosa, que sea esta.</div></div>`+(hcAdv?`<button class="lq big ${firstAny.s}" data-det="${firstAny.l}">Ver detalle →</button>`:(firstAny.ofName?`<button class="lq big ${firstAny.s}" data-det="${firstAny.l}">Ver qué trae y cuánto cuesta →</button>`:`<button class="lq big ${firstAny.s}" data-goto="${slug(firstAny.l)}">Ver qué hacer esta semana →</button>`));
  } else { hc.style.display='none'; }
  document.getElementById('grid').innerHTML=[0,1,2].map(gi=>{
   const g=byGear[gi],realN=g.filter(t=>t.s!=='locked').length,gc=g.filter(t=>t.s==='g').length,anchor=gi===2?' anchor':'';
@@ -1834,7 +1835,7 @@ function render(levels){
    const adv = bandaSocio() && t.why34;                           // banda SOCIO: pre-read corto + pantalla de detalle
    const act = t.s==='g' ? `<span class="st">Lo tienes</span>`
              : adv       ? `<button class="lq ${t.s}" data-det="${t.l}">Ver detalle →</button>`
-                         : (t.ofName?`<button class="lq ${t.s}" data-wl="${slug(t.l)}">Quiero la guía →</button>`:``);
+                         : (t.ofName?`<button class="lq ${t.s}" data-det="${t.l}">Ver qué trae y cuánto cuesta →</button>`:``);
    const four=et===4;
    const W=adv?(PRE34[t.l]||t.why34):t.why, H=adv?((four&&t.hoy4mini)||t.hoy34):t.hoy;
    const vm=W?`<button class="vermas" type="button">¿Por qué importa? ↓</button>`:``;
