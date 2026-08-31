@@ -469,7 +469,30 @@ body.has-bar{padding-bottom:74px}
 .btn-continue{margin-top:12px;width:100%;position:sticky;bottom:12px;z-index:5;box-shadow:0 8px 24px rgba(10,37,64,.22)}
 .multi-warn{display:none;font-size:14px;font-weight:700;color:var(--red);margin:10px 0 0;text-align:center}
 .multi-warn.on{display:block}
-.et-head{font-size:14px;line-height:1.5;color:var(--muted);margin:0 0 14px;font-weight:600}
+.et-head{font-size:14.5px;line-height:1.5;color:#FFFFFF;margin:0 0 14px;font-weight:700}
+#engrane-root .et-top{margin:6px 0 10px}
+#engrane-root .et-k{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+#engrane-root .et-h1{font-size:clamp(26px,7vw,36px);line-height:1.05;margin:6px 0 2px;color:var(--ink)}
+#engrane-root .et-name{font-size:18px;font-weight:800;color:var(--ink);opacity:.9;margin-bottom:8px}
+#engrane-root .lb-wrap{display:flex;flex-direction:column;gap:2px}
+#engrane-root .dolor{font-size:12px;opacity:.75;font-style:italic;color:#fff}
+#engrane-root .blk{margin:16px 0;padding:14px 16px;border:1px solid rgba(0,0,0,.12);border-radius:12px;background:rgba(10,37,64,.03)}
+#engrane-root .blk .k,#engrane-root .unica .k{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:6px}
+#engrane-root .blk p{margin:0;font-size:15px;line-height:1.55;color:var(--ink)}
+#engrane-root .pasar{margin:6px 0 0;padding-left:18px;color:var(--ink);font-size:15px;line-height:1.5}
+#engrane-root .pasar li{margin:4px 0}
+#engrane-root .nota{margin:10px 0 0;font-size:13.5px;opacity:.8;color:var(--ink)}
+#engrane-root .unica{margin:18px 0;padding:16px;border-radius:14px;background:#fff;color:var(--ink);border-left:6px solid var(--red)}
+#engrane-root .unica-h{font-size:20px;line-height:1.2;margin:2px 0 12px;color:var(--ink)}
+#engrane-root .u-row{margin:10px 0}
+#engrane-root .u-k{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--navy,#0A2540);margin-bottom:3px}
+#engrane-root .u-t{font-size:15px;line-height:1.55}
+#engrane-root .u-of{margin-top:14px;padding-top:12px;border-top:1px dashed rgba(0,0,0,.15)}
+#engrane-root .u-ofname{font-size:17px;font-weight:800;margin:2px 0 6px}
+#engrane-root .desg-btn{display:block;width:100%;margin:18px 0 6px;padding:14px 16px;border-radius:12px;border:1.5px solid rgba(0,0,0,.18);background:transparent;color:var(--ink);font:inherit;font-weight:800;font-size:15px;cursor:pointer;text-align:center}
+#engrane-root .desg-btn:hover{background:rgba(10,37,64,.06)}
+#engrane-root #desglose{margin-top:16px}
+#engrane-root .desg-intro{margin:4px 0 16px;padding:14px 16px;border-left:4px solid var(--red);background:var(--soft,#F7F9FB);border-radius:0 10px 10px 0;font-size:15px;line-height:1.55;color:var(--ink)}
 </style>
 <script src="vis.js"></script>
 </head>
@@ -538,20 +561,28 @@ const CONFIG = {
       <div class="top">
         <div class="brand"><span class="dot"></span><span class="name">Anwar Sepúlveda</span></div>
       </div>
-      <div class="head-block">
-        <h1>Los <span class="k">3 Engranes</span> de tu negocio</h1>
-        <p class="sub">Cada diente es un área de tu negocio, pintada según cómo la tienes hoy. De un vistazo ves dónde estás fuerte y <b>dónde se te fuga el dinero.</b></p>
-      </div>
-      <div class="hero"><div id="hero"></div></div>
-      <div class="legend" id="legend"></div>
-      <div class="authority">🔍 <span>El mismo proceso con el que reviso negocios que invierten <b>+$100K USD al mes</b> en anuncios.</span></div>
-      <div class="lectura" id="lectura"></div>
+      <div class="et-top" id="etTop"></div>
       <div class="etapa" id="etapa"></div>
-      <div class="hero-cta" id="heroCta" style="display:none"></div>
-      <div class="guia-note" id="guiaNote">Estoy armando <b>las guías, área por área</b>: el paso a paso completo, no el resumen. Anótate en las que te interesen y te aviso en cuanto salga la tuya. Van a ser de pago, con <b>precio especial</b> para los primeros de cada lista.</div>
-      <div class="grid" id="grid"></div>
-      <div class="lock-note">🔒 Lo que acabas de ver son tus <b>13 áreas</b> por encima. La <b>Auditoría Express</b> es entrar a fondo: no si el área está en rojo, sino exactamente por qué, y en qué orden se arregla.<div class="lock-sub">Es de pago. Ahorita no estoy haciendo auditorías. Si te interesa, te pongo en la lista y te aviso cuando abra.</div><div class="lock-cta"><button class="lq" data-wl="auditoria_express">Ponme en la lista de la Auditoría Express →</button></div></div>
-      <div class="summary" id="summary"></div>
+      <div class="blk" id="porDentro"></div>
+      <div class="blk" id="frena"></div>
+      <div class="blk" id="paraPasar"></div>
+      <div class="unica" id="unica"></div>
+      <div class="lectura" id="lectura"></div>
+      <button type="button" class="desg-btn" id="verDesglose">¿Quieres el desglose de tus 13 áreas? →</button>
+      <div id="desglose" class="hidden">
+<div class="desg-intro">Tu etapa te dice dónde estás parado. Estas 13 áreas explican <b>por qué</b>. Son exactamente lo que reviso cuando entro a un negocio: la estructura de tu empresa, la estructura de tus campañas y los números que amarran las dos. Si la etapa es la foto, esto es el motor abierto.</div>
+<div class="head-block">
+          <h1>Los <span class="k">3 Engranes</span> de tu negocio</h1>
+          <p class="sub">Cada diente es un área de tu negocio, pintada según cómo la tienes hoy. De un vistazo ves dónde estás fuerte y <b>dónde se te fuga el dinero.</b></p>
+        </div>
+        <div class="hero"><div id="hero"></div></div>
+        <div class="legend" id="legend"></div>
+        <div class="authority">🔍 <span>El mismo proceso con el que reviso negocios que invierten <b>+$100K USD al mes</b> en anuncios.</span></div>
+        <div class="guia-note" id="guiaNote">Estoy armando <b>las guías, área por área</b>: el paso a paso completo, no el resumen. Anótate en las que te interesen y te aviso en cuanto salga la tuya. Van a ser de pago, con <b>precio especial</b> para los primeros de cada lista.</div>
+        <div class="grid" id="grid"></div>
+        <div class="lock-note">🔒 Lo que acabas de ver son tus <b>13 áreas</b> por encima. La <b>Auditoría Express</b> es entrar a fondo: no si el área está en rojo, sino exactamente por qué, y en qué orden se arregla.<div class="lock-sub">Es de pago. Ahorita no estoy haciendo auditorías. Si te interesa, te pongo en la lista y te aviso cuando abra.</div><div class="lock-cta"><button class="lq" data-wl="auditoria_express">Ponme en la lista de la Auditoría Express →</button></div></div>
+        <div class="summary" id="summary"></div>
+      </div>
     </div></div>
     </div>
   </div>
@@ -585,7 +616,7 @@ const CONFIG = {
         <div style="font-size:13px;color:#5A6B7D;margin-top:2px">Si no llega en 2 minutos, revisa Promociones o Spam y muévelo a Principal.</div>
       </div>
     </div>
-    <button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="(document.getElementById('heroCta')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth'})">Empieza aquí →</button>
+    <button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="(document.getElementById('unica')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth',block:'center'})">Empieza aquí →</button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -635,6 +666,29 @@ const CTX = [
 
 /* ---------- Tabla diagnóstica · descriptores por área × etapa ---------- */
 const STAGES = ["Empezando a vender","Ventas inestables","Ventas estancadas","Ventas topadas"];
+const STAGE_COPY = {
+ 1:{dolor:'No sé si esto jala',
+    dentro:'Estás probando. Todavía no hay un flujo constante de gente preguntando. Tú haces de todo, contestas desde tu WhatsApp personal y los números viven en una libreta o en tu cabeza.',
+    frena:'La oferta y el cliente. En esta etapa ese ES el trabajo: saber qué vendes y a quién. Medir lo demás todavía es humo.',
+    pasarTit:'Para pasar a la etapa 2 necesitas:',
+    pasar:['Saber qué vendes y a quién, en una frase','Un ticket arriba de $700','Que de cada 10 que preguntan, compre un número que puedas predecir','Poder decir por qué te compran a ti y no a otro']},
+ 2:{dolor:'Un mes vendo, otro no',
+    dentro:'Ya vendes, pero sube y baja sin que sepas por qué. Tú sigues siendo el vendedor principal, alguien más contesta el WhatsApp y llevas las cuentas en WhatsApp Business y a veces en Excel. Ves el Ads Manager, pero no lo cruzas con lo que de verdad se vendió.',
+    frena:'La respuesta, el equipo y la automatización básica. Tu venta se cae DESPUÉS del clic, no antes: el anuncio funciona y el lead se enfría esperando.',
+    pasarTit:'Para pasar a la etapa 3 necesitas:',
+    pasar:['Campañas que corren 4 semanas seguidas sin que las apagues por pánico','Todo lead respondido el mismo día, siempre','UNA hoja donde cada venta trae de dónde vino','Que el mes malo deje de ser un misterio']},
+ 3:{dolor:'Le subo y no pasa nada',
+    dentro:'Vendes bien y llevas meses en el mismo número. Ya operas un equipo de ventas, quizá con agencia. Tienes un CRM a medias, un bot que nadie mantiene y revisas el Ads Manager a diario. Tus números son globales, y el CAC global es el que miente.',
+    frena:'La tasa por etapa, el CAC por campaña y la utilidad. Estás optimizando promedios, y el promedio esconde la campaña que te está costando dinero.',
+    pasarTit:'Para pasar a la etapa 4 necesitas:',
+    pasar:['Tasa de cierre por cada etapa de tu venta, no una sola','CAC por campaña, para saber cuál apagar','Que el negocio venda un mes entero sin que tú toques la operación','Decidir con TU hoja, no con el Ads Manager']},
+ 4:{dolor:'Vendo más que nunca y me queda menos',
+    dentro:'Vendes mucho y tocaste techo. Diriges un equipo completo con agencia o traficker, tienes CRM, tableros y reportes. Muchos números, y ninguno amarra cada venta con el anuncio que la trajo.',
+    frena:'La atribución, el ROAS real y la retención. Tienes tableros, pero ninguno amarra la venta con el anuncio, así que decides con datos que no cierran.',
+    pasarTit:'Para dejar de topar necesitas:',
+    pasar:['Que cada venta amarre con el anuncio que la trajo (CAPI)','Conocer tu recompra y cuánto vale un cliente a 6 meses','Margen por línea, no margen global'],
+    nota:'Aquí no hay etapa 5. Hay techo tras techo, y cada uno se rompe midiendo mejor.'}
+};
 const STAGE_DESC = ["Estás probando, aún sin flujo constante","Vendes, pero sube y baja sin control","Vendes bien, pero llevas meses igual","Vendes mucho, pero llegaste a un techo"];
 const TABLE = [
  ["Menos de $10K/mes","$10K a $40K/mes","$40K a $120K/mes","Más de $120K/mes"],
@@ -709,29 +763,6 @@ const HZ2 = [
  ["Asistencia","Sabes que faltan seguido, pero confirmas solo a veces y a mano.","Un recordatorio fijo para todos los que agendan, no cuando te acuerdas."]
 ];
 
-/* ---------- Copy por etapa (v1: Etapa 3 completa · 1/2/4 base, se completan en Bloque 2) ---------- */
-const STAGE_COPY = {
- 1:{sub:"Estás arrancando. Todavía no hay flujo constante, y está bien: todos empiezan aquí.",
-    bl:"La Etapa 1 se trata de validar antes de acelerar.",
-    bl1:"Tu prioridad no es invertir más, es confirmar que lo que vendes, a quien se lo vendes y el precio funcionan.",
-    bl2:"Cada peso que metas antes de validar es un peso que te dice menos de lo que crees.",
-    bl3:"Valida la oferta y todo lo demás se vuelve más fácil.", cta:"pdf"},
- 2:{sub:"Vendes, pero sube y baja sin control. Un mes bueno, otro flojo, y no sabes por qué.",
-    bl:"La Etapa 2 se trata de pasar de vender a veces a vender con consistencia.",
-    bl1:"Tus campañas corren sin estructura y tu seguimiento depende del ánimo del día.",
-    bl2:"No necesitas más presupuesto. Necesitas estructura: campañas ordenadas y un proceso de respuesta.",
-    bl3:"Cuando la estructura aparece, los altibajos se aplanan.", cta:"pdf"},
- 3:{sub:"Vendes. Tu equipo trabaja. Tu publicidad corre. Pero llevas meses en el mismo número.",
-    bl:"La Etapa 3 se trata de pasar de vender bien a vender con sistema.",
-    bl1:"Llevas meses vendiendo lo mismo no porque estés haciendo las cosas mal, sino porque el cuello de botella ya no está donde crees.",
-    bl2:"Lo que te trajo hasta aquí no te va a llevar más lejos. Tu trabajo ahora es dejar de operar y empezar a ver tu negocio desde afuera.",
-    bl3:"Si logras pasar esta etapa, vas a tener un negocio que vende sin que todo dependa de ti. Y eso cambia todo.", cta:"call"},
- 4:{sub:"Vendes mucho, pero llegaste a un techo. Meterle más ya no mueve la aguja como antes.",
-    bl:"La Etapa 4 se trata de romper el techo con precisión, no con fuerza.",
-    bl1:"A tu nivel, el crecimiento ya no sale de más presupuesto: sale de atribución real, retención y optimización fina.",
-    bl2:"Cada punto porcentual que recuperas en el embudo vale más que cualquier campaña nueva.",
-    bl3:"Los negocios que rompen este techo son los que ven su sistema completo con números reales.", cta:"call"}
-};
 
 /* ---------- Meta por etapa (tarjetas "Tu etapa", estilo Hormozi p.4-5) ---------- */
 const STAGE_META = {
@@ -1071,6 +1102,7 @@ function completeAndShow(){
   // mismo event_id en navegador y servidor: Meta los deduplica en vez de contarlos dos veces
   const _eid = evid();
   try{ sendWebhook("quiz_complete", {event_id:_eid}); }catch(e){ console.warn("webhook",e); }
+  try{ if(window.fbq) fbq('track','Lead',{content_name:'diagnostico'},{eventID:_eid}); }catch(e){}
   try{ track("CompleteRegistration", { etapa: state.etapa,
         etapa_alta: (bandaSocio() ? "si" : "no") }, _eid); }catch(e){ console.warn("track",e); }
 }
@@ -1818,16 +1850,30 @@ function render(levels){
  document.getElementById('lectura').innerHTML=`<div class="av">A</div><div class="lx"><div class="lk2">🔎 Mi lectura</div><div class="lt">${laLectura(real,tg,tr)} <span style="opacity:.55;font-weight:600">· Anwar</span></div></div>`;
  const SHORT=["Empezando","Inestables","Estancadas","Topadas"];
  let steps='';
- for(let i=1;i<=4;i++){const cls=i<et?'done':i===et?'cur':i===et+1?'next':'';const tag=i===et?' · TÚ':i===et+1?' · siguiente':'';steps+=`<div class="step ${cls}"><div class="n">${i}</div><span class="lb2">${SHORT[i-1]}${tag}</span></div>`;}
- document.getElementById('etapa').innerHTML=`<div class="et-head">Todo negocio que vende por mensaje pasa por estas 4 etapas. Según tus respuestas, estás en la ${et}.</div><div class="ladder">${steps}</div><div class="et-line">${es}</div>`;
+ for(let i=1;i<=4;i++){const cls=i<et?'done':i===et?'cur':i===et+1?'next':'';const tag=i===et?' · TÚ':i===et+1?' · siguiente':'';steps+=`<div class="step ${cls}"><div class="n">${i}</div><div class="lb-wrap"><span class="lb2">${SHORT[i-1]}${tag}</span><span class="dolor">"${STAGE_COPY[i].dolor}"</span></div></div>`;}
+ document.getElementById('etapa').innerHTML=`<div class="et-head">Todo negocio que vende por mensaje pasa por estas 4 etapas. Según tus respuestas, estás en la ${et}.</div><div class="ladder">${steps}</div>`;
+ document.getElementById('etTop').innerHTML=`<div class="et-k">TU DIAGNÓSTICO</div><h1 class="et-h1">Estás en la etapa ${et} de 4</h1><div class="et-name">${STAGES[et-1]}</div>`;
+ const SC=STAGE_COPY[et];
+ document.getElementById('porDentro').innerHTML=`<div class="k">Así se ve por dentro</div><p>${SC.dentro}</p>`;
+ document.getElementById('frena').innerHTML=`<div class="k">Lo que frena a los de tu etapa</div><p>${SC.frena}</p>`;
+ document.getElementById('paraPasar').innerHTML=`<div class="k">${SC.pasarTit}</div><ul class="pasar">${SC.pasar.map(x=>`<li>${x}</li>`).join('')}</ul>${SC.nota?`<p class="nota">${SC.nota}</p>`:''}`;
  const PRI=priority();
  const firstRed=PRI.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='r');
  const firstAny=firstRed||PRI.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='y');
- const hc=document.getElementById('heroCta');
- if(firstAny){ hc.style.display='';
-  const hcAdv = bandaSocio() && firstAny.why34;
-  hc.innerHTML=`<div class="hc-tx"><div class="hc-k">🎯 Empieza aquí</div><div class="hc-t">${firstAny.l}</div><div class="hc-s">${firstAny.x} Si esta semana arreglas UNA sola cosa, que sea esta.</div></div>`+(hcAdv?`<button class="lq big ${firstAny.s}" data-det="${firstAny.l}">Ver detalle →</button>`:(firstAny.ofName?`<button class="lq big ${firstAny.s}" data-det="${firstAny.l}">Ver qué trae y cuánto cuesta →</button>`:`<button class="lq big ${firstAny.s}" data-goto="${slug(firstAny.l)}">Ver qué hacer esta semana →</button>`));
- } else { hc.style.display='none'; }
+ const u=document.getElementById('unica');
+ if(firstAny){ const t=firstAny;
+  let h=`<div class="k">Tu única cosa esta semana</div><h2 class="unica-h">Tu cuello está en una sola cosa: ${t.l}</h2>`;
+  h+=`<div class="u-row"><div class="u-k">Qué es</div><div class="u-t">${t.def||''}</div></div>`;
+  h+=`<div class="u-row"><div class="u-k">Por qué te frena</div><div class="u-t">${t.why||''}</div></div>`;
+  h+=`<div class="u-row"><div class="u-k">Qué hacer esta semana, gratis</div><div class="u-t">${t.hoy||''}</div></div>`;
+  if(t.ofName){
+   h+=`<div class="u-of"><div class="u-k">O te lo doy resuelto</div><div class="u-ofname">${t.ofName}</div>`;
+   if(t.ofBullets&&t.ofBullets.length) h+=`<ul class="of-ul">${t.ofBullets.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+   h+=`<p class="of-status">Las guías salen una por una, en el orden que la lista de espera decide: tu lugar cuenta para que la tuya salga antes.${t.ofPrice?` Va a costar <b>$${t.ofPrice} MXN</b>, con precio especial para los primeros de la lista.`:''}</p>`;
+   h+=`<button class="lq ${t.s}" data-wl="${slug(t.l)}">Avísame cuando esté lista →</button></div>`;
+  }
+  u.innerHTML=h; u.style.display='';
+ } else { u.innerHTML=''; u.style.display='none'; }
  document.getElementById('grid').innerHTML=[0,1,2].map(gi=>{
   const g=byGear[gi],realN=g.filter(t=>t.s!=='locked').length,gc=g.filter(t=>t.s==='g').length,anchor=gi===2?' anchor':'';
   const rows=g.map(t=>{const st=ST[t.s];
@@ -1926,6 +1972,15 @@ document.addEventListener('click',function(e){
  const d=row.querySelector('.deep'), v=row.querySelector('.vermas');
  if(d&&d.classList.contains('hidden')){ d.classList.remove('hidden'); if(v)v.textContent='Ver menos ↑'; }
  row.scrollIntoView({behavior:'smooth',block:'center'});row.classList.add('flash');setTimeout(function(){row.classList.remove('flash');},1400);
+});
+document.addEventListener('click',function(e){
+  const b=e.target.closest('#verDesglose'); if(!b) return;
+  const d=document.getElementById('desglose'); if(!d) return;
+  const abrir=d.classList.contains('hidden');
+  d.classList.toggle('hidden',!abrir);
+  b.textContent=abrir?'Ocultar el desglose ↑':'¿Quieres el desglose de tus 13 áreas? →';
+  if(abrir && !b.dataset.hit){ b.dataset.hit='1'; try{ if(window.ASV&&ASV.hit) ASV.hit('desglose'); }catch(err){} }
+  if(abrir) d.scrollIntoView({behavior:'smooth',block:'start'});
 });
 /* tocar diente -> baja a su fila, la resalta y ABRE su detalle */
 if(document.getElementById('hero')){
