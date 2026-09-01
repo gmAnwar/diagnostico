@@ -499,6 +499,8 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .desg-btn:hover{background:rgba(10,37,64,.06)}
 #engrane-root #desglose{margin-top:16px}
 #engrane-root .desg-intro{margin:4px 0 16px;padding:14px 16px;border-left:4px solid var(--red);background:var(--soft,#F7F9FB);border-radius:0 10px 10px 0;font-size:15px;line-height:1.55;color:var(--ink)}
+#engrane-root .u-sub{margin:6px 0 2px;padding-left:18px;list-style:disc}
+#engrane-root .u-sub li{margin:3px 0}
 </style>
 <script src="vis.js"></script>
 </head>
@@ -597,7 +599,7 @@ const CONFIG = {
     <p class="lead">Después escalé la venta en línea de 0 a $650,000 al mes. Y no sabía que estábamos perdiendo dinero.</p>
     <p class="lead"><b>No me lo escondió nadie. Yo no lo estaba midiendo.</b></p>
     <p class="lead">Empecé a medir. Y me metí a ver otros negocios por dentro: llevo más de 100, y he manejado pauta desde $6 mil hasta $5 millones de pesos al mes, en cuentas que hoy invierten más de 100 mil dólares mensuales.</p>
-    <p class="lead">Eso se volvió mi trabajo. Hoy lo hago desde OptimizAds en México, y desde Taco Agency en Estados Unidos, con mi socio Toño.</p>
+    <p class="lead">Eso se volvió mi trabajo. Hoy lo hago con OptimizAds en México y Taco Agency para las startups en Estados Unidos.</p>
     <p class="promise">No te voy a decir que "hagas más anuncios". Te digo qué área te está frenando, y cuál mover primero.</p>
   </section>
 </div>
@@ -674,7 +676,7 @@ const STAGE_COPY = {
  1:{dolor:'Probando si puedo vender',
     dentro:['Estás probando: todavía no hay un flujo constante de gente preguntando.','Tú haces de todo.','Contestas desde tu WhatsApp personal.','Los números viven en una libreta o en tu cabeza.'],
     frenaLead:'La oferta y el cliente.',
-    frena:'En esta etapa ese ES el trabajo: saber qué vendes y a quién. Medir lo demás todavía es humo.',
+    frena:'En esta etapa ESE es el trabajo: saber qué vendes y a quién. Medir lo demás todavía es humo.',
     pasarTit:'Para pasar a la etapa 2 necesitas:',
     pasar:['Saber qué vendes y a quién, en una frase','Un ticket promedio que dé para pagar anuncios y aun así ganar','Que de cada 10 que preguntan, compre un número que puedas predecir','Poder decir por qué te compran a ti y no a otro']},
  2:{dolor:'Un mes vendo bien, otro no tanto',
@@ -1553,7 +1555,7 @@ const TEETH=[
  {l:'Cliente',sig:'CLIENTE',g:0,x:'Qué tan claro tienes a quién le vendes.',def:'Tu cliente ideal es la persona que te compra más fácil, paga sin regatear y regresa. No es "todos los que puedan pagar": es un perfil concreto, con nombre y apellido en tu cabeza.',
   why:'Cuando le hablas a todos, el algoritmo no sabe a quién buscarte, y te trae de todo, menos compradores. La claridad de cliente es lo que abarata todo lo demás.',
   hoy:'Describe a tu mejor cliente en una línea: quién es, qué compró y por qué a ti. Si no sale a la primera, ahí está el hueco.',
-  hoyPasos:['Escoge a tus últimos 10 compradores.','Escríbeles por WhatsApp: "Te doy un descuento en tu próxima compra si me contestas dos preguntas: ¿por qué me compraste a mí? y ¿qué es lo que más te dio?"','Junta las respuestas. Se van a repetir: si 6 de 10 dicen lo mismo, ese es tu motivador real.','Esa frase, tal cual la dijeron, va en tu siguiente anuncio.'],
+  hoyPasos:['Escoge a tus últimos 10 compradores.','Escríbeles por WhatsApp: "Te doy un descuento en tu próxima compra si me contestas dos preguntas":<ul class="u-sub"><li>¿Por qué me compraste a mí?</li><li>¿Qué es lo que más te dio?</li></ul>','Junta las respuestas. Se van a repetir: si 6 de 10 dicen lo mismo, ese es tu motivador real.','Con lo que se repita, escribe a tu cliente ideal en una línea: quién es y por qué te compra a ti.'],
   why34:'Ya sabes a quién le vendes: lo que casi nadie sabe es <b>quién le deja dinero</b>. No todos los clientes valen igual: unos dejan 3× más, regresan y llegan a sus citas; otros regatean, cancelan y desaparecen. Tus campañas aprenden del que LLEGA, no del que conviene, a menos que tú se lo enseñes.',
   hoy34:'Saca tus 10 mejores clientes del año por dinero dejado (no por frecuencia). Busca qué comparten: servicio de entrada, zona, edad, cómo llegaron. Ese patrón es tu cliente real, y casi nunca es el que tenías en la cabeza.',
   pasos34:['Saca tus <b>10 mejores clientes del año</b>, por dinero que dejaron, no por caerte bien.','Busca qué comparten: por qué servicio entraron, edad, zona, cómo te encontraron.<table class="reg-mock"><tr><th>Cliente</th><th>Entró por</th><th>Dejó</th></tr><tr><td>Ana</td><td>Servicio B</td><td>$18,400</td></tr><tr><td>Rocío</td><td>Servicio B</td><td>$15,900</td></tr><tr><td>Pau</td><td>Servicio A</td><td>$14,200</td></tr></table>','Escribe el patrón en UNA línea ("mujer 30-45, entra por Servicio B, zona X"). Compáralo con el que tus anuncios traen hoy.','Ahora úsalo: exporta tus <b>100 (o más) mejores clientes</b> (nombre y teléfono bastan) y mándaselos a quien maneja tus campañas:<div class="tell-box">Mándale esto tal cual: <i>"Sube esta lista a Meta como público de clientes, crea un público similar y pruébalo contra el público actual."</i></div> Es la forma más directa de decirle a Meta: tráeme MÁS de éstos, sin un peso extra de presupuesto. (El patrón se encuentra con 10; el público necesita 100+: Meta no acepta listas chicas.)'],reto34:'Si tu anuncio no le habla a ese patrón, estás pagando por traer al equivocado.',ofName:'Tu cliente ideal',ofPrice:50,ofBullets:['El video donde saco los motivadores reales de un cliente ideal','La ficha donde armas tu cliente ideal con tus propios datos','Una IA que te pregunta por tus últimos 10 compradores y te arma la ficha sola']},
@@ -1832,7 +1834,7 @@ function render(levels){
   if(t.why) h+=`<div class="u-row"><div class="u-k">Por qué te frena</div><div class="u-t">${t.why}</div></div>`;
   h+=`<div class="u-row"><div class="u-k">Qué hacer esta semana, gratis</div><div class="u-t">${t.hoy||''}</div>`;
   if(t.hoyPasos&&t.hoyPasos.length) h+=`<ol class="u-pasos">${t.hoyPasos.map(x=>`<li>${x}</li>`).join('')}</ol>`;
-  h+=`<button class="u-det" type="button" data-det="${t.l}">Ver el detalle completo de esta área →</button></div>`;
+  h+=`</div>`;
   if(t.ofName){
    h+=`<div class="u-of"><div class="u-k">O te lo doy resuelto</div><div class="u-ofname">${t.ofName}: la guía</div>`;
    h+=`<p class="u-oflead">Es una guía de pago. Trae video, hoja y una IA lista para usar:</p>`;
