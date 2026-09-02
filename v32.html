@@ -474,6 +474,20 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .et-h1{font-size:clamp(24px,6.4vw,32px);line-height:1.15;margin:6px 0 2px;color:var(--ink)}
 #engrane-root .et-nm{font-weight:800}
 #engrane-root .lb-wrap{display:flex;flex-direction:column;gap:2px}
+#engrane-root .etab{display:flex;flex-direction:column;margin:2px 0 6px}
+#engrane-root .er{position:relative;display:grid;grid-template-columns:118px 1fr;gap:10px;align-items:center;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.55)}
+#engrane-root .er .ek{display:block;font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+#engrane-root .er .en{display:block;font-family:var(--f-head);font-weight:800;font-size:13px;line-height:1.2;margin-top:2px}
+#engrane-root .er .ed{display:block;font-size:12px;font-style:italic;line-height:1.25}
+#engrane-root .er .ea{display:block;font-size:10.5px;opacity:.7;margin-top:3px}
+#engrane-root .er.done{color:rgba(255,255,255,.7)}
+#engrane-root .er.cur{color:#fff;background:rgba(131,195,65,.16);border-color:var(--green);box-shadow:0 0 0 1px var(--green)}
+#engrane-root .er.cur .ek{color:var(--green);opacity:1}
+#engrane-root .er.next{color:rgba(255,255,255,.85);border:1px dashed rgba(131,195,65,.7)}
+#engrane-root .epill{display:inline-block;margin-top:4px;font-size:8.5px;font-weight:800;letter-spacing:.1em;padding:3px 7px;border-radius:99px;background:var(--green);color:var(--navy)}
+#engrane-root .epill.nx{background:transparent;border:1px dashed var(--green);color:var(--green)}
+#engrane-root .earrow{text-align:center;font-size:13px;line-height:1;padding:2px 0;color:rgba(255,255,255,.35)}
+#engrane-root .earrow.hot{color:var(--green);font-weight:800;font-size:16px}
 #engrane-root .dolor{font-size:12px;opacity:.75;font-style:italic;color:#fff}
 #engrane-root .blk{margin:16px 0;padding:14px 16px;border:1px solid rgba(0,0,0,.12);border-radius:12px;background:rgba(10,37,64,.03)}
 #engrane-root .blk .k,#engrane-root .unica .k{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:6px}
@@ -501,6 +515,24 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .desg-intro{margin:4px 0 16px;padding:14px 16px;border-left:4px solid var(--red);background:var(--soft,#F7F9FB);border-radius:0 10px 10px 0;font-size:15px;line-height:1.55;color:var(--ink)}
 #engrane-root .u-sub{margin:6px 0 2px;padding-left:18px;list-style:disc}
 #engrane-root .u-sub li{margin:3px 0}
+#engrane-root .mapa{margin:16px 0}
+#engrane-root .mapa-k{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:6px}
+#engrane-root .mapa-img{display:block;position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+#engrane-root .mapa-img img{display:block;width:100%}
+#engrane-root .ztip{position:absolute;bottom:8px;right:8px;background:rgba(10,37,64,.85);color:#fff;font-size:11px;font-weight:700;border-radius:99px;padding:5px 10px}
+#engrane-root .chk-h{font-size:18px;color:var(--navy);margin:22px 0 4px}
+#engrane-root .chk-sub{font-size:13.5px;color:#5b6675;line-height:1.5;margin:0 0 6px}
+#engrane-root .chk-prog{font-size:13.5px;font-weight:800;color:var(--navy);margin:0 0 10px}
+#engrane-root .chk-prog b{color:var(--red)}
+#engrane-root .chl{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+#engrane-root .chl .it{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.45;cursor:pointer;user-select:none}
+#engrane-root .chl .it:last-child{border-bottom:none}
+#engrane-root .chl .it .c{flex:0 0 22px;width:22px;height:22px;border-radius:50%;border:2px solid #c7ced8;margin-top:1px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800}
+#engrane-root .chl .it.on .c{background:var(--navy);border-color:var(--navy)}
+#engrane-root .chl .it.on .tx{color:#8a94a6;text-decoration:line-through}
+#engrane-root .chl .it.on .tx b{color:#8a94a6;text-decoration:line-through}
+#engrane-root .chl .it.start{background:#FFF9F2}
+#engrane-root .chk-start{color:var(--red);font-weight:800;font-size:13px;white-space:nowrap}
 </style>
 <script src="vis.js"></script>
 </head>
@@ -572,6 +604,19 @@ const CONFIG = {
       <div class="blk" id="porDentro"></div>
       <div class="blk" id="frena"></div>
       <div class="blk" id="paraPasar"></div>
+      <div class="mapa" id="mapa">
+        <div class="mapa-k">TU MAPA COMPLETO</div>
+        <a class="mapa-img" href="tabla-etapa-1.jpg" target="_blank" rel="noopener" onclick="try{ASV&&ASV.hit('mapa_zoom')}catch(e){}">
+          <img src="tabla-etapa-1.jpg" alt="Tabla completa de la etapa 1: qué te frena y qué necesitas en cada área" loading="lazy">
+          <span class="ztip">Toca para verla en grande 🔍</span>
+        </a>
+      </div>
+      <div class="chk-sec" id="chkSec">
+        <h3 class="chk-h">Tu checklist para pasar a la etapa 2</h3>
+        <p class="chk-sub">Es la columna derecha de tu mapa, en lista. Palomea lo que ya tienes y regresa cuando quieras: aquí se te guarda, y el mapa también va en tu correo.</p>
+        <p class="chk-prog" id="chkProg"></p>
+        <div class="chl" id="chkList"></div>
+      </div>
       <div class="unica" id="unica"></div>
       <button type="button" class="desg-btn" id="verDesglose">¿Quieres el desglose de tus 13 áreas? →</button>
       <div id="desglose" class="hidden">
@@ -1555,7 +1600,7 @@ const TEETH=[
  {l:'Cliente',sig:'CLIENTE',g:0,x:'Qué tan claro tienes a quién le vendes.',def:'Tu cliente ideal es la persona que te compra más fácil, paga sin regatear y regresa. No es "todos los que puedan pagar": es un perfil concreto, con nombre y apellido en tu cabeza.',
   why:'Cuando le hablas a todos, el algoritmo no sabe a quién buscarte, y te trae de todo, menos compradores. La claridad de cliente es lo que abarata todo lo demás.',
   hoy:'Describe a tu mejor cliente en una línea: quién es, qué compró y por qué a ti. Si no sale a la primera, ahí está el hueco.',
-  hoyPasos:['Escoge a tus últimos 10 compradores.','Escríbeles por WhatsApp: "Te doy un descuento en tu próxima compra si me contestas dos preguntas":<ul class="u-sub"><li>¿Por qué me compraste a mí?</li><li>¿Qué es lo que más te dio?</li></ul>','Junta las respuestas. Se van a repetir: si 6 de 10 dicen lo mismo, ese es tu motivador real.','Con lo que se repita, escribe a tu cliente ideal en una línea: quién es y por qué te compra a ti.'],
+  hoyPasos:['Escoge a tus últimos 10 compradores y anota qué comparten: edad, sexo, zona y qué te compraron.','Escríbeles por WhatsApp: "Te doy un descuento en tu próxima compra si me contestas dos preguntas":<ul class="u-sub"><li>¿Por qué me compraste a mí?</li><li>¿Qué es lo que más te dio?</li></ul>','Junta las respuestas. Se van a repetir: si 6 de 10 dicen lo mismo, ese es tu motivador real.','Con lo que comparten y lo que se repite, escribe a tu cliente ideal en una línea: quién es y por qué te compra a ti.'],
   why34:'Ya sabes a quién le vendes: lo que casi nadie sabe es <b>quién le deja dinero</b>. No todos los clientes valen igual: unos dejan 3× más, regresan y llegan a sus citas; otros regatean, cancelan y desaparecen. Tus campañas aprenden del que LLEGA, no del que conviene, a menos que tú se lo enseñes.',
   hoy34:'Saca tus 10 mejores clientes del año por dinero dejado (no por frecuencia). Busca qué comparten: servicio de entrada, zona, edad, cómo llegaron. Ese patrón es tu cliente real, y casi nunca es el que tenías en la cabeza.',
   pasos34:['Saca tus <b>10 mejores clientes del año</b>, por dinero que dejaron, no por caerte bien.','Busca qué comparten: por qué servicio entraron, edad, zona, cómo te encontraron.<table class="reg-mock"><tr><th>Cliente</th><th>Entró por</th><th>Dejó</th></tr><tr><td>Ana</td><td>Servicio B</td><td>$18,400</td></tr><tr><td>Rocío</td><td>Servicio B</td><td>$15,900</td></tr><tr><td>Pau</td><td>Servicio A</td><td>$14,200</td></tr></table>','Escribe el patrón en UNA línea ("mujer 30-45, entra por Servicio B, zona X"). Compáralo con el que tus anuncios traen hoy.','Ahora úsalo: exporta tus <b>100 (o más) mejores clientes</b> (nombre y teléfono bastan) y mándaselos a quien maneja tus campañas:<div class="tell-box">Mándale esto tal cual: <i>"Sube esta lista a Meta como público de clientes, crea un público similar y pruébalo contra el público actual."</i></div> Es la forma más directa de decirle a Meta: tráeme MÁS de éstos, sin un peso extra de presupuesto. (El patrón se encuentra con 10; el público necesita 100+: Meta no acepta listas chicas.)'],reto34:'Si tu anuncio no le habla a ese patrón, estás pagando por traer al equivocado.',ofName:'Tu cliente ideal',ofPrice:50,ofBullets:['El video donde saco los motivadores reales de un cliente ideal','La ficha donde armas tu cliente ideal con tus propios datos','Una IA que te pregunta por tus últimos 10 compradores y te arma la ficha sola']},
@@ -1799,6 +1844,58 @@ function laLectura(real,tg,tr){
   return `Tu <b>${GEARS_META[best.gi].short}</b> está sólido, pero tu <b>${GEARS_META[worst.gi].short}</b> lo frena. El engrane más lento manda: no importa qué tan bueno seas en lo demás si se atora ahí.`;}
  return `Tu sistema está parejo y sólido. A esta altura ya no se trata de tapar un hueco: es <b>escalar sin romper</b> lo que ya funciona. Y ese es otro juego, con otras reglas.`;
 }
+/* ---- Checklist Etapa 1 (mapa en lista) ---- */
+const CHK1=[
+ {area:'Presupuesto',text:'Confirmar que ya ganas con lo que vendes hoy, aunque sea en chico, antes de subirle al gasto.'},
+ {area:'Campañas',text:'Una campaña bien armada en el Ads Manager, con un objetivo claro.'},
+ {area:'Equipo',text:'Vender con el mismo paso a paso cada vez, para que no dependa de tu día.'},
+ {area:'Métricas',text:'Llevar lo básico: cuántos te escriben, cuántos compran y cuánto te cuesta cada venta.'},
+ {area:'Automatización',text:'Un lugar simple donde no se te pierda ningún interesado, aunque sea una hoja.'},
+ {area:'Ventas',text:'Que la venta deje de ser suerte: repetir a propósito lo que funcionó la última vez.'},
+ {area:'Oferta',text:'Tus primeras ventas reales: gente que paga tu precio sin que la convenzas a la fuerza.'},
+ {area:'Cliente ideal',text:'Saber quién es tu mejor cliente y por qué te compra a ti, en una línea.'},
+ {area:'Respuesta',text:'Responder en minutos, no en horas, dentro de tu horario. Ahí se cierra.'},
+ {area:'Anuncios',text:'Probar 2 o 3 anuncios distintos y quedarte con el que más gente responde.'},
+ {area:'Asistencia',text:'Llevar la cuenta y mandar un recordatorio un día antes de cada cita.'}
+];
+function chk1Load(){
+ try{ const raw=localStorage.getItem('as_chk_1'); const o=raw?JSON.parse(raw):{}; return (o&&typeof o==='object')?o:{}; }catch(e){ return {}; }
+}
+function chk1Save(o){ try{ localStorage.setItem('as_chk_1', JSON.stringify(o)); }catch(e){} }
+function renderChecklist1(firstAny){
+ const list=document.getElementById('chkList'), prog=document.getElementById('chkProg');
+ if(!list||!prog) return;
+ let stored=chk1Load();
+ const startIdx=[];
+ if(firstAny && firstAny.l){
+  const fl=firstAny.l.toLowerCase();
+  CHK1.forEach((c,i)=>{ if(fl.indexOf(c.area.toLowerCase().slice(0,5))>=0) startIdx.push(i); });
+ }
+ function isOn(i){
+  if(Object.prototype.hasOwnProperty.call(stored,i)) return !!stored[i];
+  if(i===10) return false;
+  return state.B && state.B[i]!=null && state.B[i]>=1;
+ }
+ function paint(){
+  let n=0;
+  list.innerHTML=CHK1.map((c,i)=>{
+   const on=isOn(i); if(on) n++;
+   const isStart=startIdx.indexOf(i)>=0;
+   const startSpan=isStart?' <span class="chk-start">← Empieza por aquí</span>':'';
+   return `<div class="it${on?' on':''}${isStart?' start':''}" data-i="${i}"><span class="c">${on?'✓':''}</span><span class="tx"><b>${c.area}:</b> ${c.text}${startSpan}</span></div>`;
+  }).join('');
+  prog.innerHTML=`Llevas <b>${n}</b> de 11`;
+ }
+ paint();
+ list.onclick=function(e){
+  const row=e.target.closest('.it'); if(!row) return;
+  const i=+row.dataset.i;
+  const nowOn=!isOn(i);
+  stored[i]=nowOn; chk1Save(stored);
+  if(nowOn){ try{ASV&&ASV.hit('check_'+i)}catch(e){} }
+  paint();
+ };
+}
 function render(levels){
  const real=TEETH.map((t,i)=>({...t,s:statusFor(levels[i])}));
  LAST_TEETH=real; // para la pantalla de detalle
@@ -1814,10 +1911,12 @@ function render(levels){
    : `Estás empezando: normal a esta altura. Arreglando estos focos, uno por uno, saltas a <b>Etapa ${et+1}</b>.`; }
  else { es=`Estás arriba, pero tu motor tiene <b>${tr} fuga${tr>1?'s':''}</b> que te frena${tr>1?'n':''}. Ciérra${tr>1?'las':'la'} y despegas.`; }
  document.getElementById('lectura').innerHTML=`<div class="av">A</div><div class="lx"><div class="lk2">🔎 Mi lectura</div><div class="lt">${laLectura(real,tg,tr)} <span style="opacity:.55;font-weight:600">· Anwar</span></div></div>`;
- const SHORT=["Empezando","Inestables","Estancadas","Topadas"];
+ const PAUTA=["Menos de $10 mil/mes en anuncios","$10 a $40 mil/mes en anuncios","$40 a $120 mil/mes en anuncios","Más de $120 mil/mes en anuncios"];
  let steps='';
- for(let i=1;i<=4;i++){const cls=i<et?'done':i===et?'cur':i===et+1?'next':'';const tag=i===et?' · TÚ':i===et+1?' · siguiente':'';steps+=`<div class="step ${cls}"><div class="n">${i}</div><div class="lb-wrap"><span class="lb2">${SHORT[i-1]}${tag}</span><span class="dolor">"${STAGE_COPY[i].dolor}"</span></div></div>`;}
- document.getElementById('etapa').innerHTML=`<div class="ladder">${steps}</div>`;
+ for(let i=1;i<=4;i++){const cls=i<et?'done':i===et?'cur':i===et+1?'next':'';const pill=i===et?'<span class="epill">ESTÁS AQUÍ</span>':i===et+1?'<span class="epill nx">SIGUIENTE</span>':'';
+  steps+=`<div class="er ${cls}"><div class="ec1"><span class="ek">ETAPA ${i}</span><span class="en">${STAGES[i-1]}</span>${pill}</div><div class="ec2"><span class="ed">"${STAGE_COPY[i].dolor}"</span><span class="ea">${PAUTA[i-1]}</span></div></div>`;
+  if(i<4) steps+=`<div class="earrow ${i===et?'hot':''}">↓</div>`;}
+ document.getElementById('etapa').innerHTML=`<div class="etab">${steps}</div>`;
  document.getElementById('etTop').innerHTML=`<div class="et-k">TU DIAGNÓSTICO</div><h1 class="et-h1">Estás en la etapa ${et} de 4: <span class="et-nm">${STAGES[et-1]}</span></h1>`;
  const SC=STAGE_COPY[et];
  document.getElementById('porDentro').innerHTML=`<div class="k">Así se ve por dentro</div><ul class="dentro">${SC.dentro.map(x=>`<li>${x}</li>`).join('')}</ul>`;
@@ -1845,6 +1944,14 @@ function render(levels){
   }
   u.innerHTML=h; u.style.display='';
  } else { u.innerHTML=''; u.style.display='none'; }
+ const et1=et===1;
+ ['porDentro','frena','paraPasar'].forEach(function(id){ const el=document.getElementById(id); if(el) el.style.display=et1?'none':''; });
+ const vdBtn=document.getElementById('verDesglose'); if(vdBtn) vdBtn.style.display=et1?'none':'';
+ const dgEl=document.getElementById('desglose'); if(dgEl && et1) dgEl.classList.add('hidden');
+ const mapaEl=document.getElementById('mapa'), chkSecEl=document.getElementById('chkSec');
+ if(mapaEl) mapaEl.style.display=et1?'':'none';
+ if(chkSecEl) chkSecEl.style.display=et1?'':'none';
+ if(et1){ try{ renderChecklist1(firstAny); }catch(e){ console.warn('chk1',e); } }
  document.getElementById('grid').innerHTML=[0,1,2].map(gi=>{
   const g=byGear[gi],realN=g.filter(t=>t.s!=='locked').length,gc=g.filter(t=>t.s==='g').length,anchor=gi===2?' anchor':'';
   const rows=g.map(t=>{const st=ST[t.s];
