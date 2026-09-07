@@ -524,6 +524,10 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .chk-sub{font-size:13.5px;color:#5b6675;line-height:1.5;margin:0 0 6px}
 #engrane-root .chk-prog{font-size:13.5px;font-weight:800;color:var(--navy);margin:0 0 10px}
 #engrane-root .chk-prog b{color:var(--red)}
+#engrane-root .chk-how{font-size:14px;line-height:1.6;color:var(--ink);background:#F4F6F9;border-radius:10px;padding:10px 12px;margin:0 0 10px}
+#engrane-root .chk-how b{color:var(--navy)}
+#engrane-root .c-mini{display:inline-flex;width:16px;height:16px;border-radius:50%;border:2px solid #c7ced8;vertical-align:-3px;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff}
+#engrane-root .c-mini.on{background:var(--navy);border-color:var(--navy)}
 #engrane-root .chl{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
 #engrane-root .chl .it{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.45;cursor:pointer;user-select:none}
 #engrane-root .chl .it:last-child{border-bottom:none}
@@ -613,8 +617,9 @@ const CONFIG = {
       </div>
       <div class="chk-sec" id="chkSec">
         <h3 class="chk-h">Tu checklist para pasar a la etapa 2</h3>
-        <p class="chk-sub">Es la columna derecha de tu mapa, en lista. Palomea lo que ya tienes y regresa cuando quieras: aquí se te guarda, y el mapa también va en tu correo.</p>
+        <p class="chk-sub">Es la columna derecha de tu mapa, en lista.</p>
         <p class="chk-prog" id="chkProg"></p>
+        <div class="chk-how"><b>Cómo se usa:</b> toca el círculo <span class="c-mini"></span> de cada punto que ya tengas. Se pone <span class="c-mini on">✓</span>.<br>Regresa cuando quieras: aquí se te guarda. El mapa también va en tu correo.</div>
         <div class="chl" id="chkList"></div>
       </div>
       <div class="unica" id="unica"></div>
@@ -1878,7 +1883,8 @@ function renderChecklist1(firstAny){
  }
  function paint(){
   let n=0;
-  list.innerHTML=CHK1.map((c,i)=>{
+  const order=CHK1.map((c,i)=>i).sort((a,b)=>(startIdx.indexOf(b)>=0)-(startIdx.indexOf(a)>=0));
+  list.innerHTML=order.map(i=>{const c=CHK1[i];
    const on=isOn(i); if(on) n++;
    const isStart=startIdx.indexOf(i)>=0;
    const startSpan=isStart?' <span class="chk-start">← Empieza por aquí</span>':'';
