@@ -1954,7 +1954,7 @@ const CHK1=[
  {area:'Cliente ideal',text:'Saber quién es tu mejor cliente y por qué te compra a ti, en una línea.',ej:'Mujer de 30 a 45, de tu zona, que ya probó otras cosas y no le funcionaron. Te compra porque le dices la verdad de qué sí sirve.'},
  {area:'Respuesta',text:'Responder en minutos, no en horas, dentro de tu horario. Ahí se cierra.',ej:'Si escribe a las 11 de la mañana, le contestas antes de las 11:10. Si escribe a las 10 de la noche, le contestas a primera hora.'},
  {area:'Anuncios',text:'Probar 2 o 3 anuncios distintos y quedarte con el que más gente responde.',ej:'Un anuncio hablando del precio, otro del resultado y otro del miedo de que salga mal. A la semana ves cuál trajo más mensajes.'},
- {area:'Asistencia',text:'Si trabajas con citas: llevar la cuenta de quién llega y mandar un recordatorio un día antes.',ej:'De 10 que agendan, apuntas cuántos llegaron. Y un día antes: "Hola, te espero mañana a las 4, ¿confirmas?"'}
+ {area:'Asistencia',text:'Que el que dice "sí" de verdad llegue: a la cita o a pagar el pedido. Llevar la cuenta y recordarle antes.',ej:'De 10 que dicen "sí, voy" o "sí, lo quiero", apuntas cuántos llegaron a la cita o a pagar. Y antes les escribes: "Te espero mañana a las 4, ¿confirmas?" o "Te aparto tu pedido hasta hoy a las 6, ¿lo cierro?"',na:true}
 ];
 function chk1Load(){
  try{ const raw=localStorage.getItem('as_chk_1'); const o=raw?JSON.parse(raw):{}; return (o&&typeof o==='object')?o:{}; }catch(e){ return {}; }
@@ -1986,7 +1986,7 @@ function renderChecklist1(firstAny){
    const isStart=startIdx.indexOf(i)>=0;
    const startSpan=isStart?' <span class="chk-start">← Empieza por aquí</span>':'';
    const stateCls=on?' tengo':(ay?' ayuda':'');
-   return `<div class="it${stateCls}${isStart?' start':''}" data-i="${i}"><button type="button" class="c" data-act="tengo" aria-label="Ya lo resolví"></button><div class="tx"><b>${c.area}:</b> ${c.text}${startSpan}${c.ej?`<div class="ej"><b>Ejemplo:</b> ${c.ej}</div>`:''}<div class="how-row">Si esto ya lo haces, toca el círculo para marcarlo como resuelto. Si quieres ayuda con esto, toca el botón.</div></div><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Ayúdame con esto':'Ayúdame con esto'}</button>${ay?(PIDE_COVERED.indexOf(c.area)>=0?`<div class="fb">Esto viene en la guía de etapa 1, ya la puedes apartar. <a href="#guia" class="fb-go">Ver la guía ↓</a></div>`:`<div class="fb">Anotado. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.</div>`):''}</div>`;
+   return `<div class="it${stateCls}${isStart?' start':''}" data-i="${i}"><button type="button" class="c" data-act="tengo" aria-label="Ya lo resolví"></button><div class="tx"><b>${c.area}:</b> ${c.text}${startSpan}${c.ej?`<div class="ej"><b>Ejemplo:</b> ${c.ej}</div>`:''}<div class="how-row">Si esto ya lo haces${c.na?' o no aplica para tu negocio':''}, toca el círculo para marcarlo como resuelto. Si quieres ayuda con esto, toca el botón.</div></div><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Ayúdame con esto':'Ayúdame con esto'}</button>${ay?(PIDE_COVERED.indexOf(c.area)>=0?`<div class="fb">Esto viene en la guía de etapa 1, ya la puedes apartar. <a href="#guia" class="fb-go">Ver la guía ↓</a></div>`:`<div class="fb">Anotado. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.</div>`):''}</div>`;
   }).join('');
   prog.innerHTML=`Ya resolviste <b>${n}</b> de 11 · Pediste ayuda en <b>${nAyuda}</b>`;
   const bpT=document.getElementById('bpT'), bpA=document.getElementById('bpA');
