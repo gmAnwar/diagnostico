@@ -2011,6 +2011,7 @@ function renderChecklist1(firstAny){
    if(nowOn){ try{ASV&&ASV.hit('pide_'+pideSlug(CHK1[i].area))}catch(e){} }
    if(nowOn && isOn(i)){ stored[i]=false; chk1Save(stored); }
   }
+  pideSchedule();
   paint();
  };
 }
@@ -2023,6 +2024,28 @@ function pideLoad(){
  try{ const raw=localStorage.getItem('as_pide_1'); const o=raw?JSON.parse(raw):{}; return (o&&typeof o==='object')?o:{}; }catch(e){ return {}; }
 }
 function pideSave(o){ try{ localStorage.setItem('as_pide_1', JSON.stringify(o)); }catch(e){} }
+/* Envío automático a la lista: un tap en "Ayúdame con esto" basta.
+   Espera 5 s tras el último cambio, manda solo si la lista cambió vs. lo último enviado,
+   máximo 2 envíos por visita. También manda al salir de la página si quedó pendiente. */
+let PIDE_T=null, PIDE_SENDS=0;
+function pideSentGet(){ try{ return localStorage.getItem('as_pide_sent_1')||''; }catch(e){ return ''; } }
+function pideSentSet(v){ try{ localStorage.setItem('as_pide_sent_1', v); }catch(e){} }
+function pideAreasNow(){
+ const picked=pideLoad();
+ return CHK1.map((c,i)=>i).filter(i=>!!picked[i]).map(i=>pideSlug(CHK1[i].area)).sort().join(',');
+}
+function pideFlush(final){
+ if(PIDE_T){ clearTimeout(PIDE_T); PIDE_T=null; }
+ const areas=pideAreasNow();
+ if(!areas || areas===pideSentGet() || PIDE_SENDS>=(final?3:2)) return;
+ PIDE_SENDS++; pideSentSet(areas);
+ sendWebhook("waitlist",{producto:"paquete", areas:areas});
+ try{ASV&&ASV.hit('paquete_'+areas.split(',').length)}catch(e){}
+ try{ track("Waitlist_paquete",{}); }catch(e){}
+}
+function pideSchedule(){ if(PIDE_T) clearTimeout(PIDE_T); PIDE_T=setTimeout(pideFlush,5000); }
+document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden' && PIDE_T) pideFlush(true); });
+window.addEventListener('pagehide',function(){ if(PIDE_T) pideFlush(true); });
 function renderPide(){
  const resEl=document.getElementById('pideRes');
  if(!resEl) return;
@@ -2034,21 +2057,16 @@ function renderPide(){
  const n=marked.length;
  const goHtml=`<a class="pide-go" href="#guia">Ver la guía ↓</a>`;
  function wireGo(){ const go=resEl.querySelector('.pide-go'); if(go) go.onclick=function(e){ e.preventDefault(); const u=document.getElementById('guia'); if(u) u.scrollIntoView({behavior:'smooth'}); }; }
+ const otrNames=OTR.map(i=>CHK1[i].area).join(', ');
  if(COV.length>0 && OTR.length===0){
   resEl.innerHTML=`<p class="pide-ok">${COV.length===1?'Lo que pediste viene':'Las '+COV.length+' que pediste vienen'} en la guía de etapa 1. Apártala hoy.</p>${goHtml}`;
   wireGo(); return;
  }
- const slugs=marked.map(i=>pideSlug(CHK1[i].area)).join(',');
- const otrNames=OTR.map(i=>CHK1[i].area).join(', ');
- let msg;
  if(COV.length){
-  msg=`De las ${n} que pediste, ${COV.length===1?'una viene':COV.length+' vienen'} en la guía de etapa 1: apártala hoy. ${OTR.length===1?'La otra':'Las otras '+OTR.length} (${otrNames}) te ${OTR.length===1?'la':'las'} aviso a tu correo en cuanto ${OTR.length===1?'salga':'salgan'}.`;
-  resEl.innerHTML=`<p class="pide-ok">${msg}</p>${goHtml}<br><button type="button" class="lq pide-btn" data-wl="paquete" data-areas="${slugs}">Apartar mi paquete de ${n} →</button>`;
+  resEl.innerHTML=`<p class="pide-ok">De las ${n} que pediste, ${COV.length===1?'una viene':COV.length+' vienen'} en la guía de etapa 1: apártala hoy. ${OTR.length===1?'La otra':'Las otras '+OTR.length} (${otrNames}) ya ${OTR.length===1?'quedó anotada':'quedaron anotadas'}: te aviso a tu correo en cuanto ${OTR.length===1?'salga':'salgan'}.</p>${goHtml}`;
   wireGo();
  } else {
-  msg = n===1 ? `Anotado: ${CHK1[marked[0]].area}. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.`
-              : `Anotado: ${otrNames}. Te armo el paquete con esas ${n} y te aviso a tu correo en cuanto salgan.`;
-  resEl.innerHTML=`<p class="pide-ok">${msg}</p><button type="button" class="lq pide-btn" data-wl="paquete" data-areas="${slugs}">${n===1?'Avísame cuando salga →':'Apartar mi paquete de '+n+' →'}</button>`;
+  resEl.innerHTML=`<p class="pide-ok">${n===1?'Anotado':'Anotadas'}: ${otrNames}. Te aviso a tu correo en cuanto ${n===1?'salga':'salgan'}. No tienes que hacer nada más.</p>`;
  }
 }
 function render(levels){
