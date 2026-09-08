@@ -1956,10 +1956,11 @@ const CHK1=[
  {area:'Anuncios',text:'Probar 2 o 3 anuncios distintos y quedarte con el que más gente responde.',ej:'Un anuncio hablando del precio, otro del resultado y otro del miedo de que salga mal. A la semana ves cuál trajo más mensajes.'},
  {area:'Asistencia',text:'Que el que dice "sí" de verdad llegue: a la cita o a pagar el pedido. Llevar la cuenta y recordarle antes.',ej:'De 10 que dicen "sí, voy" o "sí, lo quiero", apuntas cuántos llegaron a la cita o a pagar. Y antes les escribes: "Te espero mañana a las 4, ¿confirmas?" o "Te aparto tu pedido hasta hoy a las 6, ¿lo cierro?"',na:true}
 ];
+function chkKey(base){ try{ const b=(state&&state.B)?state.B.join(''):''; return base+(b?'_'+b:''); }catch(e){ return base; } }
 function chk1Load(){
- try{ const raw=localStorage.getItem('as_chk_1'); const o=raw?JSON.parse(raw):{}; return (o&&typeof o==='object')?o:{}; }catch(e){ return {}; }
+ try{ const raw=localStorage.getItem(chkKey('as_chk_1')); const o=raw?JSON.parse(raw):{}; return (o&&typeof o==='object')?o:{}; }catch(e){ return {}; }
 }
-function chk1Save(o){ try{ localStorage.setItem('as_chk_1', JSON.stringify(o)); }catch(e){} }
+function chk1Save(o){ try{ localStorage.setItem(chkKey('as_chk_1'), JSON.stringify(o)); }catch(e){} }
 function renderChecklist1(firstAny){
  const list=document.getElementById('chkList'), prog=document.getElementById('chkProg');
  if(!list||!prog) return;
@@ -2021,15 +2022,15 @@ function pideSlug(area){
  return area.toString().normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
 }
 function pideLoad(){
- try{ const raw=localStorage.getItem('as_pide_1'); const o=raw?JSON.parse(raw):{}; return (o&&typeof o==='object')?o:{}; }catch(e){ return {}; }
+ try{ const raw=localStorage.getItem(chkKey('as_pide_1')); const o=raw?JSON.parse(raw):{}; return (o&&typeof o==='object')?o:{}; }catch(e){ return {}; }
 }
-function pideSave(o){ try{ localStorage.setItem('as_pide_1', JSON.stringify(o)); }catch(e){} }
+function pideSave(o){ try{ localStorage.setItem(chkKey('as_pide_1'), JSON.stringify(o)); }catch(e){} }
 /* Envío automático a la lista: un tap en "Ayúdame con esto" basta.
    Espera 5 s tras el último cambio, manda solo si la lista cambió vs. lo último enviado,
    máximo 2 envíos por visita. También manda al salir de la página si quedó pendiente. */
 let PIDE_T=null, PIDE_SENDS=0;
-function pideSentGet(){ try{ return localStorage.getItem('as_pide_sent_1')||''; }catch(e){ return ''; } }
-function pideSentSet(v){ try{ localStorage.setItem('as_pide_sent_1', v); }catch(e){} }
+function pideSentGet(){ try{ return localStorage.getItem(chkKey('as_pide_sent_1'))||''; }catch(e){ return ''; } }
+function pideSentSet(v){ try{ localStorage.setItem(chkKey('as_pide_sent_1'), v); }catch(e){} }
 function pideAreasNow(){
  const picked=pideLoad();
  return CHK1.map((c,i)=>i).filter(i=>!!picked[i]).map(i=>pideSlug(CHK1[i].area)).sort().join(',');
