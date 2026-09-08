@@ -542,19 +542,21 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .c-mini{display:inline-flex;width:16px;height:16px;border-radius:50%;border:2px solid #c7ced8;vertical-align:-3px;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff}
 #engrane-root .c-mini.on{background:var(--navy);border-color:var(--navy)}
 #engrane-root .chl{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
-#engrane-root .chl .it{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.45;cursor:pointer;user-select:none}
+#engrane-root .chl .it{display:block;padding:12px 14px;border-bottom:1px solid var(--line)}
 #engrane-root .chl .it:last-child{border-bottom:none}
-#engrane-root .chl .it .c{flex:0 0 22px;width:22px;height:22px;border-radius:50%;border:2px solid #c7ced8;margin-top:1px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800}
-#engrane-root .chl .it.on .c{background:var(--navy);border-color:var(--navy)}
-#engrane-root .chl .it.on .tx{color:#8a94a6;text-decoration:line-through}
-#engrane-root .chl .it.on .tx b{color:#8a94a6;text-decoration:line-through}
+#engrane-root .chl .it .tx{font-size:14.5px;line-height:1.45}
+#engrane-root .chl .it .acts{display:flex;gap:8px;margin-top:8px}
+#engrane-root .chl .it .act{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:8px 6px;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer;white-space:nowrap}
+#engrane-root .chl .it.tengo .act.tengo{background:var(--navy);border-color:var(--navy);color:#fff}
+#engrane-root .chl .it.ayuda .act.ayuda{background:var(--red);border-color:var(--red);color:#fff}
+#engrane-root .chl .it.tengo .tx{color:#8a94a6}
+#engrane-root .chl .it.ayuda{background:#FFF5F5}
 #engrane-root .chl .it.start{background:#FFF9F2}
+#engrane-root .chl .it.start.ayuda{background:#FFF5F5}
+#engrane-root .mini-t{display:inline-block;background:var(--navy);color:#fff;font-size:11px;padding:2px 7px;border-radius:99px;font-weight:800}
+#engrane-root .mini-a{display:inline-block;background:var(--red);color:#fff;font-size:11px;padding:2px 7px;border-radius:99px;font-weight:800}
 #engrane-root .pide-sec{margin:18px 0 6px}
 #engrane-root .pide-h{font-size:18px;color:var(--navy);margin:0 0 4px}
-#engrane-root .pide-sub{font-size:13.5px;color:#5b6675;line-height:1.5;margin:0 0 10px}
-#engrane-root .pide-chips{display:flex;flex-wrap:wrap;gap:8px}
-#engrane-root .pide-chips button{background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:9px 14px;font-size:14px;font-weight:700;color:var(--navy);cursor:pointer}
-#engrane-root .pide-chips button.on{background:var(--navy);border-color:var(--navy);color:#fff}
 #engrane-root .pide-res{margin-top:12px}
 #engrane-root .pide-ok{font-size:14.5px;line-height:1.5;color:var(--ink);margin:0 0 8px;padding:10px 12px;background:#F4F6F9;border-radius:10px}
 #engrane-root .pide-go{display:inline-block;font-weight:800;color:var(--red);text-decoration:none;font-size:14.5px}
@@ -642,13 +644,8 @@ const CONFIG = {
         <h3 class="chk-h">Tu checklist para pasar a la etapa 2</h3>
         <p class="chk-sub">Es la columna derecha de tu mapa, en lista.</p>
         <p class="chk-prog" id="chkProg"></p>
-        <div class="chk-how"><b>Cómo se usa:</b> toca el círculo <span class="c-mini"></span> de cada punto que ya tengas. Se pone <span class="c-mini on">✓</span>.<br>Regresa cuando quieras: aquí se te guarda. El mapa también va en tu correo.</div>
+        <div class="chk-how"><b>Cómo se usa:</b> en cada punto toca <span class="mini-t">Ya lo tengo</span> o <span class="mini-a">Quiero ayuda</span>. Regresa cuando quieras: aquí se te guarda. El mapa también va en tu correo.</div>
         <div class="chl" id="chkList"></div>
-      </div>
-      <div class="pide-sec" id="pideSec">
-        <h3 class="pide-h">¿En cuáles quieres que te ayude?</h3>
-        <p class="pide-sub">Marca las que quieras. Las guías salen en el orden que ustedes las pidan.</p>
-        <div class="pide-chips" id="pideChips"></div>
         <div class="pide-res" id="pideRes"></div>
       </div>
       <div class="unica" id="unica"></div>
@@ -1901,6 +1898,7 @@ function renderChecklist1(firstAny){
  const list=document.getElementById('chkList'), prog=document.getElementById('chkProg');
  if(!list||!prog) return;
  let stored=chk1Load();
+ let picked=pideLoad();
  const startIdx=[];
  if(firstAny && firstAny.l){
   const fl=firstAny.l.toLowerCase();
@@ -1911,30 +1909,43 @@ function renderChecklist1(firstAny){
   if(i===10) return false;
   return state.B && state.B[i]!=null && state.B[i]>=1;
  }
+ function isAyuda(i){ return !!picked[i]; }
  window.chk1IsOn=isOn;
  function paint(){
-  let n=0;
+  let n=0, nAyuda=0;
   const order=CHK1.map((c,i)=>i).sort((a,b)=>(startIdx.indexOf(b)>=0)-(startIdx.indexOf(a)>=0));
   list.innerHTML=order.map(i=>{const c=CHK1[i];
    const on=isOn(i); if(on) n++;
+   const ay=isAyuda(i); if(ay) nAyuda++;
    const isStart=startIdx.indexOf(i)>=0;
    const startSpan=isStart?' <span class="chk-start">← Empieza por aquí</span>':'';
-   return `<div class="it${on?' on':''}${isStart?' start':''}" data-i="${i}"><span class="c">${on?'✓':''}</span><span class="tx"><b>${c.area}:</b> ${c.text}${startSpan}</span></div>`;
+   const stateCls=on?' tengo':(ay?' ayuda':'');
+   return `<div class="it${stateCls}${isStart?' start':''}" data-i="${i}"><div class="tx"><b>${c.area}:</b> ${c.text}${startSpan}</div><div class="acts"><button type="button" class="act tengo" data-act="tengo">${on?'✓ Ya lo tengo':'Ya lo tengo'}</button><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Quiero ayuda':'Quiero ayuda'}</button></div></div>`;
   }).join('');
-  prog.innerHTML=`Llevas <b>${n}</b> de 11`;
+  prog.innerHTML=`Ya tienes <b>${n}</b> de 11 · Pediste ayuda en <b>${nAyuda}</b>`;
   try{ renderPide(); }catch(e){ console.warn('pide',e); }
  }
  paint();
  list.onclick=function(e){
-  const row=e.target.closest('.it'); if(!row) return;
+  const btn=e.target.closest('.act'); if(!btn) return;
+  const row=btn.closest('.it'); if(!row) return;
   const i=+row.dataset.i;
-  const nowOn=!isOn(i);
-  stored[i]=nowOn; chk1Save(stored);
-  if(nowOn){ try{ASV&&ASV.hit('check_'+i)}catch(e){} }
+  const act=btn.dataset.act;
+  if(act==='tengo'){
+   const nowOn=!isOn(i);
+   stored[i]=nowOn; chk1Save(stored);
+   if(nowOn){ try{ASV&&ASV.hit('check_'+i)}catch(e){} }
+   if(nowOn && picked[i]){ picked[i]=false; pideSave(picked); }
+  } else if(act==='ayuda'){
+   const nowOn=!isAyuda(i);
+   picked[i]=nowOn; pideSave(picked);
+   if(nowOn){ try{ASV&&ASV.hit('pide_'+pideSlug(CHK1[i].area))}catch(e){} }
+   if(nowOn && isOn(i)){ stored[i]=false; chk1Save(stored); }
+  }
   paint();
  };
 }
-/* ---- Pide (chips de áreas no cubiertas) Etapa 1 ---- */
+/* ---- Pide (resultado según filas marcadas "Quiero ayuda") Etapa 1 ---- */
 const PIDE_COVERED=['Cliente ideal','Oferta','Anuncios'];
 function pideSlug(area){
  return area.toString().normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
@@ -1944,23 +1955,10 @@ function pideLoad(){
 }
 function pideSave(o){ try{ localStorage.setItem('as_pide_1', JSON.stringify(o)); }catch(e){} }
 function renderPide(){
- const chipsEl=document.getElementById('pideChips'), resEl=document.getElementById('pideRes');
- if(!chipsEl||!resEl||!window.chk1IsOn) return;
+ const resEl=document.getElementById('pideRes');
+ if(!resEl) return;
  let picked=pideLoad();
- const idxs=CHK1.map((c,i)=>i).filter(i=>!chk1IsOn(i));
- chipsEl.innerHTML=idxs.map(i=>{
-  const c=CHK1[i], on=!!picked[i];
-  return `<button type="button" class="${on?'on':''}" data-i="${i}">${on?'✓ ':''}${c.area}</button>`;
- }).join('');
- chipsEl.onclick=function(e){
-  const b=e.target.closest('button'); if(!b) return;
-  const i=+b.dataset.i;
-  const nowOn=!picked[i];
-  picked[i]=nowOn; pideSave(picked);
-  if(nowOn){ try{ASV&&ASV.hit('pide_'+pideSlug(CHK1[i].area))}catch(e){} }
-  renderPide();
- };
- const marked=idxs.filter(i=>picked[i]);
+ const marked=CHK1.map((c,i)=>i).filter(i=>!!picked[i]);
  if(!marked.length){ resEl.innerHTML=''; return; }
  const COV=marked.filter(i=>PIDE_COVERED.indexOf(CHK1[i].area)>=0);
  const OTR=marked.filter(i=>PIDE_COVERED.indexOf(CHK1[i].area)<0);
@@ -2037,8 +2035,6 @@ function render(levels){
  const mapaEl=document.getElementById('mapa'), chkSecEl=document.getElementById('chkSec');
  if(mapaEl) mapaEl.style.display=et1?'':'none';
  if(chkSecEl) chkSecEl.style.display=et1?'':'none';
- const pideSecEl=document.getElementById('pideSec');
- if(pideSecEl) pideSecEl.style.display=et1?'':'none';
  if(et1){ try{ renderChecklist1(firstAny); }catch(e){ console.warn('chk1',e); } }
  document.getElementById('grid').innerHTML=[0,1,2].map(gi=>{
   const g=byGear[gi],realN=g.filter(t=>t.s!=='locked').length,gc=g.filter(t=>t.s==='g').length,anchor=gi===2?' anchor':'';
