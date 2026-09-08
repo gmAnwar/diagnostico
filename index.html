@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#0A2E5C; --red:#D42A2A; --ink:#333333; --bg:#FFFFFF; --soft:#F5F5F5;
+  --navy:#0A2E5C; --red:#EA1A20; --ink:#333333; --bg:#FFFFFF; --soft:#F5F5F5;
   --line:#E4E7EC; --ok:#0A7A3D; --warn:#B7791F;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -208,6 +208,11 @@ table.diag td.area.weak-row,table.hz td:first-child.weak-row{background:#FFF9F0}
 .exportbar.on{display:block}
 .exportbar .inner{max-width:860px;margin:0 auto;display:flex;gap:10px;justify-content:space-between;align-items:center}
 .exportbar .left{display:flex;gap:10px}
+.bar-prog{flex:1;text-align:left;background:#F4F6F9;border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer;display:flex;flex-direction:column;gap:1px;font:inherit}
+.bp-k{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#8a94a6}
+.bp-v{font-size:13.5px;font-weight:700;color:var(--navy)}
+.bp-v b{color:var(--red)}
+.bar-cta{white-space:nowrap;font-size:14px;padding:12px 16px}
 body.has-bar{padding-bottom:74px}
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 22px;border-radius:99px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .25s;z-index:70}
 .toast.on{opacity:1}
@@ -218,6 +223,7 @@ body.has-bar{padding-bottom:74px}
   .ads-ex{grid-template-columns:1fr}
   .exportbar .inner{flex-direction:column;align-items:stretch}
   .exportbar .left{flex-direction:column}
+  .exportbar.et1 .inner{flex-direction:row;align-items:center;gap:8px}
 }
 
 /* ---------- PRINT (export PDF) ---------- */
@@ -298,7 +304,7 @@ body.has-bar{padding-bottom:74px}
 /* ================= ENGRANE (Círculo de los Engranes) · pantalla de resultados ================= */
 #engrane-root{
   --navy:#0A2540;--ink:#1c3550;--green:#83C341;--green-d:#5C9A2E;--amber:#F5A524;--amber-d:#C97E10;
-  --red:#FF4438;--red-d:#D8271B;--paper:#EFEDE7;--card:#FFFFFF;--line:#E7E4DD;--muted:#657787;
+  --red:#EA1A20;--red-d:#C4141A;--paper:#EFEDE7;--card:#FFFFFF;--line:#E7E4DD;--muted:#657787;
   --shadow:0 24px 60px -24px rgba(10,37,64,.28),0 4px 14px -6px rgba(10,37,64,.14);
   --f-head:'Manrope',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;--f-body:'Inter',-apple-system,system-ui,sans-serif;
   font-family:var(--f-body);color:var(--ink);
@@ -417,7 +423,7 @@ body.has-bar{padding-bottom:74px}
 .det-offer .of-ul{margin:0 0 10px;padding-left:20px}
 .det-offer .of-ul li{margin:0 0 10px;line-height:1.55;font-size:13.5px}
 .det-offer .of-mid{font-size:13px;margin:0 0 12px;color:#1c3550}
-.det-offer .of-status{font-size:12.8px;font-weight:700;color:#5C9A2E;margin:0 0 12px}
+.det-offer .of-status{font-size:12.8px;font-weight:700;color:#0A2540;margin:0 0 12px}
 /* mocks didácticos dentro de los pasos */
 .wa-mock{margin:10px 0 4px;padding:12px 12px 10px;border-radius:10px;background:#ECE5DD}
 .wa-b{background:#DCF8C6;border-radius:0 10px 10px 10px;padding:8px 11px;margin:0 0 7px;font-size:13px;max-width:88%;box-shadow:0 1px 1px rgba(0,0,0,.08);color:#111}
@@ -440,7 +446,7 @@ body.has-bar{padding-bottom:74px}
 .det-card .ex-tbl td.fakewin{color:#8a94a6;font-weight:700}
 .det-card .ex-box p{font-size:13px;margin:0}
 .det-offer{margin-top:18px;padding:16px 17px;border-radius:14px;background:rgba(131,195,65,.10);border:1.5px solid rgba(131,195,65,.45)}
-.det-offer .of-k{font-family:'Manrope',sans-serif;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#5C9A2E;margin-bottom:6px}
+.det-offer .of-k{font-family:'Manrope',sans-serif;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#0A2540;margin-bottom:6px}
 .det-offer p{font-size:13.8px;line-height:1.6;margin:0 0 10px}
 .det-offer .of-f{font-size:12.5px;color:#657787;margin:8px 0 0}
 .det-vslot{margin:0 0 16px;border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:#0A2540}
@@ -469,7 +475,160 @@ body.has-bar{padding-bottom:74px}
 .btn-continue{margin-top:12px;width:100%;position:sticky;bottom:12px;z-index:5;box-shadow:0 8px 24px rgba(10,37,64,.22)}
 .multi-warn{display:none;font-size:14px;font-weight:700;color:var(--red);margin:10px 0 0;text-align:center}
 .multi-warn.on{display:block}
+#engrane-root .et-top{margin:6px 0 10px}
+#engrane-root .et-k{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+#engrane-root .et-h1{font-size:clamp(24px,6.4vw,32px);line-height:1.15;margin:6px 0 2px;color:var(--ink)}
+#engrane-root .et-nm{font-weight:800}
+#engrane-root .lb-wrap{display:flex;flex-direction:column;gap:2px}
+#engrane-root .etab{display:flex;flex-direction:column;margin:2px 0 6px}
+#engrane-root .er{position:relative;display:grid;grid-template-columns:118px 1fr;gap:10px;align-items:center;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.55)}
+#engrane-root .er .ek{display:block;font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+#engrane-root .er .en{display:block;font-family:var(--f-head);font-weight:800;font-size:13px;line-height:1.2;margin-top:2px}
+#engrane-root .er .ed{display:block;font-size:12px;font-style:italic;line-height:1.25}
+#engrane-root .er .ea{display:block;font-size:10.5px;opacity:.7;margin-top:3px}
+#engrane-root .er.done{color:rgba(255,255,255,.7)}
+#engrane-root .er.cur{color:#fff;background:rgba(131,195,65,.16);border-color:var(--green);box-shadow:0 0 0 1px var(--green)}
+#engrane-root .er.cur .ek{color:var(--green);opacity:1}
+#engrane-root .er.next{color:rgba(255,255,255,.85);border:1px dashed rgba(131,195,65,.7)}
+#engrane-root .epill{display:inline-block;margin-top:4px;font-size:8.5px;font-weight:800;letter-spacing:.1em;padding:3px 7px;border-radius:99px;background:var(--green);color:var(--navy)}
+#engrane-root .epill.nx{background:transparent;border:1px dashed var(--green);color:var(--green)}
+#engrane-root .earrow{text-align:center;font-size:13px;line-height:1;padding:2px 0;color:rgba(255,255,255,.35)}
+#engrane-root .earrow.hot{color:var(--green);font-weight:800;font-size:16px}
+#engrane-root .dolor{font-size:12px;opacity:.75;font-style:italic;color:#fff}
+#engrane-root .blk{margin:16px 0;padding:14px 16px;border:1px solid rgba(0,0,0,.12);border-radius:12px;background:rgba(10,37,64,.03)}
+#engrane-root .blk .k,#engrane-root .unica .k{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:6px}
+#engrane-root .blk p{margin:0;font-size:15px;line-height:1.55;color:var(--ink)}
+#engrane-root .frena-lead{display:block;font-size:17px;color:var(--red);margin-bottom:4px}
+#engrane-root .pasar,#engrane-root .dentro{margin:6px 0 0;padding-left:18px;color:var(--ink);font-size:15px;line-height:1.5}
+#engrane-root .pasar li,#engrane-root .dentro li{margin:4px 0}
+#engrane-root .nota{margin:10px 0 0;font-size:13.5px;opacity:.8;color:var(--ink)}
+#engrane-root .unica{margin:22px 0;padding:20px 18px;border-radius:16px;background:#FFF5F5;color:var(--ink);border:2px solid var(--red);box-shadow:0 8px 28px rgba(234,26,32,.12)}
+#engrane-root .unica .k{font-size:13px;letter-spacing:.14em;color:var(--red)}
+#engrane-root .unica-h{font-size:24px;line-height:1.15;margin:4px 0 14px;color:var(--ink)}
+#engrane-root .u-row{margin:12px 0}
+#engrane-root .u-k{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--navy,#0A2540);margin-bottom:3px}
+#engrane-root .u-t{font-size:15px;line-height:1.55}
+#engrane-root .u-pasos{margin:8px 0 0;padding-left:20px;font-size:15px;line-height:1.5}
+#engrane-root .u-pasos li{margin:5px 0}
+#engrane-root .u-det{display:inline-block;margin-top:10px;background:none;border:0;padding:0;color:var(--navy,#0A2540);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer}
+#engrane-root .u-of{margin-top:16px;padding:14px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.12)}
+#engrane-root .u-bridge{margin:12px 0 0;font-size:14.5px;font-weight:700;color:var(--navy)}
+#engrane-root .guia{margin:22px 0 8px}
+#engrane-root .g-card{background:#fff;border:2px solid var(--navy);border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(10,37,64,.10)}
+#engrane-root .g-tag{font-family:var(--f-head);font-size:20px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin-bottom:14px;text-align:center;line-height:1.1}
+#engrane-root .g-cover{background:linear-gradient(135deg,var(--navy),#123556);border-radius:10px;padding:22px 18px;color:#fff;display:flex;flex-direction:column;gap:6px;margin:0 auto 18px;min-height:120px;justify-content:center;width:72%;max-width:320px;box-shadow:0 18px 40px rgba(10,37,64,.35);border-left:6px solid #071a30}
+#engrane-root .g-cover-k{font-size:10px;letter-spacing:.2em;opacity:.7;font-weight:800}
+#engrane-root .g-cover-t{font-family:var(--f-head);font-weight:800;font-size:22px;line-height:1.15}
+#engrane-root .g-cover-by{font-size:12px;opacity:.75;margin-top:4px}
+#engrane-root .g-name{font-size:21px;color:var(--navy);margin:0 0 4px;line-height:1.2;text-align:center}
+#engrane-root .g-hook{margin:0 0 14px;font-size:15px;font-style:italic;color:var(--navy);line-height:1.45;text-align:center}
+#engrane-root .g-for{margin:0 0 6px;padding:10px 12px;background:rgba(10,37,64,.04);border-radius:10px;font-size:14px;line-height:1.5}
+#engrane-root .g-k{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin:14px 0 4px}
+#engrane-root .g-tx{margin:0;font-size:15px;line-height:1.55;color:var(--ink)}
+#engrane-root .g-ul{margin:0;padding-left:0;list-style:none}
+#engrane-root .g-ul li{position:relative;padding-left:22px;margin:6px 0;font-size:14.5px;line-height:1.5}
+#engrane-root .g-ul li::before{content:"✓";position:absolute;left:0;color:var(--red);font-weight:800}
+#engrane-root .g-sub{margin:6px 0 0;padding-left:0;list-style:none}
+#engrane-root .g-sub li{position:relative;padding-left:14px;margin:6px 0;font-size:14px;line-height:1.5}
+#engrane-root .g-sub li::before{content:"·";position:absolute;left:0;font-weight:800;color:var(--navy)}
+#engrane-root .g-price{margin:16px 0 6px;background:var(--navy);color:#fff;border-radius:12px;padding:16px;text-align:center;display:flex;flex-direction:column;gap:4px}
+#engrane-root .g-price .g-reg{font-size:13px;color:rgba(255,255,255,.6);text-decoration:line-through}
+#engrane-root .g-reg{font-size:13px;color:#8a94a6;text-decoration:line-through}
+#engrane-root .g-now{font-size:15px;color:var(--ink)}
+#engrane-root .g-now b{color:var(--red);font-size:22px}
+#engrane-root .g-now-big{font-size:34px;font-weight:800;color:#fff;line-height:1.1}
+#engrane-root .g-now-sub{font-size:12px;opacity:.85}
+#engrane-root .g-gar-row{display:flex;align-items:flex-start;gap:10px;background:#FFF5F5;border:1px solid #F2C9C9;border-radius:10px;padding:12px;margin:14px 0}
+#engrane-root .g-gar-ic{font-size:20px;line-height:1.3;flex:0 0 auto}
+#engrane-root .g-gar{margin:0;font-size:14px;font-weight:700;color:var(--navy)}
+#engrane-root .g-card .g-btn{width:100%;min-height:52px;font-size:16px;background:var(--red);color:#fff;border-radius:12px;box-shadow:0 8px 20px rgba(217,48,37,.35)}
+#engrane-root .g-card .g-btn.done{background:var(--green);box-shadow:none}
+#engrane-root .g-btn-top{margin:14px 0 0}
+#engrane-root .g-nopay{margin:10px 0 0;font-size:14px;font-weight:700;color:var(--navy);text-align:center}
+#engrane-root .g-status{margin:10px 0 0;font-size:12.5px;color:#5b6675;line-height:1.45;text-align:center}
+#engrane-root .g-callout{background:#FFF5F5;border-left:4px solid var(--red);padding:12px;border-radius:6px;margin:14px 0}
+#engrane-root .g-callout .g-k{margin-top:0;color:var(--red)}
+#engrane-root .g-out{margin:8px 0 0;padding:0;list-style:none}
+#engrane-root .g-out li{position:relative;padding:10px 12px 10px 34px;margin:6px 0;font-size:14.5px;line-height:1.5;background:#fff;border:1px solid var(--line);border-radius:10px}
+#engrane-root .g-out li::before{content:"✅";position:absolute;left:10px;top:10px;font-size:13px}
+#engrane-root .g-stack{margin:8px 0 0;padding:0;list-style:none}
+#engrane-root .g-stack-row{display:flex;align-items:flex-start;gap:10px;background:#F4F6F9;border-radius:10px;padding:12px;margin:8px 0}
+#engrane-root .g-stack-ic{font-size:20px;line-height:1.3;flex:0 0 auto}
+#engrane-root .g-stack-tx{font-size:14.5px;line-height:1.5;color:var(--ink)}
+#engrane-root .g-two{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+@media(min-width:420px){#engrane-root .g-two{flex-direction:row}}
+#engrane-root .g-mini{flex:1;background:rgba(10,37,64,.04);border-radius:10px;padding:10px 12px}
+#engrane-root .g-mini .g-k{margin-top:0}
+#engrane-root .g-tx-sm{margin:0;font-size:13.5px;line-height:1.5;color:var(--ink)}
+#engrane-root .u-ofname{font-size:18px;font-weight:800;margin:2px 0 4px}
+#engrane-root .u-oflead{margin:0 0 8px;font-size:14.5px;opacity:.85}
+#engrane-root .u-price{margin:10px 0 6px;font-size:15px}
+#engrane-root .desg-btn{display:block;width:100%;margin:18px 0 6px;padding:14px 16px;border-radius:12px;border:1.5px solid rgba(0,0,0,.18);background:transparent;color:var(--ink);font:inherit;font-weight:800;font-size:15px;cursor:pointer;text-align:center}
+#engrane-root .desg-btn:hover{background:rgba(10,37,64,.06)}
+#engrane-root #desglose{margin-top:16px}
+#engrane-root .desg-intro{margin:4px 0 16px;padding:14px 16px;border-left:4px solid var(--red);background:var(--soft,#F7F9FB);border-radius:0 10px 10px 0;font-size:15px;line-height:1.55;color:var(--ink)}
+#engrane-root .u-sub{margin:6px 0 2px;padding-left:18px;list-style:disc}
+#engrane-root .u-sub li{margin:3px 0}
+#engrane-root .mapa{margin:16px 0}
+#engrane-root .mapa-k{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:6px}
+#engrane-root .mapa-img{display:block;position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+#engrane-root .mapa-img img{display:block;width:100%}
+#engrane-root .ztip{position:absolute;bottom:8px;right:8px;background:rgba(10,37,64,.85);color:#fff;font-size:11px;font-weight:700;border-radius:99px;padding:5px 10px}
+#engrane-root .chk-h{font-size:18px;color:var(--navy);margin:22px 0 4px}
+#engrane-root .chk-sub{font-size:13.5px;color:#5b6675;line-height:1.5;margin:0 0 6px}
+#engrane-root .chk-prog{font-size:13.5px;font-weight:800;color:var(--navy);margin:0 0 10px}
+#engrane-root .chk-prog b{color:var(--red)}
+#engrane-root .mapa-cap{margin:6px 0 0;text-align:center;font-size:13px;font-weight:700;color:var(--navy)}
+.mapa-lb{display:none;position:fixed;inset:0;background:rgba(10,37,64,.96);z-index:9999;flex-direction:column}
+.mapa-lb.on{display:flex}
+.mapa-x{position:absolute;top:10px;right:10px;z-index:2;background:#fff;color:var(--navy);border:0;border-radius:99px;padding:8px 14px;font-weight:800;font-size:14px}
+.mapa-scroll{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pinch-zoom pan-x pan-y;padding:52px 0 0}
+.mapa-scroll img{display:block;width:100%;max-width:none;background:#fff}
+.mapa-scroll img.big{width:220%}
+.mapa-tip{margin:0;padding:52px 60px 6px 12px;color:#fff;font-size:13px;font-weight:700}
+.mapa-scroll{padding-top:0!important}
+#engrane-root .u-ofhook{margin:4px 0 0;font-size:15px;font-style:italic;color:var(--navy);line-height:1.45}
+#engrane-root .it .ej{margin-top:6px;font-size:13px;line-height:1.45;color:#5b6675}
+#engrane-root .it .ej b{color:var(--navy)}
+#engrane-root .it.tengo .ej{color:#a0a8b4}
+#engrane-root .it .fb{margin-top:8px;font-size:13px;line-height:1.45;color:var(--navy);background:#fff;border:1px dashed #F2C9C9;border-radius:8px;padding:8px 10px}
+#engrane-root .it .fb .fb-go{color:var(--red);font-weight:800;text-decoration:none}
+#engrane-root .it .how-row{margin-top:6px;font-size:12px;line-height:1.4;color:#8a94a6;font-style:italic}
+#engrane-root .it.tengo .how-row,#engrane-root .it.ayuda .how-row{display:none}
+#engrane-root .u-ofk{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin:12px 0 3px}
+#engrane-root .u-oftx{margin:0;font-size:15px;line-height:1.55;color:var(--ink)}
+#engrane-root .u-offor{margin-top:10px;padding:10px 12px;background:rgba(10,37,64,.04);border-radius:10px;font-size:14px}
+#engrane-root .u-gar{margin:6px 0 0;font-size:14px;font-weight:700;color:var(--navy)}
+#engrane-root .mail-note{margin:6px 0 0;font-size:13px;color:#5b6675;line-height:1.45}
+#engrane-root .chk-how{font-size:14px;line-height:1.6;color:var(--ink);background:#F4F6F9;border-radius:10px;padding:10px 12px;margin:0 0 10px}
+#engrane-root .chk-how b{color:var(--navy)}
+#engrane-root .c-mini{display:inline-flex;width:16px;height:16px;border-radius:50%;border:2px solid #c7ced8;vertical-align:-3px;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff}
+#engrane-root .c-mini.on{background:var(--navy);border-color:var(--navy)}
+#engrane-root .chl{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+#engrane-root .chl .it{display:grid;grid-template-columns:26px 1fr;column-gap:10px;row-gap:6px;align-items:start;padding:12px 14px;border-bottom:1px solid var(--line)}
+#engrane-root .chl .it:last-child{border-bottom:none}
+#engrane-root .chl .it .c{grid-column:1;grid-row:1;width:22px;height:22px;border-radius:50%;border:2px solid #c7ced8;background:#fff;padding:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff}
+#engrane-root .chl .it.tengo .c{background:var(--navy);border-color:var(--navy)}
+#engrane-root .chl .it.tengo .c::after{content:"✓"}
+#engrane-root .chl .it .tx{grid-column:2;grid-row:1;font-size:14.5px;line-height:1.45}
+#engrane-root .chl .it .act.ayuda{grid-column:2;grid-row:2;justify-self:end;border:1.5px solid var(--red);background:#fff;color:var(--red);border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap}
+#engrane-root .chl .it.ayuda .act.ayuda{background:var(--red);border-color:var(--red);color:#fff}
+#engrane-root .chl .it .fb{grid-column:1/-1}
+#engrane-root .chl .it.tengo .tx{color:#8a94a6;text-decoration:line-through}
+#engrane-root .chl .it.ayuda{background:#FFF5F5}
+#engrane-root .chl .it.start{background:#FFF9F2}
+#engrane-root .chl .it.start.ayuda{background:#FFF5F5}
+#engrane-root .mini-t{display:inline-block;background:var(--navy);color:#fff;font-size:11px;padding:2px 7px;border-radius:99px;font-weight:800}
+#engrane-root .mini-a{display:inline-block;background:#fff;color:var(--red);border:1.5px solid var(--red);font-size:11px;padding:2px 7px;border-radius:99px;font-weight:800}
+#engrane-root .pide-sec{margin:18px 0 6px}
+#engrane-root .pide-h{font-size:18px;color:var(--navy);margin:0 0 4px}
+#engrane-root .pide-res{margin-top:12px}
+#engrane-root .pide-ok{font-size:14.5px;line-height:1.5;color:var(--ink);margin:0 0 8px;padding:10px 12px;background:#F4F6F9;border-radius:10px}
+#engrane-root .pide-go{display:inline-block;font-weight:800;color:var(--red);text-decoration:none;font-size:14.5px}
+#engrane-root .pide-btn{margin-top:4px}
+#engrane-root .chk-start{color:var(--red);font-weight:800;font-size:13px;white-space:nowrap}
 </style>
+<script src="vis.js"></script>
 </head>
 <body>
 
@@ -518,7 +677,7 @@ const CONFIG = {
 <div class="screen wrap hidden" id="screen-phone">
   <span class="kicker">Tu diagnóstico está listo</span>
   <h1 class="hero bebas" style="font-size:clamp(30px,5vw,50px)" id="phoneName">Ya casi.</h1>
-  <p class="sub">¿A qué WhatsApp te mando tu mapa completo + el Kit de Cierre por WhatsApp? Lo abres aquí mismo en cuanto lo pongas.</p>
+  <p class="sub">¿A qué WhatsApp te mando tu mapa completo + tu Kit de Cierre? Lo abres aquí mismo en cuanto lo pongas.</p>
   <form class="gate-form" id="phoneForm">
     <input type="tel" id="p_telefono" placeholder="Tu WhatsApp (10 dígitos)" inputmode="numeric" autocomplete="tel-national" pattern="[0-9]{10}" title="Escribe tu WhatsApp a 10 dígitos, solo números" required>
     <button class="btn-red" type="submit">Ver mi diagnóstico →</button>
@@ -533,23 +692,44 @@ const CONFIG = {
   <div id="engrane-root">
     <div class="wrap">
     <div class="card"><div class="card-inner">
-      <div class="top">
-        <div class="brand"><span class="dot"></span><span class="name">Anwar Sepúlveda</span></div>
-      </div>
-      <div class="head-block">
-        <h1>Los <span class="k">3 Engranes</span> de tu negocio</h1>
-        <p class="sub">Cada diente es un área de tu negocio, pintada según cómo la tienes hoy. De un vistazo ves dónde estás fuerte y <b>dónde se te fuga el dinero.</b></p>
-      </div>
-      <div class="hero"><div id="hero"></div></div>
-      <div class="legend" id="legend"></div>
-      <div class="authority">🔍 <span>El mismo proceso con el que reviso negocios que invierten <b>+$100K USD al mes</b> en anuncios.</span></div>
-      <div class="lectura" id="lectura"></div>
+      <div class="et-top" id="etTop"></div>
       <div class="etapa" id="etapa"></div>
-      <div class="hero-cta" id="heroCta" style="display:none"></div>
-      <div class="guia-note" id="guiaNote">Estoy armando la <b>guía de cada área</b>: el paso a paso completo, no el resumen. Anótate en las que te interesen y te aviso en cuanto salga la tuya. Van a ser de pago, con <b>precio especial</b> para los primeros de cada lista.</div>
-      <div class="grid" id="grid"></div>
-      <div class="lock-note">🔒 Lo que acabas de ver son tus <b>13 áreas</b> por encima. La <b>Auditoría Express</b> es entrar a fondo: no si el área está en rojo, sino exactamente por qué, y en qué orden se arregla.<div class="lock-sub">Es de pago. Ahorita no estoy haciendo auditorías. Si te interesa, te pongo en la lista y te aviso cuando abra.</div><div class="lock-cta"><button class="lq" data-wl="auditoria_express">Ponme en la lista de la Auditoría Express →</button></div></div>
-      <div class="summary" id="summary"></div>
+      <div class="lectura" id="lectura"></div>
+      <div class="blk" id="porDentro"></div>
+      <div class="blk" id="frena"></div>
+      <div class="blk" id="paraPasar"></div>
+      <div class="mapa" id="mapa">
+        <div class="mapa-k">TU MAPA COMPLETO</div>
+        <a class="mapa-img" href="tabla-etapa-1.jpg" onclick="return abrirMapa(this)">
+          <img src="tabla-etapa-1.jpg" alt="Tabla completa de la etapa 1: qué te frena y qué necesitas en cada área" loading="lazy">
+        </a>
+        <p class="mapa-cap">Toca la tabla para verla en grande 🔍</p>
+      </div>
+      <div class="unica" id="unica"></div>
+      <section class="guia" id="guia"></section>
+      <div class="chk-sec" id="chkSec">
+        <h3 class="chk-h">Tu checklist para pasar a la etapa 2</h3>
+        <p class="chk-sub">Es la columna derecha de tu mapa, en lista.</p>
+        <p class="chk-prog" id="chkProg"></p>
+        <div class="chk-how"><b>Cómo se usa:</b> toca el círculo <span class="c-mini"></span> de lo que ya resolviste: se palomea <span class="c-mini on">✓</span> y se tacha. Si quieres ayuda en un punto, toca <span class="mini-a">Ayúdame con esto</span>. Regresa cuando quieras: aquí se te guarda.</div>
+        <div class="chl" id="chkList"></div>
+        <div class="pide-res" id="pideRes"></div>
+      </div>
+      <button type="button" class="desg-btn" id="verDesglose">¿Quieres el desglose de tus 13 áreas? →</button>
+      <div id="desglose" class="hidden">
+<div class="desg-intro" id="desgIntro"></div>
+<div class="head-block">
+          <h1>Los <span class="k">3 Engranes</span> de tu negocio</h1>
+          <p class="sub">Cada diente es un área de tu negocio, pintada según cómo la tienes hoy. De un vistazo ves dónde estás fuerte y <b>dónde se te fuga el dinero.</b></p>
+        </div>
+        <div class="hero"><div id="hero"></div></div>
+        <div class="legend" id="legend"></div>
+        <div class="authority">🔍 <span>El mismo proceso con el que reviso negocios que invierten <b>+$100K USD al mes</b> en anuncios.</span></div>
+        <div class="guia-note" id="guiaNote">Estoy armando <b>las guías, área por área</b>: el paso a paso completo, no el resumen. Anótate en las que te interesen y te aviso en cuanto salga la tuya. Van a ser de pago, con <b>precio especial</b> para los primeros de cada lista.</div>
+        <div class="grid" id="grid"></div>
+        <div class="lock-note">🔒 Lo que acabas de ver son tus <b>13 áreas</b> por encima. La <b>Auditoría Express</b> es entrar a fondo: no si el área está en rojo, sino exactamente por qué, y en qué orden se arregla.<div class="lock-sub">Es de pago. Ahorita no estoy haciendo auditorías. Si te interesa, te pongo en la lista y te aviso cuando abra.</div><div class="lock-cta"><button class="lq" data-wl="auditoria_express">Ponme en la lista de la Auditoría Express →</button></div></div>
+        <div class="summary" id="summary"></div>
+      </div>
     </div></div>
     </div>
   </div>
@@ -557,10 +737,11 @@ const CONFIG = {
   <!-- BIO (reubicada: después del engrane, antes del exportbar) -->
   <section class="block wrap bio" id="sec-bio">
     <h2 class="sec bebas" style="text-align:left">Hola, soy Anwar.</h2>
-    <p class="lead">En 2011 fundé völtoch, mi marca de artículos deportivos. Llegamos a vender en más de 5,000 puntos de venta, en las cadenas más grandes de México. Todo físico.</p>
-    <p class="lead">Cuando la pandemia frenó lo físico, me llevé la marca a vender en línea. Escalé de 0 a $650,000 al mes. Y no sabía que estábamos perdiendo dinero.</p>
-    <p class="lead">No me lo escondió nadie. Yo no lo estaba midiendo.</p>
-    <p class="lead">Desde entonces reviso negocios por dentro: los números, y la máquina que los produce.</p>
+    <p class="lead">En 2011 fundé völtoch, mi marca de artículos deportivos. Llegamos a vender en más de 5,000 puntos de venta, en las cadenas más grandes de México.</p>
+    <p class="lead">Después escalé la venta en línea de 0 a $650,000 al mes. Y no sabía que estábamos perdiendo dinero.</p>
+    <p class="lead"><b>No me lo escondió nadie. Yo no lo estaba midiendo.</b></p>
+    <p class="lead">Empecé a medir. Y me metí a ver otros negocios por dentro: llevo más de 100, y he manejado pauta desde $6 mil hasta $5 millones de pesos al mes, en cuentas que hoy invierten más de 100 mil dólares mensuales.</p>
+    <p class="lead">Eso se volvió mi trabajo. Hoy lo hago con OptimizAds en México y Taco Agency para las startups en Estados Unidos.</p>
     <p class="promise">No te voy a decir que "hagas más anuncios". Te digo qué área te está frenando, y cuál mover primero.</p>
   </section>
 </div>
@@ -583,7 +764,7 @@ const CONFIG = {
         <div style="font-size:13px;color:#5A6B7D;margin-top:2px">Si no llega en 2 minutos, revisa Promociones o Spam y muévelo a Principal.</div>
       </div>
     </div>
-    <button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="(document.getElementById('heroCta')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth'})">Empieza aquí →</button>
+    <button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="(document.getElementById('unica')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth',block:'center'})">Empieza aquí →</button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -605,7 +786,7 @@ const QUIZ = [
  {id:"b4_metricas", area:"Métricas", q:"¿Cuáles de estos números me puedes decir ahorita, sin buscarlos?", multi:true,
   items:["Cuánto me cuesta un cliente que paga (no un mensaje)","De cada 10 que me escriben, cuántos compran","Cuántas veces recupero lo que meto en ads","De cada venta, de qué anuncio salió","Cuánto me queda limpio al final"],
   opts:["No mido nada","Solo cuántos leads y cuántas ventas","Costo por lead y por cliente, pero no cuánto me deja cada cliente","Tengo control completo de mis números"]},
- {id:"b5_automatizacion", area:"Automatización", q:"El seguimiento a los que te escriben, ¿cómo lo llevas?",
+ {id:"b5_automatizacion", area:"Seguimiento", q:"El seguimiento a los que te escriben, ¿cómo lo llevas?",
   opts:["Todo a mano, me acuerdo o lo apunto","Lo llevo en un Google Sheet o parecido, sin CRM","Tengo un CRM básico","Tengo un CRM con seguimiento automático"]},
  {id:"b6_ventas", area:"Ventas", q:"¿Puedes saber más o menos cuánto vas a vender el mes que entra?",
   opts:["Ni idea, cada mes es distinto","Más o menos, pero con altibajos","Buen volumen, pero con picos y valles","Sí, le atino"]},
@@ -632,7 +813,34 @@ const CTX = [
 ];
 
 /* ---------- Tabla diagnóstica · descriptores por área × etapa ---------- */
-const STAGES = ["Empezando a vender","Ventas inestables","Ventas estancadas","Ventas topadas"];
+const STAGES = ["Empezando a vender","Ventas inestables","Ventas que no escalan","Ventas topadas"];
+const STAGE_COPY = {
+ 1:{dolor:'Probando si puedo vender',
+    dentro:['Estás probando: todavía no hay un flujo constante de gente preguntando.','Tú haces de todo.','Contestas desde tu WhatsApp personal.','Los números viven en una libreta o en tu cabeza.'],
+    frenaLead:'La oferta y el cliente.',
+    frena:'En esta etapa ESE es el trabajo: saber qué vendes y a quién. Medir lo demás todavía es humo.',
+    pasarTit:'Para pasar a la etapa 2 necesitas:',
+    pasar:['Saber qué vendes y a quién, en una frase','Un ticket promedio que dé para pagar anuncios y aun así ganar','Que de cada 10 que preguntan, compre un número que puedas predecir','Poder decir por qué te compran a ti y no a otro']},
+ 2:{dolor:'Un mes vendo bien, otro no tanto',
+    dentro:['Ya vendes, pero sube y baja sin que sepas por qué.','Tú sigues siendo el vendedor principal; alguien más contesta el WhatsApp.','Llevas las cuentas en WhatsApp Business y a veces en Excel.','Ves el Ads Manager, pero no lo cruzas con lo que de verdad se vendió.'],
+    frenaLead:'La respuesta, el equipo y la automatización básica.',
+    frena:'Tu venta se cae DESPUÉS del clic, no antes: el anuncio funciona y el lead se enfría esperando.',
+    pasarTit:'Para pasar a la etapa 3 necesitas:',
+    pasar:['Campañas que corren 4 semanas seguidas sin que las apagues por pánico','Todo lead respondido el mismo día, siempre','UNA hoja donde cada venta trae de dónde vino','Que el mes malo deje de ser un misterio']},
+ 3:{dolor:'Le subo al presupuesto y vendo lo mismo',
+    dentro:['Vendes bien y llevas meses en el mismo número.','Ya operas un equipo de ventas, quizá con agencia.','CRM a medias, un bot que nadie mantiene, Ads Manager a diario.','Tus números son globales, y el CAC global es el que miente.'],
+    frenaLead:'La tasa por etapa, el CAC por campaña y la utilidad.',
+    frena:'Estás optimizando promedios, y el promedio esconde la campaña que te está costando dinero.',
+    pasarTit:'Para pasar a la etapa 4 necesitas:',
+    pasar:['Tasa de cierre por cada etapa de tu venta, no una sola','CAC por campaña, para saber cuál apagar','Que el negocio venda un mes entero sin que tú toques la operación','Decidir con TU hoja, no con el Ads Manager']},
+ 4:{dolor:'Vendo mucho, pero de ahí no paso',
+    dentro:['Vendes mucho y tocaste techo.','Diriges un equipo completo con agencia o traficker.','Tienes CRM, tableros y reportes.','Muchos números, y ninguno amarra cada venta con el anuncio que la trajo.'],
+    frenaLead:'La atribución, el ROAS real y la retención.',
+    frena:'Tienes tableros, pero ninguno amarra la venta con el anuncio, así que decides con datos que no cierran.',
+    pasarTit:'Para dejar de topar necesitas:',
+    pasar:['Que cada venta amarre con el anuncio que la trajo (CAPI)','Conocer tu recompra y cuánto vale un cliente a 6 meses','Margen por línea, no margen global'],
+    nota:'Aquí no hay etapa 5. Hay techo tras techo, y cada uno se rompe midiendo mejor.'}
+};
 const STAGE_DESC = ["Estás probando, aún sin flujo constante","Vendes, pero sube y baja sin control","Vendes bien, pero llevas meses igual","Vendes mucho, pero llegaste a un techo"];
 const TABLE = [
  ["Menos de $10K/mes","$10K a $40K/mes","$40K a $120K/mes","Más de $120K/mes"],
@@ -657,19 +865,19 @@ const HZ = [
  ["Ventas","Ya tienes buen volumen, pero con picos y valles que no puedes predecir.","Metes X, salen Y leads, Z cierran, quedan $W."],
  ["Oferta","Validada pero no optimizada. Sin variaciones.","2 o 3 versiones probadas. Saber cuál convierte más."],
  ["Cliente ideal","Perfil claro pero le hablas igual a todos.","Al menos 2 segmentos con mensajes diferentes."],
- ["Respuesta","Ya tienes horarios y guiones, pero no mides si de verdad contestas a tiempo.","Tiempo de respuesta medido bajo 5 min — el 78% compra al primero que contesta."],
+ ["Respuesta","Ya tienes horarios y guiones, pero no mides si de verdad contestas a tiempo.","Tiempo de respuesta medido bajo 5 min: el 78% compra al primero que contesta."],
  ["Creatividades","A/B testing sin banco. Cada mes de cero.","Banco organizado. Lo que funciona, se escala."],
  ["Asistencia","Confirmas, pero sin anticipo se te sigue cayendo más de la mitad de los que agendan.","Anticipo + recordatorio 24h + confirmación → que se presente al menos el 75%."]
 ];
 
 /* ---------- Tabla 11 áreas · Etapa 4 (techo: frena / para romper el techo) ---------- */
 const HZ4 = [
- ["Presupuesto","Inviertes fuerte, pero cada peso extra rinde menos: el costo sube y el volumen ya no acompaña.","Saber qué campaña y qué anuncio te dan CLIENTES —no mensajes— y mover el dinero ahí."],
- ["Campañas","Estructura sólida, pero el canal que te trajo aquí ya muestra saturación: el mismo peso compra menos.","Diversificar con método: nueva audiencia, canal u oferta — una a la vez, con piloto."],
+ ["Presupuesto","Inviertes fuerte, pero cada peso extra rinde menos: el costo sube y el volumen ya no acompaña.","Saber qué campaña y qué anuncio te dan CLIENTES, no mensajes, y mover el dinero ahí."],
+ ["Campañas","Estructura sólida, pero el canal que te trajo aquí ya muestra saturación: el mismo peso compra menos.","Diversificar con método: nueva audiencia, canal u oferta, una a la vez, con piloto."],
  ["Equipo","El equipo cierra parejo con guion, pero nadie revisa sus conversaciones: no sabes por qué se gana o se pierde cada trato.","QA de conversaciones: cada conversación analizada y coaching con evidencia, no con opinión."],
- ["Métricas","Mides todo, pero los números viven regados —plataforma, hojas, CRM— y llegan tarde para decidir.","Ventas y ads en un solo lugar, actualizados en automático: decidir con el dato del día."],
+ ["Métricas","Mides todo, pero los números viven regados (plataforma, hojas, CRM) y llegan tarde para decidir.","Ventas y ads en un solo lugar, actualizados en automático: decidir con el dato del día."],
  ["Automatización","CRM robusto, pero tus cierres reales nunca regresan a Meta: el algoritmo optimiza a ciegas.","Cerrar el loop: ventas reales de vuelta a Meta para que compre clientes, no clics."],
- ["Ventas","Predecibles pero planas: creces 5% cuando quieres 50%.","Un motor nuevo validado: segmento, oferta o plaza — con piloto, no con fe."],
+ ["Ventas","Predecibles pero planas: creces 5% cuando quieres 50%.","Un motor nuevo validado: segmento, oferta o plaza. Con piloto, no con fe."],
  ["Oferta","Optimizada para el cliente de hoy; sin escalera para subir el ticket.","Escalera de valor: entrada, core y premium que suben el promedio."],
  ["Cliente ideal","Segmentas bien, pero llevas años exprimiendo el mismo pool.","Abrir el segmento adyacente con mensaje propio, medido contra el actual."],
  ["Respuesta","Respondes en minutos; lo que se fuga es el seguimiento a 30-90 días.","Cadencia de recontacto automática: ningún calificado se enfría."],
@@ -679,57 +887,34 @@ const HZ4 = [
 
 /* ---------- Tabla 11 áreas · Etapa 1 (validación: frena / para pasar de etapa) ---------- */
 const HZ1 = [
- ["Presupuesto","Metes dinero a ads sin saber si tu oferta ya jala. Cada peso te dice poco porque aún no sabes qué funciona.","Confirmar que ya ganas con lo que vendes hoy —aunque sea en chico— antes de escalar el gasto."],
+ ["Presupuesto","Metes dinero a ads sin saber si tu oferta ya jala. Cada peso te dice poco porque aún no sabes qué funciona.","Confirmar que ya ganas con lo que vendes hoy, aunque sea en chico, antes de escalar el gasto."],
  ["Campañas","Le picas al botón de promocionar. No hay campaña, hay impulsos sueltos.","Una campaña bien armada con un objetivo claro, no el botón azul, para ver si el canal te trae compradores."],
- ["Equipo","Vendes tú todo. Cuando no estás, no se vende: el negocio eres tú.","Vender con un mismo paso a paso cada vez — que el resultado no dependa de tu día."],
+ ["Equipo","Vendes tú todo. Cuando no estás, no se vende: el negocio eres tú.","Vender con un mismo paso a paso cada vez: que el resultado no dependa de tu día."],
  ["Métricas","No mides nada. No sabes qué anuncio, qué mensaje ni qué cliente te deja dinero.","Lo básico: cuántos te escriben, cuántos compran, y tu costo por venta a grandes rasgos."],
- ["Automatización","Todo a mano. Los leads viven en tu WhatsApp y se pierden entre la conversación.","Un lugar simple donde no se te caiga ningún interesado — aunque sea una hoja o un embudo básico."],
+ ["Automatización","Todo a mano. Los leads viven en tu WhatsApp y se pierden entre la conversación.","Un lugar simple donde no se te caiga ningún interesado, aunque sea una hoja o un embudo básico."],
  ["Ventas","Ventas bajas e impredecibles. Un día cae algo, otro nada, sin patrón.","Que llegar a una venta deje de ser suerte: repetir a propósito lo que funcionó la última vez."],
  ["Oferta","Aún estás validando qué vendes y a qué precio. No hay certeza de que lo quieran a lo que pides.","Tus primeras ventas reales: gente que paga tu oferta al precio de hoy sin que la tengas que convencer a la fuerza."],
  ["Cliente ideal","Le vendes a quien caiga. Todavía no sabes quién es tu mejor cliente.","Una idea clara de a quién le sirve más lo que vendes, para dejar de hablarle a todos."],
- ["Respuesta","Contestas cuando puedes, a veces horas después: responder rápido todavía no es prioridad.","Un compromiso simple: responder en minutos, no en horas — ahí es donde se cierra."],
+ ["Respuesta","Contestas cuando puedes, a veces horas después: responder rápido todavía no es prioridad.","Un compromiso simple: responder en minutos, no en horas. Ahí es donde se cierra."],
  ["Creatividades","Publicas lo orgánico o lo primero que se te ocurre, sin probar qué conecta.","Probar 2 o 3 mensajes distintos y quedarte con el que más gente responde."],
- ["Asistencia","Los que dicen que van, muchos no llegan — y ni cuenta te das.","Empezar a llevar la cuenta y mandar un recordatorio simple antes de la cita."]
+ ["Asistencia","Los que dicen que van, muchos no llegan. Y ni cuenta te das.","Empezar a llevar la cuenta y mandar un recordatorio simple antes de la cita."]
 ];
 
 /* ---------- Tabla 11 áreas · Etapa 2 (inestable: frena / para pasar de etapa) ---------- */
 const HZ2 = [
  ["Presupuesto","Inviertes entre $10K y $40K, pero subes y bajas el gasto por corazonada. No sabes cuánto puedes meter sin perder.","Gastar de forma sostenida a un nivel que te dé volumen constante, en vez de arranques y frenones."],
- ["Campañas","Armas campañas cuando te acuerdas: corren a ratos, sin que trabajen parejo.","Una estructura de campañas corriendo estable, no a arranques — para que el flujo no dependa de tu ánimo."],
+ ["Campañas","Armas campañas cuando te acuerdas: corren a ratos, sin que trabajen parejo.","Una estructura de campañas corriendo estable, no a arranques, para que el flujo no dependa de tu ánimo."],
  ["Equipo","Tienes UNA persona ayudando, pero sin proceso: si falta, paras tú.","Ese paso a paso escrito y entregable, para que tu ayudante venda sin ti encima."],
  ["Métricas","Ves leads y ventas, pero nada más. No sabes qué campaña ni qué mensaje los trajo.","Conectar la venta con su origen: saber qué anuncio y qué mensaje te traen a los que sí compran."],
  ["Automatización","Tienes un embudo básico pero sin CRM: los leads entran y se pierden sin rastro.","Un CRM simple donde cada lead tenga estatus, para que ninguno se caiga por olvido."],
- ["Ventas","Vendes moderado pero con altibajos fuertes: un mes bueno, otro flojo.","Sostener un piso de ventas — que el mes flojo deje de caer tanto."],
+ ["Ventas","Vendes moderado pero con altibajos fuertes: un mes bueno, otro flojo.","Sostener un piso de ventas: que el mes flojo deje de caer tanto."],
  ["Oferta","Vende, pero no parejo: no sabes si el freno es el precio o cómo está armado el paquete.","Fijar precio y paquete que se vendan solos: el mismo pitch cierra, sin regateo, mes con mes."],
- ["Cliente ideal","Tienes una idea de tu cliente, pero sin datos que la confirmen — es más corazonada que perfil.","Un perfil claro basado en quién SÍ te compra, no en suposición."],
+ ["Cliente ideal","Tienes una idea de tu cliente, pero sin datos que la confirmen: es más corazonada que perfil.","Un perfil claro basado en quién SÍ te compra, no en suposición."],
  ["Respuesta","Intentas contestar rápido pero sin regla fija: a veces 5 minutos, a veces medio día.","Una regla de tiempo que se cumpla siempre, no solo cuando te acuerdas."],
  ["Creatividades","Haces pruebas sueltas, sin estrategia: cambias el anuncio sin saber qué estás probando.","Un A/B con método: probar una cosa a la vez y anotar cuál ganó."],
  ["Asistencia","Sabes que faltan seguido, pero confirmas solo a veces y a mano.","Un recordatorio fijo para todos los que agendan, no cuando te acuerdas."]
 ];
 
-/* ---------- Copy por etapa (v1: Etapa 3 completa · 1/2/4 base, se completan en Bloque 2) ---------- */
-const STAGE_COPY = {
- 1:{sub:"Estás arrancando. Todavía no hay flujo constante, y está bien: todos empiezan aquí.",
-    bl:"La Etapa 1 se trata de validar antes de acelerar.",
-    bl1:"Tu prioridad no es invertir más, es confirmar que lo que vendes, a quien se lo vendes y el precio funcionan.",
-    bl2:"Cada peso que metas antes de validar es un peso que te dice menos de lo que crees.",
-    bl3:"Valida la oferta y todo lo demás se vuelve más fácil.", cta:"pdf"},
- 2:{sub:"Vendes, pero sube y baja sin control. Un mes bueno, otro flojo, y no sabes por qué.",
-    bl:"La Etapa 2 se trata de pasar de vender a veces a vender con consistencia.",
-    bl1:"Tus campañas corren sin estructura y tu seguimiento depende del ánimo del día.",
-    bl2:"No necesitas más presupuesto. Necesitas estructura: campañas ordenadas y un proceso de respuesta.",
-    bl3:"Cuando la estructura aparece, los altibajos se aplanan.", cta:"pdf"},
- 3:{sub:"Vendes. Tu equipo trabaja. Tu publicidad corre. Pero llevas meses en el mismo número.",
-    bl:"La Etapa 3 se trata de pasar de vender bien a vender con sistema.",
-    bl1:"Llevas meses vendiendo lo mismo no porque estés haciendo las cosas mal, sino porque el cuello de botella ya no está donde crees.",
-    bl2:"Lo que te trajo hasta aquí no te va a llevar más lejos. Tu trabajo ahora es dejar de operar y empezar a ver tu negocio desde afuera.",
-    bl3:"Si logras pasar esta etapa, vas a tener un negocio que vende sin que todo dependa de ti. Y eso cambia todo.", cta:"call"},
- 4:{sub:"Vendes mucho, pero llegaste a un techo. Meterle más ya no mueve la aguja como antes.",
-    bl:"La Etapa 4 se trata de romper el techo con precisión, no con fuerza.",
-    bl1:"A tu nivel, el crecimiento ya no sale de más presupuesto: sale de atribución real, retención y optimización fina.",
-    bl2:"Cada punto porcentual que recuperas en el embudo vale más que cualquier campaña nueva.",
-    bl3:"Los negocios que rompen este techo son los que ven su sistema completo con números reales.", cta:"call"}
-};
 
 /* ---------- Meta por etapa (tarjetas "Tu etapa", estilo Hormozi p.4-5) ---------- */
 const STAGE_META = {
@@ -1069,6 +1254,7 @@ function completeAndShow(){
   // mismo event_id en navegador y servidor: Meta los deduplica en vez de contarlos dos veces
   const _eid = evid();
   try{ sendWebhook("quiz_complete", {event_id:_eid}); }catch(e){ console.warn("webhook",e); }
+  try{ if(window.fbq) fbq('track','Lead',{content_name:'diagnostico'},{eventID:_eid}); }catch(e){}
   try{ track("CompleteRegistration", { etapa: state.etapa,
         etapa_alta: (bandaSocio() ? "si" : "no") }, _eid); }catch(e){ console.warn("track",e); }
 }
@@ -1122,51 +1308,6 @@ function showResults(){
 
 /* v2.4 · Sin llamadas: un solo destino para todas las etapas = el Kit/Playbook
    (lista de espera, precio fundador). El offer canónico vive en #sec-cta. */
-function renderOffers(et){
-  document.querySelectorAll('#sec-areas .wl-row').forEach(w=>w.classList.toggle('hidden', true)); // el ask vive en el offer final, no en las tarjetas
-  $("sec-kit").classList.add("hidden");      // consolidado en #sec-cta
-  $("ctaFallback").classList.add("hidden");  // sin fallback de llamada
-  $("ctaProof").classList.add("hidden");     // fuera el caso fake
-  $("calBox").classList.add("hidden");       // sin Calendly
-  // CTAs intermedios → bajan al offer final
-  const toCTA = ()=>{ const c=$("sec-cta"); if(c) c.scrollIntoView({behavior:"smooth"}); };
-  const midBtn = document.querySelector("#sec-diag .cta-mid button");
-  const areasBtn = document.querySelector("#sec-areas .areas-close .btn-red");
-  if(midBtn){ midBtn.textContent="Ver el Kit de Cierre →"; midBtn.onclick=toCTA; }
-  if(areasBtn){ areasBtn.textContent="Ver el Kit de Cierre →"; areasBtn.onclick=toCTA; }
-}
-function renderMoneyCTA(et){
-  const nom = state.nombre ? esc(state.nombre.trim().split(/\s+/)[0])+", " : "";
-  const esTecho = et===4;
-  const bracket = TABLE[0][state.B[0]] || "lo que inviertes hoy";
-  const wk = state.weak.length ? QUIZ[state.weak[0]].area.toLowerCase() : null;
-
-  // --- Lo que está en juego (E3/E4: tensión antes del offer) ---
-  if(et>=3){
-    let cuerpo;
-    if(esTecho){
-      cuerpo = `${nom}${nom?'inviertes':'Inviertes'} <b>${bracket}</b> y ya sabes que meterle más no mueve la aguja como antes. Cada mes en el mismo techo no es neutral: es un mes que tu competencia usa para acortar la distancia.`;
-    } else {
-      cuerpo = `${nom}${nom?'inviertes':'Inviertes'} <b>${bracket}</b> en publicidad. El problema no es que no te llegue gente — es que se te queda en el camino${wk?`, y hoy tu fuga más cara está en <b>${wk}</b>`:''}. Cada mes que este número sigue igual es otra tanda de inversión que entra… y se va en cierres que nunca ocurrieron.`;
-    }
-    $("costoInaccion").innerHTML = `<span class="k">Lo que está en juego</span>${cuerpo}`;
-    $("sec-costo").classList.remove("hidden");
-  } else {
-    $("sec-costo").classList.add("hidden");
-  }
-
-  // --- Offer único: el Kit de Cierre (lista de espera, precio fundador) ---
-  $("ctaTitle").textContent = et>=3 ? "El Kit de Cierre — para tapar esa fuga" : "El Kit de Cierre — instala tu proceso";
-  $("ctaSub").innerHTML = `${nom}el playbook completo para instalar tu proceso de venta por chat. Se libera el <b>31 de julio</b> — apartas hoy a precio de fundador, sin cargo ahora.`;
-  $("ctaStack").innerHTML = [
-    "<b>Playbook de agendamiento</b>: guion + seguimiento + protocolo de confirmación.",
-    "<b>Guía de anuncios</b>: los 5 pasos para que tu anuncio atraiga a quien SÍ compra.",
-    "<b>Plantilla de dinero</b>: llenas tus números y ves dónde se te queda en cada paso."
-  ].map(t=>`<li>${t}</li>`).join("");
-  $("ctaGuarantee").innerHTML = `<b>Precio de fundador:</b> $499 MXN para los primeros 50 · después $990. <span style="opacity:.6">(precio por confirmar)</span>`;
-  $("ctaScarcity").textContent = "Al apartar entras a la lista y te avisamos primero el día del lanzamiento.";
-  ["ctaStack","ctaGuarantee","ctaScarcity"].forEach(id=>$(id).classList.remove("hidden"));
-}
 
 /* =====================================================================
    SKIN · un motor, dos pieles. C1 = "Salud y belleza" → clínicas (HTML
@@ -1305,19 +1446,19 @@ function renderDiagTable(){
   const weakNames0 = state.weak.map(i=>QUIZ[i].area);
   let ml = "";
   if(weakNames0.length){
-    ml += `<div class="dlm-callout">Esto es lo que te frena: <b>${weakNames0.join(" · ")}</b>. El resto de tu operación ya está lista para crecer — pero esto la está deteniendo. Abajo, tu mapa área por área.</div>`;
+    ml += `<div class="dlm-callout">Esto es lo que te frena: <b>${weakNames0.join(" · ")}</b>. El resto de tu operación ya está lista para crecer, pero esto la está deteniendo. Abajo, tu mapa área por área.</div>`;
   }
   QUIZ.forEach((q,qi)=>{
     const ans = state.B[qi]; if(ans==null) return;
     const isWeak = ans+1 < et;
     const dots = [0,1,2,3].map(d=>`<i class="${d===ans?'on':''}"></i>`).join("");
-    const gap = isWeak ? `<div class="gap-note">Nivel ${ans+1} de 4 — tu etapa pide ${et}</div>` : "";
+    const gap = isWeak ? `<div class="gap-note">Nivel ${ans+1} de 4: tu etapa pide ${et}</div>` : "";
     ml += `<div class="dlm-row ${isWeak?'weak':''}"><span class="a">${q.area}</span><span class="r">${TABLE[qi][ans]}${gap}</span><span class="dots">${dots}</span></div>`;
   });
   ml += `<button class="dlm-toggle" onclick="document.getElementById('sec-diag').classList.toggle('show-matrix');this.textContent=this.textContent.includes('Ver')?'Ocultar la tabla de 4 etapas ▲':'Ver la tabla completa de 4 etapas ▼'">Ver la tabla completa de 4 etapas ▼</button>`;
   $("diagListMobile").innerHTML = ml;
 
-  const nomDash = state.nombre ? esc(state.nombre.trim().split(/\s+/)[0])+" — " : "";
+  const nomDash = state.nombre ? esc(state.nombre.trim().split(/\s+/)[0])+": " : "";
   const weakNames = state.weak.map(i=>QUIZ[i].area);
   if(state.weak.length){
     const pl = state.weak.length>1;
@@ -1392,10 +1533,11 @@ document.addEventListener("click", e=>{
   state.wl=state.wl||{}; if(state.wl[b.dataset.wl]){ b.classList.add("done"); b.textContent="✓ Ya estás en la lista"; return; }
   const prod = b.dataset.wl;
   state.wl[prod]=1;
-  document.querySelectorAll('[data-wl="'+prod+'"]').forEach(function(x){ x.classList.add("done"); x.textContent="✓ Listo — te aviso en cuanto salga"; });
-  sendWebhook("waitlist", {producto:prod});
+  document.querySelectorAll('[data-wl="'+prod+'"]').forEach(function(x){ x.classList.add("done"); x.textContent="✓ Listo. Te aviso en cuanto salga"; });
+  sendWebhook("waitlist", b.dataset.areas ? {producto:prod, areas:b.dataset.areas} : {producto:prod});
+  if(prod==="paquete" && b.dataset.areas){ try{ASV&&ASV.hit('paquete_'+b.dataset.areas.split(',').length)}catch(e){} }
   track("Waitlist_"+prod,{});
-  toast(prod==="auditoria_express" ? "Listo. Te aviso a tu correo en cuanto abra la Auditoría." : "Listo. Te aviso a tu correo en cuanto salga — entras con precio especial.");
+  toast(prod==="auditoria_express" ? "Listo. Te aviso a tu correo en cuanto abra la Auditoría." : "Listo. Te aviso a tu correo en cuanto salga. Entras con precio especial.");
 });
 
 function goCall(src){
@@ -1459,7 +1601,11 @@ function payload(action, extra={}){
     results_url: location.origin+location.pathname+"?r="+encodeResults()
       +(state.email?"&e="+encodeURIComponent(state.email):"")
       +(state.nombre?"&n="+encodeURIComponent(state.nombre.trim().split(/\s+/)[0]):""),
-    fecha: new Date().toISOString(), ...fbIds(), ...state.utm, ...extra };
+    fecha: new Date().toISOString(),
+    vid: (window.ASV&&ASV.vid)||"", sid: (window.ASV&&ASV.sid)||"",
+    first_source: (window.ASV&&ASV.first.s)||"", first_medium: (window.ASV&&ASV.first.m)||"",
+    first_campaign: (window.ASV&&ASV.first.c)||"",
+    ...fbIds(), ...state.utm, ...extra };
   QUIZ.forEach((q,i)=>{ if(state.B[i]!=null) p[q.id]=state.B[i]+1; });
   CTX.forEach((q,i)=>{ if(state.C[i]!=null) p[q.id]=q.opts[state.C[i]]; });
   return p;
@@ -1496,98 +1642,98 @@ const ST={
 };
 /* 13 dientes. g: 0=Est.Empresa 1=Est.Campaña 2=Métricas. Métricas = ancla. */
 const TEETH=[
- {l:'CAC',sig:'CAC',g:2,x:'Cuánto te cuesta conseguir un cliente que paga, no un mensaje.',def:'CAC significa <b>Costo de Adquisición de Cliente</b>: cuánto dinero te cuesta conseguir UN cliente que paga. No un mensaje, no un like — un cliente.',
-  why:'Una clínica real: el mensaje le costaba <b>$15</b> y se veía barato. El cliente que COMPRÓ le costó <b>$711 — 47 veces más</b>. Si solo ves el costo por mensaje, crees que vas bien mientras pierdes dinero entre cada paso.',
+ {l:'CAC',sig:'CAC',g:2,x:'Cuánto te cuesta conseguir un cliente que paga, no un mensaje.',def:'CAC significa <b>Costo de Adquisición de Cliente</b>: cuánto dinero te cuesta conseguir UN cliente que paga. No un mensaje, no un like, un cliente.',
+  why:'Una clínica real: el mensaje le costaba <b>$15</b> y se veía barato. El cliente que COMPRÓ le costó <b>$711, 47 veces más</b>. Si solo ves el costo por mensaje, crees que vas bien mientras pierdes dinero entre cada paso.',
   hoy:'Divide lo que invertiste el mes pasado entre los clientes nuevos que SÍ pagaron. Ese es tu CAC real. Si no tienes ese número, ahí está tu primer problema.',
-  why34:'Tu CAC global —lo que invertiste entre los clientes que te pagaron— seguro ya lo conoces, o lo sacas en 2 minutos. El problema: <b>ese número ya no te sirve para decidir</b>. Te dice si ganas o pierdes en total, pero no qué apagar ni qué escalar. El anuncio con el mensaje más barato puede estar dándote los clientes más caros — abajo lo ves con números. Viendo solo el global, le metes dinero al equivocado sin enterarte. El juego en tu etapa es CAC <b>por campaña → por conjunto (los grupos de anuncios dentro de cada campaña) → por anuncio</b>.',
-  hoy34:'Ponle una clave a cada anuncio (AZUL, ROJO…) en el mensaje que se abre en WhatsApp cuando lo pican. Tu equipo apunta por chat: fecha · clave · ¿compró? El día 7 divides — y sabes qué anuncio te trae clientes de verdad.',
-  pasos34:['Cuando alguien pica tu anuncio, se le abre WhatsApp con un <b>mensaje ya escrito</b> (el clásico "Hola, me interesa…"). Ese mensaje lo decides TÚ al crear el anuncio. Ponle una <b>clave distinta a cada anuncio</b>:<div class="wa-mock"><div class="wa-b">Hola, me interesa 😊 <mark>(AZUL)</mark></div><div class="wa-b">Hola, me interesa 😊 <mark>(ROJO)</mark></div><div class="wa-cap">Así te llega el chat — la clave viaja sola, sin que el cliente haga nada.</div></div><div class="tell-box">¿Alguien más te maneja las campañas? Mándale esto tal cual: <i>"Cámbiame el mensaje de bienvenida de cada anuncio para que traiga una clave distinta entre paréntesis: (AZUL), (ROJO)…"</i></div>','Tu equipo apunta 3 cosas de cada chat que llegue — en papel o en Excel, da igual:<table class="reg-mock"><tr><th>Fecha</th><th>Clave</th><th>¿Compró?</th></tr><tr><td>3 jul</td><td>AZUL</td><td>❌</td></tr><tr><td>3 jul</td><td>ROJO</td><td>✅</td></tr><tr><td>4 jul</td><td>ROJO</td><td>✅</td></tr></table>','A los 7 días, haz una cuenta por cada clave: <b>lo que gastaste en ese anuncio ÷ sus compradores</b>. Ejemplo: gastaste $1,500 en ROJO y te compraron 5 → cada cliente de ROJO te costó <b>$300</b>. Ese es tu CAC por anuncio.'],
+  why34:'Tu CAC global (lo que invertiste entre los clientes que te pagaron) seguro ya lo conoces, o lo sacas en 2 minutos. El problema: <b>ese número ya no te sirve para decidir</b>. Te dice si ganas o pierdes en total, pero no qué apagar ni qué escalar. El anuncio con el mensaje más barato puede estar dándote los clientes más caros. Abajo lo ves con números. Viendo solo el global, le metes dinero al equivocado sin enterarte. El juego en tu etapa es CAC <b>por campaña → por conjunto (los grupos de anuncios dentro de cada campaña) → por anuncio</b>.',
+  hoy34:'Ponle una clave a cada anuncio (AZUL, ROJO…) en el mensaje que se abre en WhatsApp cuando lo pican. Tu equipo apunta por chat: fecha · clave · ¿compró? El día 7 divides, y sabes qué anuncio te trae clientes de verdad.',
+  pasos34:['Cuando alguien pica tu anuncio, se le abre WhatsApp con un <b>mensaje ya escrito</b> (el clásico "Hola, me interesa…"). Ese mensaje lo decides TÚ al crear el anuncio. Ponle una <b>clave distinta a cada anuncio</b>:<div class="wa-mock"><div class="wa-b">Hola, me interesa 😊 <mark>(AZUL)</mark></div><div class="wa-b">Hola, me interesa 😊 <mark>(ROJO)</mark></div><div class="wa-cap">Así te llega el chat: la clave viaja sola, sin que el cliente haga nada.</div></div><div class="tell-box">¿Alguien más te maneja las campañas? Mándale esto tal cual: <i>"Cámbiame el mensaje de bienvenida de cada anuncio para que traiga una clave distinta entre paréntesis: (AZUL), (ROJO)…"</i></div>','Tu equipo apunta 3 cosas de cada chat que llegue, en papel o en Excel, da igual:<table class="reg-mock"><tr><th>Fecha</th><th>Clave</th><th>¿Compró?</th></tr><tr><td>3 jul</td><td>AZUL</td><td>❌</td></tr><tr><td>3 jul</td><td>ROJO</td><td>✅</td></tr><tr><td>4 jul</td><td>ROJO</td><td>✅</td></tr></table>','A los 7 días, haz una cuenta por cada clave: <b>lo que gastaste en ese anuncio ÷ sus compradores</b>. Ejemplo: gastaste $1,500 en ROJO y te compraron 5 → cada cliente de ROJO te costó <b>$300</b>. Ese es tu CAC por anuncio.'],
   reto34:'Haz la cuenta con dos anuncios y compáralos. Te apuesto que hay una diferencia que no esperabas.',
-  ofName:'La Guía de CAC real',ofPrice:199,ofMid:'Y con cuál de las tres rutas empezar, según tu volumen.',
-  ofBullets:['<b>Ruta manual:</b> los códigos + la plantilla de registro, lista para dársela a tu equipo el mismo día.','<b>Ruta semiautomática:</b> tu CRM capturando de qué anuncio llegó cada cliente.','<b>Ruta automática:</b> tus cierres regresándole a Meta, para que el algoritmo te traiga compradores — no curiosos.'],
-  puente34:'Hacerlo a mano aguanta dos semanas; después se cae. La guía trae el sistema completo: la ruta manual (códigos + análisis diario), la semiautomática (tu CRM capturando de qué anuncio llegó cada cliente) y la automática (tus cierres regresándole a Meta para que el algoritmo te traiga compradores, no curiosos) — y cuál te conviene según tu volumen. Viene con la plantilla de captura lista para dársela a tu equipo el mismo día.'},
+  ofName:'Tu CAC máximo',ofPrice:50,
+  ofBullets:['El video donde saco el CAC máximo de una cuenta real','La hoja donde metes tus números y te dice si estás perdiendo en cada venta','Una IA entrenada con mi método: le das tus números y te dice cuánto puedes pagar por cliente']},
  {l:'Tasa de cierre',sig:'T.C.',g:2,x:'De cada 10 que te escriben, cuántos compran.',def:'De cada 10 personas que te escriben, cuántas terminan comprando. Si te escriben 100 y compran 7, tu tasa de cierre es 7%.',
-  why:'Un spa real recibía <b>5,600 mensajes al mes y solo 393 agendaban (7%)</b>. El otro 93% se perdía en WhatsApp sin que nadie lo midiera — y por eso nadie lo arreglaba.',
+  why:'Un spa real recibía <b>5,600 mensajes al mes y solo 393 agendaban (7%)</b>. El otro 93% se perdía en WhatsApp sin que nadie lo midiera, y por eso nadie lo arreglaba.',
   hoy:'Cuenta tus últimos 50 chats: ¿cuántos terminaron en cita o venta? Ese porcentaje es tu tasa real de cierre.',
-  why34:'Tu tasa global esconde <b>dónde</b> se te caen. El embudo real tiene tres caídas: <b>mensaje → cita</b>, <b>cita → llegan</b>, <b>llegan → compran</b> — y cada una tiene un arreglo distinto. Un spa real: 5,600 mensajes, 393 citas (7%)… y de las que agendaban, la mitad no llegaba. Dos fugas distintas; arreglar la equivocada es tiempo tirado.',
-  hoy34:'Toma tus últimos 50 chats y saca 3 números: cuántos agendaron, cuántos llegaron, cuántos compraron. Tu peor caída de las tres es TU problema — no "el cierre" en general.',
-  puente34:'La guía trae el arreglo específico de cada caída: guion de agendamiento (mensaje→cita), protocolo de confirmación anti no-show (cita→llegan) y estructura de cierre (llegan→compran) — con el tablero semanal para ver las 3 tasas sin hacerlo a mano.',pasos34:['Abre tus últimos 50 chats y saca 3 números: cuántos <b>agendaron</b>, cuántos <b>llegaron</b>, cuántos <b>compraron</b>.<table class="reg-mock"><tr><th>Chats</th><th>Agendan</th><th>Llegan</th><th>Compran</th></tr><tr><td>50</td><td>15</td><td>8</td><td>5</td></tr></table>','Compara los 3 brincos y encuentra tu <b>caída más grande</b>. En el ejemplo: de 50 a 15 se fueron 35 — esa es la fuga.','Cada caída tiene su arreglo, y el primer paso de cada uno es gratis y de HOY: · <b>Pocos agendan</b> → regla de equipo: ningún chat se termina sin ofrecer día y hora ("¿Te agendo el jueves a las 4 o mejor el sábado?"). · <b>Agendan y no llegan</b> → confirmación doble por WhatsApp: un mensaje la tarde anterior y otro la mañana de la cita; al que no confirma se le ofrece reagendar. · <b>Llegan y no compran</b> → cerrar con opciones, nunca con "¿lo piensas?": "¿Empezamos con el paquete completo o con la primera sesión?". <b>Arregla SOLO tu caída más grande y vuelve a contar tus 3 números en 2 semanas.</b>'],reto34:'Cuenta los tres números hoy. La caída grande casi nunca es la que crees.',ofName:'La Guía de Cierre por WhatsApp',ofPrice:249,ofBullets:['<b>Guion de agendamiento:</b> qué contestar para que el que pregunta precio termine agendando (mensaje→cita).','<b>Protocolo de confirmación:</b> el sistema anti no-show para que los que agendan sí lleguen (cita→llegan).','<b>Estructura de cierre:</b> qué decir cuando ya están enfrente para que compren (llegan→compran).'],
-  why4:'Tu tasa global ya la conoces. A tu nivel la fuga se esconde en la <b>varianza</b>: entre sucursales, entre personas, y entre las tres caídas (mensaje→cita, cita→llegan, llegan→compran). Dos sucursales con la misma inversión pueden estar cerrando al doble una de la otra — y el promedio te lo tapa.',
-  pasos4:['Pide las <b>3 tasas por sucursal</b> (agendan / llegan / compran) de los últimos 50 leads de cada una.','Compara la mejor contra la peor. Esa brecha, multiplicada por tus leads del mes, es <b>el costo del desorden</b>.','Toma la caída más grande de la sucursal más floja. Ese es tu primer arreglo — y es copiable: tu sucursal buena ya sabe cómo se hace.'],
+  why34:'Tu tasa global esconde <b>dónde</b> se te caen. El embudo real tiene tres caídas: <b>mensaje → cita</b>, <b>cita → llegan</b>, <b>llegan → compran</b>, y cada una tiene un arreglo distinto. Un spa real: 5,600 mensajes, 393 citas (7%)… y de las que agendaban, la mitad no llegaba. Dos fugas distintas; arreglar la equivocada es tiempo tirado.',
+  hoy34:'Toma tus últimos 50 chats y saca 3 números: cuántos agendaron, cuántos llegaron, cuántos compraron. Tu peor caída de las tres es TU problema, no "el cierre" en general.',
+  pasos34:['Abre tus últimos 50 chats y saca 3 números: cuántos <b>agendaron</b>, cuántos <b>llegaron</b>, cuántos <b>compraron</b>.<table class="reg-mock"><tr><th>Chats</th><th>Agendan</th><th>Llegan</th><th>Compran</th></tr><tr><td>50</td><td>15</td><td>8</td><td>5</td></tr></table>','Compara los 3 brincos y encuentra tu <b>caída más grande</b>. En el ejemplo: de 50 a 15 se fueron 35. Esa es la fuga.','Cada caída tiene su arreglo, y el primer paso de cada uno es gratis y de HOY: · <b>Pocos agendan</b> → regla de equipo: ningún chat se termina sin ofrecer día y hora ("¿Te agendo el jueves a las 4 o mejor el sábado?"). · <b>Agendan y no llegan</b> → confirmación doble por WhatsApp: un mensaje la tarde anterior y otro la mañana de la cita; al que no confirma se le ofrece reagendar. · <b>Llegan y no compran</b> → cerrar con opciones, nunca con "¿lo piensas?": "¿Empezamos con el paquete completo o con la primera sesión?". <b>Arregla SOLO tu caída más grande y vuelve a contar tus 3 números en 2 semanas.</b>'],reto34:'Cuenta los tres números hoy. La caída grande casi nunca es la que crees.',ofName:'Tu tasa de cierre, por paso',ofPrice:50,ofBullets:['El video donde reviso los 3 caminos de cierre: cita, cotización y directo','La hoja de los 3 caminos que te dice en qué brinco estás perdiendo gente','Una IA entrenada con mi método: le cuentas tus números y te dice en qué paso se te van'],
+  why4:'Tu tasa global ya la conoces. A tu nivel la fuga se esconde en la <b>varianza</b>: entre sucursales, entre personas, y entre las tres caídas (mensaje→cita, cita→llegan, llegan→compran). Dos sucursales con la misma inversión pueden estar cerrando al doble una de la otra, y el promedio te lo tapa.',
+  pasos4:['Pide las <b>3 tasas por sucursal</b> (agendan / llegan / compran) de los últimos 50 leads de cada una.','Compara la mejor contra la peor. Esa brecha, multiplicada por tus leads del mes, es <b>el costo del desorden</b>.','Toma la caída más grande de la sucursal más floja. Ese es tu primer arreglo, y es copiable: tu sucursal buena ya sabe cómo se hace.'],
   reto4:'La respuesta casi nunca es "traer más leads". Es que todas tus sucursales cierren como la mejor.'},
  {l:'ROAS',sig:'ROAS',g:2,x:'Cuántas veces recuperas lo que metes en anuncios.',def:'ROAS significa <b>retorno de tu inversión en anuncios</b>: por cada peso que metes a publicidad, cuántos regresan en ventas. ROAS de 3 = metes $1 y regresan $3.',
-  why:'Sin este número no puedes decidir si apagar o escalar una campaña — lo decides por corazonada. Y las corazonadas en ads salen caras.',
+  why:'Sin este número no puedes decidir si apagar o escalar una campaña: lo decides por corazonada. Y las corazonadas en ads salen caras.',
   hoy:'Ventas atribuibles del mes ÷ inversión del mes. Si no llega a 3×, hay una fuga que encontrar antes de meterle más.',
-  why34:'Hay dos ROAS: el que Meta te <b>reporta</b> (lo que su atribución alcanza a ver) y el <b>real</b> (ventas cerradas ÷ inversión). Casi nunca coinciden — la brecha es tu nivel de ceguera. Y el global mezcla todo: una campaña de 5× puede estar subsidiando a una que pierde, mientras el promedio te dice "vamos bien".',
+  why34:'Hay dos ROAS: el que Meta te <b>reporta</b> (lo que su atribución alcanza a ver) y el <b>real</b> (ventas cerradas ÷ inversión). Casi nunca coinciden: la brecha es tu nivel de ceguera. Y el global mezcla todo: una campaña de 5× puede estar subsidiando a una que pierde, mientras el promedio te dice "vamos bien".',
   hoy34:'Calcula tu ROAS real del mes (ventas cerradas ÷ inversión) y compáralo con el que Meta reporta. Luego pártelo por campaña, aunque sea a mano gruesa. La que salga abajo del promedio es tu primera candidata a cirugía.',
-  puente34:'La guía trae cómo montar tu tablero de ROAS real por campaña —con margen, no solo venta— y las reglas de decisión: cuándo apagar, cuándo escalar y cuándo aguantar. Con números, no corazonadas.',pasos34:['Suma tus <b>ventas cerradas del mes</b> que vinieron de anuncios (en pesos, las de verdad). ¿Aún no montas las claves de CAC? Usa tus clientes NUEVOS del mes como aproximación.','Divídelas entre lo que <b>gastaste en ads</b> ese mes. Ejemplo: vendiste $54,000 y gastaste $30,000 → ROAS real de <b>1.8</b>. Compáralo con el que Meta te enseña. ¿Meta no te enseña NINGÚN ROAS porque tus ventas se cierran por WhatsApp? Ese ya es el hallazgo: hoy decides tu presupuesto sin ningún número de retorno. Apunta tu ROAS real de hoy en adelante — y decide con ése.','Repite la cuenta <b>por campaña</b> (si ya montaste las claves de CAC, ya tienes cómo). La que salga abajo del promedio es tu candidata a cirugía.'],reto34:'Si tu ROAS real sale a menos de la mitad del que Meta presume, ya sabes por qué los números no cuadran a fin de mes.',ofName:'La Guía de ROAS real',ofPrice:299,ofBullets:['<b>El tablero de ROAS real por campaña</b> — con margen incluido, no solo venta.','<b>Las reglas de decisión:</b> cuándo apagar, cuándo escalar y cuándo aguantar, con números.','<b>La conexión con tus cierres</b> para que el número se calcule solo cada mes.'],
-  pasos4:['Pide de tu CRM las <b>ventas cerradas del mes atribuidas a campañas</b>. Si tu CRM no lo entrega en 5 minutos, anótalo: eso también es parte del diagnóstico.','Divide entre la inversión del mes → tu ROAS real. Ponlo junto al que Meta reporta: <b>la brecha es tu nivel de ceguera</b>.','Pártelo <b>por campaña y por sucursal</b>. La que salga abajo del promedio es tu candidata a cirugía — y la conversación de tu próxima junta.'],
+  pasos34:['Suma tus <b>ventas cerradas del mes</b> que vinieron de anuncios (en pesos, las de verdad). ¿Aún no montas las claves de CAC? Usa tus clientes NUEVOS del mes como aproximación.','Divídelas entre lo que <b>gastaste en ads</b> ese mes. Ejemplo: vendiste $54,000 y gastaste $30,000 → ROAS real de <b>1.8</b>. Compáralo con el que Meta te enseña. ¿Meta no te enseña NINGÚN ROAS porque tus ventas se cierran por WhatsApp? Ese ya es el hallazgo: hoy decides tu presupuesto sin ningún número de retorno. Apunta tu ROAS real de hoy en adelante, y decide con ése.','Repite la cuenta <b>por campaña</b> (si ya montaste las claves de CAC, ya tienes cómo). La que salga abajo del promedio es tu candidata a cirugía.'],reto34:'Si tu ROAS real sale a menos de la mitad del que Meta presume, ya sabes por qué los números no cuadran a fin de mes.',ofName:'Tu ROAS de equilibrio y tu ROAS objetivo',ofPrice:50,ofBullets:['El video donde saco el ROAS de equilibrio y el objetivo con números reales en pantalla','La hoja donde metes precio y costo y te dice si tu ROAS de hoy gana o pierde dinero','Una IA que te calcula tu ROAS de equilibrio sin que abras una hoja'],
+  pasos4:['Pide de tu CRM las <b>ventas cerradas del mes atribuidas a campañas</b>. Si tu CRM no lo entrega en 5 minutos, anótalo: eso también es parte del diagnóstico.','Divide entre la inversión del mes → tu ROAS real. Ponlo junto al que Meta reporta: <b>la brecha es tu nivel de ceguera</b>.','Pártelo <b>por campaña y por sucursal</b>. La que salga abajo del promedio es tu candidata a cirugía, y la conversación de tu próxima junta.'],
   reto4:'Si el dato tarda más en llegar que en calcularse, el problema no es el ROAS: es el acceso al número.'},
  {l:'Atribución',sig:'ATRIB',g:2,x:'De cada venta, saber de qué anuncio salió.',def:'Atribuir = saber <b>de qué anuncio salió cada venta</b>. Sin esto, no sabes cuál anuncio te da clientes y cuál nada más gasta.',
-  why:'Meta optimiza hacia lo que le reportas. Si solo le reportas mensajes, te trae gente que manda mensajes. Si le reportas <b>ventas</b>, te trae compradores. La mayoría nunca le regresa sus ventas a Meta — y por eso el algoritmo les trae curiosos.',
+  why:'Meta optimiza hacia lo que le reportas. Si solo le reportas mensajes, te trae gente que manda mensajes. Si le reportas <b>ventas</b>, te trae compradores. La mayoría nunca le regresa sus ventas a Meta, y por eso el algoritmo les trae curiosos.',
   hoy:'De tus últimas 10 ventas, ¿sabes de qué anuncio salió cada una? Si no, estás pagando por optimizar a ciegas.',
-  why34:'Meta optimiza hacia lo que le reportas. Si solo le reportas mensajes, te consigue <b>gente que manda mensajes</b> — no compradores. Tu presupuesto se subasta todos los días hacia el público equivocado, y ningún cambio de creativo lo compensa. La palanca de tu etapa es cerrar el circuito: que tus CIERRES le regresen a Meta, para que aprenda de quien sí paga.',
-  hoy34:'De tus últimas 10 ventas, intenta decir de qué anuncio salió cada una. Si tú no puedes con 10, el algoritmo tampoco puede con miles — y mientras, está aprendiendo de los que NO compran.',
-  puente34:'La guía trae el circuito completo, sin tecnicismos: cómo capturar el cierre (sheet o CRM), cómo regresárselo a Meta, y las 3 formas de montarlo según tu stack — de la manual a la automática. Es el mismo sistema que usamos en cuentas de +$100K USD al mes.',pasos34:['Agarra tus <b>últimas 10 ventas</b> y escribe de qué anuncio salió cada una (si ya montaste las claves de CAC, usa esas).','Cuenta cuántas pudiste responder <b>con certeza</b>. ¿Menos de 8? Entonces Meta está igual de ciego que tú — y está aprendiendo de los que NO compran.','Hazle UNA pregunta a quien maneja tus campañas:<div class="tell-box">Mándale esto tal cual: <i>"¿Le estamos regresando a Meta las ventas cerradas — sí o no?"</i> Si te dice que sí, pídele UNA prueba: una captura del <b>Administrador de Eventos</b> donde se vea el evento de compra recibido ESTA semana. Si la captura no llega en un día, la respuesta real era no.</div>'],reto34:'Esa pregunta de sí o no te dice más del futuro de tus campañas que cualquier reporte.',ofName:'La Guía de Atribución',ofPrice:449,ofBullets:['<b>Cómo capturar cada cierre</b> (en sheet o CRM) sin cambiar tu operación.','<b>Cómo regresárselo a Meta</b>, paso a paso y sin tecnicismos.','<b>Las 3 formas de montarlo</b> según las herramientas que ya usas — de la manual a la automática. El mismo sistema que usamos en cuentas de +$100K USD/mes.']},
+  why34:'Meta optimiza hacia lo que le reportas. Si solo le reportas mensajes, te consigue <b>gente que manda mensajes</b>, no compradores. Tu presupuesto se subasta todos los días hacia el público equivocado, y ningún cambio de creativo lo compensa. La palanca de tu etapa es cerrar el circuito: que tus CIERRES le regresen a Meta, para que aprenda de quien sí paga.',
+  hoy34:'De tus últimas 10 ventas, intenta decir de qué anuncio salió cada una. Si tú no puedes con 10, el algoritmo tampoco puede con miles. Y mientras, está aprendiendo de los que NO compran.',
+  pasos34:['Agarra tus <b>últimas 10 ventas</b> y escribe de qué anuncio salió cada una (si ya montaste las claves de CAC, usa esas).','Cuenta cuántas pudiste responder <b>con certeza</b>. ¿Menos de 8? Entonces Meta está igual de ciego que tú, y está aprendiendo de los que NO compran.','Hazle UNA pregunta a quien maneja tus campañas:<div class="tell-box">Mándale esto tal cual: <i>"¿Le estamos regresando a Meta las ventas cerradas, sí o no?"</i> Si te dice que sí, pídele UNA prueba: una captura del <b>Administrador de Eventos</b> donde se vea el evento de compra recibido ESTA semana. Si la captura no llega en un día, la respuesta real era no.</div>'],reto34:'Esa pregunta de sí o no te dice más del futuro de tus campañas que cualquier reporte.',ofName:'Atribuir tú solo, y atribuir con CAPI',ofPrice:149,ofBullets:['El video donde armo las 2 rutas: atribuir tú solo y atribuir con CAPI','La plantilla UTM lista para pegar en cada anuncio','Una IA que te dice qué ruta te toca según cómo vendes hoy']},
  {l:'Utilidad',sig:'UTIL',g:2,x:'Lo que de verdad te queda después de costos.',def:'Lo que de verdad te queda en la bolsa después de pagar todo: insumos, comisiones, publicidad, equipo.',
   why:'Puedes vender más que nunca y ganar menos que nunca. El volumen esconde el hoyo: sin utilidad por servicio, no sabes cuál te da de comer y cuál te está costando.',
   hoy:'Toma tu servicio estrella: precio menos TODOS sus costos (insumos, comisiones, ads). Lo que queda es tu utilidad real por venta.',
-  why34:'A tu nivel, la utilidad global engaña: unas líneas subsidian a otras y no lo ves. Puedes estar escalando con ads justo el servicio que MENOS te deja — vendiendo más para ganar menos. El juego de tu etapa es utilidad <b>por línea de servicio</b>, y un paso más allá, por campaña.',
+  why34:'A tu nivel, la utilidad global engaña: unas líneas subsidian a otras y no lo ves. Puedes estar escalando con ads justo el servicio que MENOS te deja, vendiendo más para ganar menos. El juego de tu etapa es utilidad <b>por línea de servicio</b>, y un paso más allá, por campaña.',
   hoy34:'Toma tus 2 servicios más vendidos. A cada uno réstale TODOS sus costos: insumos, comisiones, tiempo de staff y su parte de ads. Compara la utilidad por venta de uno contra el otro. Casi siempre hay una sorpresa incómoda.',
-  puente34:'La guía trae el desglose de márgenes reales por línea —qué costos no se te pueden escapar— y cómo conectarlo a tus campañas para escalar UTILIDAD, no ventas.',pasos34:['Elige tus <b>2 servicios más vendidos</b>.','A cada uno réstale TODO lo que cuesta darlo: insumos, comisión de quien vende, y su parte de publicidad.<table class="reg-mock"><tr><th></th><th>Precio</th><th>Costos</th><th>Te queda</th></tr><tr><td>Servicio A</td><td>$1,800</td><td>$1,350</td><td>$450</td></tr><tr><td>Servicio B</td><td>$3,500</td><td>$1,400</td><td><b>$2,100</b></td></tr></table>','Compara lo que te <b>queda</b> por venta de cada uno. El que gana casi nunca es el que más vendes — y ahí decides a cuál meterle los ads.'],reto34:'Haz la resta esta semana. Conozco pocos dueños que no se llevaron una sorpresa.',ofName:'La Guía de Utilidad por Servicio',ofPrice:299,ofBullets:['<b>La plantilla de márgenes reales</b> — con la lista de costos que no se te pueden escapar.','<b>El mapa de quién financia a quién</b> entre tus servicios.','<b>Cómo mover tus ads</b> hacia lo que te deja, no hacia lo que solo vende.'],
-  why4:'Tu utilidad global ya la conoces — a tu nivel esa no es la pregunta. La pregunta de Director es: ¿la tienes <b>por línea de servicio y por sucursal</b>? Cuando el número es uno solo, una sucursal (o una línea) puede estar financiando a las demás sin que nadie lo vea — y tus ads pueden estar escalando justo la que menos deja.',
-  pasos4:['Pide a tu equipo el <b>desglose de utilidad por línea y por sucursal</b> del mes pasado. Si tardan más de un día en dártelo, ese ya es el hallazgo: el dato no está al alcance de tus decisiones.','Marca la línea o sucursal con MENOR utilidad por venta — y compárala contra dónde está cayendo tu presupuesto de ads.','Decide UNA reasignación este mes: mover presupuesto de la que menos deja a la que más. Con número, no con instinto.'],
+  pasos34:['Elige tus <b>2 servicios más vendidos</b>.','A cada uno réstale TODO lo que cuesta darlo: insumos, comisión de quien vende, y su parte de publicidad.<table class="reg-mock"><tr><th></th><th>Precio</th><th>Costos</th><th>Te queda</th></tr><tr><td>Servicio A</td><td>$1,800</td><td>$1,350</td><td>$450</td></tr><tr><td>Servicio B</td><td>$3,500</td><td>$1,400</td><td><b>$2,100</b></td></tr></table>','Compara lo que te <b>queda</b> por venta de cada uno. El que gana casi nunca es el que más vendes, y ahí decides a cuál meterle los ads.'],reto34:'Haz la resta esta semana. Conozco pocos dueños que no se llevaron una sorpresa.',ofName:'Cuánto te deja (tu pricing)',ofPrice:50,ofBullets:['El video donde saco cuánto deja de verdad cada venta, con los números en pantalla','La hoja que te dice cuánto te queda y si tu costo pasa la regla del 35%','Una IA que te dice si tu precio aguanta una subida'],
+  why4:'Tu utilidad global ya la conoces. A tu nivel esa no es la pregunta. La pregunta de Director es: ¿la tienes <b>por línea de servicio y por sucursal</b>? Cuando el número es uno solo, una sucursal (o una línea) puede estar financiando a las demás sin que nadie lo vea, y tus ads pueden estar escalando justo la que menos deja.',
+  pasos4:['Pide a tu equipo el <b>desglose de utilidad por línea y por sucursal</b> del mes pasado. Si tardan más de un día en dártelo, ese ya es el hallazgo: el dato no está al alcance de tus decisiones.','Marca la línea o sucursal con MENOR utilidad por venta, y compárala contra dónde está cayendo tu presupuesto de ads.','Decide UNA reasignación este mes: mover presupuesto de la que menos deja a la que más. Con número, no con instinto.'],
   reto4:'Una reasignación al mes basada en este desglose suele valer más que cualquier optimización de campaña.'},
- {l:'Venta mensual',sig:'VENTA',g:2,x:'Cuánto vendes al mes y qué tan predecible es.',
-  why:'Vender bien UN mes no es negocio — es suerte hasta que se repite. La predictibilidad es lo que te deja invertir, contratar y crecer sin miedo.',
+ {l:'Venta mensual',sig:'VENTA',g:2,x:'Cuánto vendes al mes y qué tan predecible es.',def:'Cuánto vendes al mes, y si ese número sube, baja o se queda igual cuando le mueves a la pauta.',
+  why:'Vender bien UN mes no es negocio: es suerte hasta que se repite. La predictibilidad es lo que te deja invertir, contratar y crecer sin miedo.',
   hoy:'Anota tus ventas de los últimos 6 meses. Pregunta dura: ¿tu peor mes aguanta tus costos fijos?',
-  why34:'Vender bien este mes no dice nada si no sabes <b>de qué está hecho el número</b>: cuánto fue cliente nuevo (caro, pagado con ads) y cuánto recurrente (barato, tuyo). Y la pregunta de tu etapa: ¿puedes ver tu venta del PRÓXIMO mes hoy? Las citas ya agendadas son tu venta futura visible — casi nadie las mira como pipeline.',
-  hoy34:'Parte tu venta del mes pasado en dos: nuevos vs recurrentes. Luego cuenta las citas ya agendadas para los próximos 15 días. Si ese número está flaco, tu "buen mes" ya se está acabando — y todavía no lo sientes.',
-  puente34:'La guía trae el tablero de composición de venta (nuevo, recurrente, recuperado) y el pipeline hacia adelante: ver el bache un mes antes de que llegue, cuando corregirlo todavía es barato.',pasos34:['Parte tu venta del mes pasado en dos montones: <b>clientes nuevos</b> (los que trajeron los ads) y <b>clientes que ya eran tuyos</b>.','Cuenta las <b>citas ya agendadas</b> para los próximos 15 días. Ese número es tu venta futura visible.','Léelo así: mucho nuevo + pocas citas futuras = <b>tu buen mes ya se está acabando</b>, aunque todavía no se sienta.','¿Salieron flacas tus citas futuras? El relleno más barato no son más ads: son tus <b>clientes dormidos</b>. Hoy mismo manda mensaje a 20 clientes que no vienen desde hace 3 meses o más — por su nombre y con una razón para volver: "Hola Ana, ya te toca tu retoque. Esta semana tengo dos espacios, ¿te aparto uno?". Con que 3 agenden, el bache del próximo mes ya empezó a llenarse gratis.'],reto34:'Cada lunes: citas futuras a 15 días. ¿Flacas? Ese mismo lunes salen 20 mensajes a clientes dormidos.',ofName:'La Guía de Venta Predecible',ofPrice:199,ofBullets:['<b>El tablero de composición:</b> cuánto de tu venta es nuevo, recurrente y recuperado.','<b>El pipeline hacia adelante:</b> ver el bache un mes antes de que llegue.','<b>Las 3 palancas para rellenar un mes flaco</b> antes de que te alcance.']},
- {l:'Oferta',sig:'OFERTA',g:0,x:'Lo que vendes y si la gente de verdad lo quiere.',
+  why34:'Vender bien este mes no dice nada si no sabes <b>de qué está hecho el número</b>: cuánto fue cliente nuevo (caro, pagado con ads) y cuánto recurrente (barato, tuyo). Y la pregunta de tu etapa: ¿puedes ver tu venta del PRÓXIMO mes hoy? Las citas ya agendadas son tu venta futura visible. Casi nadie las mira como pipeline.',
+  hoy34:'Parte tu venta del mes pasado en dos: nuevos vs recurrentes. Luego cuenta las citas ya agendadas para los próximos 15 días. Si ese número está flaco, tu "buen mes" ya se está acabando, y todavía no lo sientes.',
+  pasos34:['Parte tu venta del mes pasado en dos montones: <b>clientes nuevos</b> (los que trajeron los ads) y <b>clientes que ya eran tuyos</b>.','Cuenta las <b>citas ya agendadas</b> para los próximos 15 días. Ese número es tu venta futura visible.','Léelo así: mucho nuevo + pocas citas futuras = <b>tu buen mes ya se está acabando</b>, aunque todavía no se sienta.','¿Salieron flacas tus citas futuras? El relleno más barato no son más ads: son tus <b>clientes dormidos</b>. Hoy mismo manda mensaje a 20 clientes que no vienen desde hace 3 meses o más, por su nombre y con una razón para volver: "Hola Ana, ya te toca tu retoque. Esta semana tengo dos espacios, ¿te aparto uno?". Con que 3 agenden, el bache del próximo mes ya empezó a llenarse gratis.'],reto34:'Cada lunes: citas futuras a 15 días. ¿Flacas? Ese mismo lunes salen 20 mensajes a clientes dormidos.'},
+ {l:'Oferta',sig:'OFERTA',g:0,x:'Lo que vendes y si la gente de verdad lo quiere.',def:'Tu oferta es lo que prometes, a qué precio y con qué garantía. Está validada cuando la gente paga por ella sin que tengas que convencerla de a uno.',
   why:'Si la oferta no jala, todo lo demás empuja en vano: el mejor anuncio del mundo no vende algo que la gente no quiere comprar.',
   hoy:'Revisa tus últimos 10 clientes: ¿compraron lo que TÚ querías vender, o lo que ellos pidieron? Esa diferencia te dice cuál es tu oferta real.',
-  why34:'En tu etapa el problema rara vez es "qué vendes" — es que <b>cada cliente te compra una sola vez</b>. Si el anuncio vende directo tu servicio caro, el costo de adquirir sube; y si no hay una ruta de lo primero que compran hacia lo que sigue, cada venta muere ahí — y los ads tienen que pagar TODO el crecimiento solos.',
+  why34:'En tu etapa el problema rara vez es "qué vendes": es que <b>cada cliente te compra una sola vez</b>. Si el anuncio vende directo tu servicio caro, el costo de adquirir sube; y si no hay una ruta de lo primero que compran hacia lo que sigue, cada venta muere ahí, y los ads tienen que pagar TODO el crecimiento solos.',
   hoy34:'De tus últimos 20 clientes nuevos, ¿cuántos te compraron algo más en los siguientes 60 días? Si son menos de 6, tu freno no es atraer: es que no hay escalera después de la primera compra.',
-  puente34:'La guía trae cómo diseñar tu escalera de oferta: la entrada que abarata adquirir, la ruta natural hacia lo que sigue, y cómo subir el valor de cada cliente sin subir un peso el presupuesto.',pasos34:['De tus <b>últimos 20 clientes nuevos</b>, cuenta cuántos te compraron algo MÁS en los 60 días siguientes.','¿Salieron menos de 6? Tu freno no es atraer: es que <b>no hay un siguiente paso natural</b> que comprarte después de lo primero.','Escribe en una línea qué le ofrecerías a alguien que ACABA de comprarte — y <b>mándasela esta semana por WhatsApp a tus últimos 10 compradores</b>: "¿Cómo te fue con [lo que compraste]? Quienes se hacen eso suelen seguir con [siguiente paso] — si te interesa, esta semana te doy [beneficio]". Aunque solo compren 2, creaste venta sin gastar un peso en ads — y probaste tu escalera con dinero real, no en papel.'],reto34:'20 clientes, un número. Si sale menos de 6, encontraste dinero tirado.',ofName:'La Guía de Escalera de Oferta',ofPrice:349,ofBullets:['<b>La entrada</b> que abarata traer clientes nuevos.','<b>La ruta natural</b> de lo primero que compran hacia lo que sigue.','<b>Cómo subir lo que vale cada cliente</b> sin subir un peso el presupuesto.']},
- {l:'Cliente',sig:'CLIENTE',g:0,x:'Qué tan claro tienes a quién le vendes.',
-  why:'Cuando le hablas a todos, el algoritmo no sabe a quién buscarte — y te trae de todo, menos compradores. La claridad de cliente es lo que abarata todo lo demás.',
+  pasos34:['De tus <b>últimos 20 clientes nuevos</b>, cuenta cuántos te compraron algo MÁS en los 60 días siguientes.','¿Salieron menos de 6? Tu freno no es atraer: es que <b>no hay un siguiente paso natural</b> que comprarte después de lo primero.','Escribe en una línea qué le ofrecerías a alguien que ACABA de comprarte, y <b>mándasela esta semana por WhatsApp a tus últimos 10 compradores</b>: "¿Cómo te fue con [lo que compraste]? Quienes se hacen eso suelen seguir con [siguiente paso]. Si te interesa, esta semana te doy [beneficio]". Aunque solo compren 2, creaste venta sin gastar un peso en ads, y probaste tu escalera con dinero real, no en papel.'],reto34:'20 clientes, un número. Si sale menos de 6, encontraste dinero tirado.',ofName:'¿Tu oferta ya está validada?',ofPrice:50,ofBullets:['El video donde aplico el test de 8 preguntas a una oferta real','El test que te da el veredicto: validada, a medias, o no le metas más pauta todavía','Una IA que te hace las 8 preguntas y te da tu veredicto']},
+ {l:'Cliente',sig:'CLIENTE',g:0,x:'Qué tan claro tienes a quién le vendes.',def:'Tu cliente ideal es la persona que te compra más fácil, paga sin regatear y regresa. No es "todos los que puedan pagar": es un perfil concreto, con nombre y apellido en tu cabeza.',
+  why:'Cuando le hablas a todos, el algoritmo no sabe a quién buscarte, y te trae de todo, menos compradores. La claridad de cliente es lo que abarata todo lo demás.',
   hoy:'Describe a tu mejor cliente en una línea: quién es, qué compró y por qué a ti. Si no sale a la primera, ahí está el hueco.',
-  why34:'Ya sabes a quién le vendes — lo que casi nadie sabe es <b>quién le deja dinero</b>. No todos los clientes valen igual: unos dejan 3× más, regresan y llegan a sus citas; otros regatean, cancelan y desaparecen. Tus campañas aprenden del que LLEGA, no del que conviene — a menos que tú se lo enseñes.',
-  hoy34:'Saca tus 10 mejores clientes del año por dinero dejado (no por frecuencia). Busca qué comparten: servicio de entrada, zona, edad, cómo llegaron. Ese patrón es tu cliente real — y casi nunca es el que tenías en la cabeza.',
-  puente34:'La guía trae cómo construir tu perfil por VALOR (no demografía genérica) y cómo usarlo en tus campañas: públicos, creativos que filtran y mensajes que atraen al que sí deja — no al que solo pregunta.',pasos34:['Saca tus <b>10 mejores clientes del año</b> — por dinero que dejaron, no por caerte bien.','Busca qué comparten: por qué servicio entraron, edad, zona, cómo te encontraron.<table class="reg-mock"><tr><th>Cliente</th><th>Entró por</th><th>Dejó</th></tr><tr><td>Ana</td><td>Servicio B</td><td>$18,400</td></tr><tr><td>Rocío</td><td>Servicio B</td><td>$15,900</td></tr><tr><td>Pau</td><td>Servicio A</td><td>$14,200</td></tr></table>','Escribe el patrón en UNA línea ("mujer 30-45, entra por Servicio B, zona X"). Compáralo con el que tus anuncios traen hoy.','Ahora úsalo: exporta tus <b>100 (o más) mejores clientes</b> — nombre y teléfono bastan — y mándaselos a quien maneja tus campañas:<div class="tell-box">Mándale esto tal cual: <i>"Sube esta lista a Meta como público de clientes, crea un público similar y pruébalo contra el público actual."</i></div> Es la forma más directa de decirle a Meta: tráeme MÁS de éstos — sin un peso extra de presupuesto. (El patrón se encuentra con 10; el público necesita 100+ — Meta no acepta listas chicas.)'],reto34:'Si tu anuncio no le habla a ese patrón, estás pagando por traer al equivocado.',ofName:'La Guía de Cliente por Valor',ofPrice:249,ofBullets:['<b>Tu perfil por VALOR</b>, armado con tus propios datos — no demografía genérica.','<b>Cómo traducirlo a públicos y creativos</b> que filtran solos.','<b>Cómo dejar de atraer</b> al que solo pregunta precio.']},
- {l:'Equipo de ventas',sig:'EQUIPO',g:0,x:'Quién contesta y cierra tus mensajes.',
-  why:'El <b>78% compra al primero que responde bien</b>. Sin guion ni proceso, cada quien contesta como puede — y tus ventas dependen del humor del día.',
+  hoyPasos:['Escoge a tus últimos 10 compradores y anota qué comparten: edad, sexo, zona y qué te compraron.','Escríbeles por WhatsApp: "Te doy un descuento en tu próxima compra si me contestas dos preguntas":<ul class="u-sub"><li>¿Por qué me compraste a mí?</li><li>¿Qué es lo que más te dio?</li></ul>','Junta las respuestas. Se van a repetir: si 6 de 10 dicen lo mismo, ese es tu motivador real.','Con lo que comparten y lo que se repite, escribe a tu cliente ideal en una línea: quién es y por qué te compra a ti.'],
+  why34:'Ya sabes a quién le vendes: lo que casi nadie sabe es <b>quién le deja dinero</b>. No todos los clientes valen igual: unos dejan 3× más, regresan y llegan a sus citas; otros regatean, cancelan y desaparecen. Tus campañas aprenden del que LLEGA, no del que conviene, a menos que tú se lo enseñes.',
+  hoy34:'Saca tus 10 mejores clientes del año por dinero dejado (no por frecuencia). Busca qué comparten: servicio de entrada, zona, edad, cómo llegaron. Ese patrón es tu cliente real, y casi nunca es el que tenías en la cabeza.',
+  pasos34:['Saca tus <b>10 mejores clientes del año</b>, por dinero que dejaron, no por caerte bien.','Busca qué comparten: por qué servicio entraron, edad, zona, cómo te encontraron.<table class="reg-mock"><tr><th>Cliente</th><th>Entró por</th><th>Dejó</th></tr><tr><td>Ana</td><td>Servicio B</td><td>$18,400</td></tr><tr><td>Rocío</td><td>Servicio B</td><td>$15,900</td></tr><tr><td>Pau</td><td>Servicio A</td><td>$14,200</td></tr></table>','Escribe el patrón en UNA línea ("mujer 30-45, entra por Servicio B, zona X"). Compáralo con el que tus anuncios traen hoy.','Ahora úsalo: exporta tus <b>100 (o más) mejores clientes</b> (nombre y teléfono bastan) y mándaselos a quien maneja tus campañas:<div class="tell-box">Mándale esto tal cual: <i>"Sube esta lista a Meta como público de clientes, crea un público similar y pruébalo contra el público actual."</i></div> Es la forma más directa de decirle a Meta: tráeme MÁS de éstos, sin un peso extra de presupuesto. (El patrón se encuentra con 10; el público necesita 100+: Meta no acepta listas chicas.)'],reto34:'Si tu anuncio no le habla a ese patrón, estás pagando por traer al equivocado.',ofName:'Tu cliente, tu oferta y tu anuncio',ofPrice:50,ofHook:'Tus clientes ya te dijeron qué venderles y cómo anunciarlo. Está en tu WhatsApp.',ofWin:'Hacer anuncios que le hablen al cliente que sí quieres, no a todo el mundo. Eso cambia quién te escribe: más gente del tipo que buscas y menos de la que te hace perder el tiempo. Y deja de irse dinero en hablarle a quien nunca te iba a comprar. No te prometo un número: depende de tu oferta y de tu mercado.',ofOut:'Cuatro cosas que vas a tener escritas al terminar: tu cliente ideal en una línea. Por qué te compra a ti, con sus palabras exactas. Tu oferta en una frase, con precio. Y tu primer anuncio, hecho por ti con el prompt: el texto, el titular y qué imagen ponerle.',ofOutList:['Tu cliente ideal en una línea.','Por qué te compra a ti, con sus palabras exactas.','Tu oferta en una frase, con precio.','Tu primer anuncio, hecho por ti con el prompt: el texto, el titular y qué imagen ponerle.'],ofBullets:['Dos videos cortos:<ul class="g-sub"><li><b>Video 1:</b> cómo distinguir a tu cliente y sacar sus motivadores de tus chats, y cómo armar tu oferta en una frase. Con casos reales de varios giros, incluido qué hacer si tienes menos de 10 compradores.</li><li><b>Video 2:</b> tu anuncio con IA, en vivo. Cómo correr el prompt con tus chats y salir con un anuncio listo para subir.</li></ul>','El prompt: un texto listo que le pegas a Claude (la inteligencia artificial, gratis). Le das tus chats y te va llevando: tu cliente, sus motivadores, tu oferta y tu anuncio. Si solo le das tus opiniones, te pide los chats.','La ficha de una hoja para guardar lo que salió, con una llena de ejemplo.'],ofTime:'Una tarde. Los chats ya los tienes en tu WhatsApp.',ofFor:'Es para ti si vendes por mensaje y todavía le hablas a todo el mundo. No es para ti si ya sabes a quién le vendes y por qué: tu siguiente paso es otro.'},
+ {l:'Equipo de ventas',sig:'EQUIPO',g:0,x:'Quién contesta y cierra tus mensajes.',def:'Es quien contesta cuando llega un lead. Con criterio para calificar, seguir y cerrar, o solo contestando preguntas.',
+  why:'El <b>78% compra al primero que responde bien</b>. Sin guion ni proceso, cada quien contesta como puede, y tus ventas dependen del humor del día.',
   hoy:'Lee los últimos 10 chats de tu equipo: ¿en cuántos ofrecieron agendar o cerrar, y en cuántos solo contestaron la pregunta y esperaron?',
-  why34:'Con equipo, tu problema ya no es "que contesten" — es la <b>varianza</b>: tu mejor persona puede cerrar el doble o el triple que la peor con los MISMOS leads, y no sabes por qué. Cada lead que cae con la persona equivocada es dinero de ads tirado. El 78% compra al primero que responde BIEN — y el "bien" es entrenable, pero solo si lo mides.',
+  why34:'Con equipo, tu problema ya no es "que contesten". Es la <b>varianza</b>: tu mejor persona puede cerrar el doble o el triple que la peor con los MISMOS leads, y no sabes por qué. Cada lead que cae con la persona equivocada es dinero de ads tirado. El 78% compra al primero que responde BIEN, y el "bien" es entrenable, pero solo si lo mides.',
   hoy34:'Saca la tasa de cierre POR PERSONA de los últimos 50 leads (asignados vs cerrados). La brecha entre la mejor y la peor, multiplicada por tus leads del mes, es cuánto dinero hay en solo emparejar al equipo.',
-  puente34:'La guía trae el sistema de calidad de conversaciones: el guion base, qué buscar exactamente en la revisión semanal de chats, y el tablero por persona — para entrenar con datos, no con regaños.',pasos34:['Cuenta <b>por persona</b>: de los últimos 50 leads, cuántos le tocaron y cuántos cerró. (¿Todos contestan del mismo WhatsApp y no sabes quién fue? Divide por turnos: mañana vs tarde — la brecha aparece igual.)<table class="reg-mock"><tr><th>Persona</th><th>Leads</th><th>Cierres</th><th>Tasa</th></tr><tr><td>Karla</td><td>25</td><td>8</td><td><b>32%</b></td></tr><tr><td>Luis</td><td>25</td><td>3</td><td>12%</td></tr></table>','La brecha entre la mejor y el resto, multiplicada por tus leads del mes, es <b>dinero que ya pagaste</b> con ads.','Lee 5 chats de cada quien buscando UNA diferencia: ¿la mejor OFRECE agendar y los demás solo contestan la pregunta? (Es la diferencia más común.) Cuando la encuentres, <b>conviértela en regla para todos ese mismo día</b>: "ningún chat se termina sin ofrecer día y hora". Vuelve a medir por persona en 2 semanas — esa regla sola suele subir cierres sin un peso más de ads.'],reto34:'Multiplica la brecha por tus leads del mes. Ese es el costo de no emparejar al equipo.',ofName:'La Guía de Equipo que Cierra',ofPrice:299,ofBullets:['<b>El guion base</b> que empareja a todos hacia arriba.','<b>La revisión semanal de chats:</b> exactamente qué buscar (en 20 minutos).','<b>El tablero por persona</b> para entrenar con datos, no con regaños.']},
- {l:'Respuesta a leads',sig:'RESP.',g:0,x:'Qué tan rápido contestas a quien te escribe.',
+  pasos34:['Cuenta <b>por persona</b>: de los últimos 50 leads, cuántos le tocaron y cuántos cerró. (¿Todos contestan del mismo WhatsApp y no sabes quién fue? Divide por turnos: mañana vs tarde. La brecha aparece igual.)<table class="reg-mock"><tr><th>Persona</th><th>Leads</th><th>Cierres</th><th>Tasa</th></tr><tr><td>Karla</td><td>25</td><td>8</td><td><b>32%</b></td></tr><tr><td>Luis</td><td>25</td><td>3</td><td>12%</td></tr></table>','La brecha entre la mejor y el resto, multiplicada por tus leads del mes, es <b>dinero que ya pagaste</b> con ads.','Lee 5 chats de cada quien buscando UNA diferencia: ¿la mejor OFRECE agendar y los demás solo contestan la pregunta? (Es la diferencia más común.) Cuando la encuentres, <b>conviértela en regla para todos ese mismo día</b>: "ningún chat se termina sin ofrecer día y hora". Vuelve a medir por persona en 2 semanas. Esa regla sola suele subir cierres sin un peso más de ads.'],reto34:'Multiplica la brecha por tus leads del mes. Ese es el costo de no emparejar al equipo.',ofName:'El checklist de tu equipo',ofPrice:50,ofBullets:['El video donde reviso un chat real con el checklist','El checklist con puntaje que le pasas a cada persona de tu equipo','Una IA que lee el chat y te da el puntaje sin que tú lo hagas']},
+ {l:'Respuesta a leads',sig:'RESP.',g:0,x:'Qué tan rápido contestas a quien te escribe.',def:'Cuánto tarda alguien de tu negocio en contestar el primer mensaje, y si contesta igual a las 10 de la noche que a las 10 de la mañana.',
   why:'Un lead que espera horas ya le escribió a tu competencia. La velocidad de respuesta es de las palancas más baratas de arreglar y de las que más dinero regresan.',
   hoy:'Mide cuánto tardaron en contestar los últimos 5 mensajes que llegaron de anuncios. Más de 15 minutos = dinero tirado.',
-  why34:'Ya contestas "rápido"… en horario de oficina. La espina: buena parte de tus leads llegan <b>cuando no estás</b> — noches y fines de semana, cuando la gente por fin scrollea. Ese lead de las 9pm que se contesta el lunes ya compró en otro lado. Tu velocidad promedio se ve bien; tu velocidad FUERA de horario es la fuga.',
-  hoy34:'Toma tus últimos 20 leads con hora de llegada y hora de primera respuesta. Sepáralos: horario laboral vs fuera de horario. El segundo número es el que te está costando — y casi nadie lo ha visto nunca.',
-  puente34:'La guía trae cómo cubrir 24/7 sin contratar turno de noche: respuestas de contención que sí agendan, calificación automática de entrada, y la línea clara de qué automatizar y qué jamás.',pasos34:['Toma tus <b>últimos 20 leads</b>: apunta a qué hora llegó cada uno y a qué hora se le contestó.','Sepáralos en dos montones: <b>horario de oficina</b> vs <b>fuera de horario</b> (noches y fin de semana).','Saca el promedio de respuesta de cada montón. El segundo número es el que te está costando ventas — y casi nadie lo ha visto nunca.','Mientras montas la cobertura completa, ponle un tapón HOY — gratis, 5 minutos: WhatsApp Business → Ajustes → Herramientas para la empresa → <b>Mensaje de ausencia</b>. Prográmalo para noches y fin de semana, y que no diga "te contestamos luego": que AVANCE la venta — <i>"¡Hola! Ahorita no estamos en línea. Dime qué tratamiento te interesa y qué día te gustaría venir, y mañana a primera hora te agendo."</i> El que contesta eso ya no es un lead frío el lunes: es una cita a medio agendar.'],reto34:'Casi nadie ha visto su número de fuera-de-horario. Los que lo ven, no lo pueden desver.',ofName:'La Guía de Respuesta 24/7',ofPrice:249,ofBullets:['<b>Respuestas de contención que agendan</b> — sin sonar a robot.','<b>Calificación automática de entrada:</b> saber quién va en serio antes de que conteste un humano.','<b>La línea clara</b> de qué automatizar y qué jamás.']},
- {l:'Generación de ads',sig:'ADS',g:1,x:'Cómo produces tus anuncios: al azar o con sistema.',
-  why:'Sin sistema, cada anuncio es un volado. Con sistema —momento del cliente → ángulo → formato → primera línea— cada anuncio es una prueba que te enseña algo, gane o pierda.',
+  why34:'Ya contestas "rápido"… en horario de oficina. La espina: buena parte de tus leads llegan <b>cuando no estás</b>, noches y fines de semana, cuando la gente por fin scrollea. Ese lead de las 9pm que se contesta el lunes ya compró en otro lado. Tu velocidad promedio se ve bien; tu velocidad FUERA de horario es la fuga.',
+  hoy34:'Toma tus últimos 20 leads con hora de llegada y hora de primera respuesta. Sepáralos: horario laboral vs fuera de horario. El segundo número es el que te está costando, y casi nadie lo ha visto nunca.',
+  pasos34:['Toma tus <b>últimos 20 leads</b>: apunta a qué hora llegó cada uno y a qué hora se le contestó.','Sepáralos en dos montones: <b>horario de oficina</b> vs <b>fuera de horario</b> (noches y fin de semana).','Saca el promedio de respuesta de cada montón. El segundo número es el que te está costando ventas, y casi nadie lo ha visto nunca.','Mientras montas la cobertura completa, ponle un tapón HOY, gratis, 5 minutos: WhatsApp Business → Ajustes → Herramientas para la empresa → <b>Mensaje de ausencia</b>. Prográmalo para noches y fin de semana, y que no diga "te contestamos luego": que AVANCE la venta: <i>"¡Hola! Ahorita no estamos en línea. Dime qué tratamiento te interesa y qué día te gustaría venir, y mañana a primera hora te agendo."</i> El que contesta eso ya no es un lead frío el lunes: es una cita a medio agendar.'],reto34:'Casi nadie ha visto su número de fuera-de-horario. Los que lo ven, no lo pueden desver.'},
+ {l:'Generación de ads',sig:'ADS',g:1,x:'Cómo produces tus anuncios: al azar o con sistema.',def:'Cómo produces anuncios nuevos: cuántos sacas al mes, con qué ángulos y cómo decides cuál se queda.',
+  why:'Sin sistema, cada anuncio es un volado. Con sistema (momento del cliente → ángulo → formato → primera línea) cada anuncio es una prueba que te enseña algo, gane o pierda.',
   hoy:'Abre tus últimos 3 anuncios: ¿la primera línea dice qué, cuánto y cuándo ("...$1,200, citas mañana"), o abre con rodeos?',
-  why34:'Ya corres campañas. El problema de tu etapa es la <b>fatiga</b>: tus ganadores se desgastan —la misma gente los ve una y otra vez— y no hay pipeline de reemplazo. Cuando el ganador muere, el número cae y nadie sabe por qué. Sin sistema de producción (momento del cliente → ángulo → formato → primera línea), cada anuncio nuevo es un volado.',
+  why34:'Ya corres campañas. El problema de tu etapa es la <b>fatiga</b>: tus ganadores se desgastan (la misma gente los ve una y otra vez) y no hay pipeline de reemplazo. Cuando el ganador muere, el número cae y nadie sabe por qué. Sin sistema de producción (momento del cliente → ángulo → formato → primera línea), cada anuncio nuevo es un volado.',
   hoy34:'Abre tus 3 anuncios activos más viejos y mira su FRECUENCIA. Arriba de 3, la misma persona ya te vio varias veces: estás pagando de más por ser ignorado. Anota cuáles necesitan relevo esta semana.',
-  puente34:'La guía trae el sistema de producción semanal: la matriz de ángulos por momento del cliente, cuántas variantes probar, y las reglas de cuándo matar, escalar o refrescar — para no depender nunca de UN ganador.',pasos34:['Abre tus <b>3 anuncios con más tiempo corriendo</b> y apunta su FRECUENCIA <b>de los últimos 30 días</b> (Ads Manager la muestra: es cuántas veces lo vio la misma persona — sin la ventana de fechas, un anuncio sano puede parecer quemado).','Los que estén <b>arriba de 3</b>: márcalos. Esa gente ya te vio varias veces — estás pagando de más por ser ignorado. Y pídele HOY a quien maneja tus campañas <b>un relevo para cada marcado esta semana</b>: misma promesa, formato distinto.','Pregunta a quien maneja tus campañas:<div class="tell-box">Mándale esto tal cual: <i>"¿Cuántos anuncios NUEVOS probamos este mes?"</i> Menos de 4 = no hay relevos; el día que muera tu ganador, cae todo.</div>'],reto34:'La frecuencia es el odómetro de tus anuncios. Arriba de 3, ya estás pagando de más.',ofName:'La Guía del Sistema de Anuncios',ofPrice:449,ofBullets:['<b>La matriz de ángulos</b> por momento del cliente — de dónde salen los anuncios nuevos.','<b>Cuántas variantes probar por semana</b> y cuáles matar.','<b>Las reglas de escalar</b> sin quemar a tu ganador.']},
- {l:'Creatividades',sig:'CREAT.',g:1,x:'La calidad y el método detrás de tus anuncios.',
+  pasos34:['Abre tus <b>3 anuncios con más tiempo corriendo</b> y apunta su FRECUENCIA <b>de los últimos 30 días</b> (Ads Manager la muestra: es cuántas veces lo vio la misma persona. Sin la ventana de fechas, un anuncio sano puede parecer quemado).','Los que estén <b>arriba de 3</b>: márcalos. Esa gente ya te vio varias veces: estás pagando de más por ser ignorado. Y pídele HOY a quien maneja tus campañas <b>un relevo para cada marcado esta semana</b>: misma promesa, formato distinto.','Pregunta a quien maneja tus campañas:<div class="tell-box">Mándale esto tal cual: <i>"¿Cuántos anuncios NUEVOS probamos este mes?"</i> Menos de 4 = no hay relevos; el día que muera tu ganador, cae todo.</div>'],reto34:'La frecuencia es el odómetro de tus anuncios. Arriba de 3, ya estás pagando de más.',ofName:'Ads que ganan',ofPrice:99,ofBullets:['El video donde saco los ángulos ganadores desde tu ICP','El criterio de cuándo matar un ad antes de que te siga cobrando','Una IA que te genera ángulos nuevos cuando el tuyo se quema']},
+ {l:'Creatividades',sig:'CREAT.',g:1,x:'La calidad y el método detrás de tus anuncios.',def:'Los anuncios en sí: el video, la imagen y el texto. Se queman, y hay que saber cuándo cambiarlos.',
   why:'Hoy en Meta, el creativo es la palanca más pesada del resultado. Publicar "lo que se ve bonito" sin método es pagar por aprender lo que otros ya pagaron.',
   hoy:'De tus últimos 5 creativos, ¿cuál trajo CLIENTES (no likes)? Si no puedes contestar con datos, empieza por ahí.',
-  why34:'Seguro ya tuviste anuncios ganadores. La pregunta de tu etapa: ¿sabes <b>por qué</b> ganaron? Si no puedes descomponer un ganador —qué promete su primera línea, a qué momento del cliente le habla, qué lo hace creíble— no puedes replicarlo: solo copiarlo hasta que muere. Un banco de ganadores sin el porqué es un museo.',
+  why34:'Seguro ya tuviste anuncios ganadores. La pregunta de tu etapa: ¿sabes <b>por qué</b> ganaron? Si no puedes descomponer un ganador (qué promete su primera línea, a qué momento del cliente le habla, qué lo hace creíble) no puedes replicarlo: solo copiarlo hasta que muere. Un banco de ganadores sin el porqué es un museo.',
   hoy34:'Toma tu mejor creativo histórico y contesta 3 cosas: ¿qué promete la primera línea? ¿le habla al que ya te conoce o al que no? ¿qué lo hace creíble? Si alguna no sale, tienes un ganador que no puedes repetir.',
-  puente34:'La guía trae cómo descomponer tus ganadores en sus piezas (ángulo, promesa, formato, primera línea) y un banco de hooks por ángulo listo para adaptar a tu giro — replicar con método, no con suerte.',pasos34:['Toma tu <b>mejor anuncio histórico</b> (el que sí trajo clientes).','Contéstale 3 preguntas: ¿qué promete la primera línea? · ¿le habla al que ya te conoce o al que no? · ¿qué lo hace creíble (precio, foto real, testimonio)?','Escribe UNA variante cambiando <b>solo el formato</b> (misma promesa, otra foto o video). Esa es tu primera réplica con método, no con suerte. <b>Mándasela hoy a quien publica tus anuncios</b> para que corra junto al original desde esta semana: el ganador enseña; la variante cobra.'],reto34:'Si las 3 preguntas no salen, tienes un ganador que no puedes repetir — y eso es suerte, no sistema.',ofName:'La Guía de Creativos que Repiten',ofPrice:349,ofBullets:['<b>Cómo descomponer un ganador</b> en sus piezas: promesa, público, credibilidad, formato.','<b>El banco de primeras líneas por ángulo</b>, listo para adaptar a tu giro.','<b>El método de variantes:</b> producir sin morir en el intento.']},
- {l:'Automatización',sig:'AUTOM.',g:1,x:'Qué tanto de tu proceso corre solo (CRM, flujos).',
-  why:'Lo manual aguanta hasta que creces: leads sin registrar, seguimientos olvidados, ventas que se enfrían de noche. No se trata de robots — se trata de que nada se caiga.',
+  pasos34:['Toma tu <b>mejor anuncio histórico</b> (el que sí trajo clientes).','Contéstale 3 preguntas: ¿qué promete la primera línea? · ¿le habla al que ya te conoce o al que no? · ¿qué lo hace creíble (precio, foto real, testimonio)?','Escribe UNA variante cambiando <b>solo el formato</b> (misma promesa, otra foto o video). Esa es tu primera réplica con método, no con suerte. <b>Mándasela hoy a quien publica tus anuncios</b> para que corra junto al original desde esta semana: el ganador enseña; la variante cobra.'],reto34:'Si las 3 preguntas no salen, tienes un ganador que no puedes repetir, y eso es suerte, no sistema.',ofName:'Ads que ganan',ofPrice:99,ofBullets:['El video donde saco los ángulos ganadores desde tu ICP','El criterio de cuándo matar un ad antes de que te siga cobrando','Una IA que te genera ángulos nuevos cuando el tuyo se quema']},
+ {l:'Automatización',sig:'AUTOM.',g:1,x:'Qué tanto de tu proceso corre solo (CRM, flujos).',def:'Lo que pasa solo, sin que alguien de tu equipo lo haga a mano: respuestas, seguimientos, recordatorios.',
+  why:'Lo manual aguanta hasta que creces: leads sin registrar, seguimientos olvidados, ventas que se enfrían de noche. No se trata de robots: se trata de que nada se caiga.',
   hoy:'Cuenta cuántos leads de la semana pasada NO recibieron ni un seguimiento. Cada uno de esos ya lo pagaste.',
-  why34:'Tener CRM no es lo mismo que usarlo completo. A tu nivel, el problema casi nunca es la herramienta: es <b>lo que se escapa entre un paso y otro</b> — el lead que nunca se registró, el seguimiento que dependía de la memoria de alguien, la venta que se cerró y nadie anotó. Cada escape es dinero que ya pagaste con publicidad. Y hay uno que cuesta doble: <b>si el cierre no se anota, tampoco hay atribución</b> — no puedes saber qué anuncio lo trajo.',
+  why34:'Tener CRM no es lo mismo que usarlo completo. A tu nivel, el problema casi nunca es la herramienta: es <b>lo que se escapa entre un paso y otro</b>: el lead que nunca se registró, el seguimiento que dependía de la memoria de alguien, la venta que se cerró y nadie anotó. Cada escape es dinero que ya pagaste con publicidad. Y hay uno que cuesta doble: <b>si el cierre no se anota, tampoco hay atribución</b>: no puedes saber qué anuncio lo trajo.',
   hoy34:'Audita 5 leads de la semana pasada, de punta a punta: ¿los 5 están en tu CRM? ¿los 5 tuvieron seguimiento a tiempo? ¿los que cerraron quedaron REGISTRADOS como cerrados? Cada "no" es un hoyo por donde se va dinero ya pagado.',
-  puente34:'La guía trae el circuito mínimo que no tira nada —entrada, seguimiento, cierre registrado— y los 3 automatismos que más dinero regresan, en orden de montaje según tu CRM.',pasos34:['Agarra <b>5 leads de la semana pasada</b> y síguelos de punta a punta.','Marca tres casillas por lead: ¿quedó en tu CRM? · ¿tuvo seguimiento a tiempo? · si compró, ¿quedó REGISTRADO como compra?<table class="reg-mock"><tr><th>Lead</th><th>¿CRM?</th><th>¿Seguimiento?</th><th>¿Registrado?</th></tr><tr><td>1</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>2</td><td>✅</td><td>❌</td><td>—</td></tr><tr><td>3</td><td>❌</td><td>—</td><td>—</td></tr></table>','Cuenta los ❌ y elige el hoyo que más se repitió: ponle una <b>regla de equipo HOY</b> (ej.: "la venta se anota el mismo día — la anota quien cobra", o "el WhatsApp de anuncios se vacía cada mañana: todo lead queda en el CRM antes de las 10"). Reaudita 5 leads la próxima semana: los tachones tienen que bajar. Los hoyos no se arreglan con más leads — se arreglan con reglas.'],reto34:'5 leads, 3 casillas. Si salen más de 2 tachones, tu problema no es de ads.',ofName:'La Guía del Circuito sin Hoyos',ofPrice:299,ofBullets:['<b>El circuito mínimo</b> que no tira nada: entrada → seguimiento → cierre registrado.','<b>Los 3 automatismos que más dinero regresan</b>, en orden.','<b>Cómo montarlo en el CRM que ya tienes</b> — sin cambiar de herramienta.'],
-  why4:'A tu nivel el CRM ya existe. La pregunta es otra: ¿qué porcentaje del camino corre <b>sin depender de una persona</b>? Con tu volumen, cada paso manual es un lugar donde algo se cae a diario: el lead de las 9pm, el seguimiento del viernes, la venta que se cerró en sucursal y nunca llegó al sistema. Y el escape más caro: <b>cierres que no regresan a Meta</b> — tu presupuesto optimizando a ciegas.',
-  pasos4:['Pide UN número: de los leads de la semana pasada, ¿cuántos tuvieron primer contacto en <b>menos de 15 minutos</b> — contando noches y fines de semana?','Pide otro: ¿cuántas ventas cerradas quedaron <b>registradas el mismo día</b> (no al corte del mes)?','Esos dos huecos son tu mapa. Primero el registro del cierre (sin eso no hay atribución), luego la velocidad fuera de horario.'],
+  pasos34:['Agarra <b>5 leads de la semana pasada</b> y síguelos de punta a punta.','Marca tres casillas por lead: ¿quedó en tu CRM? · ¿tuvo seguimiento a tiempo? · si compró, ¿quedó REGISTRADO como compra?<table class="reg-mock"><tr><th>Lead</th><th>¿CRM?</th><th>¿Seguimiento?</th><th>¿Registrado?</th></tr><tr><td>1</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>2</td><td>✅</td><td>❌</td><td>N/A</td></tr><tr><td>3</td><td>❌</td><td>N/A</td><td>N/A</td></tr></table>','Cuenta los ❌ y elige el hoyo que más se repitió: ponle una <b>regla de equipo HOY</b> (ej.: "la venta se anota el mismo día: la anota quien cobra", o "el WhatsApp de anuncios se vacía cada mañana: todo lead queda en el CRM antes de las 10"). Reaudita 5 leads la próxima semana: los tachones tienen que bajar. Los hoyos no se arreglan con más leads: se arreglan con reglas.'],reto34:'5 leads, 3 casillas. Si salen más de 2 tachones, tu problema no es de ads.',ofName:'Tu CRM en una hoja',ofPrice:99,ofBullets:['El template real que llenan mis clientes cada día','El video de cómo operarlo y cuándo SÍ te toca bot o CRM de a de veras','La pestaña que te dice en qué paso pierdes gente'],
+  why4:'A tu nivel el CRM ya existe. La pregunta es otra: ¿qué porcentaje del camino corre <b>sin depender de una persona</b>? Con tu volumen, cada paso manual es un lugar donde algo se cae a diario: el lead de las 9pm, el seguimiento del viernes, la venta que se cerró en sucursal y nunca llegó al sistema. Y el escape más caro: <b>cierres que no regresan a Meta</b>. Tu presupuesto optimizando a ciegas.',
+  pasos4:['Pide UN número: de los leads de la semana pasada, ¿cuántos tuvieron primer contacto en <b>menos de 15 minutos</b>, contando noches y fines de semana?','Pide otro: ¿cuántas ventas cerradas quedaron <b>registradas el mismo día</b> (no al corte del mes)?','Esos dos huecos son tu mapa. Primero el registro del cierre (sin eso no hay atribución), luego la velocidad fuera de horario.'],
   reto4:'Dos preguntas a tu equipo, dos números. Si alguno tarda en llegar, ya encontraste el primer paso manual que te está costando.'}
 ];
 const LOCKED=[
@@ -1597,19 +1743,19 @@ const LOCKED=[
 ];
 /* PRE-READ corto por área (E3/E4) — la espina en 1-2 líneas; el detalle completo vive en su pantalla */
 const PRE34={
- 'CAC':'Tu CAC global te dice si ganas o pierdes — pero no QUÉ apagar ni qué escalar. El juego real: CAC por campaña → por conjunto → por anuncio.',
+ 'CAC':'Tu CAC global te dice si ganas o pierdes, pero no QUÉ apagar ni qué escalar. El juego real: CAC por campaña → por conjunto → por anuncio.',
  'Tasa de cierre':'Tu tasa global esconde DÓNDE se caen: mensaje→cita, cita→llegan, llegan→compran. Cada caída tiene un arreglo distinto.',
  'ROAS':'Hay dos ROAS: el que Meta te reporta y el real (ventas cerradas ÷ inversión). La brecha entre ambos es tu nivel de ceguera.',
- 'Atribución':'Meta aprende de lo que le reportas. Si solo le reportas mensajes, te trae gente que manda mensajes — no compradores.',
+ 'Atribución':'Meta aprende de lo que le reportas. Si solo le reportas mensajes, te trae gente que manda mensajes, no compradores.',
  'Utilidad':'La utilidad global engaña: unas líneas subsidian a otras. Puedes estar escalando justo el servicio que menos te deja.',
- 'Venta mensual':'No es cuánto vendes — es de qué está hecho: nuevos vs recurrentes, y cuánta venta del próximo mes ya puedes ver hoy.',
- 'Oferta':'El problema rara vez es qué vendes — es que cada cliente compra UNA vez y los ads pagan todo el crecimiento solos.',
- 'Cliente':'No todos los clientes valen igual. Tus campañas aprenden del que llega — no del que te deja dinero.',
+ 'Venta mensual':'No es cuánto vendes. Es de qué está hecho: nuevos vs recurrentes, y cuánta venta del próximo mes ya puedes ver hoy.',
+ 'Oferta':'El problema rara vez es qué vendes: es que cada cliente compra UNA vez y los ads pagan todo el crecimiento solos.',
+ 'Cliente':'No todos los clientes valen igual. Tus campañas aprenden del que llega, no del que te deja dinero.',
  'Equipo de ventas':'Tu mejor persona puede cerrar hasta 3× más que la peor con los MISMOS leads. Esa varianza es dinero de ads tirado.',
  'Respuesta a leads':'Contestas rápido… en horario de oficina. Los leads de las 9pm y del sábado se enfrían para el lunes.',
  'Generación de ads':'Tus ganadores se desgastan y no hay reemplazo en fila. Sin sistema de producción, cada anuncio nuevo es un volado.',
  'Creatividades':'Sabes CUÁL anuncio ganó, pero no POR QUÉ. Y lo que no puedes descomponer, no lo puedes repetir.',
- 'Automatización':'No es automatizar todo — es que nada se caiga: leads sin registrar, seguimientos olvidados, cierres sin capturar.'
+ 'Automatización':'No es automatizar todo. Es que nada se caiga: leads sin registrar, seguimientos olvidados, cierres sin capturar.'
 };
 /* Ejemplo concreto por área (se enseña en la pantalla de detalle). Por ahora: CAC (formato patrón). */
 const EXAMPLES={
@@ -1618,26 +1764,26 @@ const EXAMPLES={
   <tr><td>Costo por mensaje</td><td class="fakewin">$12 · "gana"</td><td>$19</td></tr>
   <tr><td>Mensajes</td><td>250</td><td>160</td></tr>
   <tr><td>Inversión del mes</td><td>$3,000</td><td>$3,040</td></tr>
-  <tr class="ex-sep"><td colspan="3">↓ Estas dos filas hoy NO las tienes — se construyen</td></tr>
+  <tr class="ex-sep"><td colspan="3">↓ Estas dos filas hoy NO las tienes: se construyen</td></tr>
   <tr><td>Clientes que COMPRARON</td><td>5</td><td>12</td></tr>
   <tr><td><b>CAC real</b></td><td><b>$600</b></td><td class="good"><b>$253 ✓ la real</b></td></tr></table>
-  <p><b>Misma inversión (~$3,000 cada una): la A te dio 5 clientes; la B, 12.</b> Viendo solo lo que Ads Manager te enseña, apagas la B "porque está cara". Viendo el CAC real, la B es tu ganadora — la A te trae curiosos baratos; la B, compradores. Este error se comete todos los días, con dinero real.</p></div>`
+  <p><b>Misma inversión (~$3,000 cada una): la A te dio 5 clientes; la B, 12.</b> Viendo solo lo que Ads Manager te enseña, apagas la B "porque está cara". Viendo el CAC real, la B es tu ganadora: la A te trae curiosos baratos; la B, compradores. Este error se comete todos los días, con dinero real.</p></div>`
 };
 const GEARS_META=[{short:'Estructura de Empresa',cap:['Estructura','de Empresa']},{short:'Estructura de Campaña',cap:['Estructura','de Campaña']},{short:'Métricas',cap:['Métricas']}];
 EXAMPLES['Tasa de cierre']=`<div class="ex-box"><div class="ex-t">📊 Ejemplo: el embudo de 100 mensajes</div>
  <table class="ex-tbl"><tr><th>Paso</th><th>Siguen</th><th>Se cayeron aquí</th></tr>
- <tr><td>Te escriben</td><td>100</td><td>—</td></tr>
+ <tr><td>Te escriben</td><td>100</td><td>N/A</td></tr>
  <tr><td>Agendan cita</td><td>30</td><td class="fakewin">70 se fueron sin cita</td></tr>
  <tr><td>Llegan</td><td>15</td><td class="fakewin">15 no se presentaron</td></tr>
  <tr><td><b>Compran</b></td><td><b>7</b></td><td class="fakewin">8 no cerraron</td></tr></table>
- <p>Tasa global: 7%. Pero "el 7%" no es UN problema — son <b>tres fugas distintas</b>, y la más grande (70 personas) está en mensaje→cita. Arreglar la equivocada es tiempo tirado.</p></div>`;
+ <p>Tasa global: 7%. Pero "el 7%" no es UN problema: son <b>tres fugas distintas</b>, y la más grande (70 personas) está en mensaje→cita. Arreglar la equivocada es tiempo tirado.</p></div>`;
 EXAMPLES['ROAS']=`<div class="ex-box"><div class="ex-t">📊 Ejemplo: los dos ROAS del mismo mes</div>
  <table class="ex-tbl"><tr><th></th><th>Número</th></tr>
  <tr><td>ROAS que Meta te enseña</td><td class="fakewin">4.2× · "vamos bien"</td></tr>
  <tr><td><b>ROAS real</b> (ventas cerradas ÷ inversión)</td><td class="good"><b>1.8×</b></td></tr>
  <tr class="ex-sep"><td colspan="2">↓ Y partido por campaña, el 1.8 esconde esto</td></tr>
  <tr><td>Campaña A (real)</td><td class="good">3.5×</td></tr>
- <tr><td>Campaña B (real)</td><td><b>0.9× — pierde dinero</b></td></tr></table>
+ <tr><td>Campaña B (real)</td><td><b>0.9× (pierde dinero)</b></td></tr></table>
  <p>El promedio te dice "más o menos". Por campaña te dice <b>qué apagar</b>. La brecha entre el 4.2 y el 1.8 es tu nivel de ceguera.</p></div>`;
 EXAMPLES['Atribución']=`<div class="ex-box"><div class="ex-t">📊 Ejemplo: qué aprende Meta según lo que le reportas</div>
  <table class="ex-tbl"><tr><th>Hoy (sin circuito)</th><th>Con el circuito cerrado</th></tr>
@@ -1655,19 +1801,19 @@ EXAMPLES['Venta mensual']=`<div class="ex-box"><div class="ex-t">📊 Ejemplo: d
  <tr><td>Clientes nuevos (pagados con ads)</td><td>$120,000</td><td class="fakewin">$240,000</td></tr>
  <tr><td>Clientes que regresan</td><td class="good">$180,000</td><td>$60,000</td></tr>
  <tr><td>Citas ya agendadas próximos 15 días</td><td class="good">34</td><td class="fakewin">9</td></tr></table>
- <p>Mismo total, negocio distinto: el frágil depende de comprar CADA venta con ads — y sus 9 citas futuras dicen que el bache ya viene. <b>El total esconde; la composición avisa.</b></p></div>`;
+ <p>Mismo total, negocio distinto: el frágil depende de comprar CADA venta con ads, y sus 9 citas futuras dicen que el bache ya viene. <b>El total esconde; la composición avisa.</b></p></div>`;
 EXAMPLES['Oferta']=`<div class="ex-box"><div class="ex-t">📊 Ejemplo: mismo costo por cliente, negocio distinto</div>
  <table class="ex-tbl"><tr><th></th><th>Sin escalera</th><th>Con escalera</th></tr>
  <tr><td>Costo por cliente nuevo</td><td>$600</td><td>$600</td></tr>
  <tr><td>Compras por cliente (primer año)</td><td class="fakewin">1</td><td class="good">3</td></tr>
  <tr><td><b>Lo que vale cada cliente</b></td><td class="fakewin">$1,800</td><td class="good"><b>$5,400</b></td></tr></table>
- <p>El de la izquierda necesita que los ads paguen TODO su crecimiento. El de la derecha puede pagar más por cliente que su competencia — <b>y ganar más</b>. Esa es la escalera.</p></div>`;
+ <p>El de la izquierda necesita que los ads paguen TODO su crecimiento. El de la derecha puede pagar más por cliente que su competencia, <b>y ganar más</b>. Esa es la escalera.</p></div>`;
 EXAMPLES['Cliente']=`<div class="ex-box"><div class="ex-t">📊 Ejemplo: el que llega vs el que conviene</div>
  <table class="ex-tbl"><tr><th></th><th>El que LLEGA de tus ads</th><th>Tu mejor cliente real</th></tr>
  <tr><td>Pregunta</td><td class="fakewin">"¿cuánto cuesta?"</td><td class="good">"¿tienes cita el jueves?"</td></tr>
  <tr><td>Ticket</td><td class="fakewin">bajo</td><td class="good">3× más alto</td></tr>
  <tr><td>¿Regresa?</td><td class="fakewin">casi nunca</td><td class="good">cada mes</td></tr></table>
- <p>Tus campañas aprenden del que llega — no del que conviene. Hasta que TÚ le enseñes a Meta cómo se ve el bueno, te va a seguir trayendo al de la izquierda.</p></div>`;
+ <p>Tus campañas aprenden del que llega, no del que conviene. Hasta que TÚ le enseñes a Meta cómo se ve el bueno, te va a seguir trayendo al de la izquierda.</p></div>`;
 EXAMPLES['Equipo de ventas']=`<div class="ex-box"><div class="ex-t">📊 Ejemplo: mismos leads, resultado distinto</div>
  <table class="ex-tbl"><tr><th>Persona</th><th>Leads</th><th>Cierres</th><th>Tasa</th></tr>
  <tr><td>Karla</td><td>25</td><td>8</td><td class="good"><b>32%</b></td></tr>
@@ -1678,26 +1824,26 @@ EXAMPLES['Respuesta a leads']=`<div class="ex-box"><div class="ex-t">📊 Ejempl
  <tr><td>Lun–Vie, 9am–6pm</td><td class="good">8 minutos ✓</td></tr>
  <tr><td>Noches (6pm–11pm)</td><td class="fakewin">11 horas</td></tr>
  <tr><td>Fin de semana</td><td class="fakewin">hasta el lunes</td></tr></table>
- <p>Tu promedio "se ve bien" porque lo jala el horario de oficina. Pero buena parte de los leads llegan <b>cuando la gente por fin tiene tiempo de scrollear</b> — y esos se enfrían para el lunes.</p></div>`;
+ <p>Tu promedio "se ve bien" porque lo jala el horario de oficina. Pero buena parte de los leads llegan <b>cuando la gente por fin tiene tiempo de scrollear</b>, y esos se enfrían para el lunes.</p></div>`;
 EXAMPLES['Generación de ads']=`<div class="ex-box"><div class="ex-t">📊 Ejemplo: el ganador que se está muriendo</div>
  <table class="ex-tbl"><tr><th></th><th>Ganador viejo</th><th>Relevo fresco</th></tr>
  <tr><td>Días corriendo</td><td class="fakewin">94</td><td>12</td></tr>
  <tr><td>Frecuencia (veces que lo vio la misma persona)</td><td class="fakewin">4.1</td><td class="good">1.8</td></tr>
  <tr><td>Costo por mensaje</td><td class="fakewin">$19 (era $11)</td><td class="good">$12</td></tr></table>
- <p>El anuncio no empeoró — <b>ya todos lo vieron</b>. Sin relevos en fila, tu número cae el día que el ganador muera, y nadie va a saber por qué.</p></div>`;
+ <p>El anuncio no empeoró: <b>ya todos lo vieron</b>. Sin relevos en fila, tu número cae el día que el ganador muera, y nadie va a saber por qué.</p></div>`;
 EXAMPLES['Creatividades']=`<div class="ex-box"><div class="ex-t">📊 Ejemplo: copiar el ganador vs replicar el porqué</div>
  <table class="ex-tbl"><tr><th></th><th>Copiarlo</th><th>Replicar el porqué</th></tr>
  <tr><td>Qué haces</td><td class="fakewin">El mismo anuncio otra vez, con otra foto</td><td class="good">Misma promesa ("precio claro + cita rápida"), 5 formatos distintos</td></tr>
  <tr><td>Qué pasa</td><td class="fakewin">Se quema en semanas</td><td class="good">Tienes una familia de ganadores</td></tr></table>
- <p>Un ganador que no puedes explicar es suerte. Un ganador descompuesto en sus piezas —promesa, a quién le habla, qué lo hace creíble— es <b>una fábrica</b>.</p></div>`;
+ <p>Un ganador que no puedes explicar es suerte. Un ganador descompuesto en sus piezas (promesa, a quién le habla, qué lo hace creíble) es <b>una fábrica</b>.</p></div>`;
 EXAMPLES['Automatización']=`<div class="ex-box"><div class="ex-t">📊 Ejemplo: 5 leads de la semana, de punta a punta</div>
  <table class="ex-tbl"><tr><th>Lead</th><th>¿En CRM?</th><th>¿Seguimiento?</th><th>¿Cierre registrado?</th></tr>
  <tr><td>1</td><td>✅</td><td>✅</td><td>✅</td></tr>
- <tr><td>2</td><td>✅</td><td class="fakewin">❌ (se olvidó)</td><td>—</td></tr>
- <tr><td>3</td><td class="fakewin">❌ (nunca entró)</td><td>—</td><td>—</td></tr>
+ <tr><td>2</td><td>✅</td><td class="fakewin">❌ (se olvidó)</td><td>N/A</td></tr>
+ <tr><td>3</td><td class="fakewin">❌ (nunca entró)</td><td>N/A</td><td>N/A</td></tr>
  <tr><td>4</td><td>✅</td><td>✅</td><td class="fakewin">❌ (compró y nadie lo anotó)</td></tr>
  <tr><td>5</td><td>✅</td><td>✅</td><td>✅</td></tr></table>
- <p>3 de 5 leads con hoyo. Cada ❌ es dinero <b>ya pagado</b> que se cae — y el del lead 4 además te deja ciego para la atribución. Los hoyos no se arreglan con más leads.</p></div>`;
+ <p>3 de 5 leads con hoyo. Cada ❌ es dinero <b>ya pagado</b> que se cae, y el del lead 4 además te deja ciego para la atribución. Los hoyos no se arreglan con más leads.</p></div>`;
 
 const VISUAL=[0,2,1]; // orden en el hero: Empresa · Métricas(centro) · Campaña
 const PRIORITY=['Oferta','Cliente','Equipo de ventas','Respuesta a leads','Generación de ads','Creatividades','Automatización','Venta mensual','Tasa de cierre','CAC','ROAS','Utilidad','Atribución'];
@@ -1766,7 +1912,7 @@ function gear(cx,cy,teeth,cap,phase){
   s+=`<g class="tooth" data-l="${t.l}"><path d="${toothUnit(cx,cy,rIn,rOut,rTip,a0,a1,c)}" fill="${st.hex}" stroke="${st.line}" stroke-width="1.1" stroke-linejoin="round"/>`
    +`<text x="${ip[0]}" y="${ip[1]}" text-anchor="middle" dominant-baseline="central" font-family="Manrope,Inter,sans-serif" font-weight="800" font-size="${fs}" letter-spacing=".2" fill="${st.ink}">${sg}</text>`
    +icon(st.icon,+ipT[0],+ipT[1],4.6,st.ink)+`</g>`;});
- s+=`<circle cx="${cx}" cy="${cy}" r="${rHub}" fill="#12395c" stroke="rgba(255,255,255,.10)" stroke-width="1.5"/><circle cx="${cx}" cy="${cy}" r="6.5" fill="#83C341"/></g>`;
+ s+=`<circle cx="${cx}" cy="${cy}" r="${rHub}" fill="#12395c" stroke="rgba(255,255,255,.10)" stroke-width="1.5"/><circle cx="${cx}" cy="${cy}" r="6.5" fill="#EA1A20"/></g>`;
  (cap||[]).forEach((ln,li)=>{ s+=`<text x="${cx}" y="${cy+rTip+22+li*17}" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="800" font-size="14" fill="#0A2540">${ln}</text>`; });
  return s;}
 function renderHero(byGear){
@@ -1785,16 +1931,144 @@ function laLectura(real,tg,tr){
  const st=l=>{const t=real.find(x=>x.l===l);return t?t.s:null;};
  const gGood=gi=>real.filter(t=>t.g===gi&&t.s==='g').length;
  const gReds=gi=>real.filter(t=>t.g===gi&&t.s==='r').length;
- if(tg<=1) return `Estás construyendo casi todo desde cero — normal a esta altura, no es mala señal. La trampa aquí es querer con todo a la vez: se hace <b>en orden, una cosa a la vez</b>, empezando por la de arriba.`;
+ if(tg<=1) return `Estás construyendo casi todo desde cero: normal a esta altura, no es mala señal. La trampa aquí es querer hacer todo a la vez: se hace <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
  if(st('Generación de ads')!=='r' && st('Tasa de cierre')!=='r' && (st('Atribución')==='r'||st('CAC')==='r'))
-  return `Traes el motor prendido —campañas corriendo— pero <b>manejas sin tablero</b>: metes dinero en ads y no sabes qué anuncio te devuelve clientes de verdad. Eso que se siente como "ya no jala como antes" casi nunca es que jale menos: es que <b>no lo estás viendo</b>.`;
+  return `Traes el motor prendido (campañas corriendo) pero <b>manejas sin tablero</b>: metes dinero en ads y no sabes qué anuncio te devuelve clientes de verdad. Eso que se siente como "ya no jala como antes" casi nunca es que jale menos: es que <b>no lo estás viendo</b>.`;
  if(gGood(1)>=1 && (st('Equipo de ventas')==='r'||st('Respuesta a leads')==='r'))
-  return `No tienes problema de atracción: te llega gente. El dinero se te cae <b>en la conversación</b> —llegan y no cierran—. Meterle más ads sin arreglar el cierre es echarle agua a una cubeta con hoyo.`;
+  return `No tienes problema de atracción: te llega gente. El dinero se te cae <b>en la conversación</b> (llegan y no cierran). Meterle más ads sin arreglar el cierre es echarle agua a una cubeta con hoyo.`;
  if((st('Cliente')==='r'||st('Oferta')==='r') && gGood(2)>=1)
   return `Estás vendiendo, pero <b>sin saber con precisión a quién</b>. Eso funciona hasta cierto techo; después cada peso de ads rinde menos, porque le hablas a todos.`;
  if(tr>0){const worst=[0,1,2].map(gi=>({gi,r:gReds(gi)})).sort((a,b)=>b.r-a.r)[0],best=[0,1,2].map(gi=>({gi,g:gGood(gi)})).sort((a,b)=>b.g-a.g)[0];
   return `Tu <b>${GEARS_META[best.gi].short}</b> está sólido, pero tu <b>${GEARS_META[worst.gi].short}</b> lo frena. El engrane más lento manda: no importa qué tan bueno seas en lo demás si se atora ahí.`;}
- return `Tu sistema está parejo y sólido. A esta altura ya no se trata de tapar un hueco — es <b>escalar sin romper</b> lo que ya funciona. Y ese es otro juego, con otras reglas.`;
+ return `Tu sistema está parejo y sólido. A esta altura ya no se trata de tapar un hueco: es <b>escalar sin romper</b> lo que ya funciona. Y ese es otro juego, con otras reglas.`;
+}
+/* ---- Checklist Etapa 1 (mapa en lista) ---- */
+const CHK1=[
+ {area:'Presupuesto',text:'Decidir cuánto le vas a meter a anuncios cada mes y sostenerlo 30 días sin moverle.',ej:'Decides $3 mil al mes ($100 al día) y no le subes ni le bajas en 30 días, aunque un día no lleguen mensajes. Así sabes si funciona o no.'},
+ {area:'Campañas',text:'Una campaña bien armada en el administrador de anuncios de Facebook, con un objetivo claro y varios anuncios corriendo, no uno solo.',ej:'En vez de "Promocionar publicación" con un solo anuncio: una campaña con objetivo "Mensajes", 3 anuncios distintos adentro y un presupuesto diario fijo.'},
+ {area:'Equipo',text:'Aunque el equipo seas tú: contestar en minutos y vender con el mismo paso a paso cada vez, para que no dependa de tu día.',ej:'Cada vez que alguien escribe: contestas antes de 10 minutos, saludo, una pregunta para saber qué necesita, precio, y ofrecer cerrar. Siempre igual, aunque estés cansado.'},
+ {area:'Métricas',text:'Llevar lo básico: cuántos te escriben, cuántos compran y cuánto te cuesta cada venta.',ej:'Una hoja con tres columnas: cuántos te escribieron esta semana, cuántos compraron y cuánto gastaste en anuncios. Divides y ya sabes lo que te cuesta cada venta.'},
+ {area:'Seguimiento',text:'Un lugar simple donde no se te pierda ningún interesado, aunque sea una hoja.',ej:'Una hoja de Excel con nombre, teléfono, qué preguntó y si compró. Se llena cada noche en 5 minutos.'},
+ {area:'Ventas',text:'Que la venta deje de ser suerte: repetir a propósito lo que funcionó la última vez.',ej:'La semana que más vendiste, ¿qué hiciste distinto? ¿Qué anuncio, qué precio, qué mensaje? Eso se repite a propósito la siguiente.'},
+ {area:'Oferta',text:'Tus primeras ventas reales: gente que paga tu precio sin que la convenzas a la fuerza.',ej:'Diez personas que pagaron tus $800 por el paquete sin pedir descuento. Si todas piden rebaja, la oferta todavía no está.'},
+ {area:'Cliente ideal',text:'Saber quién es tu mejor cliente y por qué te compra a ti, en una línea.',ej:'Mujer de 30 a 45, de tu zona, que ya probó otras cosas y no le funcionaron. Te compra porque le dices la verdad de qué sí sirve.'},
+ {area:'Respuesta',text:'Responder en minutos, no en horas, dentro de tu horario. Ahí se cierra.',ej:'Si escribe a las 11 de la mañana, le contestas antes de las 11:10. Si escribe a las 10 de la noche, le contestas a primera hora.'},
+ {area:'Anuncios',text:'Probar 2 o 3 anuncios distintos y quedarte con el que más gente responde.',ej:'Un anuncio hablando del precio, otro del resultado y otro del miedo de que salga mal. A la semana ves cuál trajo más mensajes.'},
+ {area:'Asistencia',text:'Que el que dice "sí" de verdad llegue: a la cita o a pagar el pedido. Llevar la cuenta y recordarle antes.',ej:'De 10 que dicen "sí, voy" o "sí, lo quiero", apuntas cuántos llegaron a la cita o a pagar. Y antes les escribes: "Te espero mañana a las 4, ¿confirmas?" o "Te aparto tu pedido hasta hoy a las 6, ¿lo cierro?"',na:true}
+];
+function chkKey(base){ try{ const b=(state&&state.B)?state.B.join(''):''; return base+(b?'_'+b:''); }catch(e){ return base; } }
+function chk1Load(){
+ try{ const raw=localStorage.getItem(chkKey('as_chk_1')); const o=raw?JSON.parse(raw):{}; return (o&&typeof o==='object')?o:{}; }catch(e){ return {}; }
+}
+function chk1Save(o){ try{ localStorage.setItem(chkKey('as_chk_1'), JSON.stringify(o)); }catch(e){} }
+function renderChecklist1(firstAny){
+ const list=document.getElementById('chkList'), prog=document.getElementById('chkProg');
+ if(!list||!prog) return;
+ let stored=chk1Load();
+ let picked=pideLoad();
+ const startIdx=[];
+ if(firstAny && firstAny.l){
+  const fl=firstAny.l.toLowerCase();
+  CHK1.forEach((c,i)=>{ if(fl.indexOf(c.area.toLowerCase().slice(0,5))>=0) startIdx.push(i); });
+ }
+ function isOn(i){
+  if(Object.prototype.hasOwnProperty.call(stored,i)) return !!stored[i];
+  if(i===10) return false;
+  return state.B && state.B[i]!=null && state.B[i]>=1;
+ }
+ function isAyuda(i){ return !!picked[i]; }
+ window.chk1IsOn=isOn;
+ function paint(){
+  let n=0, nAyuda=0;
+  const order=CHK1.map((c,i)=>i).sort((a,b)=>(startIdx.indexOf(b)>=0)-(startIdx.indexOf(a)>=0));
+  list.innerHTML=order.map(i=>{const c=CHK1[i];
+   const on=isOn(i); if(on) n++;
+   const ay=isAyuda(i); if(ay) nAyuda++;
+   const isStart=startIdx.indexOf(i)>=0;
+   const startSpan=isStart?' <span class="chk-start">← Empieza por aquí</span>':'';
+   const stateCls=on?' tengo':(ay?' ayuda':'');
+   return `<div class="it${stateCls}${isStart?' start':''}" data-i="${i}"><button type="button" class="c" data-act="tengo" aria-label="Ya lo resolví"></button><div class="tx"><b>${c.area}:</b> ${c.text}${startSpan}${c.ej?`<div class="ej"><b>Ejemplo:</b> ${c.ej}</div>`:''}<div class="how-row">↖ Si esto ya lo haces${c.na?' o no aplica para tu negocio':''}, toca el círculo para marcarlo como resuelto. Si quieres ayuda con esto, toca el botón ↘</div></div><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Ayúdame con esto':'Ayúdame con esto'}</button>${ay?(PIDE_COVERED.indexOf(c.area)>=0?`<div class="fb">Esto viene en la guía de etapa 1, ya la puedes apartar. <a href="#guia" class="fb-go">Ver la guía ↓</a></div>`:`<div class="fb">Anotado. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.</div>`):''}</div>`;
+  }).join('');
+  prog.innerHTML=`Ya resolviste <b>${n}</b> de 11 · Pediste ayuda en <b>${nAyuda}</b>`;
+  const bpT=document.getElementById('bpT'), bpA=document.getElementById('bpA');
+  if(bpT) bpT.textContent=n;
+  if(bpA) bpA.textContent=nAyuda;
+  try{ renderPide(); }catch(e){ console.warn('pide',e); }
+ }
+ paint();
+ list.onclick=function(e){
+  const btn=e.target.closest('[data-act]'); if(!btn) return;
+  const row=btn.closest('.it'); if(!row) return;
+  const i=+row.dataset.i;
+  const act=btn.dataset.act;
+  if(act==='tengo'){
+   const nowOn=!isOn(i);
+   stored[i]=nowOn; chk1Save(stored);
+   if(nowOn){ try{ASV&&ASV.hit('check_'+i)}catch(e){} }
+   if(nowOn && picked[i]){ picked[i]=false; pideSave(picked); }
+  } else if(act==='ayuda'){
+   const nowOn=!isAyuda(i);
+   picked[i]=nowOn; pideSave(picked);
+   if(nowOn){ try{ASV&&ASV.hit('pide_'+pideSlug(CHK1[i].area))}catch(e){} }
+   if(nowOn && isOn(i)){ stored[i]=false; chk1Save(stored); }
+  }
+  pideSchedule();
+  paint();
+ };
+}
+/* ---- Pide (resultado según filas marcadas "Ayúdame con esto") Etapa 1 ---- */
+const PIDE_COVERED=['Cliente ideal','Oferta','Anuncios'];
+function pideSlug(area){
+ return area.toString().normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+function pideLoad(){
+ try{ const raw=localStorage.getItem(chkKey('as_pide_1')); const o=raw?JSON.parse(raw):{}; return (o&&typeof o==='object')?o:{}; }catch(e){ return {}; }
+}
+function pideSave(o){ try{ localStorage.setItem(chkKey('as_pide_1'), JSON.stringify(o)); }catch(e){} }
+/* Envío automático a la lista: un tap en "Ayúdame con esto" basta.
+   Espera 5 s tras el último cambio, manda solo si la lista cambió vs. lo último enviado,
+   máximo 2 envíos por visita. También manda al salir de la página si quedó pendiente. */
+let PIDE_T=null, PIDE_SENDS=0;
+function pideSentGet(){ try{ return localStorage.getItem(chkKey('as_pide_sent_1'))||''; }catch(e){ return ''; } }
+function pideSentSet(v){ try{ localStorage.setItem(chkKey('as_pide_sent_1'), v); }catch(e){} }
+function pideAreasNow(){
+ const picked=pideLoad();
+ return CHK1.map((c,i)=>i).filter(i=>!!picked[i]).map(i=>pideSlug(CHK1[i].area)).sort().join(',');
+}
+function pideFlush(final){
+ if(PIDE_T){ clearTimeout(PIDE_T); PIDE_T=null; }
+ const areas=pideAreasNow();
+ if(!areas || areas===pideSentGet() || PIDE_SENDS>=(final?3:2)) return;
+ PIDE_SENDS++; pideSentSet(areas);
+ sendWebhook("waitlist",{producto:"paquete", areas:areas});
+ try{ASV&&ASV.hit('paquete_'+areas.split(',').length)}catch(e){}
+ try{ track("Waitlist_paquete",{}); }catch(e){}
+}
+function pideSchedule(){ if(PIDE_T) clearTimeout(PIDE_T); PIDE_T=setTimeout(pideFlush,5000); }
+document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden' && PIDE_T) pideFlush(true); });
+window.addEventListener('pagehide',function(){ if(PIDE_T) pideFlush(true); });
+function renderPide(){
+ const resEl=document.getElementById('pideRes');
+ if(!resEl) return;
+ let picked=pideLoad();
+ const marked=CHK1.map((c,i)=>i).filter(i=>!!picked[i]);
+ if(!marked.length){ resEl.innerHTML=''; return; }
+ const COV=marked.filter(i=>PIDE_COVERED.indexOf(CHK1[i].area)>=0);
+ const OTR=marked.filter(i=>PIDE_COVERED.indexOf(CHK1[i].area)<0);
+ const n=marked.length;
+ const goHtml=`<a class="pide-go" href="#guia">Ver la guía ↓</a>`;
+ function wireGo(){ const go=resEl.querySelector('.pide-go'); if(go) go.onclick=function(e){ e.preventDefault(); const u=document.getElementById('guia'); if(u) u.scrollIntoView({behavior:'smooth'}); }; }
+ const otrNames=OTR.map(i=>CHK1[i].area).join(', ');
+ if(COV.length>0 && OTR.length===0){
+  resEl.innerHTML=`<p class="pide-ok">${COV.length===1?'Lo que pediste viene':'Las '+COV.length+' que pediste vienen'} en la guía de etapa 1. Apártala hoy.</p>${goHtml}`;
+  wireGo(); return;
+ }
+ if(COV.length){
+  resEl.innerHTML=`<p class="pide-ok">De las ${n} que pediste, ${COV.length===1?'una viene':COV.length+' vienen'} en la guía de etapa 1: apártala hoy. ${OTR.length===1?'La otra':'Las otras '+OTR.length} (${otrNames}) ya ${OTR.length===1?'quedó anotada':'quedaron anotadas'}: te aviso a tu correo en cuanto ${OTR.length===1?'salga':'salgan'}.</p>${goHtml}`;
+  wireGo();
+ } else {
+  resEl.innerHTML=`<p class="pide-ok">${n===1?'Anotado':'Anotadas'}: ${otrNames}. Te aviso a tu correo en cuanto ${n===1?'salga':'salgan'}. No tienes que hacer nada más.</p>`;
+ }
 }
 function render(levels){
  const real=TEETH.map((t,i)=>({...t,s:statusFor(levels[i])}));
@@ -1805,24 +2079,89 @@ function render(levels){
  const tg=real.filter(t=>t.s==='g').length,ty=real.filter(t=>t.s==='y').length,tr=real.filter(t=>t.s==='r').length;
  const et=state.etapa;
  let es;
- if(tr===0){ es=`Tu motor está afinado — aquí ya no es arreglar, es <b>escalar sin romperlo</b>.`; }
+ if(tr===0){ es=`Tu motor está afinado: aquí ya no es arreglar, es <b>escalar sin romperlo</b>.`; }
  else if(et<4){ es = tg>0
    ? `Ya tienes <b>${tg} cosa${tg>1?'s':''} sólida${tg>1?'s':''}</b>. Arreglando tus focos rojos saltas a <b>Etapa ${et+1}</b>.`
-   : `Estás empezando — normal a esta altura. Arreglando estos focos, uno por uno, saltas a <b>Etapa ${et+1}</b>.`; }
+   : `Estás empezando: normal a esta altura. Arreglando estos focos, uno por uno, saltas a <b>Etapa ${et+1}</b>.`; }
  else { es=`Estás arriba, pero tu motor tiene <b>${tr} fuga${tr>1?'s':''}</b> que te frena${tr>1?'n':''}. Ciérra${tr>1?'las':'la'} y despegas.`; }
- document.getElementById('lectura').innerHTML=`<div class="av">A</div><div class="lx"><div class="lk2">🔎 Mi lectura</div><div class="lt">${laLectura(real,tg,tr)} <span style="opacity:.55;font-weight:600">— Anwar</span></div></div>`;
- const SHORT=["Empezando","Inestables","Estancadas","Topadas"];
+ document.getElementById('lectura').innerHTML=`<div class="av">A</div><div class="lx"><div class="lk2">🔎 Mi lectura</div><div class="lt">${laLectura(real,tg,tr)} <span style="opacity:.55;font-weight:600">· Anwar</span></div></div>`;
+ const PAUTA=["Menos de $10 mil/mes en anuncios","$10 a $40 mil/mes en anuncios","$40 a $120 mil/mes en anuncios","Más de $120 mil/mes en anuncios"];
  let steps='';
- for(let i=1;i<=4;i++){const cls=i<et?'done':i===et?'cur':i===et+1?'next':'';const tag=i===et?' · TÚ':i===et+1?' · siguiente':'';steps+=`<div class="step ${cls}"><div class="n">${i}</div><span class="lb2">${SHORT[i-1]}${tag}</span></div>`;}
- document.getElementById('etapa').innerHTML=`<div class="ladder">${steps}</div><div class="et-line">${es}</div>`;
+ for(let i=1;i<=4;i++){const cls=i<et?'done':i===et?'cur':i===et+1?'next':'';const pill=i===et?'<span class="epill">ESTÁS AQUÍ</span>':i===et+1?'<span class="epill nx">SIGUIENTE</span>':'';
+  steps+=`<div class="er ${cls}"><div class="ec1"><span class="ek">ETAPA ${i}</span><span class="en">${STAGES[i-1]}</span>${pill}</div><div class="ec2"><span class="ed">"${STAGE_COPY[i].dolor}"</span></div></div>`;
+  if(i<4) steps+=`<div class="earrow ${i===et?'hot':''}">↓</div>`;}
+ document.getElementById('etapa').innerHTML=`<div class="etab">${steps}</div>`;
+ document.getElementById('etTop').innerHTML=`<div class="et-k">TU DIAGNÓSTICO</div><h1 class="et-h1">Estás en la etapa ${et} de 4: <span class="et-nm">${STAGES[et-1]}</span></h1>${et===1?`<p class="mail-note">Ya te mandamos tu mapa por correo. Si no llega en 2 minutos, revisa Promociones o Spam y muévelo a Principal.</p>`:''}`;
+ const SC=STAGE_COPY[et];
+ document.getElementById('porDentro').innerHTML=`<div class="k">Así se ve por dentro</div><ul class="dentro">${SC.dentro.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+ document.getElementById('frena').innerHTML=`<div class="k">Lo que frena a los de tu etapa</div><p><b class="frena-lead">${SC.frenaLead}</b> ${SC.frena}</p>`;
+ document.getElementById('paraPasar').innerHTML=`<div class="k">${SC.pasarTit}</div><ul class="pasar">${SC.pasar.map(x=>`<li>${x}</li>`).join('')}</ul>${SC.nota?`<p class="nota">${SC.nota}</p>`:''}`;
  const PRI=priority();
  const firstRed=PRI.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='r');
- const firstAny=firstRed||PRI.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='y');
- const hc=document.getElementById('heroCta');
- if(firstAny){ hc.style.display='';
-  const hcAdv = bandaSocio() && firstAny.why34;
-  hc.innerHTML=`<div class="hc-tx"><div class="hc-k">🎯 Empieza aquí</div><div class="hc-t">${firstAny.l}</div><div class="hc-s">${firstAny.x} Si esta semana arreglas UNA sola cosa, que sea esta.</div></div>`+(hcAdv?`<button class="lq big ${firstAny.s}" data-det="${firstAny.l}">Ver detalle →</button>`:`<button class="lq big ${firstAny.s}" data-wl="${slug(firstAny.l)}">Quiero la guía →</button>`);
- } else { hc.style.display='none'; }
+ let firstAny=firstRed||PRI.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='y');
+ if(state.etapa===1){ firstAny=real.find(t=>t.l==='Cliente')||firstAny; } // E1: una sola guía por etapa (Tu cliente, tu oferta y tu anuncio)
+ const di=document.getElementById('desgIntro'); if(di) di.innerHTML=`Aquí está todo. Es mucha información a propósito: son las 13 áreas que reviso cuando entro a un negocio, la estructura de tu empresa, la de tus campañas y los números que amarran las dos. No intentes arreglarlas todas${firstAny?`: empieza por <b>${firstAny.l}</b>, que es lo que te marqué arriba, y regresa aquí cuando esa esté resuelta`:''}. Si la etapa es la foto, esto es el motor abierto.`;
+ const u=document.getElementById('unica');
+ const g=document.getElementById('guia');
+ if(firstAny){ const t=firstAny; const full=t.ofFull||(t.ofPrice?t.ofPrice*2-1:0);
+  let h=`<div class="k">Por dónde empezar</div><h2 class="unica-h">Empieza por aquí: ${t.l.toLowerCase()==="cliente"?"tu cliente":t.l}</h2>`;
+  if(t.def) h+=`<div class="u-row"><div class="u-k">Qué es</div><div class="u-t">${t.def}</div></div>`;
+  if(t.why) h+=`<div class="u-row"><div class="u-k">Por qué te frena</div><div class="u-t">${t.why}</div></div>`;
+  h+=`<div class="u-row"><div class="u-k">Qué hacer esta semana, gratis</div><div class="u-t">${t.hoy||''}</div>`;
+  if(t.hoyPasos&&t.hoyPasos.length) h+=`<ol class="u-pasos">${t.hoyPasos.map(x=>`<li>${x}</li>`).join('')}</ol>`;
+  h+=`</div>`;
+  if(t.ofName) h+=`<p class="u-bridge">¿Prefieres que te lo dé resuelto? Abajo está la guía.</p>`;
+  u.innerHTML=h; u.style.display='';
+  if(t.ofName){
+   const bullets=(t.ofBullets||[]).map(x=>{
+    let ic='✓';
+    if(/^Dos videos/.test(x)) ic='🎥'; else if(/^El prompt/.test(x)) ic='🤖'; else if(/^La ficha/.test(x)) ic='📄';
+    return `<li class="g-stack-row"><span class="g-stack-ic">${ic}</span><span class="g-stack-tx">${x}</span></li>`;
+   }).join('');
+   let gh=`<div class="g-card"><div class="g-tag">LA GUÍA DE ETAPA ${et}</div><div class="g-cover"><span class="g-cover-t">${t.ofName}</span></div>`;
+   if(t.ofHook) gh+=`<p class="g-hook">${t.ofHook}</p>`;
+   gh+=`<button class="lq ${t.s} g-btn g-btn-top" data-wl="${slug(t.l)}">Apartar mi lugar en la lista →</button>`;
+   gh+=`<p class="g-nopay">Hoy no pagas nada. Cuando salga, te aviso a tu correo y ahí decides.</p>`;
+   if(t.ofWin) gh+=`<div class="g-callout"><div class="g-k">Qué vas a poder hacer</div><p class="g-tx">${t.ofWin}</p></div>`;
+   if(t.ofFor||t.ofTime){
+    gh+=`<div class="g-two">`;
+    if(t.ofFor) gh+=`<div class="g-mini"><div class="g-k">Para quién es</div><p class="g-tx-sm">${t.ofFor}</p></div>`;
+    if(t.ofTime) gh+=`<div class="g-mini"><div class="g-k">Cuánto tardas</div><p class="g-tx-sm">${t.ofTime}</p></div>`;
+    gh+=`</div>`;
+   }
+   if(t.ofOut){
+    gh+=`<div class="g-k">Con qué sales</div>`;
+    if(t.ofOutList&&t.ofOutList.length) gh+=`<p class="g-tx">Cuatro cosas que vas a tener escritas al terminar:</p><ul class="g-out">${t.ofOutList.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+    else gh+=`<p class="g-tx">${t.ofOut}</p>`;
+   }
+   gh+=`<div class="g-k">${t.ofOut?'Qué trae':'Trae video, hoja y una IA lista para usar'}</div><ul class="g-stack">${bullets}</ul>`;
+   gh+=`<div class="g-price"><span class="g-reg">Precio regular: $${full} pesos</span><span class="g-now-big">$${t.ofPrice} pesos</span><span class="g-now-sub">Precio especial de lanzamiento para la lista de espera</span></div>`;
+   gh+=`<div class="g-gar-row"><span class="g-gar-ic">🛡️</span><p class="g-gar">Si la ves y no te sirve, me escribes y te regreso tus $${t.ofPrice} pesos.</p></div>`;
+   gh+=`<button class="lq ${t.s} g-btn" data-wl="${slug(t.l)}">Apartar mi lugar en la lista →</button>`;
+   gh+=`<p class="g-nopay">Hoy no pagas nada. Cuando salga, te aviso a tu correo y ahí decides.</p><p class="g-status">Las guías salen una por una, en el orden que la lista de espera decide: tu lugar cuenta para que la tuya salga antes.</p></div>`;
+   g.innerHTML=gh; g.style.display='';
+  } else { g.innerHTML=''; g.style.display='none'; }
+ } else { u.innerHTML=''; u.style.display='none'; g.innerHTML=''; g.style.display='none'; }
+ const et1=et===1;
+ ['porDentro','frena','paraPasar'].forEach(function(id){ const el=document.getElementById(id); if(el) el.style.display=et1?'none':''; });
+ const vdBtn=document.getElementById('verDesglose'); if(vdBtn) vdBtn.style.display=et1?'none':'';
+ const dgEl=document.getElementById('desglose'); if(dgEl && et1) dgEl.classList.add('hidden');
+ const mapaEl=document.getElementById('mapa'), chkSecEl=document.getElementById('chkSec');
+ if(mapaEl) mapaEl.style.display=et1?'':'none';
+ if(chkSecEl) chkSecEl.style.display=et1?'':'none';
+ const exbEl=document.getElementById('exportbar');
+ if(exbEl){
+  exbEl.classList.toggle('et1', et1);
+  const inner=exbEl.querySelector('.inner');
+  if(inner){
+   if(et1){
+    inner.innerHTML=`<button type="button" class="bar-prog" id="barProg" onclick="document.getElementById('chkSec').scrollIntoView({behavior:'smooth',block:'start'})"><span class="bp-k">Tu checklist</span><span class="bp-v">Resolviste <b id="bpT">0</b> de 11 · Ayuda en <b id="bpA">0</b></span></button><button class="btn-red bar-cta" onclick="(document.getElementById('unica')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth',block:'center'})">Empieza aquí →</button>`;
+   } else {
+    inner.innerHTML=`<div class="left"><div style="line-height:1.3;max-width:520px"><div style="font-weight:700;font-size:15px;color:var(--navy)">Ya te mandamos tu mapa por correo.</div><div style="font-size:13px;color:#5A6B7D;margin-top:2px">Si no llega en 2 minutos, revisa Promociones o Spam y muévelo a Principal.</div></div></div><button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="(document.getElementById('unica')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth',block:'center'})">Empieza aquí →</button>`;
+   }
+  }
+ }
+ if(et1){ try{ renderChecklist1(firstAny); }catch(e){ console.warn('chk1',e); } }
  document.getElementById('grid').innerHTML=[0,1,2].map(gi=>{
   const g=byGear[gi],realN=g.filter(t=>t.s!=='locked').length,gc=g.filter(t=>t.s==='g').length,anchor=gi===2?' anchor':'';
   const rows=g.map(t=>{const st=ST[t.s];
@@ -1830,7 +2169,7 @@ function render(levels){
    const adv = bandaSocio() && t.why34;                           // banda SOCIO: pre-read corto + pantalla de detalle
    const act = t.s==='g' ? `<span class="st">Lo tienes</span>`
              : adv       ? `<button class="lq ${t.s}" data-det="${t.l}">Ver detalle →</button>`
-                         : `<button class="lq ${t.s}" data-wl="${slug(t.l)}">Quiero la guía →</button>`;
+                         : (t.ofName?`<button class="lq ${t.s}" data-det="${t.l}">Ver qué trae y cuánto cuesta →</button>`:``);
    const four=et===4;
    const W=adv?(PRE34[t.l]||t.why34):t.why, H=adv?((four&&t.hoy4mini)||t.hoy34):t.hoy;
    const vm=W?`<button class="vermas" type="button">¿Por qué importa? ↓</button>`:``;
@@ -1842,7 +2181,7 @@ function render(levels){
  }).join('');
  let sm;
  const okTxt=`<span class="ok">${tg} sólida${tg!==1?'s':''}</span>`;
- if(tr===0){ sm=`<b>${okTxt} · ${ty} por mejorar · 0 críticas.</b> Motor afinado. El siguiente nivel no es parchar — es escalar con precisión.`; }
+ if(tr===0){ sm=`<b>${okTxt} · ${ty} por mejorar · 0 críticas.</b> Motor afinado. El siguiente nivel no es parchar: es escalar con precisión.`; }
  else { const worst=[0,1,2].map(gi=>({n:GEARS_META[gi].short,r:byGear[gi].filter(t=>t.s==='r').length})).sort((a,b)=>b.r-a.r)[0];
   sm=`<b>${okTxt} · ${ty} por mejorar · <span class="cr">${tr} crítica${tr>1?'s':''}</span>.</b> Tu rueda más frenada hoy es <b>${worst.n}</b>. Empieza por el foco de arriba y lo demás se acomoda.`; }
  document.getElementById('summary').innerHTML=sm;
@@ -1871,7 +2210,7 @@ function openDetalle(l){
  if(EXAMPLES[t.l])h+=EXAMPLES[t.l];
  if(t.s!=='g' && (t.ofBullets||t.puente34)){
   const gnm=t.ofName||('La guía de '+t.l);
-  h+=`<div class="det-early">🛠️ Estoy terminando <b>${gnm}</b> — el paso a paso completo de esta área. <button class="lq ${t.s}" data-wl="${slug(t.l)}">Avísame cuando esté lista →</button></div>`;
+  h+=`<div class="det-early">🛠️ Estoy armando <b>${gnm}</b>: el paso a paso completo de esta área. <button class="lq ${t.s}" data-wl="${slug(t.l)}">Avísame cuando esté lista →</button></div>`;
  }
  if(dP){
   h+=`<div class="hoy"><b>⚡ Si esta semana solo haces UNA cosa:</b><ol class="hoy-ol">`+dP.map(x=>`<li>${x}</li>`).join('')+`</ol>${dR?`<p class="hoy-reto">${dR}</p>`:''}</div>`;
@@ -1881,12 +2220,12 @@ function openDetalle(l){
  if(t.s!=='g' && (t.ofBullets||t.puente34)){
   const name=t.ofName||('La guía de '+t.l);
   h+=`<div class="det-offer"><div class="of-k">El siguiente paso: hacerlo sistema</div>`;
-  h+=`<p class="of-int">Para eso estoy armando <b>${name}</b> — paso a paso:</p>`;
+  h+=`<p class="of-int">Para eso estoy armando <b>${name}</b>, paso a paso:</p>`;
   if(t.ofBullets){ h+=`<ul class="of-ul">`+t.ofBullets.map(x=>`<li>${x}</li>`).join('')+`</ul>`; if(t.ofMid){ h+=`<p class="of-mid">${t.ofMid}</p>`; } }
   else { h+=`<p>${t.puente34}</p>`; }
-  h+=`<p class="of-status">🛠️ La estoy terminando — sale en las próximas semanas.${t.ofPrice?` Va a costar <b>$${t.ofPrice} MXN</b>, con precio especial para los primeros de la lista.`:''}</p>`;
+  h+=`<p class="of-status">🛠️ Las guías salen una por una, en el orden que la lista de espera decide: tu lugar cuenta para que la tuya salga antes.${t.ofPrice?` Precio regular: <b>$${t.ofFull||(t.ofPrice*2-1)} pesos</b>. Precio especial de lanzamiento para la lista de espera: <b>$${t.ofPrice} pesos</b>.`:''}</p>`;
   h+=`<button class="lq ${t.s}" data-wl="${slug(t.l)}">Avísame cuando esté lista →</button>`;
-  h+=`<p class="of-f">Anotarte en la lista no cuesta nada. La guía es de pago — los primeros de la lista entran con precio especial.</p></div>`;
+  h+=`<p class="of-f">Anotarte en la lista no cuesta nada. La guía es de pago, con precio especial de lanzamiento para quien está en la lista.</p></div>`;
  }
  $("detCard").innerHTML=h;
  if(state.wl){ document.querySelectorAll('#detCard [data-wl]').forEach(function(x){ if(state.wl[x.dataset.wl]){ x.classList.add('done'); x.textContent='✓ Ya estás en la lista'; } }); }
@@ -1915,6 +2254,22 @@ document.addEventListener('click',function(e){
  const b=e.target.closest('[data-det]'); if(!b)return;
  openDetalle(b.dataset.det);
 });
+document.addEventListener('click',function(e){
+ const b=e.target.closest('[data-goto]'); if(!b)return;
+ const row=document.getElementById('row-'+b.dataset.goto); if(!row)return;
+ const d=row.querySelector('.deep'), v=row.querySelector('.vermas');
+ if(d&&d.classList.contains('hidden')){ d.classList.remove('hidden'); if(v)v.textContent='Ver menos ↑'; }
+ row.scrollIntoView({behavior:'smooth',block:'center'});row.classList.add('flash');setTimeout(function(){row.classList.remove('flash');},1400);
+});
+document.addEventListener('click',function(e){
+  const b=e.target.closest('#verDesglose'); if(!b) return;
+  const d=document.getElementById('desglose'); if(!d) return;
+  const abrir=d.classList.contains('hidden');
+  d.classList.toggle('hidden',!abrir);
+  b.textContent=abrir?'Ocultar el desglose ↑':'¿Quieres el desglose de tus 13 áreas? →';
+  if(abrir && !b.dataset.hit){ b.dataset.hit='1'; try{ if(window.ASV&&ASV.hit) ASV.hit('desglose'); }catch(err){} }
+  if(abrir) d.scrollIntoView({behavior:'smooth',block:'start'});
+});
 /* tocar diente -> baja a su fila, la resalta y ABRE su detalle */
 if(document.getElementById('hero')){
  document.getElementById('hero').addEventListener('click',function(e){const g=e.target.closest('.tooth');if(!g)return;
@@ -1928,6 +2283,26 @@ if(document.getElementById('hero')){
 /* arranque: se invoca al FINAL para que todas las consts del engrane (ST, TEETH, ...) ya estén inicializadas cuando un permalink hidrate y llame a render() */
 init();
 </script>
-<script src="vis.js"></script>
+<div id="mapaLb" class="mapa-lb" onclick="if(event.target===this)cerrarMapa()">
+  <button class="mapa-x" onclick="cerrarMapa()">✕ Cerrar</button>
+  <p class="mapa-tip">Desliza con el dedo para recorrer la tabla. Un toque la hace chica o grande.</p>
+  <div class="mapa-scroll"><img id="mapaLbImg" alt="Tabla completa" onclick="this.classList.toggle('big')"></div>
+</div>
+<script>
+function abrirMapa(a){
+  try{ASV&&ASV.hit('mapa_zoom')}catch(e){}
+  var lb=document.getElementById('mapaLb'), im=document.getElementById('mapaLbImg');
+  if(!lb||!im) return true;
+  im.src=a.getAttribute('href'); im.classList.add('big');
+  lb.classList.add('on'); document.body.style.overflow='hidden';
+  return false;
+}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ const lb=document.getElementById('mapaLb'); if(lb&&lb.style.display!=='none'&&getComputedStyle(lb).display!=='none') cerrarMapa(); } });
+function cerrarMapa(){
+  var lb=document.getElementById('mapaLb'); if(lb) lb.classList.remove('on');
+  document.body.style.overflow='';
+}
+document.addEventListener('click',function(e){var a=e.target.closest('a.fb-go');if(!a)return;e.preventDefault();var u=document.getElementById('guia');if(u)u.scrollIntoView({behavior:'smooth'});});
+</script>
 </body>
 </html>
