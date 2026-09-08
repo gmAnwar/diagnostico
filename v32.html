@@ -533,6 +533,11 @@ body.has-bar{padding-bottom:74px}
 .mapa-scroll img.big{width:220%}
 .mapa-tip{margin:0;padding:8px 12px;text-align:center;color:#fff;font-size:12px;opacity:.85}
 #engrane-root .u-ofhook{margin:4px 0 0;font-size:15px;font-style:italic;color:var(--navy);line-height:1.45}
+#engrane-root .it .ej{margin-top:6px;font-size:13px;line-height:1.45;color:#5b6675}
+#engrane-root .it .ej b{color:var(--navy)}
+#engrane-root .it.tengo .ej{color:#a0a8b4}
+#engrane-root .it .fb{margin-top:8px;font-size:13px;line-height:1.45;color:var(--navy);background:#fff;border:1px dashed #F2C9C9;border-radius:8px;padding:8px 10px}
+#engrane-root .it .fb .fb-go{color:var(--red);font-weight:800;text-decoration:none}
 #engrane-root .u-ofk{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin:12px 0 3px}
 #engrane-root .u-oftx{margin:0;font-size:15px;line-height:1.55;color:var(--ink)}
 #engrane-root .u-offor{margin-top:10px;padding:10px 12px;background:rgba(10,37,64,.04);border-radius:10px;font-size:14px}
@@ -644,7 +649,7 @@ const CONFIG = {
         <h3 class="chk-h">Tu checklist para pasar a la etapa 2</h3>
         <p class="chk-sub">Es la columna derecha de tu mapa, en lista.</p>
         <p class="chk-prog" id="chkProg"></p>
-        <div class="chk-how"><b>Cómo se usa:</b> en cada punto toca <span class="mini-t">Ya lo tengo</span> o <span class="mini-a">Quiero ayuda</span>. Regresa cuando quieras: aquí se te guarda. El mapa también va en tu correo.</div>
+        <div class="chk-how"><b>Cómo se usa:</b> en cada punto toca <span class="mini-t">Ya lo resolví</span> o <span class="mini-a">Ayúdame con esto</span>. Regresa cuando quieras: aquí se te guarda. El mapa también va en tu correo.</div>
         <div class="chl" id="chkList"></div>
         <div class="pide-res" id="pideRes"></div>
       </div>
@@ -720,7 +725,7 @@ const QUIZ = [
  {id:"b4_metricas", area:"Métricas", q:"¿Cuáles de estos números me puedes decir ahorita, sin buscarlos?", multi:true,
   items:["Cuánto me cuesta un cliente que paga (no un mensaje)","De cada 10 que me escriben, cuántos compran","Cuántas veces recupero lo que meto en ads","De cada venta, de qué anuncio salió","Cuánto me queda limpio al final"],
   opts:["No mido nada","Solo cuántos leads y cuántas ventas","Costo por lead y por cliente, pero no cuánto me deja cada cliente","Tengo control completo de mis números"]},
- {id:"b5_automatizacion", area:"Automatización", q:"El seguimiento a los que te escriben, ¿cómo lo llevas?",
+ {id:"b5_automatizacion", area:"Seguimiento", q:"El seguimiento a los que te escriben, ¿cómo lo llevas?",
   opts:["Todo a mano, me acuerdo o lo apunto","Lo llevo en un Google Sheet o parecido, sin CRM","Tengo un CRM básico","Tengo un CRM con seguimiento automático"]},
  {id:"b6_ventas", area:"Ventas", q:"¿Puedes saber más o menos cuánto vas a vender el mes que entra?",
   opts:["Ni idea, cada mes es distinto","Más o menos, pero con altibajos","Buen volumen, pero con picos y valles","Sí, le atino"]},
@@ -1878,17 +1883,17 @@ function laLectura(real,tg,tr){
 }
 /* ---- Checklist Etapa 1 (mapa en lista) ---- */
 const CHK1=[
- {area:'Presupuesto',text:'Confirmar que ya ganas con lo que vendes hoy, aunque sea en chico, antes de subirle al gasto.'},
- {area:'Campañas',text:'Una campaña bien armada en el Ads Manager, con un objetivo claro.'},
- {area:'Equipo',text:'Vender con el mismo paso a paso cada vez, para que no dependa de tu día.'},
- {area:'Métricas',text:'Llevar lo básico: cuántos te escriben, cuántos compran y cuánto te cuesta cada venta.'},
- {area:'Automatización',text:'Un lugar simple donde no se te pierda ningún interesado, aunque sea una hoja.'},
- {area:'Ventas',text:'Que la venta deje de ser suerte: repetir a propósito lo que funcionó la última vez.'},
- {area:'Oferta',text:'Tus primeras ventas reales: gente que paga tu precio sin que la convenzas a la fuerza.'},
- {area:'Cliente ideal',text:'Saber quién es tu mejor cliente y por qué te compra a ti, en una línea.'},
- {area:'Respuesta',text:'Responder en minutos, no en horas, dentro de tu horario. Ahí se cierra.'},
- {area:'Anuncios',text:'Probar 2 o 3 anuncios distintos y quedarte con el que más gente responde.'},
- {area:'Asistencia',text:'Llevar la cuenta y mandar un recordatorio un día antes de cada cita.'}
+ {area:'Presupuesto',text:'Confirmar que ya ganas con lo que vendes hoy, aunque sea en chico, antes de subirle al gasto.',ej:'Vendes 20 piezas al mes a $500 y te quedan $150 de cada una. Eso ya da para meterle $3 mil a anuncios sin perder.'},
+ {area:'Campañas',text:'Una campaña bien armada en el Ads Manager, con un objetivo claro.',ej:'En vez de "Promocionar publicación", una campaña en el Ads Manager con objetivo "Mensajes", un anuncio y un presupuesto diario fijo.'},
+ {area:'Equipo',text:'Aunque el equipo seas tú: vender con el mismo paso a paso cada vez, para que no dependa de tu día.',ej:'Cada vez que alguien escribe: saludo, una pregunta para saber qué necesita, precio, y ofrecer cerrar. Siempre igual, aunque estés cansado.'},
+ {area:'Métricas',text:'Llevar lo básico: cuántos te escriben, cuántos compran y cuánto te cuesta cada venta.',ej:'Una hoja con tres columnas: cuántos te escribieron esta semana, cuántos compraron y cuánto gastaste en anuncios. Divides y ya sabes lo que te cuesta cada venta.'},
+ {area:'Seguimiento',text:'Un lugar simple donde no se te pierda ningún interesado, aunque sea una hoja.',ej:'Una hoja de Excel con nombre, teléfono, qué preguntó y si compró. Se llena cada noche en 5 minutos.'},
+ {area:'Ventas',text:'Que la venta deje de ser suerte: repetir a propósito lo que funcionó la última vez.',ej:'La semana que más vendiste, ¿qué hiciste distinto? ¿Qué anuncio, qué precio, qué mensaje? Eso se repite a propósito la siguiente.'},
+ {area:'Oferta',text:'Tus primeras ventas reales: gente que paga tu precio sin que la convenzas a la fuerza.',ej:'Diez personas que pagaron tus $800 por el paquete sin pedir descuento. Si todas piden rebaja, la oferta todavía no está.'},
+ {area:'Cliente ideal',text:'Saber quién es tu mejor cliente y por qué te compra a ti, en una línea.',ej:'Mujer de 30 a 45, de tu zona, que ya probó otras cosas y no le funcionaron. Te compra porque le dices la verdad de qué sí sirve.'},
+ {area:'Respuesta',text:'Responder en minutos, no en horas, dentro de tu horario. Ahí se cierra.',ej:'Si escribe a las 11 de la mañana, le contestas antes de las 11:10. Si escribe a las 10 de la noche, le contestas a primera hora.'},
+ {area:'Anuncios',text:'Probar 2 o 3 anuncios distintos y quedarte con el que más gente responde.',ej:'Un anuncio hablando del precio, otro del resultado y otro del miedo de que salga mal. A la semana ves cuál trajo más mensajes.'},
+ {area:'Asistencia',text:'Si trabajas con citas: llevar la cuenta de quién llega y mandar un recordatorio un día antes.',ej:'De 10 que agendan, apuntas cuántos llegaron. Y un día antes: "Hola, te espero mañana a las 4, ¿confirmas?"'}
 ];
 function chk1Load(){
  try{ const raw=localStorage.getItem('as_chk_1'); const o=raw?JSON.parse(raw):{}; return (o&&typeof o==='object')?o:{}; }catch(e){ return {}; }
@@ -1920,9 +1925,9 @@ function renderChecklist1(firstAny){
    const isStart=startIdx.indexOf(i)>=0;
    const startSpan=isStart?' <span class="chk-start">← Empieza por aquí</span>':'';
    const stateCls=on?' tengo':(ay?' ayuda':'');
-   return `<div class="it${stateCls}${isStart?' start':''}" data-i="${i}"><div class="tx"><b>${c.area}:</b> ${c.text}${startSpan}</div><div class="acts"><button type="button" class="act tengo" data-act="tengo">${on?'✓ Ya lo tengo':'Ya lo tengo'}</button><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Quiero ayuda':'Quiero ayuda'}</button></div></div>`;
+   return `<div class="it${stateCls}${isStart?' start':''}" data-i="${i}"><div class="tx"><b>${c.area}:</b> ${c.text}${startSpan}${c.ej?`<div class="ej"><b>Ejemplo:</b> ${c.ej}</div>`:''}</div><div class="acts"><button type="button" class="act tengo" data-act="tengo">${on?'✓ Ya lo resolví':'Ya lo resolví'}</button><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Ayúdame con esto':'Ayúdame con esto'}</button></div>${ay?(PIDE_COVERED.indexOf(c.area)>=0?`<div class="fb">Esto viene en la guía de etapa 1, ya la puedes apartar. <a href="#unica" class="fb-go">Ver la guía ↓</a></div>`:`<div class="fb">Anotado. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.</div>`):''}</div>`;
   }).join('');
-  prog.innerHTML=`Ya tienes <b>${n}</b> de 11 · Pediste ayuda en <b>${nAyuda}</b>`;
+  prog.innerHTML=`Ya resolviste <b>${n}</b> de 11 · Pediste ayuda en <b>${nAyuda}</b>`;
   try{ renderPide(); }catch(e){ console.warn('pide',e); }
  }
  paint();
@@ -1945,7 +1950,7 @@ function renderChecklist1(firstAny){
   paint();
  };
 }
-/* ---- Pide (resultado según filas marcadas "Quiero ayuda") Etapa 1 ---- */
+/* ---- Pide (resultado según filas marcadas "Ayúdame con esto") Etapa 1 ---- */
 const PIDE_COVERED=['Cliente ideal','Oferta','Anuncios'];
 function pideSlug(area){
  return area.toString().normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
@@ -1963,18 +1968,23 @@ function renderPide(){
  const COV=marked.filter(i=>PIDE_COVERED.indexOf(CHK1[i].area)>=0);
  const OTR=marked.filter(i=>PIDE_COVERED.indexOf(CHK1[i].area)<0);
  const n=marked.length;
+ const goHtml=`<a class="pide-go" href="#unica">Ver la guía ↓</a>`;
+ function wireGo(){ const go=resEl.querySelector('.pide-go'); if(go) go.onclick=function(e){ e.preventDefault(); const u=document.getElementById('unica'); if(u) u.scrollIntoView({behavior:'smooth'}); }; }
  if(COV.length>0 && OTR.length===0){
-  resEl.innerHTML=`<p class="pide-ok">${COV.length===1?'Esa':'Esas '+COV.length} ya ${COV.length===1?'la':'las'} cubre la guía de etapa 1. Ya la puedes apartar aquí abajo.</p><a class="pide-go" href="#unica">Ver la guía ↓</a>`;
-  const go=resEl.querySelector('.pide-go');
-  if(go) go.onclick=function(e){ e.preventDefault(); const u=document.getElementById('unica'); if(u) u.scrollIntoView({behavior:'smooth'}); };
-  return;
+  resEl.innerHTML=`<p class="pide-ok">${COV.length===1?'Lo que pediste viene':'Las '+COV.length+' que pediste vienen'} en la guía de etapa 1. Apártala hoy.</p>${goHtml}`;
+  wireGo(); return;
  }
- if(OTR.length>0){
-  const slugs=marked.map(i=>pideSlug(CHK1[i].area)).join(',');
-  const msg = n===1
-   ? `Te avisamos en cuanto salga la guía de ${CHK1[marked[0]].area}.`
-   : `Te armamos el paquete con ${n} que marcaste${COV.length?': '+COV.length+' ya '+(COV.length===1?'está':'están')+' en la guía de etapa 1, y te avisamos cuando salgan las demás':''}.`;
-  resEl.innerHTML=`<p class="pide-ok">${msg}</p><button type="button" class="lq pide-btn" data-wl="paquete" data-areas="${slugs}">Apartar mi paquete →</button>`;
+ const slugs=marked.map(i=>pideSlug(CHK1[i].area)).join(',');
+ const otrNames=OTR.map(i=>CHK1[i].area).join(', ');
+ let msg;
+ if(COV.length){
+  msg=`De las ${n} que pediste, ${COV.length===1?'una viene':COV.length+' vienen'} en la guía de etapa 1: apártala hoy. ${OTR.length===1?'La otra':'Las otras '+OTR.length} (${otrNames}) te ${OTR.length===1?'la':'las'} aviso a tu correo en cuanto ${OTR.length===1?'salga':'salgan'}.`;
+  resEl.innerHTML=`<p class="pide-ok">${msg}</p>${goHtml}<br><button type="button" class="lq pide-btn" data-wl="paquete" data-areas="${slugs}">Apartar mi paquete de ${n} →</button>`;
+  wireGo();
+ } else {
+  msg = n===1 ? `Anotado: ${CHK1[marked[0]].area}. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.`
+              : `Anotado: ${otrNames}. Te armo el paquete con esas ${n} y te aviso a tu correo en cuanto salgan.`;
+  resEl.innerHTML=`<p class="pide-ok">${msg}</p><button type="button" class="lq pide-btn" data-wl="paquete" data-areas="${slugs}">${n===1?'Avísame cuando salga →':'Apartar mi paquete de '+n+' →'}</button>`;
  }
 }
 function render(levels){
@@ -2175,6 +2185,7 @@ function cerrarMapa(){
   var lb=document.getElementById('mapaLb'); if(lb) lb.classList.remove('on');
   document.body.style.overflow='';
 }
+document.addEventListener('click',function(e){var a=e.target.closest('a.fb-go');if(!a)return;e.preventDefault();var u=document.getElementById('unica');if(u)u.scrollIntoView({behavior:'smooth'});});
 </script>
 </body>
 </html>
