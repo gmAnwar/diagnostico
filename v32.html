@@ -208,6 +208,11 @@ table.diag td.area.weak-row,table.hz td:first-child.weak-row{background:#FFF9F0}
 .exportbar.on{display:block}
 .exportbar .inner{max-width:860px;margin:0 auto;display:flex;gap:10px;justify-content:space-between;align-items:center}
 .exportbar .left{display:flex;gap:10px}
+.bar-prog{flex:1;text-align:left;background:#F4F6F9;border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer;display:flex;flex-direction:column;gap:1px;font:inherit}
+.bp-k{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#8a94a6}
+.bp-v{font-size:13.5px;font-weight:700;color:var(--navy)}
+.bp-v b{color:var(--red)}
+.bar-cta{white-space:nowrap;font-size:14px;padding:12px 16px}
 body.has-bar{padding-bottom:74px}
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 22px;border-radius:99px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .25s;z-index:70}
 .toast.on{opacity:1}
@@ -218,6 +223,7 @@ body.has-bar{padding-bottom:74px}
   .ads-ex{grid-template-columns:1fr}
   .exportbar .inner{flex-direction:column;align-items:stretch}
   .exportbar .left{flex-direction:column}
+  .exportbar.et1 .inner{flex-direction:row;align-items:center;gap:8px}
 }
 
 /* ---------- PRINT (export PDF) ---------- */
@@ -591,24 +597,27 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .u-oftx{margin:0;font-size:15px;line-height:1.55;color:var(--ink)}
 #engrane-root .u-offor{margin-top:10px;padding:10px 12px;background:rgba(10,37,64,.04);border-radius:10px;font-size:14px}
 #engrane-root .u-gar{margin:6px 0 0;font-size:14px;font-weight:700;color:var(--navy)}
+#engrane-root .mail-note{margin:6px 0 0;font-size:13px;color:#5b6675;line-height:1.45}
 #engrane-root .chk-how{font-size:14px;line-height:1.6;color:var(--ink);background:#F4F6F9;border-radius:10px;padding:10px 12px;margin:0 0 10px}
 #engrane-root .chk-how b{color:var(--navy)}
 #engrane-root .c-mini{display:inline-flex;width:16px;height:16px;border-radius:50%;border:2px solid #c7ced8;vertical-align:-3px;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff}
 #engrane-root .c-mini.on{background:var(--navy);border-color:var(--navy)}
 #engrane-root .chl{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
-#engrane-root .chl .it{display:block;padding:12px 14px;border-bottom:1px solid var(--line)}
+#engrane-root .chl .it{display:grid;grid-template-columns:26px 1fr;column-gap:10px;row-gap:6px;align-items:start;padding:12px 14px;border-bottom:1px solid var(--line)}
 #engrane-root .chl .it:last-child{border-bottom:none}
-#engrane-root .chl .it .tx{font-size:14.5px;line-height:1.45}
-#engrane-root .chl .it .acts{display:flex;gap:8px;margin-top:8px}
-#engrane-root .chl .it .act{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:8px 6px;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer;white-space:nowrap}
-#engrane-root .chl .it.tengo .act.tengo{background:var(--navy);border-color:var(--navy);color:#fff}
+#engrane-root .chl .it .c{grid-column:1;grid-row:1;width:22px;height:22px;border-radius:50%;border:2px solid #c7ced8;background:#fff;padding:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff}
+#engrane-root .chl .it.tengo .c{background:var(--navy);border-color:var(--navy)}
+#engrane-root .chl .it.tengo .c::after{content:"✓"}
+#engrane-root .chl .it .tx{grid-column:2;grid-row:1;font-size:14.5px;line-height:1.45}
+#engrane-root .chl .it .act.ayuda{grid-column:2;grid-row:2;justify-self:end;border:1.5px solid var(--red);background:#fff;color:var(--red);border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap}
 #engrane-root .chl .it.ayuda .act.ayuda{background:var(--red);border-color:var(--red);color:#fff}
-#engrane-root .chl .it.tengo .tx{color:#8a94a6}
+#engrane-root .chl .it .fb{grid-column:1/-1}
+#engrane-root .chl .it.tengo .tx{color:#8a94a6;text-decoration:line-through}
 #engrane-root .chl .it.ayuda{background:#FFF5F5}
 #engrane-root .chl .it.start{background:#FFF9F2}
 #engrane-root .chl .it.start.ayuda{background:#FFF5F5}
 #engrane-root .mini-t{display:inline-block;background:var(--navy);color:#fff;font-size:11px;padding:2px 7px;border-radius:99px;font-weight:800}
-#engrane-root .mini-a{display:inline-block;background:var(--red);color:#fff;font-size:11px;padding:2px 7px;border-radius:99px;font-weight:800}
+#engrane-root .mini-a{display:inline-block;background:#fff;color:var(--red);border:1.5px solid var(--red);font-size:11px;padding:2px 7px;border-radius:99px;font-weight:800}
 #engrane-root .pide-sec{margin:18px 0 6px}
 #engrane-root .pide-h{font-size:18px;color:var(--navy);margin:0 0 4px}
 #engrane-root .pide-res{margin-top:12px}
@@ -700,7 +709,7 @@ const CONFIG = {
         <h3 class="chk-h">Tu checklist para pasar a la etapa 2</h3>
         <p class="chk-sub">Es la columna derecha de tu mapa, en lista.</p>
         <p class="chk-prog" id="chkProg"></p>
-        <div class="chk-how"><b>Cómo se usa:</b> en cada punto toca <span class="mini-t">Ya lo resolví</span> o <span class="mini-a">Ayúdame con esto</span>. Regresa cuando quieras: aquí se te guarda. El mapa también va en tu correo.</div>
+        <div class="chk-how"><b>Cómo se usa:</b> toca el círculo <span class="c-mini"></span> de lo que ya resolviste: se palomea <span class="c-mini on">✓</span> y se tacha. Si quieres ayuda en un punto, toca <span class="mini-a">Ayúdame con esto</span>. Regresa cuando quieras: aquí se te guarda.</div>
         <div class="chl" id="chkList"></div>
         <div class="pide-res" id="pideRes"></div>
       </div>
@@ -1975,14 +1984,17 @@ function renderChecklist1(firstAny){
    const isStart=startIdx.indexOf(i)>=0;
    const startSpan=isStart?' <span class="chk-start">← Empieza por aquí</span>':'';
    const stateCls=on?' tengo':(ay?' ayuda':'');
-   return `<div class="it${stateCls}${isStart?' start':''}" data-i="${i}"><div class="tx"><b>${c.area}:</b> ${c.text}${startSpan}${c.ej?`<div class="ej"><b>Ejemplo:</b> ${c.ej}</div>`:''}</div><div class="acts"><button type="button" class="act tengo" data-act="tengo">${on?'✓ Ya lo resolví':'Ya lo resolví'}</button><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Ayúdame con esto':'Ayúdame con esto'}</button></div>${ay?(PIDE_COVERED.indexOf(c.area)>=0?`<div class="fb">Esto viene en la guía de etapa 1, ya la puedes apartar. <a href="#guia" class="fb-go">Ver la guía ↓</a></div>`:`<div class="fb">Anotado. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.</div>`):''}</div>`;
+   return `<div class="it${stateCls}${isStart?' start':''}" data-i="${i}"><button type="button" class="c" data-act="tengo" aria-label="Ya lo resolví"></button><div class="tx"><b>${c.area}:</b> ${c.text}${startSpan}${c.ej?`<div class="ej"><b>Ejemplo:</b> ${c.ej}</div>`:''}</div><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Ayúdame con esto':'Ayúdame con esto'}</button>${ay?(PIDE_COVERED.indexOf(c.area)>=0?`<div class="fb">Esto viene en la guía de etapa 1, ya la puedes apartar. <a href="#guia" class="fb-go">Ver la guía ↓</a></div>`:`<div class="fb">Anotado. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.</div>`):''}</div>`;
   }).join('');
   prog.innerHTML=`Ya resolviste <b>${n}</b> de 11 · Pediste ayuda en <b>${nAyuda}</b>`;
+  const bpT=document.getElementById('bpT'), bpA=document.getElementById('bpA');
+  if(bpT) bpT.textContent=n;
+  if(bpA) bpA.textContent=nAyuda;
   try{ renderPide(); }catch(e){ console.warn('pide',e); }
  }
  paint();
  list.onclick=function(e){
-  const btn=e.target.closest('.act'); if(!btn) return;
+  const btn=e.target.closest('[data-act]'); if(!btn) return;
   const row=btn.closest('.it'); if(!row) return;
   const i=+row.dataset.i;
   const act=btn.dataset.act;
@@ -2058,7 +2070,7 @@ function render(levels){
   steps+=`<div class="er ${cls}"><div class="ec1"><span class="ek">ETAPA ${i}</span><span class="en">${STAGES[i-1]}</span>${pill}</div><div class="ec2"><span class="ed">"${STAGE_COPY[i].dolor}"</span></div></div>`;
   if(i<4) steps+=`<div class="earrow ${i===et?'hot':''}">↓</div>`;}
  document.getElementById('etapa').innerHTML=`<div class="etab">${steps}</div>`;
- document.getElementById('etTop').innerHTML=`<div class="et-k">TU DIAGNÓSTICO</div><h1 class="et-h1">Estás en la etapa ${et} de 4: <span class="et-nm">${STAGES[et-1]}</span></h1>`;
+ document.getElementById('etTop').innerHTML=`<div class="et-k">TU DIAGNÓSTICO</div><h1 class="et-h1">Estás en la etapa ${et} de 4: <span class="et-nm">${STAGES[et-1]}</span></h1>${et===1?`<p class="mail-note">Ya te mandamos tu mapa por correo. Si no llega en 2 minutos, revisa Promociones o Spam y muévelo a Principal.</p>`:''}`;
  const SC=STAGE_COPY[et];
  document.getElementById('porDentro').innerHTML=`<div class="k">Así se ve por dentro</div><ul class="dentro">${SC.dentro.map(x=>`<li>${x}</li>`).join('')}</ul>`;
  document.getElementById('frena').innerHTML=`<div class="k">Lo que frena a los de tu etapa</div><p><b class="frena-lead">${SC.frenaLead}</b> ${SC.frena}</p>`;
@@ -2115,6 +2127,18 @@ function render(levels){
  const mapaEl=document.getElementById('mapa'), chkSecEl=document.getElementById('chkSec');
  if(mapaEl) mapaEl.style.display=et1?'':'none';
  if(chkSecEl) chkSecEl.style.display=et1?'':'none';
+ const exbEl=document.getElementById('exportbar');
+ if(exbEl){
+  exbEl.classList.toggle('et1', et1);
+  const inner=exbEl.querySelector('.inner');
+  if(inner){
+   if(et1){
+    inner.innerHTML=`<button type="button" class="bar-prog" id="barProg" onclick="document.getElementById('chkSec').scrollIntoView({behavior:'smooth',block:'start'})"><span class="bp-k">Tu checklist</span><span class="bp-v">Resolviste <b id="bpT">0</b> de 11 · Ayuda en <b id="bpA">0</b></span></button><button class="btn-red bar-cta" onclick="(document.getElementById('unica')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth',block:'center'})">Empieza aquí →</button>`;
+   } else {
+    inner.innerHTML=`<div class="left"><div style="line-height:1.3;max-width:520px"><div style="font-weight:700;font-size:15px;color:var(--navy)">Ya te mandamos tu mapa por correo.</div><div style="font-size:13px;color:#5A6B7D;margin-top:2px">Si no llega en 2 minutos, revisa Promociones o Spam y muévelo a Principal.</div></div></div><button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="(document.getElementById('unica')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth',block:'center'})">Empieza aquí →</button>`;
+   }
+  }
+ }
  if(et1){ try{ renderChecklist1(firstAny); }catch(e){ console.warn('chk1',e); } }
  document.getElementById('grid').innerHTML=[0,1,2].map(gi=>{
   const g=byGear[gi],realN=g.filter(t=>t.s!=='locked').length,gc=g.filter(t=>t.s==='g').length,anchor=gi===2?' anchor':'';
