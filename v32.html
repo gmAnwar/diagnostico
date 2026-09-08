@@ -1268,7 +1268,7 @@ function showPhoneGate(){
 
 /* ---------- Permalink: respuestas codificadas en la URL ---------- */
 function encodeResults(){
-  const payload = {b:state.B, c:state.C, m:state.metricas}; if(state.k) payload.k=state.k; // sin identidad: la URL la ve Meta
+  const payload = {b:state.B, c:state.C, m:state.metricas}; if(K()) payload.k=K(); // sin identidad: la URL la ve Meta
   return btoa(unescape(encodeURIComponent(JSON.stringify(payload)))).replace(/=+$/,"");
 }
 function hydrateFromURL(){
@@ -1597,7 +1597,7 @@ function payload(action, extra={}){
     etapa: state.etapa, etapa_nombre: state.etapa?STAGES[state.etapa-1]:null,
     perfil_curso: computePerfil(),
     banda: bandaSocio() ? "socio" : "volumen",
-    nicho: state.k||"general",
+    nicho: K()||"general",
     ultima_pregunta: quizProgress(),
     areas_debiles: state.weak.map(i=>QUIZ[i].id).join(", "),
     results_url: location.origin+location.pathname+"?r="+encodeResults()
@@ -1964,9 +1964,9 @@ const CHK1=[
  {area:'Seguimiento',text:'Un lugar simple donde no se te pierda ningún interesado, aunque sea una hoja.',ej:'Una hoja de Excel con nombre, teléfono, qué preguntó y si compró. Se llena cada noche en 5 minutos.',cl:{text:'Una hoja donde no se te pierda ningún interesado: nombre, tratamiento que preguntó y si agendó.',ej:'Una hoja de Google con nombre, teléfono, qué tratamiento preguntó y si ya agendó. Se llena cada noche en 5 minutos.'}},
  {area:'Ventas',text:'Que la venta deje de ser suerte: repetir a propósito lo que funcionó la última vez.',ej:'La semana que más vendiste, ¿qué hiciste distinto? ¿Qué anuncio, qué precio, qué mensaje? Eso se repite a propósito la siguiente.',cl:{text:'Que las citas dejen de ser suerte: repetir a propósito lo que funcionó la última vez.',ej:'La semana que más agendaste, ¿qué hiciste distinto? ¿Qué anuncio, qué promoción, qué mensaje? Eso se repite a propósito la siguiente.'}},
  {area:'Oferta',text:'Tus primeras ventas reales: gente que paga tu precio sin que la convenzas a la fuerza.',ej:'Diez personas que pagaron tus $800 por el paquete sin pedir descuento. Si todas piden rebaja, la oferta todavía no está.',cl:{text:'Tus primeros tratamientos pagados a tu precio: gente que paga sin que la convenzas a la fuerza.',ej:'Diez pacientes que pagaron tu valoración o tu tratamiento de $1,500 sin pedir descuento. Si todas piden rebaja, la oferta todavía no está.'}},
- {area:'Cliente ideal',text:'Saber quién es tu mejor cliente y por qué te compra a ti, en una línea.',ej:'Mujer de 30 a 45, de tu zona, que ya probó otras cosas y no le funcionaron. Te compra porque le dices la verdad de qué sí sirve.',cl:{text:'Saber quién es tu mejor paciente y por qué te elige a ti, en una línea.',ej:'Mujer de 35 a 50, de tu zona, que ya probó cremas y otras clínicas y no le funcionaron. Te elige porque le dices la verdad de qué sí le sirve.'}},
+ {area:'Cliente ideal',text:'Saber quién es tu mejor cliente y por qué te compra a ti, en una línea.',ej:'Mujer de 30 a 45, de tu zona, que ya probó otras cosas y no le funcionaron. Te compra porque le dices la verdad de qué sí sirve.',cl:{text:'Saber quién es tu mejor paciente y por qué te elige a ti, en una línea.',ej:'Mujer de 35 a 50, de tu zona, que ya gastó en cremas y en un tratamiento barato en otro lado y sigue igual. Te elige porque le dices cuántas sesiones necesita de verdad y cuánto le va a costar todo, sin sorpresas.'}},
  {area:'Respuesta',text:'Responder en minutos, no en horas, dentro de tu horario. Ahí se cierra.',ej:'Si escribe a las 11 de la mañana, le contestas antes de las 11:10. Si escribe a las 10 de la noche, le contestas a primera hora.',cl:{text:'Responder en minutos, no en horas, dentro de tu horario. Ahí se agenda.',ej:'Si escribe a las 11 de la mañana, le contestas antes de las 11:10, aunque estés en consulta (por eso el paso a paso lo puede seguir tu recepción). Si escribe a las 10 de la noche, a primera hora.'}},
- {area:'Anuncios',text:'Probar 2 o 3 anuncios distintos y quedarte con el que más gente responde.',ej:'Un anuncio hablando del precio, otro del resultado y otro del miedo de que salga mal. A la semana ves cuál trajo más mensajes.',cl:{text:'Probar 2 o 3 anuncios distintos y quedarte con el que más gente agenda.',ej:'Un anuncio hablando del precio de la valoración, otro de cómo se siente después del tratamiento y otro del miedo de que salga mal. A la semana ves cuál trajo más citas.'}},
+ {area:'Anuncios',text:'Probar 2 o 3 anuncios distintos y quedarte con el que más gente responde.',ej:'Un anuncio hablando del precio, otro del resultado y otro del miedo de que salga mal. A la semana ves cuál trajo más mensajes.',cl:{text:'Probar 2 o 3 anuncios distintos y quedarte con el que más gente agenda.',ej:'Un anuncio hablando del precio de la valoración, otro de qué pasa en la primera cita y otro del miedo a que duela. A la semana ves cuál trajo más citas.'}},
  {area:'Asistencia',text:'Que el que dice "sí" de verdad llegue: a la cita o a pagar el pedido. Llevar la cuenta y recordarle antes.',ej:'De 10 que dicen "sí, voy" o "sí, lo quiero", apuntas cuántos llegaron a la cita o a pagar. Y antes les escribes: "Te espero mañana a las 4, ¿confirmas?" o "Te aparto tu pedido hasta hoy a las 6, ¿lo cierro?"',na:true,cl:{text:'Que la que agenda de verdad llegue a su cita. Llevar la cuenta y recordarle un día antes.',ej:'De 10 que agendan, apuntas cuántas llegaron. Y un día antes les escribes: "Te espero mañana a las 4, ¿confirmas?"'}}
 ];
 const CHK2=[
@@ -1986,7 +1986,7 @@ const CHK_BY={1:CHK1,2:CHK2};
 const PIDE_COVERED_BY={1:['Cliente ideal','Oferta','Anuncios'],2:['Presupuesto','Métricas','Ventas']};
 const ETAPA_GUIDE={}; // guía de la etapa cuando no es el mismo diente del bloque gratis
 const ETAPA_TOOTH={1:'Cliente',2:'Venta mensual'};
-function K(){ return (state&&state.k)||''; }
+function K(){ if(state&&!state.k&&state.C&&state.C[0]===0) state.k='clinicas'; return (state&&state.k)||''; } // rubro 'Salud y belleza' → funnel de clínicas
 function nk(o,key){ return (K()==='clinicas'&&o&&o.cl&&o.cl[key]!=null)?o.cl[key]:(o?o[key]:undefined); }
 function CHKN(){ return (state&&state.etapa===2)?2:1; }
 function CHK(){ return CHK_BY[CHKN()]||CHK1; }
