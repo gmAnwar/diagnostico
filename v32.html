@@ -670,6 +670,8 @@ const CONFIG = {
         </a>
         <p class="mapa-cap">Toca la tabla para verla en grande 🔍</p>
       </div>
+      <div class="unica" id="unica"></div>
+      <section class="guia" id="guia"></section>
       <div class="chk-sec" id="chkSec">
         <h3 class="chk-h">Tu checklist para pasar a la etapa 2</h3>
         <p class="chk-sub">Es la columna derecha de tu mapa, en lista.</p>
@@ -678,8 +680,6 @@ const CONFIG = {
         <div class="chl" id="chkList"></div>
         <div class="pide-res" id="pideRes"></div>
       </div>
-      <div class="unica" id="unica"></div>
-      <section class="guia" id="guia"></section>
       <button type="button" class="desg-btn" id="verDesglose">¿Quieres el desglose de tus 13 áreas? →</button>
       <div id="desglose" class="hidden">
 <div class="desg-intro" id="desgIntro"></div>
@@ -1910,7 +1910,7 @@ function laLectura(real,tg,tr){
 /* ---- Checklist Etapa 1 (mapa en lista) ---- */
 const CHK1=[
  {area:'Presupuesto',text:'Confirmar que ya ganas con lo que vendes hoy, aunque sea en chico, antes de subirle al gasto.',ej:'Vendes 20 piezas al mes a $500 y te quedan $150 de cada una. Eso ya da para meterle $3 mil a anuncios sin perder.'},
- {area:'Campañas',text:'Una campaña bien armada en el Ads Manager, con un objetivo claro.',ej:'En vez de "Promocionar publicación", una campaña en el Ads Manager con objetivo "Mensajes", un anuncio y un presupuesto diario fijo.'},
+ {area:'Campañas',text:'Una campaña bien armada en el administrador de anuncios de Facebook, con un objetivo claro.',ej:'En vez de "Promocionar publicación", una campaña en el administrador de anuncios con objetivo "Mensajes", un anuncio y un presupuesto diario fijo.'},
  {area:'Equipo',text:'Aunque el equipo seas tú: vender con el mismo paso a paso cada vez, para que no dependa de tu día.',ej:'Cada vez que alguien escribe: saludo, una pregunta para saber qué necesita, precio, y ofrecer cerrar. Siempre igual, aunque estés cansado.'},
  {area:'Métricas',text:'Llevar lo básico: cuántos te escriben, cuántos compran y cuánto te cuesta cada venta.',ej:'Una hoja con tres columnas: cuántos te escribieron esta semana, cuántos compraron y cuánto gastaste en anuncios. Divides y ya sabes lo que te cuesta cada venta.'},
  {area:'Seguimiento',text:'Un lugar simple donde no se te pierda ningún interesado, aunque sea una hoja.',ej:'Una hoja de Excel con nombre, teléfono, qué preguntó y si compró. Se llena cada noche en 5 minutos.'},
@@ -2046,7 +2046,7 @@ function render(levels){
  const u=document.getElementById('unica');
  const g=document.getElementById('guia');
  if(firstAny){ const t=firstAny; const full=t.ofFull||(t.ofPrice?t.ofPrice*2-1:0);
-  let h=`<div class="k">Tu única cosa esta semana</div><h2 class="unica-h">Tu cuello está en una sola cosa: ${t.l}</h2>`;
+  let h=`<div class="k">Por dónde empezar</div><h2 class="unica-h">Empieza por aquí: ${t.l.toLowerCase()==="cliente"?"tu cliente":t.l}</h2>`;
   if(t.def) h+=`<div class="u-row"><div class="u-k">Qué es</div><div class="u-t">${t.def}</div></div>`;
   if(t.why) h+=`<div class="u-row"><div class="u-k">Por qué te frena</div><div class="u-t">${t.why}</div></div>`;
   h+=`<div class="u-row"><div class="u-k">Qué hacer esta semana, gratis</div><div class="u-t">${t.hoy||''}</div>`;
