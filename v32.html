@@ -593,6 +593,8 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .it.tengo .ej{color:#a0a8b4}
 #engrane-root .it .fb{margin-top:8px;font-size:13px;line-height:1.45;color:var(--navy);background:#fff;border:1px dashed #F2C9C9;border-radius:8px;padding:8px 10px}
 #engrane-root .it .fb .fb-go{color:var(--red);font-weight:800;text-decoration:none}
+#engrane-root .it .how-row{margin-top:6px;font-size:12px;line-height:1.4;color:#8a94a6;font-style:italic}
+#engrane-root .it.tengo .how-row,#engrane-root .it.ayuda .how-row{display:none}
 #engrane-root .u-ofk{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin:12px 0 3px}
 #engrane-root .u-oftx{margin:0;font-size:15px;line-height:1.55;color:var(--ink)}
 #engrane-root .u-offor{margin-top:10px;padding:10px 12px;background:rgba(10,37,64,.04);border-radius:10px;font-size:14px}
@@ -1984,7 +1986,7 @@ function renderChecklist1(firstAny){
    const isStart=startIdx.indexOf(i)>=0;
    const startSpan=isStart?' <span class="chk-start">← Empieza por aquí</span>':'';
    const stateCls=on?' tengo':(ay?' ayuda':'');
-   return `<div class="it${stateCls}${isStart?' start':''}" data-i="${i}"><button type="button" class="c" data-act="tengo" aria-label="Ya lo resolví"></button><div class="tx"><b>${c.area}:</b> ${c.text}${startSpan}${c.ej?`<div class="ej"><b>Ejemplo:</b> ${c.ej}</div>`:''}</div><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Ayúdame con esto':'Ayúdame con esto'}</button>${ay?(PIDE_COVERED.indexOf(c.area)>=0?`<div class="fb">Esto viene en la guía de etapa 1, ya la puedes apartar. <a href="#guia" class="fb-go">Ver la guía ↓</a></div>`:`<div class="fb">Anotado. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.</div>`):''}</div>`;
+   return `<div class="it${stateCls}${isStart?' start':''}" data-i="${i}"><button type="button" class="c" data-act="tengo" aria-label="Ya lo resolví"></button><div class="tx"><b>${c.area}:</b> ${c.text}${startSpan}${c.ej?`<div class="ej"><b>Ejemplo:</b> ${c.ej}</div>`:''}<div class="how-row">Si esto ya lo haces, toca el círculo para marcarlo como resuelto. Si quieres ayuda con esto, toca el botón.</div></div><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Ayúdame con esto':'Ayúdame con esto'}</button>${ay?(PIDE_COVERED.indexOf(c.area)>=0?`<div class="fb">Esto viene en la guía de etapa 1, ya la puedes apartar. <a href="#guia" class="fb-go">Ver la guía ↓</a></div>`:`<div class="fb">Anotado. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.</div>`):''}</div>`;
   }).join('');
   prog.innerHTML=`Ya resolviste <b>${n}</b> de 11 · Pediste ayuda en <b>${nAyuda}</b>`;
   const bpT=document.getElementById('bpT'), bpA=document.getElementById('bpA');
