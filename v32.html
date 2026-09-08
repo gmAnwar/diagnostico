@@ -549,6 +549,16 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .chl .it.on .tx{color:#8a94a6;text-decoration:line-through}
 #engrane-root .chl .it.on .tx b{color:#8a94a6;text-decoration:line-through}
 #engrane-root .chl .it.start{background:#FFF9F2}
+#engrane-root .pide-sec{margin:18px 0 6px}
+#engrane-root .pide-h{font-size:18px;color:var(--navy);margin:0 0 4px}
+#engrane-root .pide-sub{font-size:13.5px;color:#5b6675;line-height:1.5;margin:0 0 10px}
+#engrane-root .pide-chips{display:flex;flex-wrap:wrap;gap:8px}
+#engrane-root .pide-chips button{background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:9px 14px;font-size:14px;font-weight:700;color:var(--navy);cursor:pointer}
+#engrane-root .pide-chips button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+#engrane-root .pide-res{margin-top:12px}
+#engrane-root .pide-ok{font-size:14.5px;line-height:1.5;color:var(--ink);margin:0 0 8px;padding:10px 12px;background:#F4F6F9;border-radius:10px}
+#engrane-root .pide-go{display:inline-block;font-weight:800;color:var(--red);text-decoration:none;font-size:14.5px}
+#engrane-root .pide-btn{margin-top:4px}
 #engrane-root .chk-start{color:var(--red);font-weight:800;font-size:13px;white-space:nowrap}
 </style>
 <script src="vis.js"></script>
@@ -634,6 +644,12 @@ const CONFIG = {
         <p class="chk-prog" id="chkProg"></p>
         <div class="chk-how"><b>Cómo se usa:</b> toca el círculo <span class="c-mini"></span> de cada punto que ya tengas. Se pone <span class="c-mini on">✓</span>.<br>Regresa cuando quieras: aquí se te guarda. El mapa también va en tu correo.</div>
         <div class="chl" id="chkList"></div>
+      </div>
+      <div class="pide-sec" id="pideSec">
+        <h3 class="pide-h">¿En cuáles quieres que te ayude?</h3>
+        <p class="pide-sub">Marca las que quieras. Las guías salen en el orden que ustedes las pidan.</p>
+        <div class="pide-chips" id="pideChips"></div>
+        <div class="pide-res" id="pideRes"></div>
       </div>
       <div class="unica" id="unica"></div>
       <button type="button" class="desg-btn" id="verDesglose">¿Quieres el desglose de tus 13 áreas? →</button>
@@ -1455,7 +1471,8 @@ document.addEventListener("click", e=>{
   const prod = b.dataset.wl;
   state.wl[prod]=1;
   document.querySelectorAll('[data-wl="'+prod+'"]').forEach(function(x){ x.classList.add("done"); x.textContent="✓ Listo. Te aviso en cuanto salga"; });
-  sendWebhook("waitlist", {producto:prod});
+  sendWebhook("waitlist", b.dataset.areas ? {producto:prod, areas:b.dataset.areas} : {producto:prod});
+  if(prod==="paquete" && b.dataset.areas){ try{ASV&&ASV.hit('paquete_'+b.dataset.areas.split(',').length)}catch(e){} }
   track("Waitlist_"+prod,{});
   toast(prod==="auditoria_express" ? "Listo. Te aviso a tu correo en cuanto abra la Auditoría." : "Listo. Te aviso a tu correo en cuanto salga. Entras con precio especial.");
 });
@@ -1894,6 +1911,7 @@ function renderChecklist1(firstAny){
   if(i===10) return false;
   return state.B && state.B[i]!=null && state.B[i]>=1;
  }
+ window.chk1IsOn=isOn;
  function paint(){
   let n=0;
   const order=CHK1.map((c,i)=>i).sort((a,b)=>(startIdx.indexOf(b)>=0)-(startIdx.indexOf(a)>=0));
@@ -1904,6 +1922,7 @@ function renderChecklist1(firstAny){
    return `<div class="it${on?' on':''}${isStart?' start':''}" data-i="${i}"><span class="c">${on?'✓':''}</span><span class="tx"><b>${c.area}:</b> ${c.text}${startSpan}</span></div>`;
   }).join('');
   prog.innerHTML=`Llevas <b>${n}</b> de 11`;
+  try{ renderPide(); }catch(e){ console.warn('pide',e); }
  }
  paint();
  list.onclick=function(e){
@@ -1914,6 +1933,51 @@ function renderChecklist1(firstAny){
   if(nowOn){ try{ASV&&ASV.hit('check_'+i)}catch(e){} }
   paint();
  };
+}
+/* ---- Pide (chips de áreas no cubiertas) Etapa 1 ---- */
+const PIDE_COVERED=['Cliente ideal','Oferta','Anuncios'];
+function pideSlug(area){
+ return area.toString().normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+function pideLoad(){
+ try{ const raw=localStorage.getItem('as_pide_1'); const o=raw?JSON.parse(raw):{}; return (o&&typeof o==='object')?o:{}; }catch(e){ return {}; }
+}
+function pideSave(o){ try{ localStorage.setItem('as_pide_1', JSON.stringify(o)); }catch(e){} }
+function renderPide(){
+ const chipsEl=document.getElementById('pideChips'), resEl=document.getElementById('pideRes');
+ if(!chipsEl||!resEl||!window.chk1IsOn) return;
+ let picked=pideLoad();
+ const idxs=CHK1.map((c,i)=>i).filter(i=>!chk1IsOn(i));
+ chipsEl.innerHTML=idxs.map(i=>{
+  const c=CHK1[i], on=!!picked[i];
+  return `<button type="button" class="${on?'on':''}" data-i="${i}">${on?'✓ ':''}${c.area}</button>`;
+ }).join('');
+ chipsEl.onclick=function(e){
+  const b=e.target.closest('button'); if(!b) return;
+  const i=+b.dataset.i;
+  const nowOn=!picked[i];
+  picked[i]=nowOn; pideSave(picked);
+  if(nowOn){ try{ASV&&ASV.hit('pide_'+pideSlug(CHK1[i].area))}catch(e){} }
+  renderPide();
+ };
+ const marked=idxs.filter(i=>picked[i]);
+ if(!marked.length){ resEl.innerHTML=''; return; }
+ const COV=marked.filter(i=>PIDE_COVERED.indexOf(CHK1[i].area)>=0);
+ const OTR=marked.filter(i=>PIDE_COVERED.indexOf(CHK1[i].area)<0);
+ const n=marked.length;
+ if(COV.length>0 && OTR.length===0){
+  resEl.innerHTML=`<p class="pide-ok">${COV.length===1?'Esa':'Esas '+COV.length} ya ${COV.length===1?'la':'las'} cubre la guía de etapa 1. Ya la puedes apartar aquí abajo.</p><a class="pide-go" href="#unica">Ver la guía ↓</a>`;
+  const go=resEl.querySelector('.pide-go');
+  if(go) go.onclick=function(e){ e.preventDefault(); const u=document.getElementById('unica'); if(u) u.scrollIntoView({behavior:'smooth'}); };
+  return;
+ }
+ if(OTR.length>0){
+  const slugs=marked.map(i=>pideSlug(CHK1[i].area)).join(',');
+  const msg = n===1
+   ? `Te avisamos en cuanto salga la guía de ${CHK1[marked[0]].area}.`
+   : `Te armamos el paquete con ${n} que marcaste${COV.length?': '+COV.length+' ya '+(COV.length===1?'está':'están')+' en la guía de etapa 1, y te avisamos cuando salgan las demás':''}.`;
+  resEl.innerHTML=`<p class="pide-ok">${msg}</p><button type="button" class="lq pide-btn" data-wl="paquete" data-areas="${slugs}">Apartar mi paquete →</button>`;
+ }
 }
 function render(levels){
  const real=TEETH.map((t,i)=>({...t,s:statusFor(levels[i])}));
@@ -1973,6 +2037,8 @@ function render(levels){
  const mapaEl=document.getElementById('mapa'), chkSecEl=document.getElementById('chkSec');
  if(mapaEl) mapaEl.style.display=et1?'':'none';
  if(chkSecEl) chkSecEl.style.display=et1?'':'none';
+ const pideSecEl=document.getElementById('pideSec');
+ if(pideSecEl) pideSecEl.style.display=et1?'':'none';
  if(et1){ try{ renderChecklist1(firstAny); }catch(e){ console.warn('chk1',e); } }
  document.getElementById('grid').innerHTML=[0,1,2].map(gi=>{
   const g=byGear[gi],realN=g.filter(t=>t.s!=='locked').length,gc=g.filter(t=>t.s==='g').length,anchor=gi===2?' anchor':'';
