@@ -515,7 +515,7 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .u-bridge{margin:12px 0 0;font-size:14.5px;font-weight:700;color:var(--navy)}
 #engrane-root .guia{margin:22px 0 8px}
 #engrane-root .g-card{background:#fff;border:2px solid var(--navy);border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(10,37,64,.10)}
-#engrane-root .g-tag{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:10px;text-align:center}
+#engrane-root .g-tag{font-family:var(--f-head);font-size:20px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin-bottom:14px;text-align:center;line-height:1.1}
 #engrane-root .g-cover{background:linear-gradient(135deg,var(--navy),#123556);border-radius:10px;padding:22px 18px;color:#fff;display:flex;flex-direction:column;gap:6px;margin:0 auto 18px;min-height:120px;justify-content:center;width:72%;max-width:320px;box-shadow:0 18px 40px rgba(10,37,64,.35);border-left:6px solid #071a30}
 #engrane-root .g-cover-k{font-size:10px;letter-spacing:.2em;opacity:.7;font-weight:800}
 #engrane-root .g-cover-t{font-family:var(--f-head);font-weight:800;font-size:22px;line-height:1.15}
@@ -1931,7 +1931,7 @@ function laLectura(real,tg,tr){
  const st=l=>{const t=real.find(x=>x.l===l);return t?t.s:null;};
  const gGood=gi=>real.filter(t=>t.g===gi&&t.s==='g').length;
  const gReds=gi=>real.filter(t=>t.g===gi&&t.s==='r').length;
- if(tg<=1) return `Estás construyendo casi todo desde cero: normal a esta altura, no es mala señal. La trampa aquí es querer hacer todo a la vez: se hace <b>en orden, una cosa a la vez</b>, empezando por la de arriba.`;
+ if(tg<=1) return `Estás construyendo casi todo desde cero: normal a esta altura, no es mala señal. La trampa aquí es querer hacer todo a la vez: se hace <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
  if(st('Generación de ads')!=='r' && st('Tasa de cierre')!=='r' && (st('Atribución')==='r'||st('CAC')==='r'))
   return `Traes el motor prendido (campañas corriendo) pero <b>manejas sin tablero</b>: metes dinero en ads y no sabes qué anuncio te devuelve clientes de verdad. Eso que se siente como "ya no jala como antes" casi nunca es que jale menos: es que <b>no lo estás viendo</b>.`;
  if(gGood(1)>=1 && (st('Equipo de ventas')==='r'||st('Respuesta a leads')==='r'))
@@ -2097,7 +2097,8 @@ function render(levels){
  document.getElementById('paraPasar').innerHTML=`<div class="k">${SC.pasarTit}</div><ul class="pasar">${SC.pasar.map(x=>`<li>${x}</li>`).join('')}</ul>${SC.nota?`<p class="nota">${SC.nota}</p>`:''}`;
  const PRI=priority();
  const firstRed=PRI.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='r');
- const firstAny=firstRed||PRI.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='y');
+ let firstAny=firstRed||PRI.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='y');
+ if(state.etapa===1){ firstAny=real.find(t=>t.l==='Cliente')||firstAny; } // E1: una sola guía por etapa (Tu cliente, tu oferta y tu anuncio)
  const di=document.getElementById('desgIntro'); if(di) di.innerHTML=`Aquí está todo. Es mucha información a propósito: son las 13 áreas que reviso cuando entro a un negocio, la estructura de tu empresa, la de tus campañas y los números que amarran las dos. No intentes arreglarlas todas${firstAny?`: empieza por <b>${firstAny.l}</b>, que es lo que te marqué arriba, y regresa aquí cuando esa esté resuelta`:''}. Si la etapa es la foto, esto es el motor abierto.`;
  const u=document.getElementById('unica');
  const g=document.getElementById('guia');
@@ -2116,7 +2117,7 @@ function render(levels){
     if(/^Dos videos/.test(x)) ic='🎥'; else if(/^El prompt/.test(x)) ic='🤖'; else if(/^La ficha/.test(x)) ic='📄';
     return `<li class="g-stack-row"><span class="g-stack-ic">${ic}</span><span class="g-stack-tx">${x}</span></li>`;
    }).join('');
-   let gh=`<div class="g-card"><div class="g-tag">LA GUÍA DE ETAPA ${et}</div><div class="g-cover"><span class="g-cover-k">GUÍA</span><span class="g-cover-t">${t.ofName}</span><span class="g-cover-by">Anwar Sepúlveda</span></div>`;
+   let gh=`<div class="g-card"><div class="g-tag">LA GUÍA DE ETAPA ${et}</div><div class="g-cover"><span class="g-cover-t">${t.ofName}</span></div>`;
    if(t.ofHook) gh+=`<p class="g-hook">${t.ofHook}</p>`;
    gh+=`<button class="lq ${t.s} g-btn g-btn-top" data-wl="${slug(t.l)}">Apartar mi lugar en la lista →</button>`;
    gh+=`<p class="g-nopay">Hoy no pagas nada. Cuando salga, te aviso a tu correo y ahí decides.</p>`;
@@ -2295,6 +2296,7 @@ function abrirMapa(a){
   lb.classList.add('on'); document.body.style.overflow='hidden';
   return false;
 }
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ const lb=document.getElementById('mapaLb'); if(lb&&lb.style.display!=='none'&&getComputedStyle(lb).display!=='none') cerrarMapa(); } });
 function cerrarMapa(){
   var lb=document.getElementById('mapaLb'); if(lb) lb.classList.remove('on');
   document.body.style.overflow='';
