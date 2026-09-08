@@ -524,6 +524,14 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .chk-sub{font-size:13.5px;color:#5b6675;line-height:1.5;margin:0 0 6px}
 #engrane-root .chk-prog{font-size:13.5px;font-weight:800;color:var(--navy);margin:0 0 10px}
 #engrane-root .chk-prog b{color:var(--red)}
+#engrane-root .mapa-cap{margin:6px 0 0;text-align:center;font-size:13px;font-weight:700;color:var(--navy)}
+.mapa-lb{display:none;position:fixed;inset:0;background:rgba(10,37,64,.96);z-index:9999;flex-direction:column}
+.mapa-lb.on{display:flex}
+.mapa-x{position:absolute;top:10px;right:10px;z-index:2;background:#fff;color:var(--navy);border:0;border-radius:99px;padding:8px 14px;font-weight:800;font-size:14px}
+.mapa-scroll{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pinch-zoom pan-x pan-y;padding:52px 0 0}
+.mapa-scroll img{display:block;width:100%;max-width:none;background:#fff}
+.mapa-scroll img.big{width:220%}
+.mapa-tip{margin:0;padding:8px 12px;text-align:center;color:#fff;font-size:12px;opacity:.85}
 #engrane-root .u-ofk{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin:12px 0 3px}
 #engrane-root .u-oftx{margin:0;font-size:15px;line-height:1.55;color:var(--ink)}
 #engrane-root .u-offor{margin-top:10px;padding:10px 12px;background:rgba(10,37,64,.04);border-radius:10px;font-size:14px}
@@ -614,10 +622,10 @@ const CONFIG = {
       <div class="blk" id="paraPasar"></div>
       <div class="mapa" id="mapa">
         <div class="mapa-k">TU MAPA COMPLETO</div>
-        <a class="mapa-img" href="tabla-etapa-1.jpg" target="_blank" rel="noopener" onclick="try{ASV&&ASV.hit('mapa_zoom')}catch(e){}">
+        <a class="mapa-img" href="tabla-etapa-1.jpg" onclick="return abrirMapa(this)">
           <img src="tabla-etapa-1.jpg" alt="Tabla completa de la etapa 1: qué te frena y qué necesitas en cada área" loading="lazy">
-          <span class="ztip">Toca para verla en grande 🔍</span>
         </a>
+        <p class="mapa-cap">Toca la tabla para verla en grande 🔍</p>
       </div>
       <div class="chk-sec" id="chkSec">
         <h3 class="chk-h">Tu checklist para pasar a la etapa 2</h3>
@@ -2085,6 +2093,25 @@ if(document.getElementById('hero')){
 
 /* arranque: se invoca al FINAL para que todas las consts del engrane (ST, TEETH, ...) ya estén inicializadas cuando un permalink hidrate y llame a render() */
 init();
+</script>
+<div id="mapaLb" class="mapa-lb" onclick="if(event.target===this)cerrarMapa()">
+  <button class="mapa-x" onclick="cerrarMapa()">✕ Cerrar</button>
+  <div class="mapa-scroll"><img id="mapaLbImg" alt="Tabla completa" onclick="this.classList.toggle('big')"></div>
+  <p class="mapa-tip">Pellizca para hacer zoom. Un toque en la tabla la agranda al doble.</p>
+</div>
+<script>
+function abrirMapa(a){
+  try{ASV&&ASV.hit('mapa_zoom')}catch(e){}
+  var lb=document.getElementById('mapaLb'), im=document.getElementById('mapaLbImg');
+  if(!lb||!im) return true;
+  im.src=a.getAttribute('href'); im.classList.remove('big');
+  lb.classList.add('on'); document.body.style.overflow='hidden';
+  return false;
+}
+function cerrarMapa(){
+  var lb=document.getElementById('mapaLb'); if(lb) lb.classList.remove('on');
+  document.body.style.overflow='';
+}
 </script>
 </body>
 </html>
