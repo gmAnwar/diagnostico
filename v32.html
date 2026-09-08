@@ -509,13 +509,13 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .u-bridge{margin:12px 0 0;font-size:14.5px;font-weight:700;color:var(--navy)}
 #engrane-root .guia{margin:22px 0 8px}
 #engrane-root .g-card{background:#fff;border:2px solid var(--navy);border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(10,37,64,.10)}
-#engrane-root .g-tag{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
-#engrane-root .g-cover{background:linear-gradient(135deg,var(--navy),#123556);border-radius:12px;padding:22px 18px;color:#fff;display:flex;flex-direction:column;gap:6px;margin-bottom:14px;min-height:120px;justify-content:center}
+#engrane-root .g-tag{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:10px;text-align:center}
+#engrane-root .g-cover{background:linear-gradient(135deg,var(--navy),#123556);border-radius:10px;padding:22px 18px;color:#fff;display:flex;flex-direction:column;gap:6px;margin:0 auto 18px;min-height:120px;justify-content:center;width:72%;box-shadow:0 18px 40px rgba(10,37,64,.35);border-left:6px solid #071a30;transform:rotate(-2deg)}
 #engrane-root .g-cover-k{font-size:10px;letter-spacing:.2em;opacity:.7;font-weight:800}
 #engrane-root .g-cover-t{font-family:var(--f-head);font-weight:800;font-size:22px;line-height:1.15}
 #engrane-root .g-cover-by{font-size:12px;opacity:.75;margin-top:4px}
-#engrane-root .g-name{font-size:21px;color:var(--navy);margin:0 0 4px;line-height:1.2}
-#engrane-root .g-hook{margin:0 0 10px;font-size:15px;font-style:italic;color:var(--navy);line-height:1.45}
+#engrane-root .g-name{font-size:21px;color:var(--navy);margin:0 0 4px;line-height:1.2;text-align:center}
+#engrane-root .g-hook{margin:0 0 14px;font-size:15px;font-style:italic;color:var(--navy);line-height:1.45;text-align:center}
 #engrane-root .g-for{margin:0 0 6px;padding:10px 12px;background:rgba(10,37,64,.04);border-radius:10px;font-size:14px;line-height:1.5}
 #engrane-root .g-k{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin:14px 0 4px}
 #engrane-root .g-tx{margin:0;font-size:15px;line-height:1.55;color:var(--ink)}
@@ -525,14 +525,35 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .g-sub{margin:6px 0 0;padding-left:0;list-style:none}
 #engrane-root .g-sub li{position:relative;padding-left:14px;margin:6px 0;font-size:14px;line-height:1.5}
 #engrane-root .g-sub li::before{content:"·";position:absolute;left:0;font-weight:800;color:var(--navy)}
-#engrane-root .g-price{margin:16px 0 6px;display:flex;flex-direction:column;gap:2px}
+#engrane-root .g-price{margin:16px 0 6px;background:var(--navy);color:#fff;border-radius:12px;padding:16px;text-align:center;display:flex;flex-direction:column;gap:4px}
+#engrane-root .g-price .g-reg{font-size:13px;color:rgba(255,255,255,.6);text-decoration:line-through}
 #engrane-root .g-reg{font-size:13px;color:#8a94a6;text-decoration:line-through}
 #engrane-root .g-now{font-size:15px;color:var(--ink)}
 #engrane-root .g-now b{color:var(--red);font-size:22px}
-#engrane-root .g-gar{margin:6px 0 12px;font-size:14px;font-weight:700;color:var(--navy)}
-#engrane-root .g-btn{width:100%}
+#engrane-root .g-now-big{font-size:34px;font-weight:800;color:#fff;line-height:1.1}
+#engrane-root .g-now-sub{font-size:12px;opacity:.85}
+#engrane-root .g-gar-row{display:flex;align-items:flex-start;gap:10px;background:#FFF5F5;border:1px solid #F2C9C9;border-radius:10px;padding:12px;margin:14px 0}
+#engrane-root .g-gar-ic{font-size:20px;line-height:1.3;flex:0 0 auto}
+#engrane-root .g-gar{margin:0;font-size:14px;font-weight:700;color:var(--navy)}
+#engrane-root .g-card .g-btn{width:100%;min-height:52px;font-size:16px;background:var(--red);color:#fff;border-radius:12px;box-shadow:0 8px 20px rgba(217,48,37,.35)}
+#engrane-root .g-card .g-btn.done{background:var(--green);box-shadow:none}
+#engrane-root .g-btn-top{margin:14px 0 0}
 #engrane-root .g-nopay{margin:10px 0 0;font-size:14px;font-weight:700;color:var(--navy);text-align:center}
-#engrane-root .g-status{margin:10px 0 0;font-size:12.5px;color:#5b6675;line-height:1.45}
+#engrane-root .g-status{margin:10px 0 0;font-size:12.5px;color:#5b6675;line-height:1.45;text-align:center}
+#engrane-root .g-callout{background:#FFF5F5;border-left:4px solid var(--red);padding:12px;border-radius:6px;margin:14px 0}
+#engrane-root .g-callout .g-k{margin-top:0;color:var(--red)}
+#engrane-root .g-out{margin:8px 0 0;padding:0;list-style:none}
+#engrane-root .g-out li{position:relative;padding:10px 12px 10px 34px;margin:6px 0;font-size:14.5px;line-height:1.5;background:#fff;border:1px solid var(--line);border-radius:10px}
+#engrane-root .g-out li::before{content:"✅";position:absolute;left:10px;top:10px;font-size:13px}
+#engrane-root .g-stack{margin:8px 0 0;padding:0;list-style:none}
+#engrane-root .g-stack-row{display:flex;align-items:flex-start;gap:10px;background:#F4F6F9;border-radius:10px;padding:12px;margin:8px 0}
+#engrane-root .g-stack-ic{font-size:20px;line-height:1.3;flex:0 0 auto}
+#engrane-root .g-stack-tx{font-size:14.5px;line-height:1.5;color:var(--ink)}
+#engrane-root .g-two{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+@media(min-width:420px){#engrane-root .g-two{flex-direction:row}}
+#engrane-root .g-mini{flex:1;background:rgba(10,37,64,.04);border-radius:10px;padding:10px 12px}
+#engrane-root .g-mini .g-k{margin-top:0}
+#engrane-root .g-tx-sm{margin:0;font-size:13.5px;line-height:1.5;color:var(--ink)}
 #engrane-root .u-ofname{font-size:18px;font-weight:800;margin:2px 0 4px}
 #engrane-root .u-oflead{margin:0 0 8px;font-size:14.5px;opacity:.85}
 #engrane-root .u-price{margin:10px 0 6px;font-size:15px}
@@ -1669,7 +1690,7 @@ const TEETH=[
   hoyPasos:['Escoge a tus últimos 10 compradores y anota qué comparten: edad, sexo, zona y qué te compraron.','Escríbeles por WhatsApp: "Te doy un descuento en tu próxima compra si me contestas dos preguntas":<ul class="u-sub"><li>¿Por qué me compraste a mí?</li><li>¿Qué es lo que más te dio?</li></ul>','Junta las respuestas. Se van a repetir: si 6 de 10 dicen lo mismo, ese es tu motivador real.','Con lo que comparten y lo que se repite, escribe a tu cliente ideal en una línea: quién es y por qué te compra a ti.'],
   why34:'Ya sabes a quién le vendes: lo que casi nadie sabe es <b>quién le deja dinero</b>. No todos los clientes valen igual: unos dejan 3× más, regresan y llegan a sus citas; otros regatean, cancelan y desaparecen. Tus campañas aprenden del que LLEGA, no del que conviene, a menos que tú se lo enseñes.',
   hoy34:'Saca tus 10 mejores clientes del año por dinero dejado (no por frecuencia). Busca qué comparten: servicio de entrada, zona, edad, cómo llegaron. Ese patrón es tu cliente real, y casi nunca es el que tenías en la cabeza.',
-  pasos34:['Saca tus <b>10 mejores clientes del año</b>, por dinero que dejaron, no por caerte bien.','Busca qué comparten: por qué servicio entraron, edad, zona, cómo te encontraron.<table class="reg-mock"><tr><th>Cliente</th><th>Entró por</th><th>Dejó</th></tr><tr><td>Ana</td><td>Servicio B</td><td>$18,400</td></tr><tr><td>Rocío</td><td>Servicio B</td><td>$15,900</td></tr><tr><td>Pau</td><td>Servicio A</td><td>$14,200</td></tr></table>','Escribe el patrón en UNA línea ("mujer 30-45, entra por Servicio B, zona X"). Compáralo con el que tus anuncios traen hoy.','Ahora úsalo: exporta tus <b>100 (o más) mejores clientes</b> (nombre y teléfono bastan) y mándaselos a quien maneja tus campañas:<div class="tell-box">Mándale esto tal cual: <i>"Sube esta lista a Meta como público de clientes, crea un público similar y pruébalo contra el público actual."</i></div> Es la forma más directa de decirle a Meta: tráeme MÁS de éstos, sin un peso extra de presupuesto. (El patrón se encuentra con 10; el público necesita 100+: Meta no acepta listas chicas.)'],reto34:'Si tu anuncio no le habla a ese patrón, estás pagando por traer al equivocado.',ofName:'Tu cliente, tu oferta y tu anuncio',ofPrice:50,ofHook:'Tus clientes ya te dijeron qué venderles y cómo anunciarlo. Está en tu WhatsApp.',ofWin:'Hacer anuncios que le hablen al cliente que sí quieres, no a todo el mundo. Eso cambia quién te escribe: más gente del tipo que buscas y menos de la que te hace perder el tiempo. Y deja de irse dinero en hablarle a quien nunca te iba a comprar. No te prometo un número: depende de tu oferta y de tu mercado.',ofOut:'Cuatro cosas escritas, listas para usar mañana: tu cliente ideal en una línea. Por qué te compra a ti, con sus palabras exactas. Tu oferta en una frase, con precio. Y tu anuncio listo para subir: el texto, el titular y qué imagen ponerle.',ofBullets:['Dos videos cortos:<ul class="g-sub"><li><b>Video 1:</b> cómo distinguir a tu cliente y sacar sus motivadores de tus chats, y cómo armar tu oferta en una frase. Con casos reales de varios giros, incluido qué hacer si tienes menos de 10 compradores.</li><li><b>Video 2:</b> tu anuncio con IA, en vivo. Cómo correr el prompt con tus chats y salir con un anuncio listo para subir.</li></ul>','El prompt: un texto listo que le pegas a Claude (la inteligencia artificial, gratis). Le das tus chats y te va llevando: tu cliente, sus motivadores, tu oferta y tu anuncio. Si solo le das tus opiniones, te pide los chats.','La ficha de una hoja para guardar lo que salió, con una llena de ejemplo.'],ofTime:'Una tarde. Los chats ya los tienes en tu WhatsApp.',ofFor:'Es para ti si vendes por mensaje y todavía le hablas a todo el mundo. No es para ti si ya sabes a quién le vendes y por qué: tu siguiente paso es otro.'},
+  pasos34:['Saca tus <b>10 mejores clientes del año</b>, por dinero que dejaron, no por caerte bien.','Busca qué comparten: por qué servicio entraron, edad, zona, cómo te encontraron.<table class="reg-mock"><tr><th>Cliente</th><th>Entró por</th><th>Dejó</th></tr><tr><td>Ana</td><td>Servicio B</td><td>$18,400</td></tr><tr><td>Rocío</td><td>Servicio B</td><td>$15,900</td></tr><tr><td>Pau</td><td>Servicio A</td><td>$14,200</td></tr></table>','Escribe el patrón en UNA línea ("mujer 30-45, entra por Servicio B, zona X"). Compáralo con el que tus anuncios traen hoy.','Ahora úsalo: exporta tus <b>100 (o más) mejores clientes</b> (nombre y teléfono bastan) y mándaselos a quien maneja tus campañas:<div class="tell-box">Mándale esto tal cual: <i>"Sube esta lista a Meta como público de clientes, crea un público similar y pruébalo contra el público actual."</i></div> Es la forma más directa de decirle a Meta: tráeme MÁS de éstos, sin un peso extra de presupuesto. (El patrón se encuentra con 10; el público necesita 100+: Meta no acepta listas chicas.)'],reto34:'Si tu anuncio no le habla a ese patrón, estás pagando por traer al equivocado.',ofName:'Tu cliente, tu oferta y tu anuncio',ofPrice:50,ofHook:'Tus clientes ya te dijeron qué venderles y cómo anunciarlo. Está en tu WhatsApp.',ofWin:'Hacer anuncios que le hablen al cliente que sí quieres, no a todo el mundo. Eso cambia quién te escribe: más gente del tipo que buscas y menos de la que te hace perder el tiempo. Y deja de irse dinero en hablarle a quien nunca te iba a comprar. No te prometo un número: depende de tu oferta y de tu mercado.',ofOut:'Cuatro cosas escritas, listas para usar mañana: tu cliente ideal en una línea. Por qué te compra a ti, con sus palabras exactas. Tu oferta en una frase, con precio. Y tu anuncio listo para subir: el texto, el titular y qué imagen ponerle.',ofOutList:['Tu cliente ideal en una línea.','Por qué te compra a ti, con sus palabras exactas.','Tu oferta en una frase, con precio.','Tu anuncio listo para subir: el texto, el titular y qué imagen ponerle.'],ofBullets:['Dos videos cortos:<ul class="g-sub"><li><b>Video 1:</b> cómo distinguir a tu cliente y sacar sus motivadores de tus chats, y cómo armar tu oferta en una frase. Con casos reales de varios giros, incluido qué hacer si tienes menos de 10 compradores.</li><li><b>Video 2:</b> tu anuncio con IA, en vivo. Cómo correr el prompt con tus chats y salir con un anuncio listo para subir.</li></ul>','El prompt: un texto listo que le pegas a Claude (la inteligencia artificial, gratis). Le das tus chats y te va llevando: tu cliente, sus motivadores, tu oferta y tu anuncio. Si solo le das tus opiniones, te pide los chats.','La ficha de una hoja para guardar lo que salió, con una llena de ejemplo.'],ofTime:'Una tarde. Los chats ya los tienes en tu WhatsApp.',ofFor:'Es para ti si vendes por mensaje y todavía le hablas a todo el mundo. No es para ti si ya sabes a quién le vendes y por qué: tu siguiente paso es otro.'},
  {l:'Equipo de ventas',sig:'EQUIPO',g:0,x:'Quién contesta y cierra tus mensajes.',def:'Es quien contesta cuando llega un lead. Con criterio para calificar, seguir y cerrar, o solo contestando preguntas.',
   why:'El <b>78% compra al primero que responde bien</b>. Sin guion ni proceso, cada quien contesta como puede, y tus ventas dependen del humor del día.',
   hoy:'Lee los últimos 10 chats de tu equipo: ¿en cuántos ofrecieron agendar o cerrar, y en cuántos solo contestaron la pregunta y esperaron?',
@@ -1912,9 +1933,9 @@ function laLectura(real,tg,tr){
 }
 /* ---- Checklist Etapa 1 (mapa en lista) ---- */
 const CHK1=[
- {area:'Presupuesto',text:'Confirmar que ya ganas con lo que vendes hoy, aunque sea en chico, antes de subirle al gasto.',ej:'Vendes 20 piezas al mes a $500 y te quedan $150 de cada una. Eso ya da para meterle $3 mil a anuncios sin perder.'},
- {area:'Campañas',text:'Una campaña bien armada en el administrador de anuncios de Facebook, con un objetivo claro.',ej:'En vez de "Promocionar publicación", una campaña en el administrador de anuncios con objetivo "Mensajes", un anuncio y un presupuesto diario fijo.'},
- {area:'Equipo',text:'Aunque el equipo seas tú: vender con el mismo paso a paso cada vez, para que no dependa de tu día.',ej:'Cada vez que alguien escribe: saludo, una pregunta para saber qué necesita, precio, y ofrecer cerrar. Siempre igual, aunque estés cansado.'},
+ {area:'Presupuesto',text:'Decidir cuánto le vas a meter a anuncios cada mes y sostenerlo 30 días sin moverle.',ej:'Decides $3 mil al mes ($100 al día) y no le subes ni le bajas en 30 días, aunque un día no lleguen mensajes. Así sabes si funciona o no.'},
+ {area:'Campañas',text:'Una campaña bien armada en el administrador de anuncios de Facebook, con un objetivo claro y varios anuncios corriendo, no uno solo.',ej:'En vez de "Promocionar publicación" con un solo anuncio: una campaña con objetivo "Mensajes", 3 anuncios distintos adentro y un presupuesto diario fijo.'},
+ {area:'Equipo',text:'Aunque el equipo seas tú: contestar en minutos y vender con el mismo paso a paso cada vez, para que no dependa de tu día.',ej:'Cada vez que alguien escribe: contestas antes de 10 minutos, saludo, una pregunta para saber qué necesita, precio, y ofrecer cerrar. Siempre igual, aunque estés cansado.'},
  {area:'Métricas',text:'Llevar lo básico: cuántos te escriben, cuántos compran y cuánto te cuesta cada venta.',ej:'Una hoja con tres columnas: cuántos te escribieron esta semana, cuántos compraron y cuánto gastaste en anuncios. Divides y ya sabes lo que te cuesta cada venta.'},
  {area:'Seguimiento',text:'Un lugar simple donde no se te pierda ningún interesado, aunque sea una hoja.',ej:'Una hoja de Excel con nombre, teléfono, qué preguntó y si compró. Se llena cada noche en 5 minutos.'},
  {area:'Ventas',text:'Que la venta deje de ser suerte: repetir a propósito lo que funcionó la última vez.',ej:'La semana que más vendiste, ¿qué hiciste distinto? ¿Qué anuncio, qué precio, qué mensaje? Eso se repite a propósito la siguiente.'},
@@ -2058,16 +2079,30 @@ function render(levels){
   if(t.ofName) h+=`<p class="u-bridge">¿Prefieres que te lo dé resuelto? Abajo está la guía.</p>`;
   u.innerHTML=h; u.style.display='';
   if(t.ofName){
-   const bullets=(t.ofBullets||[]).map(x=>`<li>${x}</li>`).join('');
+   const bullets=(t.ofBullets||[]).map(x=>{
+    let ic='✓';
+    if(/^Dos videos/.test(x)) ic='🎥'; else if(/^El prompt/.test(x)) ic='🤖'; else if(/^La ficha/.test(x)) ic='📄';
+    return `<li class="g-stack-row"><span class="g-stack-ic">${ic}</span><span class="g-stack-tx">${x}</span></li>`;
+   }).join('');
    let gh=`<div class="g-card"><div class="g-tag">LA GUÍA DE ETAPA ${et}</div><div class="g-cover"><span class="g-cover-k">GUÍA</span><span class="g-cover-t">${t.ofName}</span><span class="g-cover-by">Anwar Sepúlveda</span></div><h2 class="g-name">${t.ofName}</h2>`;
    if(t.ofHook) gh+=`<p class="g-hook">${t.ofHook}</p>`;
-   if(t.ofWin) gh+=`<div class="g-k">Qué vas a poder hacer</div><p class="g-tx">${t.ofWin}</p>`;
-   if(t.ofFor) gh+=`<p class="g-for">${t.ofFor}</p>`;
-   if(t.ofOut) gh+=`<div class="g-k">Con qué sales</div><p class="g-tx">${t.ofOut}</p>`;
-   gh+=`<div class="g-k">${t.ofOut?'Qué trae':'Trae video, hoja y una IA lista para usar'}</div><ul class="g-ul">${bullets}</ul>`;
-   if(t.ofTime) gh+=`<div class="g-k">Cuánto tardas</div><p class="g-tx">${t.ofTime}</p>`;
-   gh+=`<div class="g-price"><span class="g-reg">Precio regular: $${full} pesos</span><span class="g-now">Precio especial de lanzamiento para la lista de espera: <b>$${t.ofPrice} pesos</b></span></div>`;
-   gh+=`<p class="g-gar">Si la ves y no te sirve, me escribes y te regreso tus $${t.ofPrice} pesos.</p>`;
+   gh+=`<button class="lq ${t.s} g-btn g-btn-top" data-wl="${slug(t.l)}">Apartar mi lugar en la lista →</button>`;
+   gh+=`<p class="g-nopay">Hoy no pagas nada. Cuando salga, te aviso a tu correo y ahí decides.</p>`;
+   if(t.ofWin) gh+=`<div class="g-callout"><div class="g-k">Qué vas a poder hacer</div><p class="g-tx">${t.ofWin}</p></div>`;
+   if(t.ofFor||t.ofTime){
+    gh+=`<div class="g-two">`;
+    if(t.ofFor) gh+=`<div class="g-mini"><div class="g-k">Para quién es</div><p class="g-tx-sm">${t.ofFor}</p></div>`;
+    if(t.ofTime) gh+=`<div class="g-mini"><div class="g-k">Cuánto tardas</div><p class="g-tx-sm">${t.ofTime}</p></div>`;
+    gh+=`</div>`;
+   }
+   if(t.ofOut){
+    gh+=`<div class="g-k">Con qué sales</div>`;
+    if(t.ofOutList&&t.ofOutList.length) gh+=`<p class="g-tx">Cuatro cosas escritas, listas para usar mañana:</p><ul class="g-out">${t.ofOutList.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+    else gh+=`<p class="g-tx">${t.ofOut}</p>`;
+   }
+   gh+=`<div class="g-k">${t.ofOut?'Qué trae':'Trae video, hoja y una IA lista para usar'}</div><ul class="g-stack">${bullets}</ul>`;
+   gh+=`<div class="g-price"><span class="g-reg">Precio regular: $${full} pesos</span><span class="g-now-big">$${t.ofPrice} pesos</span><span class="g-now-sub">Precio especial de lanzamiento para la lista de espera</span></div>`;
+   gh+=`<div class="g-gar-row"><span class="g-gar-ic">🛡️</span><p class="g-gar">Si la ves y no te sirve, me escribes y te regreso tus $${t.ofPrice} pesos.</p></div>`;
    gh+=`<button class="lq ${t.s} g-btn" data-wl="${slug(t.l)}">Apartar mi lugar en la lista →</button>`;
    gh+=`<p class="g-nopay">Hoy no pagas nada. Cuando salga, te aviso a tu correo y ahí decides.</p><p class="g-status">Las guías salen una por una, en el orden que la lista de espera decide: tu lugar cuenta para que la tuya salga antes.</p></div>`;
    g.innerHTML=gh; g.style.display='';
