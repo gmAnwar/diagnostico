@@ -725,7 +725,7 @@ const CTX = [
 ];
 
 /* ---------- Tabla diagnóstica · descriptores por área × etapa ---------- */
-const STAGES = ["Empezando a vender","Ventas inestables","Ventas estancadas","Ventas topadas"];
+const STAGES = ["Empezando a vender","Ventas inestables","Ventas que no escalan","Ventas topadas"];
 const STAGE_COPY = {
  1:{dolor:'Probando si puedo vender',
     dentro:['Estás probando: todavía no hay un flujo constante de gente preguntando.','Tú haces de todo.','Contestas desde tu WhatsApp personal.','Los números viven en una libreta o en tu cabeza.'],
@@ -1924,7 +1924,7 @@ function render(levels){
  const PAUTA=["Menos de $10 mil/mes en anuncios","$10 a $40 mil/mes en anuncios","$40 a $120 mil/mes en anuncios","Más de $120 mil/mes en anuncios"];
  let steps='';
  for(let i=1;i<=4;i++){const cls=i<et?'done':i===et?'cur':i===et+1?'next':'';const pill=i===et?'<span class="epill">ESTÁS AQUÍ</span>':i===et+1?'<span class="epill nx">SIGUIENTE</span>':'';
-  steps+=`<div class="er ${cls}"><div class="ec1"><span class="ek">ETAPA ${i}</span><span class="en">${STAGES[i-1]}</span>${pill}</div><div class="ec2"><span class="ed">"${STAGE_COPY[i].dolor}"</span><span class="ea">${PAUTA[i-1]}</span></div></div>`;
+  steps+=`<div class="er ${cls}"><div class="ec1"><span class="ek">ETAPA ${i}</span><span class="en">${STAGES[i-1]}</span>${pill}</div><div class="ec2"><span class="ed">"${STAGE_COPY[i].dolor}"</span></div></div>`;
   if(i<4) steps+=`<div class="earrow ${i===et?'hot':''}">↓</div>`;}
  document.getElementById('etapa').innerHTML=`<div class="etab">${steps}</div>`;
  document.getElementById('etTop').innerHTML=`<div class="et-k">TU DIAGNÓSTICO</div><h1 class="et-h1">Estás en la etapa ${et} de 4: <span class="et-nm">${STAGES[et-1]}</span></h1>`;
