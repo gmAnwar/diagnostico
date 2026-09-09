@@ -1651,8 +1651,15 @@ const TEETH=[
   hoy34:'Ponle una clave a cada anuncio (AZUL, ROJO…) en el mensaje que se abre en WhatsApp cuando lo pican. Tu equipo apunta por chat: fecha · clave · ¿compró? El día 7 divides, y sabes qué anuncio te trae clientes de verdad.',
   pasos34:['Cuando alguien pica tu anuncio, se le abre WhatsApp con un <b>mensaje ya escrito</b> (el clásico "Hola, me interesa…"). Ese mensaje lo decides TÚ al crear el anuncio. Ponle una <b>clave distinta a cada anuncio</b>:<div class="wa-mock"><div class="wa-b">Hola, me interesa 😊 <mark>(AZUL)</mark></div><div class="wa-b">Hola, me interesa 😊 <mark>(ROJO)</mark></div><div class="wa-cap">Así te llega el chat: la clave viaja sola, sin que el cliente haga nada.</div></div><div class="tell-box">¿Alguien más te maneja las campañas? Mándale esto tal cual: <i>"Cámbiame el mensaje de bienvenida de cada anuncio para que traiga una clave distinta entre paréntesis: (AZUL), (ROJO)…"</i></div>','Tu equipo apunta 3 cosas de cada chat que llegue, en papel o en Excel, da igual:<table class="reg-mock"><tr><th>Fecha</th><th>Clave</th><th>¿Compró?</th></tr><tr><td>3 jul</td><td>AZUL</td><td>❌</td></tr><tr><td>3 jul</td><td>ROJO</td><td>✅</td></tr><tr><td>4 jul</td><td>ROJO</td><td>✅</td></tr></table>','A los 7 días, haz una cuenta por cada clave: <b>lo que gastaste en ese anuncio ÷ sus compradores</b>. Ejemplo: gastaste $1,500 en ROJO y te compraron 5 → cada cliente de ROJO te costó <b>$300</b>. Ese es tu CAC por anuncio.'],
   reto34:'Haz la cuenta con dos anuncios y compáralos. Te apuesto que hay una diferencia que no esperabas.',
-  ofName:'Tu CAC máximo',ofPrice:50,
-  ofBullets:['El video donde saco el CAC máximo de una cuenta real','La hoja donde metes tus números y te dice si estás perdiendo en cada venta','Una IA entrenada con mi método: le das tus números y te dice cuánto puedes pagar por cliente']},
+  hoyPasos:['Suma lo que gastaste en anuncios el mes pasado.','Cuenta los clientes nuevos que SÍ pagaron ese mes. No mensajes, no citas: los que pagaron.','Divide. Ese es tu costo por cliente de hoy.','Compáralo con lo que te deja un cliente después de costos. Si el costo por cliente se come más de la mitad de lo que te deja, ahí está tu freno, no en los anuncios.','Para la semana que entra: ponle una clave a cada anuncio en el mensaje que abre WhatsApp (AZUL, ROJO). Tu equipo apunta fecha, clave y si compró. El día 7 divides por anuncio.'],
+  ofName:'Cuánto puedes pagar por un cliente (tu CAC máximo)',ofPrice:50,
+  ofHook:'Subirle al presupuesto sin saber cuánto puedes pagar por cliente es apostar. Este número te dice cuándo subirle y cuándo apagar.',
+  ofWin:'Saber, campaña por campaña, cuáles te traen clientes a un costo que te deja dinero y cuáles te lo cobran. Con eso apagas la que se pasa y le subes a la que aguanta, con números, no con feeling. No te prometo un número: depende de tu margen y de tu mercado.',
+  ofFor:'Es para ti si ya inviertes fuerte y llevas meses vendiendo lo mismo. No es para ti si todavía no sabes cuánto te cuesta una venta en total.',
+  ofTime:'Una tarde para sacar tu número. Una semana para tener el costo por campaña.',
+  ofOut:'Cuatro cosas que vas a tener escritas al terminar.',
+  ofOutList:['Tu CAC máximo: lo más que puedes pagar por un cliente sin perder, sacado de tu margen.','Tu costo por cliente de hoy, en total y por campaña.','Tu regla de decisión: cuál campaña apagar, cuál dejar y a cuál subirle.','Tu clave por anuncio, para saber de qué anuncio salió cada venta aunque cierres por WhatsApp.'],
+  ofBullets:['Dos videos cortos:<ul class="g-sub"><li><b>Video 1:</b> cómo sacar tu CAC máximo con tu precio y tus costos, y por qué el mensaje barato puede ser el cliente más caro. Con casos reales de varios giros.</li><li><b>Video 2:</b> la hoja de CAC con veredictos, en vivo. La lleno con los números de una cuenta real y te enseño a leer cuál campaña apagar y a cuál subirle.</li></ul>','El prompt: un texto listo que le pegas a Claude (una inteligencia artificial gratis, como ChatGPT). Le das tu precio, tus costos, lo que gastaste en anuncios y tus ventas por campaña, y te saca tu CAC máximo, tu costo por cliente de hoy y el veredicto de cada campaña. Si te faltan números, te dice cuáles juntar.','La hoja de CAC con veredictos lista para copiar, con una llena de ejemplo, y la ficha de una hoja con tu número y tu regla.']},
  {l:'Tasa de cierre',sig:'T.C.',g:2,x:'De cada 10 que te escriben, cuántos compran.',def:'De cada 10 personas que te escriben, cuántas terminan comprando. Si te escriben 100 y compran 7, tu tasa de cierre es 7%.',
   why:'Un spa real recibía <b>5,600 mensajes al mes y solo 393 agendaban (7%)</b>. El otro 93% se perdía en WhatsApp sin que nadie lo midiera, y por eso nadie lo arreglaba.',
   hoy:'Cuenta tus últimos 50 chats: ¿cuántos terminaron en cita o venta? Ese porcentaje es tu tasa real de cierre.',
@@ -1943,6 +1950,7 @@ function laLectura(real,tg,tr){
  const st=l=>{const t=real.find(x=>x.l===l);return t?t.s:null;};
  const gGood=gi=>real.filter(t=>t.g===gi&&t.s==='g').length;
  const gReds=gi=>real.filter(t=>t.g===gi&&t.s==='r').length;
+ if(state&&state.etapa===3) return `Vendes bien y llevas meses en el mismo número. Ya no es problema de anuncios: es que decides con promedios, y el promedio esconde la campaña que te está costando dinero. Se arregla <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
  if(state&&state.etapa===2) return `Ya vendes, y eso ya es más que la mayoría. Lo que te falta no es presupuesto: es que el mes flojo deje de ser sorpresa. Se arregla <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
  if(tg<=1) return `Estás construyendo casi todo desde cero: normal a esta altura, no es mala señal. La trampa aquí es querer hacer todo a la vez: se hace <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
  if(st('Generación de ads')!=='r' && st('Tasa de cierre')!=='r' && (st('Atribución')==='r'||st('CAC')==='r'))
@@ -1982,13 +1990,26 @@ const CHK2=[
  {area:'Anuncios',text:'Un anuncio nuevo cada semana. Apagas el peor y anotas cuál ganó: el que trajo más apartados o pagos, no el de mensajes más baratos.',ej:'Lunes subes un anuncio nuevo. Viernes ves cuál trajo más apartados: ese ganó, aunque sus mensajes hayan salido más caros. El peor se apaga.',cl:{text:'Un anuncio nuevo cada semana. Apagas el peor y anotas cuál ganó: el que trajo más citas, no el de mensajes más baratos.',ej:'Lunes subes un anuncio nuevo. Viernes ves cuál trajo más citas: ese ganó, aunque sus mensajes hayan salido más caros. El peor se apaga.'}},
  {area:'Asistencia',text:'Recordatorio un día antes y confirmación el mismo día, a todos los que apartan.',ej:'Ayer: "Te espero mañana a las 4, ¿confirmas?". Hoy en la mañana: "Nos vemos hoy a las 4". A todos, no solo a los que te acuerdas.',na:true,cl:{text:'Recordatorio un día antes y confirmación el mismo día, a todas las que agendan.',ej:'Ayer: "Te espero mañana a las 4, ¿confirmas?". Hoy en la mañana: "Nos vemos hoy a las 4". A todas, no solo a las que te acuerdas.'}}
 ];
-const CHK_BY={1:CHK1,2:CHK2};
-const PIDE_COVERED_BY={1:['Cliente ideal','Oferta','Anuncios'],2:['Presupuesto','Métricas','Ventas']};
+const CHK3=[
+ {area:'Presupuesto',text:'Saber cuánto puedes pagar por un cliente sin perder (tu costo máximo) y cuánto te cuesta en cada campaña. Apagar la que se pasa.',ej:'Un cliente te deja $2,000. Decides que puedes pagar hasta $700 por conseguirlo. La campaña A te lo trae en $450 y la B en $1,100: a la B se le apaga o se le cambia, aunque traiga muchos mensajes.'},
+ {area:'Campañas',text:'Cambiar UNA cosa a la vez, medir 7 días y decidir con números.',ej:'Esta semana solo cambias el presupuesto de una campaña. Nada más. El día 7 comparas clientes y costo por cliente contra la semana anterior. Si cambias tres cosas, no sabes cuál movió el resultado.'},
+ {area:'Equipo',text:'Que los 2 o 3 que venden cierren igual: el mismo paso a paso escrito, y medir quién lo cumple y quién cierra más.',ej:'De 50 interesados, Karla cerró 16 y Luis 6 con el mismo anuncio. Lees 5 chats de cada uno: Karla ofrece día y hora, Luis solo contesta la pregunta. Esa diferencia se vuelve regla para todos ese mismo día.'},
+ {area:'Métricas',text:'Cuatro números por campaña: costo por mensaje, costo por cliente, cuánto te deja cada cliente y cuánto te queda.',ej:'Campaña A: mensaje $20, cliente $450, te deja $2,000, te quedan $1,550. Campaña B: mensaje $12, cliente $1,100, te deja $2,000, te quedan $900. La de mensajes baratos es la que menos te deja.'},
+ {area:'Seguimiento',text:'Un sistema donde cada interesado tenga su estatus y el seguimiento salga solo, sin que nadie se tenga que acordar.',ej:'El que cotizó y no contestó recibe un mensaje al día siguiente, otro a los 3 días y otro a los 7, sin que tu equipo lo mande a mano. Y tú ves cuántos hay en cada estatus.'},
+ {area:'Ventas',text:'Poder decir con números: meto tanto en anuncios, me escriben tantos, cierran tantos y me quedan tantos pesos.',ej:'"Meto $60 mil, me escriben 400, cierran 40, me quedan $80 mil." Si puedes decir esa frase con tus números del mes pasado, ya no estás adivinando.'},
+ {area:'Oferta',text:'Probar 2 o 3 versiones de tu oferta (precio, paquete o forma de pago) y saber cuál cierra más.',ej:'Mismo servicio, tres versiones: pago de contado, en dos pagos, y paquete con algo extra. Un mes con cada una y cuentas cuál cerró más sin regateo.'},
+ {area:'Cliente ideal',text:'Al menos 2 tipos de cliente, con un mensaje distinto para cada uno.',ej:'A la mujer de 35 a 50 le hablas de tiempo y resultado. A la de 25 a 34 le hablas de precio y de pagos. Un anuncio para cada una, no uno para las dos.'},
+ {area:'Respuesta',text:'Tiempo de respuesta medido también de noche y en fin de semana, y revisado cada semana.',ej:'Sacas tus últimos 20 interesados con hora de llegada y hora de respuesta. Los de horario: 8 minutos. Los de noche y fin de semana: 14 horas. Ese segundo número es el que te está costando.'},
+ {area:'Anuncios',text:'Un banco de anuncios ganadores, organizado. Lo que funciona se repite y se escala; no empiezas de cero cada mes.',ej:'Una carpeta con tus 10 mejores anuncios, cada uno con su costo por cliente. Cuando uno se cansa, sacas una versión del siguiente en la lista, no uno nuevo desde cero.'},
+ {area:'Asistencia',text:'Anticipo, recordatorio un día antes y confirmación el mismo día, a todos los que apartan. Meta: que lleguen al menos 3 de cada 4.',ej:'De 20 que apartan con anticipo, llegan 16. Sin anticipo, llegaban 9. El anticipo no es para cobrar: es para que lleguen.',na:true}
+];
+const CHK_BY={1:CHK1,2:CHK2,3:CHK3};
+const PIDE_COVERED_BY={1:['Cliente ideal','Oferta','Anuncios'],2:['Presupuesto','Métricas','Ventas'],3:['Presupuesto','Métricas','Campañas']};
 const ETAPA_GUIDE={}; // guía de la etapa cuando no es el mismo diente del bloque gratis
-const ETAPA_TOOTH={1:'Cliente',2:'Venta mensual'};
+const ETAPA_TOOTH={1:'Cliente',2:'Venta mensual',3:'CAC'};
 function K(){ if(state&&!state.k&&state.C&&state.C[0]===0) state.k='clinicas'; return (state&&state.k)||''; } // rubro 'Salud y belleza' → funnel de clínicas
 function nk(o,key){ return (K()==='clinicas'&&o&&o.cl&&o.cl[key]!=null)?o.cl[key]:(o?o[key]:undefined); }
-function CHKN(){ return (state&&state.etapa===2)?2:1; }
+function CHKN(){ const e=(state&&state.etapa)||1; return (e===2||e===3)?e:1; }
 function CHK(){ return CHK_BY[CHKN()]||CHK1; }
 function chkKey(base){ try{ const b=(state&&state.B)?state.B.join(''):''; return base+(b?'_'+b:''); }catch(e){ return base; } }
 function chk1Load(){
@@ -2125,7 +2146,7 @@ function render(levels){
   steps+=`<div class="er ${cls}"><div class="ec1"><span class="ek">ETAPA ${i}</span><span class="en">${STAGES[i-1]}</span>${pill}</div><div class="ec2"><span class="ed">"${STAGE_COPY[i].dolor}"</span></div></div>`;
   if(i<4) steps+=`<div class="earrow ${i===et?'hot':''}">↓</div>`;}
  document.getElementById('etapa').innerHTML=`<div class="etab">${steps}</div>`;
- document.getElementById('etTop').innerHTML=`<div class="et-k">TU DIAGNÓSTICO</div><h1 class="et-h1">Estás en la etapa ${et} de 4: <span class="et-nm">${STAGES[et-1]}</span></h1>${(et===1||et===2)?`<p class="mail-note">Ya te mandamos tu mapa por correo. Si no llega en 2 minutos, revisa Promociones o Spam y muévelo a Principal.</p>`:''}`;
+ document.getElementById('etTop').innerHTML=`<div class="et-k">TU DIAGNÓSTICO</div><h1 class="et-h1">Estás en la etapa ${et} de 4: <span class="et-nm">${STAGES[et-1]}</span></h1>${(et===1||et===2||et===3)?`<p class="mail-note">Ya te mandamos tu mapa por correo. Si no llega en 2 minutos, revisa Promociones o Spam y muévelo a Principal.</p>`:''}`;
  const SC=STAGE_COPY[et];
  document.getElementById('porDentro').innerHTML=`<div class="k">Así se ve por dentro</div><ul class="dentro">${SC.dentro.map(x=>`<li>${x}</li>`).join('')}</ul>`;
  document.getElementById('frena').innerHTML=`<div class="k">Lo que frena a los de tu etapa</div><p><b class="frena-lead">${SC.frenaLead}</b> ${SC.frena}</p>`;
@@ -2138,7 +2159,7 @@ function render(levels){
  const u=document.getElementById('unica');
  const g=document.getElementById('guia');
  if(firstAny){ const t=firstAny; const full=t.ofFull||(t.ofPrice?t.ofPrice*2-1:0);
-  let h=`<div class="k">Por dónde empezar</div><h2 class="unica-h">Empieza por aquí: ${t.l.toLowerCase()==="cliente"?(K()==="clinicas"?"tu paciente":"tu cliente"):t.l==="Venta mensual"?"tu objetivo del mes":t.l==="Respuesta a leads"?"tu respuesta":t.l}</h2>`;
+  let h=`<div class="k">Por dónde empezar</div><h2 class="unica-h">Empieza por aquí: ${t.l.toLowerCase()==="cliente"?(K()==="clinicas"?"tu paciente":"tu cliente"):t.l==="Venta mensual"?"tu objetivo del mes":t.l==="CAC"?"cuánto te cuesta un cliente":t.l==="Respuesta a leads"?"tu respuesta":t.l}</h2>`;
   if(nk(t,'def')) h+=`<div class="u-row"><div class="u-k">Qué es</div><div class="u-t">${nk(t,'def')}</div></div>`;
   if(nk(t,'why')) h+=`<div class="u-row"><div class="u-k">Por qué te frena</div><div class="u-t">${nk(t,'why')}</div></div>`;
   h+=`<div class="u-row"><div class="u-k">Qué hacer esta semana, gratis</div><div class="u-t">${nk(t,'hoy')||''}</div>`;
@@ -2178,7 +2199,7 @@ function render(levels){
    g.innerHTML=gh; g.style.display='';
   } else { g.innerHTML=''; g.style.display='none'; }
  } else { u.innerHTML=''; u.style.display='none'; g.innerHTML=''; g.style.display='none'; }
- const et1=(et===1||et===2);
+ const et1=(et===1||et===2||et===3);
  const mapaA=document.querySelector('#mapa .mapa-img'), mapaI=document.querySelector('#mapa img'); if(mapaA){ const tsuf=(K()==='clinicas'&&(et===1||et===2))?'-clinicas':''; mapaA.href='tabla-etapa-'+et+tsuf+'.jpg'; } if(mapaI){ const tsuf=(K()==='clinicas'&&(et===1||et===2))?'-clinicas':''; mapaI.src='tabla-etapa-'+et+tsuf+'.jpg'; mapaI.alt='Tabla completa de la etapa '+et+': qué te frena y qué necesitas en cada área'; }
  const chkH=document.querySelector('#chkSec .chk-h'); if(chkH) chkH.textContent='Tu checklist para pasar a la etapa '+(et+1);
  ['porDentro','frena','paraPasar'].forEach(function(id){ const el=document.getElementById(id); if(el) el.style.display=et1?'none':''; });
