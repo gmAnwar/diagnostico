@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Diagnóstico Express · Mapa de Crecimiento</title>
 <!-- v2.1-draft quick-wins UX (matriz móvil + bio comprimida + acordeón áreas) · v2.0-draft A/B (captura WhatsApp gate vs reveal) · v1.9-draft: conversión (costo inacción + CTA value stack + calendario embebido + nombre) -->
+<!-- Microsoft Clarity · grabaciones y heatmaps. Async: no bloquea el render. -->
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "yiwjvgc0cb");
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -740,7 +748,7 @@ const CONFIG = {
         <h3 class="chk-h">Tu checklist para pasar a la etapa 2</h3>
         <p class="chk-sub">Es la columna derecha de tu mapa, en lista.</p>
         <p class="chk-prog" id="chkProg"></p>
-        <div class="chk-how"><b>Cómo se usa:</b> toca el círculo <span class="c-mini"></span> de lo que ya resolviste: se palomea <span class="c-mini on">✓</span> y se tacha. Si quieres ayuda en un punto, toca <span class="mini-a">Ayúdame con esto</span>. Regresa cuando quieras: aquí se te guarda.</div>
+        <div class="chk-how"><b>Ya te marqué lo que, por tus respuestas, ya traes resuelto.</b> Si alguno no aplica a tu negocio o crees que me equivoqué, toca el círculo y lo cambias — es tu lista.<br><br><b>Cómo se usa:</b> toca el círculo <span class="c-mini"></span> de lo que ya resolviste: se palomea <span class="c-mini on">✓</span> y se tacha. Si quieres ayuda en un punto, toca <span class="mini-a">Ayúdame con esto</span>. Regresa cuando quieras: aquí se te guarda.</div>
         <div class="chl" id="chkList"></div>
         <div class="pide-res" id="pideRes"></div>
       </div>
@@ -809,18 +817,18 @@ const QUIZ = [
  {id:"b1_presupuesto", area:"Presupuesto", q:"¿Cuánto le metes al mes a anuncios?",
   opts:["Menos de $10,000","Entre $10,000 y $40,000","Entre $40,000 y $150,000","Más de $150,000"]},
  {id:"b2_campanas", area:"Campañas", q:"¿Cómo llevas tus anuncios hoy?",
-  opts:["Le pico al botón azul de promocionar","Entro al Ads Manager de vez en cuando","Uso el Ads Manager con una estructura armada","Los lleva mi equipo o una agencia"]},
+  opts:["Le pico al botón azul de promocionar","Entro al administrador de anuncios (Ads Manager) de vez en cuando","Uso el administrador de anuncios (Ads Manager) con una estructura armada","Los lleva mi equipo o una agencia"]},
  {id:"b3_equipo", area:"Equipo ventas", q:"¿Quién contesta los mensajes que llegan de tus anuncios?",
   opts:["Los contesto yo","1 persona, sin proceso definido","2 a 3 personas, cada quien a su manera","Un equipo con líder y guion"]},
  {id:"b4_metricas", area:"Métricas", q:"¿Cuáles de estos números me puedes decir ahorita, sin buscarlos?", multi:true,
-  items:["Cuánto me cuesta un cliente que paga (no un mensaje)","De cada 10 que me escriben, cuántos compran","Cuántas veces recupero lo que meto en ads","De cada venta, de qué anuncio salió","Cuánto me queda limpio al final"],
+  items:["Cuánto me cuesta un cliente que paga (no un mensaje)","De cada 10 que me escriben, cuántos compran","Cuántas veces recupero lo que meto en ads","Cada venta, de qué anuncio salió","Cuánto me queda limpio al final"],
   opts:["No mido nada","Solo cuántos leads y cuántas ventas","Costo por lead y por cliente, pero no cuánto me deja cada cliente","Tengo control completo de mis números"]},
  {id:"b5_automatizacion", area:"Seguimiento", q:"El seguimiento a los que te escriben, ¿cómo lo llevas?",
   opts:["Todo a mano, me acuerdo o lo apunto","Lo llevo en un Google Sheet o parecido, sin CRM","Tengo un CRM básico","Tengo un CRM con seguimiento automático"]},
  {id:"b6_ventas", area:"Ventas", q:"¿Puedes saber más o menos cuánto vas a vender el mes que entra?",
   opts:["Ni idea, cada mes es distinto","Más o menos, pero con altibajos","Buen volumen, pero con picos y valles","Sí, le atino"]},
  {id:"b7_oferta", area:"Oferta", q:"Lo que vendes, ¿ya está probado o todavía le estás moviendo?",
-  opts:["Todavía estoy probando qué me compran","Ya sé qué se vende, pero no siempre","Se vende bien, le estoy afinando precio y oferta","Está probado, lo compran sin que yo empuje"]},
+  opts:["Todavía estoy probando cuál de mis productos o servicios me compran más","Ya sé qué se vende, pero no siempre se me vende","Se vende bien, le estoy afinando precio y oferta","Está probado, lo compran sin que yo empuje"]},
  {id:"b8_cliente", area:"Cliente ideal", q:"¿Tienes claro quién es tu cliente ideal?",
   opts:["Tengo una idea, pero no con datos","Tengo una definición inicial","Tengo un perfil claro, sacado de mis datos","Tengo varios perfiles y a cada uno le hablo distinto"]},
  {id:"b9_respuesta", area:"Resp. a leads", q:"¿Cuánto tardan en contestarle a alguien que escribe?",
@@ -1068,6 +1076,7 @@ function init(){
     const _tel = $("g_telefono");
     state.telefono = (state.ab==="A" && _tel) ? normTel(_tel.value) : "";
     fbReinit();          // ya tenemos correo y nombre: se los pasamos al pixel
+    clarityTags();       // etiqueta la grabacion con vid, variante y campana
     startQuiz();
   });
   // Variante B: captura de WhatsApp en el reveal
@@ -1297,6 +1306,7 @@ function completeAndShow(){
   // mismo event_id en navegador y servidor: Meta los deduplica en vez de contarlos dos veces
   const _eid = evid();
   try{ fbReinit(); }catch(e){}   // por si el telefono entro despues de la puerta
+  try{ clarityTags(); }catch(e){}  // ahora si ya hay etapa y banda que etiquetar
   try{ sendWebhook("quiz_complete", {event_id:_eid}); }catch(e){ console.warn("webhook",e); }
   // UN solo evento de conversion. Antes disparaban Lead y CompleteRegistration
   // juntos con el mismo eventID: Meta no sabia cual era el resultado.
@@ -1695,6 +1705,34 @@ function fbReinit(){
     fbq('init', CONFIG.PIXEL_ID, o);           // re-init: actualiza el matching de los eventos que siguen
   }catch(e){}
 }
+/* Clarity: le pega a la grabacion las mismas variables que ya viajan al webhook,
+   para poder filtrar los videos por etapa, campana, variante o nicho. El vid es
+   el mismo que aterriza en la columna AM de RAW: de una fila puedes llegar al video. */
+function clarityTags(){
+ try{
+  if(!window.clarity) return;
+  const A = window.ASV || {}, U = state.utm || {};
+  const set = function(k,v){ if(v!==null && v!==undefined && v!=="") clarity('set', k, String(v)); };
+  // Clarity acumula valores por tag: si mandas ab_gate dos veces sale ["A","A"].
+  // Lo que no cambia se manda UNA sola vez; la etapa y la banda hasta que existen.
+  if(!window._clOnce){
+    window._clOnce = 1;
+    if(A.vid) clarity('identify', A.vid, A.sid || null, null, A.vid);  // el nombre legible en el tablero es el vid
+    set('vid',      A.vid);
+    set('ab_gate',  state.ab);
+    set('nicho',    K());
+    set('campaign', U.utm_campaign);
+    set('content',  U.utm_content);
+    set('source',   (A.first && A.first.s) || U.utm_source);
+    set('term',     U.utm_term);
+  }
+  if(state.etapa && !window._clEtapa){
+    window._clEtapa = 1;
+    set('etapa', 'E' + state.etapa);
+    set('banda', bandaSocio() ? 'socio' : 'volumen');
+  }
+ }catch(e){}
+}
 const EV_STD = {PageView:1, Lead:1, CompleteRegistration:1, ViewContent:1, AddToWishlist:1,
                 Purchase:1, Schedule:1, InitiateCheckout:1, Subscribe:1, Contact:1};
 function track(ev, data, eid){
@@ -2031,8 +2069,16 @@ function laLectura(real,tg,tr){
   return `No tienes problema de atracción: te llega gente. El dinero se te cae <b>en la conversación</b> (llegan y no cierran). Meterle más ads sin arreglar el cierre es echarle agua a una cubeta con hoyo.`;
  if((st('Cliente')==='r'||st('Oferta')==='r') && gGood(2)>=1)
   return `Estás vendiendo, pero <b>sin saber con precisión a quién</b>. Eso funciona hasta cierto techo; después cada peso de ads rinde menos, porque le hablas a todos.`;
- if(tr>0){const worst=[0,1,2].map(gi=>({gi,r:gReds(gi)})).sort((a,b)=>b.r-a.r)[0],best=[0,1,2].map(gi=>({gi,g:gGood(gi)})).sort((a,b)=>b.g-a.g)[0];
-  return `Tu <b>${GEARS_META[best.gi].short}</b> está sólido, pero tu <b>${GEARS_META[worst.gi].short}</b> lo frena. El engrane más lento manda: no importa qué tan bueno seas en lo demás si se atora ahí.`;}
+ if(tr>0){
+  // Metricas tiene 6 dientes contra 4 y 3 de los otros: era el que mas verdes Y mas
+  // rojos juntaba, asi que ganaba las dos y salia "tu X esta solido, pero tu X lo frena".
+  const worst=[0,1,2].map(gi=>({gi,r:gReds(gi)})).sort((a,b)=>b.r-a.r)[0];
+  const best =[0,1,2].map(gi=>({gi,g:gGood(gi)}))
+                     .filter(x=>x.gi!==worst.gi && x.g>0)      // nunca el mismo, y tiene que tener verdes
+                     .sort((a,b)=>b.g-a.g)[0];
+  if(best) return `Tu <b>${GEARS_META[best.gi].short}</b> está sólido, pero tu <b>${GEARS_META[worst.gi].short}</b> lo frena. El engrane más lento manda: no importa qué tan bueno seas en lo demás si se atora ahí.`;
+  return `Lo que te está frenando es tu <b>${GEARS_META[worst.gi].short}</b>. El engrane más lento manda: no importa qué tan bueno seas en lo demás si se atora ahí.`;
+ }
  return `Tu sistema está parejo y sólido. A esta altura ya no se trata de tapar un hueco: es <b>escalar sin romper</b> lo que ya funciona. Y ese es otro juego, con otras reglas.`;
 }
 /* ---- Checklist Etapa 1 (mapa en lista) ---- */
@@ -2122,7 +2168,7 @@ function renderChecklist1(firstAny){
    const stateCls=on?' tengo':(ay?' ayuda':'');
    return `<div class="it${stateCls}${isStart?' start':''}" data-i="${i}"><button type="button" class="c" data-act="tengo" aria-label="Ya lo resolví"></button><div class="tx"><b>${c.area}:</b> ${nk(c,'text')}${startSpan}${nk(c,'ej')?`<div class="ej"><b>Ejemplo:</b> ${nk(c,'ej')}</div>`:''}<div class="how-row">↖ Si esto ya lo haces${c.na?' o no aplica para tu negocio':''}, toca el círculo para marcarlo como resuelto. Si quieres ayuda con esto, toca el botón ↘</div></div><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Ayúdame con esto':'Ayúdame con esto'}</button>${ay?((PIDE_COVERED_BY[CHKN()]||PIDE_COVERED).indexOf(c.area)>=0?`<div class="fb">Esto viene en la guía de etapa ${CHKN()}, ya la puedes apartar. <a href="#guia" class="fb-go">Ver la guía ↓</a></div>`:`<div class="fb">Anotado. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.</div>`):''}</div>`;
   }).join('');
-  prog.innerHTML=`Ya resolviste <b>${n}</b> de 11 · Pediste ayuda en <b>${nAyuda}</b>`;
+  prog.innerHTML=`Llevas <b>${n}</b> de 11 · Pediste ayuda en <b>${nAyuda}</b>`;
   const bpT=document.getElementById('bpT'), bpA=document.getElementById('bpA');
   if(bpT) bpT.textContent=n;
   if(bpA) bpA.textContent=nAyuda;
@@ -2420,7 +2466,7 @@ function render(levels){
   const inner=exbEl.querySelector('.inner');
   if(inner){
    if(et1){
-    inner.innerHTML=`<button type="button" class="bar-prog" id="barProg" onclick="document.getElementById('chkSec').scrollIntoView({behavior:'smooth',block:'start'})"><span class="bp-k">Tu checklist</span><span class="bp-v">Resolviste <b id="bpT">0</b> de 11 · Ayuda en <b id="bpA">0</b></span></button><button class="btn-red bar-cta" onclick="(document.getElementById('unica')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth',block:'center'})">Empieza aquí →</button>`;
+    inner.innerHTML=`<button type="button" class="bar-prog" id="barProg" onclick="document.getElementById('chkSec').scrollIntoView({behavior:'smooth',block:'start'})"><span class="bp-k">Tu checklist</span><span class="bp-v">Llevas <b id="bpT">0</b> de 11 · Ayuda en <b id="bpA">0</b></span></button><button class="btn-red bar-cta" onclick="(document.getElementById('unica')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth',block:'center'})">Empieza aquí →</button>`;
    } else {
     inner.innerHTML=`<div class="left"><div style="line-height:1.3;max-width:520px"><div style="font-weight:700;font-size:15px;color:var(--navy)">Ya te mandamos tu mapa por correo.</div><div style="font-size:13px;color:#5A6B7D;margin-top:2px">Si no llega en 2 minutos, revisa Promociones o Spam y muévelo a Principal.</div></div></div><button class="btn-red" style="font-size:14px;padding:12px 20px" onclick="(document.getElementById('unica')||document.getElementById('engrane-root')).scrollIntoView({behavior:'smooth',block:'center'})">Empieza aquí →</button>`;
    }
