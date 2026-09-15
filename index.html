@@ -1061,6 +1061,7 @@ function init(){
     state.email  = $("g_email").value.trim();
     const _tel = $("g_telefono");
     state.telefono = (state.ab==="A" && _tel) ? normTel(_tel.value) : "";
+    fbReinit();          // ya tenemos correo y nombre: se los pasamos al pixel
     startQuiz();
   });
   // Variante B: captura de WhatsApp en el reveal
@@ -1106,8 +1107,8 @@ function setupAcards(){
 function startQuiz(){
   $("screen-gate").classList.add("hidden");
   $("screen-quiz").classList.remove("hidden");
-  track("QuizStart",{});
-  sendWebhook("quiz_start");
+  const _sid = track("QuizStart",{});
+  sendWebhook("quiz_start", {event_id:_sid});
   renderQ();
 }
 
@@ -1283,9 +1284,11 @@ function completeAndShow(){
   try{ const enc = encodeResults(); history.replaceState(null,"", location.pathname+"?r="+enc); }catch(e){ console.warn("permalink",e); }
   // mismo event_id en navegador y servidor: Meta los deduplica en vez de contarlos dos veces
   const _eid = evid();
+  try{ fbReinit(); }catch(e){}   // por si el telefono entro despues de la puerta
   try{ sendWebhook("quiz_complete", {event_id:_eid}); }catch(e){ console.warn("webhook",e); }
-  try{ if(window.fbq) fbq('track','Lead',{content_name:'diagnostico'},{eventID:_eid}); }catch(e){}
-  try{ track("CompleteRegistration", { etapa: state.etapa,
+  // UN solo evento de conversion. Antes disparaban Lead y CompleteRegistration
+  // juntos con el mismo eventID: Meta no sabia cual era el resultado.
+  try{ track("Lead", { content_name:'diagnostico', etapa: state.etapa,
         etapa_alta: (bandaSocio() ? "si" : "no") }, _eid); }catch(e){ console.warn("track",e); }
 }
 function showPhoneGate(){
@@ -1651,6 +1654,34 @@ function loadPixel(){
   if(!CONFIG.PIXEL_ID) return;
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', CONFIG.PIXEL_ID); fbq('track','PageView',{ab_gate:state.ab}); fbq('trackCustom','GateVariant',{variant:state.ab});
+}
+/* Advanced matching: el correo y el nombre ya los tenemos desde la puerta.
+   Meta los hashea en el navegador — nunca salen en claro. El telefono se suma
+   solo si algun dia se prende la pantalla de WhatsApp (hoy no se captura). */
+function fbTel(){
+  const d = (state.telefono||"").replace(/\D/g,"");
+  return d.length===10 ? "52"+d : d;   // normTel guarda 10 digitos; Meta exige lada de pais
+}
+function fbIdentity(){
+  const o = {};
+  if(state.email)  o.em = state.email.trim().toLowerCase();
+  if(state.nombre){ const n = state.nombre.trim().split(/\s+/);
+    o.fn = n[0].toLowerCase();
+    if(n.length>1) o.ln = n.slice(1).join(" ").toLowerCase(); }
+  const t = fbTel(); if(t) o.ph = t;
+  return o;
+}
+let _fbFirma = "";
+function fbReinit(){
+  try{
+    if(!window.fbq || !CONFIG.PIXEL_ID) return;
+    const o = fbIdentity();
+    if(!o.em) return;
+    const f = JSON.stringify(o);
+    if(f === _fbFirma) return;                 // nada cambio: no repetimos el init
+    _fbFirma = f;
+    fbq('init', CONFIG.PIXEL_ID, o);           // re-init: actualiza el matching de los eventos que siguen
+  }catch(e){}
 }
 const EV_STD = {PageView:1, Lead:1, CompleteRegistration:1, ViewContent:1, AddToWishlist:1,
                 Purchase:1, Schedule:1, InitiateCheckout:1, Subscribe:1, Contact:1};
