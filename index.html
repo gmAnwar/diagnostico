@@ -825,8 +825,8 @@ const QUIZ = [
   opts:["Tengo una idea, pero no con datos","Tengo una definición inicial","Tengo un perfil claro, sacado de mis datos","Tengo varios perfiles y a cada uno le hablo distinto"]},
  {id:"b9_respuesta", area:"Resp. a leads", q:"¿Cuánto tardan en contestarle a alguien que escribe?",
   opts:["A veces pasan horas, o hasta el otro día","En menos de una hora, solo en horario de oficina","En menos de 10 minutos, pero no de noche ni en fin de semana","En menos de 5 minutos, también noches y fines de semana"]},
- {id:"b10_creatividades", area:"Creatividades", q:"¿Cómo decides qué va a decir tu próximo anuncio?",
-  opts:["Se me ocurre en el momento, o subo lo que tengo","Copio lo que veo que le funciona a otros","Pienso el ángulo antes y pruebo varios","Tengo un método: sé qué ángulo va para cada tipo de cliente"]}
+ {id:"b10_creatividades", area:"Creatividades", q:"¿Cómo le haces para saber qué anuncio va a funcionar?",
+  opts:["Subo el que se me ocurre, o copio el que vi que le funcionó a otro","Subo varios y me quedo con el que se ve mejor","Pruebo un cambio a la vez y anoto cuál ganó","Tengo un banco de ganadores y sé qué ángulo va para cada tipo de cliente"]}
 ];
 
 /* ---------- Bloque C · 4 preguntas de contexto (post-quiz, saltables) ---------- */
@@ -835,10 +835,16 @@ const CTX = [
   opts:["Salud y belleza (clínicas, estéticas, dentistas, spas)","Bienes raíces","Educación y coaching","Servicios profesionales","Comercio y retail","Restaurantes y alimentos","Automotriz","Fitness y deporte","Otro"]},
  {id:"c2_modelo", q:"¿A quién le vendes?",
   opts:["Vendo productos al cliente final","Vendo servicios al cliente final","Vendo a otras empresas","Vendo a distribuidores o mayoristas"]},
- {id:"c3_costo", q:"Lo que te cuesta cada persona que te escribe, ¿cómo lo ves?",
+ {id:"c3_costo", q:"Cada persona que te escribe por un anuncio te costó dinero. ¿Cómo ves ese costo?",
   opts:["No lo sé, no mido eso","Me parece barato, me sobra margen","Está bien, pero podría mejorar","Se siente caro para lo que vendo","Es tan caro que dudo si vale la pena"]},
  {id:"c4_traba", q:"¿Qué es lo que más te está frenando para vender más?",
-  opts:["Me llegan pocos interesados","Me llegan muchos, pero no del perfil correcto","Me contactan, pero no compran","Vendo bien, pero el costo es alto y me queda poco","Vendo bien, pero no puedo crecer sin que todo dependa de mí"]}
+  opts:["Me llegan pocos interesados","Me llegan muchos, pero no del perfil correcto","Me contactan, pero no compran","Vendo bien, pero el costo es alto y me queda poco","Vendo bien, pero no puedo crecer sin que todo dependa de mí"]},
+ // c5 · estructura. Dos redacciones: el del boton azul no sabe que es un conjunto
+ // de anuncios, y cada publicacion promocionada YA es una campana con un anuncio.
+ {id:"c5_estructura", q:"¿Cuántos anuncios traes prendidos, y en cuántas campañas?",
+  opts:["1 anuncio, en 1 campaña","Varios anuncios, todos en 1 campaña","Varios anuncios, repartidos en 2 o 3 campañas","Varios anuncios, cada uno en su propia campaña","No sé cómo quedó armado"],
+  alt:{q:"¿Cuántas publicaciones traes promocionadas ahorita?",
+   opts:["Una sola","Dos o tres","Entre cuatro y diez","Más de diez","No sé, no las he contado"]}}
 ];
 
 /* ---------- Tabla diagnóstica · descriptores por área × etapa ---------- */
@@ -1136,6 +1142,12 @@ function sendAbandon(){
 /* =====================================================================
    QUIZ ENGINE
    ===================================================================== */
+/* Una pregunta puede tener dos redacciones (`alt`). Hoy solo c5: se dispara
+   cuando en la pregunta 2 contesto "le pico al boton azul" (B[1]===0). */
+function qv(q){
+  try{ if(q && q.alt && state.B[1]===0) return Object.assign({}, q, q.alt); }catch(e){}
+  return q;
+}
 function renderQ(keepScroll){
   const inB = state.phase==="B";
   const list = inB ? QUIZ : CTX;
@@ -1148,7 +1160,7 @@ function renderQ(keepScroll){
   $("progLabel").textContent = inB ? `Pregunta ${pos} de ${total}` : `Para personalizar tu Mapa · ${pos} de ${total}`;
   $("progFill").style.width = ((inB ? i : QUIZ.length + (pos-1)) / totalAll * 100) + "%";
 
-  const q = list[i];
+  const q = qv(list[i]);
   let html = "";
   if(!inB && i===0){
     html += `<div class="ctx-note"><b>Ya casi.</b> Unas preguntas rápidas más para personalizar tu Mapa de Crecimiento. Si tienes prisa, puedes saltarlas.</div>`;
@@ -1641,7 +1653,7 @@ function payload(action, extra={}){
     first_campaign: (window.ASV&&ASV.first.c)||"",
     ...fbIds(), ...state.utm, ...extra };
   QUIZ.forEach((q,i)=>{ if(state.B[i]!=null) p[q.id]=state.B[i]+1; });
-  CTX.forEach((q,i)=>{ if(state.C[i]!=null) p[q.id]=q.opts[state.C[i]]; });
+  CTX.forEach((q,i)=>{ const qq=qv(q); if(state.C[i]!=null) p[qq.id]=qq.opts[state.C[i]]; }); // guarda la redaccion que SI vio
   return p;
 }
 function sendWebhook(action, extra){
@@ -2039,7 +2051,7 @@ const CHK1=[
 ];
 const CHK2=[
  {area:'Presupuesto',text:'Fijar cuánto vas a gastar en el mes, sacado de cuánto quieres vender y de lo que te cuesta cada venta. No moverle a mitad de mes: le cambias al cierre, con tus números en la mano.',ej:'Quieres 30 ventas y cada venta te cuesta $500 en anuncios: tu presupuesto es $15 mil. Aunque la segunda semana salga floja, no le bajas. El 30 revisas cuántas ventas trajo y decides octubre.',cl:{text:'Fijar cuánto vas a gastar en el mes, sacado de cuántas citas quieres y de lo que te cuesta cada paciente nuevo. No moverle a mitad de mes: le cambias al cierre, con tus números en la mano.',ej:'Quieres 30 pacientes nuevos y cada uno te cuesta $500 en anuncios: tu presupuesto es $15 mil. Aunque la segunda semana salga floja, no le bajas. El 30 revisas cuántos llegaron y decides octubre.'}},
- {area:'Campañas',text:'Una campaña siempre prendida. Le cambias algo cada 3 a 5 días, no cada día. Un anuncio se apaga solo cuando ya gastó lo que te cuesta una venta y no trajo ninguna.',ej:'Tu venta te cuesta como $600 en anuncios. Un anuncio lleva $700 gastados y cero apartados: ese se apaga. Los demás no se tocan hasta que pasen 3 a 5 días.',cl:{text:'Una campaña siempre prendida. Le cambias algo cada 3 a 5 días, no cada día. Un anuncio se apaga solo cuando ya gastó lo que te cuesta un paciente nuevo y no trajo ninguna cita.',ej:'Un paciente nuevo te cuesta como $600 en anuncios. Un anuncio lleva $700 gastados y cero citas: ese se apaga. Los demás no se tocan hasta que pasen 3 a 5 días.'}},
+ {area:'Campañas',text:'Traer pocos anuncios prendidos, para que a cada uno le toque dinero suficiente. Si repartes tu presupuesto entre muchos, a ninguno le alcanza para saber si sirve. Apagas uno cuando ya gastó el doble de lo que te cuesta una venta y no trajo ninguna.',ej:'Gastas $500 al día y traes 10 anuncios: a cada uno le tocan $50. Con eso no vas a saber cuál sirve. Déjalos en 3 y a cada uno le tocan $166 al día. En dos semanas ya sabes cuál se queda.',cl:{text:'Traer pocos anuncios prendidos, para que a cada uno le toque dinero suficiente. Si repartes tu presupuesto entre muchos, a ninguno le alcanza para saber si sirve. Apagas uno cuando ya gastó el doble de lo que te cuesta un paciente nuevo y no trajo ninguno.',ej:'Gastas $500 al día y traes 10 anuncios: a cada uno le tocan $50. Con eso no vas a saber cuál sirve. Déjalos en 3 y a cada uno le tocan $166 al día. En dos semanas ya sabes cuál se queda.'}},
  {area:'Equipo',text:'Tener por escrito cómo se contesta y cómo se vende, para que quien te ayude lo siga desde su primer día.',ej:'Una hoja con 5 pasos: saludo, una pregunta para saber qué necesita, precio, ofrecer apartar y qué decir si contesta "lo pienso". Quien entre a contestar la lee y la sigue.',cl:{text:'Tener por escrito cómo se contesta y cómo se agenda, para que tu recepción lo siga desde su primer día.',ej:'Una hoja con 5 pasos: saludo, una pregunta para saber qué le interesa, precio de la valoración o del tratamiento, ofrecer día y hora, y qué decir si contesta "lo pienso". Quien conteste la lee y la sigue.'}},
  {area:'Métricas',text:'Contar cada semana tres cosas: mensajes, citas o pedidos apartados, y cuántos pagaron.',ej:'Cada viernes anotas: 40 mensajes, 12 apartaron, 7 pagaron. Con eso ves en qué paso se te van.',cl:{text:'Contar cada semana tres cosas: mensajes, citas agendadas y cuántas llegaron y pagaron.',ej:'Cada viernes anotas: 40 mensajes, 12 agendaron, 7 llegaron y pagaron. Con eso ves en qué paso se te van.'}},
  {area:'Seguimiento',text:'Una hoja de Google (Google Sheets) donde veas cuántos están cotizados, cuántos por decidir, cuántos apartaron y cuántos pagaron. Así sabes a quién darle seguimiento hoy.',ej:'Una fila por persona: nombre, qué preguntó y su estatus. Hoy: 9 cotizados, 5 por decidir, 3 apartados, 2 pagados. A los 5 por decidir les escribes hoy.',cl:{text:'Una hoja de Google (Google Sheets) donde veas cuántas están cotizadas, cuántas por decidir, cuántas agendadas y cuántas ya pagaron. Así sabes a quién darle seguimiento hoy.',ej:'Una fila por persona: nombre, tratamiento que preguntó y su estatus. Hoy: 9 cotizadas, 5 por decidir, 3 agendadas, 2 pagadas. A las 5 por decidir les escribes hoy.'}},
@@ -2220,9 +2232,9 @@ function renderEspejo(){
  if(!L||!L.length){ el.innerHTML=''; el.style.display='none'; return; }
  el.style.display='';
  const sel=espLoad();
- let h=`<div class="esp-k">EL ESPEJO</div>`;
- h+=`<h2 class="esp-h">En esta etapa casi siempre están pasando varias de estas a la vez. ¿Cuáles son las tuyas?</h2>`;
- h+=`<p class="esp-sub">Marca todas las que se parezcan a tu semana. Te digo por cuál empezar.</p>`;
+ let h=`<div class="esp-k">UNA ÚLTIMA COSA</div>`;
+ h+=`<h2 class="esp-h">Ya tienes tu tabla. Falta decidir por dónde empiezas.</h2>`;
+ h+=`<p class="esp-sub">Marca lo que se parezca a tu semana. En esta etapa normalmente están pasando varias a la vez, pero una va primero: escoge las que más te suenen y con esto te digo con cuál empezar.</p>`;
  h+=`<div class="esp-l">`;
  L.forEach(function(m){
   const tx=nk(m,'t');
@@ -2266,10 +2278,10 @@ function espEcho(){
  if(!P.length){ go.style.display='none'; go.innerHTML=''; return; }
  go.style.display='';
  if(A.length===1){
-  go.innerHTML=`Va. Abajo te marqué <b>${A[0]}</b> como tu punto de arranque.<button type="button">Llévame \u2193</button>`;
+  go.innerHTML=`Va. Lo tuyo es <b>${A[0]}</b>. Abajo te lo marqué en tu checklist.<button type="button">Llévame \u2193</button>`;
  }else{
-  const resto = A.length===2 ? 'La otra te la marqué abajo.' : 'Las otras te las marqué abajo.';
-  go.innerHTML=`Va, marcaste ${P.length}. En esta etapa casi siempre vienen juntas. Empieza por <b>${A[0]}</b>, que va primero. ${resto}<button type="button">Llévame \u2193</button>`;
+  const resto = A.length===2 ? 'La otra te la marqué abajo en tu checklist.' : 'Las otras te las marqué abajo en tu checklist.';
+  go.innerHTML=`Va, marcaste ${P.length}. En esta etapa casi siempre vienen juntas. Empieza por <b>${A[0]}</b>. ${resto}<button type="button">Llévame \u2193</button>`;
  }
  const bt=go.querySelector('button');
  if(bt) bt.onclick=function(){
@@ -2349,7 +2361,7 @@ function render(levels){
  const u=document.getElementById('unica');
  const g=document.getElementById('guia');
  if(firstAny){ const t=firstAny; const full=t.ofFull||(t.ofPrice?t.ofPrice*2-1:0);
-  let h=`<div class="k">Por dónde empezar</div><h2 class="unica-h">Empieza por aquí: ${t.l.toLowerCase()==="cliente"?(K()==="clinicas"?"tu paciente":"tu cliente"):t.l==="Venta mensual"?"tu objetivo del mes":t.l==="CAC"?"cuánto te cuesta un cliente":t.l==="Respuesta a leads"?"tu respuesta":t.l}</h2>`;
+  let h=`<div class="k">Gratis, de esta semana</div><h2 class="unica-h">Lo primero que hace todo negocio en tu etapa: ${t.l.toLowerCase()==="cliente"?(K()==="clinicas"?"tu paciente":"tu cliente"):t.l==="Venta mensual"?"tu objetivo del mes":t.l==="CAC"?"cuánto te cuesta un cliente":t.l==="Respuesta a leads"?"tu respuesta":t.l}</h2>`;
   if(nk(t,'def')) h+=`<div class="u-row"><div class="u-k">Qué es</div><div class="u-t">${nk(t,'def')}</div></div>`;
   if(nk(t,'why')) h+=`<div class="u-row"><div class="u-k">Por qué te frena</div><div class="u-t">${nk(t,'why')}</div></div>`;
   h+=`<div class="u-row"><div class="u-k">Qué hacer esta semana, gratis</div><div class="u-t">${nk(t,'hoy')||''}</div>`;
@@ -2367,8 +2379,8 @@ function render(levels){
    }).join('');
    let gh=`<div class="g-card"><div class="g-tag">LA GUÍA DE ETAPA ${et}</div><div class="g-cover"><span class="g-cover-t">${nk(tg,'ofName')}</span></div>`;
    if(nk(tg,'ofHook')) gh+=`<p class="g-hook">${nk(tg,'ofHook')}</p>`;
-   gh+=`<button class="lq ${tg.s} g-btn g-btn-top" data-wl="${slug(tg.l)}">Apartar mi lugar en la lista →</button>`;
-   gh+=`<p class="g-nopay">Hoy no pagas nada. Cuando salga, te aviso a tu correo y ahí decides.</p>`;
+   // El CTA de arriba salio (15 sep): pedia apartar lugar antes de que supiera que es.
+   // El de abajo se queda, ya con todo el contenido leido.
    if(nk(tg,'ofWin')) gh+=`<div class="g-callout"><div class="g-k">Qué vas a poder hacer</div><p class="g-tx">${nk(tg,'ofWin')}</p></div>`;
    if(tg.ofFor||tg.ofTime){
     gh+=`<div class="g-two">`;
@@ -2393,6 +2405,10 @@ function render(levels){
  const mapaA=document.querySelector('#mapa .mapa-img'), mapaI=document.querySelector('#mapa img'); if(mapaA){ const tsuf=(K()==='clinicas'&&(et===1||et===2))?'-clinicas':''; mapaA.href='tabla-etapa-'+et+tsuf+'.jpg'; } if(mapaI){ const tsuf=(K()==='clinicas'&&(et===1||et===2))?'-clinicas':''; mapaI.src='tabla-etapa-'+et+tsuf+'.jpg'; mapaI.alt='Tabla completa de la etapa '+et+': qué te frena y qué necesitas en cada área'; }
  const chkH=document.querySelector('#chkSec .chk-h'); if(chkH) chkH.textContent='Tu checklist para pasar a la etapa '+(et+1);
  ['porDentro','frena','paraPasar'].forEach(function(id){ const el=document.getElementById(id); if(el) el.style.display=et1?'none':''; });
+ // En E1-E3 la tabla va ANTES del espejo: primero le damos lo que vino a buscar,
+ // y hasta entonces le pedimos una respuesta mas. E4 conserva su orden.
+ try{ if(et1){ const mp=document.getElementById('mapa'), ep=document.getElementById('espejo');
+  if(mp && ep && ep.parentNode) ep.parentNode.insertBefore(mp, ep); } }catch(e){}
  const vdBtn=document.getElementById('verDesglose'); if(vdBtn) vdBtn.style.display=et1?'none':'';
  const dgEl=document.getElementById('desglose'); if(dgEl && et1) dgEl.classList.add('hidden');
  const mapaEl=document.getElementById('mapa'), chkSecEl=document.getElementById('chkSec');
