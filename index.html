@@ -2083,15 +2083,15 @@ function laLectura(real,tg,tr){
  const st=l=>{const t=real.find(x=>x.l===l);return t?t.s:null;};
  const gGood=gi=>real.filter(t=>t.g===gi&&t.s==='g').length;
  const gReds=gi=>real.filter(t=>t.g===gi&&t.s==='r').length;
- if(state&&state.etapa===3) return `Vendes bien y llevas meses en el mismo número. Ya no es problema de anuncios: es que decides con promedios, y el promedio esconde la campaña que te está costando dinero. Se arregla <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
+ if(state&&state.etapa===3) return `Vendes bien, pero llevas meses vendiendo lo mismo. Ya no es problema de anuncios: es que decides con promedios, y el promedio esconde la campaña que te está costando dinero. Se arregla <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
  if(state&&state.etapa===2) return `Ya vendes todos los meses. Lo que te falta no es presupuesto: es que el mes flojo deje de ser sorpresa. Se arregla <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
- if(tg<=1) return `Estás construyendo casi todo desde cero: normal a esta altura, no es mala señal. La trampa aquí es querer hacer todo a la vez: se hace <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
+ if(tg<=1) return `Estás armando tu negocio desde cero, y es normal en esta etapa. La trampa es querer hacer todo a la vez: se hace <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
  if(st('Generación de ads')!=='r' && st('Tasa de cierre')!=='r' && (st('Atribución')==='r'||st('CAC')==='r'))
-  return `Traes el motor prendido (campañas corriendo) pero <b>manejas sin tablero</b>: metes dinero en ads y no sabes qué anuncio te devuelve clientes de verdad. Eso que se siente como "ya no jala como antes" casi nunca es que jale menos: es que <b>no lo estás viendo</b>.`;
+  return `Tus campañas corren, pero <b>manejas sin tablero</b>: le metes dinero a anuncios y no sabes cuál te trae ${K()==='clinicas'?'pacientes':'clientes'} de verdad. Cuando sientes que "ya no jala como antes", primero revisa si de verdad jala menos o si <b>no lo estás midiendo</b>.`;
  if(gGood(1)>=1 && (st('Equipo de ventas')==='r'||st('Respuesta a leads')==='r'))
-  return `No tienes problema de atracción: te llega gente. El dinero se te cae <b>en la conversación</b> (llegan y no cierran). Meterle más ads sin arreglar el cierre es echarle agua a una cubeta con hoyo.`;
+  return `No te faltan interesados: te llega gente. El dinero se te cae <b>en la conversación</b>: llegan y no compran. Meterle más a anuncios sin arreglar eso es echarle agua a una cubeta con hoyo.`;
  if((st('Cliente')==='r'||st('Oferta')==='r') && gGood(2)>=1)
-  return `Estás vendiendo, pero <b>sin saber con precisión a quién</b>. Eso funciona hasta cierto techo; después cada peso de ads rinde menos, porque le hablas a todos.`;
+  return `Estás vendiendo, pero <b>sin saber con precisión a quién</b>. Eso funciona hasta cierto techo; después cada peso de anuncios rinde menos, porque le hablas a todos.`;
  if(tr>0){
   // 20 sep: nombrar el diente que va primero, no el engrane (el dibujo esta plegado; nadie lo ha visto).
   const PRI=priority(); let f=PRI.map(l=>real.find(t=>t.l===l)).find(t=>t&&t.s==='r');
@@ -2100,7 +2100,7 @@ function laLectura(real,tg,tr){
   if(f) return `Lo que te está frenando hoy es <b>${nombreDiente(f.l)}</b>. Lo demás está sólido: no lo toques hasta que eso quede resuelto.`;
   return `Traes ${tr} foco${tr>1?'s':''} rojo${tr>1?'s':''}. Se arregla en orden, uno a la vez. Abajo te digo por dónde empezar.`;
  }
- return `Tu sistema está parejo y sólido. A esta altura ya no se trata de tapar un hueco: es <b>escalar sin romper</b> lo que ya funciona. Y ese es otro juego, con otras reglas.`;
+ return `Todo tu sistema sale en verde. Ya no se trata de tapar un hueco: se trata de <b>crecer sin romper</b> lo que ya funciona. Abajo te digo por dónde empezar.`;
 }
 /* ---- Checklist Etapa 1 (mapa en lista) ---- */
 const CHK1=[
@@ -2272,20 +2272,20 @@ function pideAreasNow(){
  const MOMENTOS={
   1:[
    {id:'M-01',  t:'Publiqué mi post y le piqué al botón azul',        chk:'Campañas'},
-   {id:'M-05b', t:'Pagué anuncios y no me escribió nadie',            chk:'Campañas'},
-   {id:'M-03',  t:'Me preguntan precio y desaparecen',                chk:'Equipo'},
+   {id:'M-05b', t:'Pagué anuncios y no me escribió nadie',            chk:'Anuncios'},
+   {id:'M-03',  t:'Me preguntan precio y desaparecen',                chk:'Seguimiento'},
    {id:'M-04b', t:'Me escriben pero no me compra nadie',              chk:'Equipo', cl:{t:'Me escriben pero no agenda nadie'}},
-   {id:'M-09',  t:'Llevo una semana con el anuncio y cero ventas',    chk:'Métricas', cl:{t:'Llevo una semana con el anuncio y cero citas'}}
+   {id:'M-09',  t:'Llevo una semana con el anuncio y cero ventas',    chk:'Presupuesto', cl:{t:'Llevo una semana con el anuncio y cero citas'}}
   ],
   2:[
-   {id:'M2-01', t:'Abrí el administrador de anuncios y no le entiendo',      chk:'Campañas'},
+   {id:'M2-09', t:'Tengo 8 o 10 anuncios prendidos y no sé cuál vende',      chk:'Campañas'},
    {id:'M2-02', t:'Me pasé al administrador de anuncios y me está yendo peor',chk:'Campañas'},
-   {id:'M2-03', t:'Vendo, pero no sé de dónde salió cada venta',             chk:'Seguimiento', cl:{t:'Agendo, pero no sé de qué anuncio salió cada paciente'}},
-   {id:'M2-04', t:'Un mes vendo bien y al siguiente la mitad',               chk:'Métricas'},
+   {id:'M2-10', t:'Se me olvida escribirle al que me dijo "lo pienso"',   chk:'Seguimiento'},
+   {id:'M2-04', t:'Un mes vendo bien y al siguiente la mitad',               chk:'Ventas'},
    {id:'M2-05', t:'Ya no contesto yo y se me caen las ventas',               chk:'Equipo', cl:{t:'Ya no contesto yo y se me caen las citas'}},
-   {id:'M2-06', t:'Cada mes decido cuánto le meto según cómo voy',           chk:'Presupuesto'},
-   {id:'M2-07', t:'Ya se estabilizó, ahora quiero crecer',                   chk:'Presupuesto'},
-   {id:'M2-08', t:'Me da miedo tocar lo que ya está funcionando',            chk:'Anuncios'}
+   {id:'M2-11', t:'Llevo meses con el mismo presupuesto y no sé si subirle', chk:'Presupuesto'},
+   {id:'M2-12', t:'Sé cuánto vendo, pero no cuánto me cuesta cada venta',   chk:'Métricas', cl:{t:'Sé cuántos pacientes tengo, pero no cuánto me cuesta cada uno'}},
+   {id:'M2-13', t:'Cuando hago un anuncio nuevo, no sé si vendió más por la foto o por el texto', chk:'Anuncios', cl:{t:'Cuando hago un anuncio nuevo, no sé si agendó más por la foto o por el texto'}}
   ],
   3:[  // 22 sep · en E3 el espejo pregunta qué TIENES (tengo:true). Marcado = ya lo tiene (verde). Lo primero sin marcar = "Empieza por aquí".
    {id:'T3-01', chk:'Métricas',      t:'Sé cuánto me cuesta un cliente en cada campaña, y cuánto es lo más que puedo pagar por uno',
@@ -2298,8 +2298,8 @@ function pideAreasNow(){
       por:'apagar antes de tiempo mata campañas que sí iban a vender. La decisión se toma con los clientes que trajo, no con los mensajes ni con los días que lleva.',
       cl:{por:'apagar antes de tiempo mata campañas que sí iban a traer pacientes. La decisión se toma con los pacientes que llegaron, no con los mensajes ni con los días que lleva.'}},
    {id:'T3-04', chk:'Cliente ideal', t:'Tengo al menos dos tipos de cliente, y cada uno tiene su propio anuncio',
-      cl:{t:'Tengo al menos dos tipos de paciente, y cada uno tiene su propio anuncio', por:'con un solo mensaje para todos solo le atinas a una parte. Tu segundo tipo de paciente es la forma más barata de crecer sin salir de Meta.'},
-      por:'con un solo mensaje para todos solo le atinas a una parte. Tu segundo tipo de cliente es la forma más barata de crecer sin salir de Meta.'},
+      cl:{t:'Tengo al menos dos tipos de paciente, y cada uno tiene su propio anuncio', por:'con un solo mensaje para todos solo le atinas a una parte. Tu segundo tipo de paciente te deja crecer sin salir de Meta.'},
+      por:'con un solo mensaje para todos solo le atinas a una parte. Tu segundo tipo de cliente te deja crecer sin salir de Meta.'},
    {id:'T3-05', chk:'Equipo',        t:'Todos venden con el mismo guion y cada semana veo la tasa de conversión de cada quien',
       cl:{t:'Todos en recepción usan el mismo guion y cada semana veo la tasa de conversión de cada quien'},
       por:'uno cierra el doble que el otro y nadie sabe qué hace diferente. El número enfrente es lo que lo arregla, no los regaños.'},
@@ -2367,7 +2367,7 @@ function renderEspejo(){
  h+= tengo ? `<p class="esp-sub">Marca solo lo que ya tienes funcionando. Lo primero que no marques es por donde empiezas.</p>`
    : et===4
   ? `<p class="esp-sub">Marca lo que te pase. Si marcas varias, te digo cuál revisar primero.</p>`
-  : `<p class="esp-sub">Marca lo que se parezca a tu semana. En esta etapa normalmente están pasando varias a la vez, pero una va primero: escoge las que más te suenen y con esto te digo con cuál empezar.</p>`;
+  : `<p class="esp-sub">Marca lo que se parezca a tu semana. Si marcas varias, te digo con cuál empezar.</p>`;
  h+=`<div class="esp-l">`;
  const firstMissing = tengo && sel.length ? (espFaltan()[0]||{}).id : null;
  L.forEach(function(m){
@@ -2475,7 +2475,7 @@ function espEcho(){
  }
  const G=GUIA_ETAPA[state.etapa];
  const yaEsLaGuia = !G || A.some(function(a){ return G.filas.indexOf(a)>=0; });
- const puente = yaEsLaGuia ? '' : `<br>Una cosa antes: en tu etapa, <b>${G.nombre()}</b> va primero. Es lo que hace que lo demás pegue. Te lo dejo aquí abajo.`;
+ const puente = yaEsLaGuia ? '' : `<br>Una cosa antes: en tu etapa, <b>${G.nombre()}</b> va primero. Sin eso, lo que arregles en las otras áreas no se sostiene. Te lo dejo aquí abajo.`;
  const btn = yaEsLaGuia ? 'Llévame \u2193' : 'Ver por dónde empezar \u2193';
  if(A.length===1){
   go.innerHTML=`Va. Lo tuyo es <b>${A[0]}</b>, y abajo te lo marqué en tu checklist.${puente}<button type="button">${btn}</button>`;
