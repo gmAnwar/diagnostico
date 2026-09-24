@@ -706,14 +706,14 @@ const CONFIG = {
 <div class="screen wrap" id="screen-gate">
   <span class="kicker">Diagnóstico gratis · 2 minutos</span>
   <h1 class="hero bebas"><span class="hero-0">Tu negocio está en</span><span class="hero-1"><em>1 de 4</em> etapas.</span><span class="hero-2">Aquí ves en cuál estás, y qué te <em>frena</em>.</span></h1>
-  <p class="sub">Son 10 preguntas. Te toma 2 minutos.</p>
+  <p class="sub">Son 10 preguntas y 5 opcionales al final. Te toma 2 minutos.</p>
   <div class="gate-mk"><img src="mockup-tablas.webp" width="1200" height="894" alt="Las 4 tablas del diagnóstico, una por cada etapa" loading="eager" decoding="async"></div>
   <p class="gate-win-h">Cuando termines vas a ver:</p>
   <ul class="gate-win">
     <li class="hit"><b>Qué hacer esta semana.</b> Una sola cosa, y sin gastar un peso.</li>
     <li><b>Qué te está frenando hoy.</b> Y qué todavía no te toca arreglar.</li>
-    <li><b>En qué etapa estás.</b> Son 4, y todo negocio que vende con anuncios pasa por ellas.</li>
-    <li><b>Tu checklist para pasar a la siguiente etapa.</b> También te lo mandamos por correo.</li>
+    <li><b>En qué etapa estás.</b> Son 4, desde menos de $10 mil hasta más de $150 mil al mes en anuncios.</li>
+    <li><b>Qué te falta para pasar a la siguiente etapa.</b> También te lo mandamos por correo.</li>
   </ul>
   <form class="gate-form" id="gateForm">
     <input type="text" id="g_nombre" placeholder="Tu nombre completo" required autocomplete="name">
@@ -844,20 +844,20 @@ const QUIZ = [
  {id:"b3_equipo", area:"Equipo ventas", q:"¿Quién contesta los mensajes que llegan de tus anuncios?",
   opts:["Los contesto yo","1 persona, sin proceso definido","2 a 3 personas, cada quien a su manera","Un equipo con líder y guion"]},
  {id:"b4_metricas", area:"Métricas", q:"¿Cuáles de estos números me puedes decir ahorita, sin buscarlos?", multi:true,
-  items:["Cuánto me cuesta un cliente que paga (no un mensaje)","De cada 10 que me escriben, cuántos compran","Cuántas veces recupero lo que meto en ads","Cada venta, de qué anuncio salió","Cuánto me queda limpio al final"],
+  items:["Cuánto me cuesta un cliente que paga (no un mensaje)","De cada 10 que me escriben, cuántos compran","Cuántas veces recupero lo que meto en anuncios","Cada venta, de qué anuncio salió","Cuánto me queda limpio al final"],
   opts:["No mido nada","Solo cuántos leads y cuántas ventas","Costo por lead y por cliente, pero no cuánto me deja cada cliente","Tengo control completo de mis números"]},
  {id:"b5_automatizacion", area:"Seguimiento", q:"El seguimiento a los que te escriben, ¿cómo lo llevas?",
   opts:["Todo a mano, me acuerdo o lo apunto","Lo llevo en un Google Sheet o parecido, sin CRM","Tengo un CRM básico","Tengo un CRM con seguimiento automático"]},
  {id:"b6_ventas", area:"Ventas", q:"¿Puedes saber más o menos cuánto vas a vender el mes que entra?",
-  opts:["Ni idea, cada mes es distinto","Más o menos, pero con altibajos","Buen volumen, pero con picos y valles","Sí, le atino"]},
+  opts:["Ni idea, cada mes es distinto","Más o menos, pero un mes flojo me mueve todo","Sí, dentro de un rango, aunque no sé por qué un mes sale mejor que otro","Sí, le atino"]},
  {id:"b7_oferta", area:"Oferta", q:"Lo que vendes, ¿ya está probado o todavía le estás moviendo?",
-  opts:["Todavía estoy probando cuál de mis productos o servicios me compran más","Ya sé qué se vende, pero no siempre se me vende","Se vende bien, le estoy afinando precio y oferta","Está probado, lo compran sin que yo empuje"]},
+  opts:["Todavía estoy probando cuál de mis productos o servicios me compran más","Ya sé qué se vende, pero unos meses se vende y otros no","Se vende bien, le estoy afinando precio y oferta","Está probado, lo compran sin que yo empuje"]},
  {id:"b8_cliente", area:"Cliente ideal", q:"¿Tienes claro quién es tu cliente ideal?",
   opts:["Tengo una idea, pero no con datos","Tengo una definición inicial","Tengo un perfil claro, sacado de mis datos","Tengo varios perfiles y a cada uno le hablo distinto"]},
  {id:"b9_respuesta", area:"Resp. a leads", q:"¿Cuánto tardan en contestarle a alguien que escribe?",
   opts:["A veces pasan horas, o hasta el otro día","En menos de una hora, solo en horario de oficina","En menos de 10 minutos, pero no de noche ni en fin de semana","En menos de 5 minutos, también noches y fines de semana"]},
  {id:"b10_creatividades", area:"Creatividades", q:"¿Cómo le haces para saber qué anuncio va a funcionar?",
-  opts:["Subo el que se me ocurre, o copio el que vi que le funcionó a otro","Subo varios y me quedo con el que se ve mejor","Pruebo un cambio a la vez y anoto cuál ganó","Tengo un banco de ganadores y sé qué ángulo va para cada tipo de cliente"]}
+  opts:["Subo el que se me ocurre, o copio el que vi que le funcionó a otro","Subo varios y me quedo con el que se ve mejor","Pruebo un cambio a la vez y anoto cuál ganó","Tengo un banco de anuncios ganadores y sé cuál va para cada tipo de cliente"]}
 ];
 
 /* ---------- Bloque C · 4 preguntas de contexto (post-quiz, saltables) ---------- */
@@ -900,12 +900,12 @@ const STAGE_COPY = {
     pasarTit:'Para pasar a la etapa 4 necesitas:',
     pasar:['Tasa de cierre por cada etapa de tu venta, no una sola','CAC por campaña, para saber cuál apagar','Que el negocio venda un mes entero sin que tú toques la operación','Decidir con TU hoja, no con el Ads Manager']},
  4:{dolor:'Vendo mucho, pero de ahí no paso',
-    dentro:['Vendes mucho y tocaste techo.','Diriges un equipo completo con agencia o traficker.','Tienes CRM, tableros y reportes.','Muchos números, y ninguno amarra cada venta con el anuncio que la trajo.'],
-    frenaLead:'La atribución, el ROAS real y la retención.',
-    frena:'Tienes tableros, pero ninguno amarra la venta con el anuncio, así que decides con datos que no cierran.',
+    dentro:['Vendes mucho y tocaste techo.','Diriges un equipo completo con agencia o traficker.','Tienes CRM, tableros y reportes.','Tus números viven en tres lugares (Facebook, tu CRM y tu banco) y no cuadran entre sí.'],
+    frenaLead:'Cada peso más de presupuesto te trae menos ventas.',
+    frena:'Y como Meta no sabe quién te compró, te sigue buscando gente que escribe, no gente que compra.',
     pasarTit:'Para dejar de topar necesitas:',
-    pasar:['Regresarle a Meta cada venta cerrada (CAPI), para que optimice hacia quien paga, no hacia quien escribe','Conocer tu recompra y cuánto vale un cliente a 6 meses','Ventas y anuncios en un solo lugar, con el dato del día, no con el del mes pasado'],
-    nota:'Aquí no hay etapa 5. Hay techo tras techo, y cada uno se rompe midiendo mejor.'}
+    pasar:['Regresarle a Meta cada venta cerrada (CAPI), para que optimice hacia quien paga, no hacia quien escribe','Saber cuánto te deja cada tipo de cliente en un año, no solo en la primera compra','Ventas y anuncios en un solo lugar, con el dato del día, no con el del mes pasado'],
+    nota:'Aquí no hay etapa 5. Cada vez que mueves un área, el tope se pasa a otra. Lo que sigue es verla venir antes de que te frene.'}
 };
 const STAGE_DESC = ["Estás probando, aún sin flujo constante","Vendes, pero sube y baja sin control","Vendes bien, pero llevas meses igual","Vendes mucho, pero llegaste a un techo"];
 const TABLE = [
@@ -1803,9 +1803,9 @@ const TEETH=[
   pasos4:['Pide las <b>3 tasas por sucursal</b> (agendan / llegan / compran) de los últimos 50 leads de cada una.','Compara la mejor contra la peor. Esa brecha, multiplicada por tus leads del mes, es <b>el costo del desorden</b>.','Toma la caída más grande de la sucursal más floja. Ese es tu primer arreglo, y es copiable: tu sucursal buena ya sabe cómo se hace.'],
   reto4:'La respuesta casi nunca es "traer más leads". Es que todas tus sucursales cierren como la mejor.'},
  {l:'ROAS',sig:'ROAS',g:2,x:'Cuántas veces recuperas lo que metes en anuncios.',def:'ROAS significa <b>retorno de tu inversión en anuncios</b>: por cada peso que metes a publicidad, cuántos regresan en ventas. ROAS de 3 = metes $1 y regresan $3.',
-  why:'Sin este número no puedes decidir si apagar o escalar una campaña: lo decides por corazonada. Y las corazonadas en ads salen caras.',
-  hoy:'Ventas atribuibles del mes ÷ inversión del mes. Si no llega a 3×, hay una fuga que encontrar antes de meterle más.',
-  why34:'Hay dos ROAS: el que Meta te <b>reporta</b> (lo que su atribución alcanza a ver) y el <b>real</b> (ventas cerradas ÷ inversión). Casi nunca coinciden: la brecha es tu nivel de ceguera. Y el global mezcla todo: una campaña de 5× puede estar subsidiando a una que pierde, mientras el promedio te dice "vamos bien".',
+  why:'Sin este número no puedes decidir si apagar o escalar una campaña: lo decides por corazonada. Y las corazonadas en anuncios salen caras.',
+  hoy:'Divide lo que vendiste en el mes por anuncios entre lo que gastaste en anuncios. Compara el resultado contra tu ROAS de equilibrio: el mínimo que necesitas para no perder dinero con lo que te deja cada venta. Si estás abajo, cada peso que le subes te hace perder.',
+  why34:'Hay dos ROAS: el que Meta te <b>reporta</b> (lo que su atribución alcanza a ver) y el <b>real</b> (ventas cerradas ÷ inversión). Si no coinciden, la diferencia entre los dos es lo que no estás viendo. Y el global mezcla todo: una campaña de 5× puede estar subsidiando a una que pierde, mientras el promedio te dice "vamos bien".',
   hoy34:'Calcula tu ROAS real del mes (ventas cerradas ÷ inversión) y compáralo con el que Meta reporta. Luego pártelo por campaña, aunque sea a mano gruesa. La que salga abajo del promedio es tu primera candidata a cirugía.',
   pasos34:['Suma tus <b>ventas cerradas del mes</b> que vinieron de anuncios (en pesos, las de verdad). ¿Aún no montas las claves de CAC? Usa tus clientes NUEVOS del mes como aproximación.','Divídelas entre lo que <b>gastaste en ads</b> ese mes. Ejemplo: vendiste $54,000 y gastaste $30,000 → ROAS real de <b>1.8</b>. Compáralo con el que Meta te enseña. ¿Meta no te enseña NINGÚN ROAS porque tus ventas se cierran por WhatsApp? Ese ya es el hallazgo: hoy decides tu presupuesto sin ningún número de retorno. Apunta tu ROAS real de hoy en adelante, y decide con ése.','Repite la cuenta <b>por campaña</b> (si ya montaste las claves de CAC, ya tienes cómo). La que salga abajo del promedio es tu candidata a cirugía.'],reto34:'Si tu ROAS real sale a menos de la mitad del que Meta presume, ya sabes por qué los números no cuadran a fin de mes.',ofName:'Tu ROAS de equilibrio y tu ROAS objetivo',ofPrice:50,ofBullets:['El video donde saco el ROAS de equilibrio y el objetivo con números reales en pantalla','La hoja donde metes precio y costo y te dice si tu ROAS de hoy gana o pierde dinero','El prompt: un texto listo que le pegas a Claude (una inteligencia artificial gratis, como ChatGPT). Le das tu precio y tu costo y te calcula tu ROAS de equilibrio sin que abras una hoja'],
   pasos4:['Pide de tu CRM las <b>ventas cerradas del mes atribuidas a campañas</b>. Si tu CRM no lo entrega en 5 minutos, anótalo: eso también es parte del diagnóstico.','Divide entre la inversión del mes → tu ROAS real. Ponlo junto al que Meta reporta: <b>la brecha es tu nivel de ceguera</b>.','Pártelo <b>por campaña y por sucursal</b>. La que salga abajo del promedio es tu candidata a cirugía, y la conversación de tu próxima junta.'],
@@ -2084,7 +2084,7 @@ function laLectura(real,tg,tr){
  const gGood=gi=>real.filter(t=>t.g===gi&&t.s==='g').length;
  const gReds=gi=>real.filter(t=>t.g===gi&&t.s==='r').length;
  if(state&&state.etapa===3) return `Vendes bien y llevas meses en el mismo número. Ya no es problema de anuncios: es que decides con promedios, y el promedio esconde la campaña que te está costando dinero. Se arregla <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
- if(state&&state.etapa===2) return `Ya vendes, y eso ya es más que la mayoría. Lo que te falta no es presupuesto: es que el mes flojo deje de ser sorpresa. Se arregla <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
+ if(state&&state.etapa===2) return `Ya vendes todos los meses. Lo que te falta no es presupuesto: es que el mes flojo deje de ser sorpresa. Se arregla <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
  if(tg<=1) return `Estás construyendo casi todo desde cero: normal a esta altura, no es mala señal. La trampa aquí es querer hacer todo a la vez: se hace <b>en orden, una cosa a la vez</b>. Abajo te digo por dónde empezar.`;
  if(st('Generación de ads')!=='r' && st('Tasa de cierre')!=='r' && (st('Atribución')==='r'||st('CAC')==='r'))
   return `Traes el motor prendido (campañas corriendo) pero <b>manejas sin tablero</b>: metes dinero en ads y no sabes qué anuncio te devuelve clientes de verdad. Eso que se siente como "ya no jala como antes" casi nunca es que jale menos: es que <b>no lo estás viendo</b>.`;
@@ -2308,14 +2308,16 @@ function pideAreasNow(){
       por:'le metes anuncios al servicio o producto que más se vende, no al que más te deja. Esta es la que separa vender más de ganar más.'}
   ],
   4:[  // 20 sep · en E4 el momento mueve el FOCO (gratis + guia), no una fila de checklist. tooth = diente al que manda.
-   {id:'M4-01', t:'Me entero de los problemas por el cliente, no por mi equipo ni mi agencia', chk:'Métricas',      tooth:'Venta mensual'},
-   {id:'M4-02', t:'Saco mis números de tres lugares y ninguno cuadra',                         chk:'Métricas',      tooth:'Atribución'},
+   {id:'M4-01', t:'Me entero de los problemas cuando un cliente se queja, no porque mi equipo o mi agencia me avisen', chk:'Métricas',      tooth:'Venta mensual'},
+   {id:'M4-02', t:'Facebook, mi CRM y mi banco me dan números distintos, y ninguno cuadra',                         chk:'Métricas',      tooth:'Atribución'},
    {id:'M4-03', t:'Le subo al presupuesto y el costo por cliente se me dispara',               chk:'Presupuesto',   tooth:'CAC', cl:{t:'Le subo al presupuesto y el costo por paciente se me dispara'}},
    {id:'M4-04', t:'Vendo más que nunca y me queda cada vez menos',                             chk:'Oferta',        tooth:'Utilidad'},
-   {id:'M4-05', t:'Los anuncios que ganaban duran cada vez menos',                             chk:'Anuncios',      tooth:'Creatividades'},
+   {id:'M4-05', t:'Mi anuncio ganador me dura cada vez menos, y el siguiente tarda en salir',                             chk:'Anuncios',      tooth:'Creatividades'},
    {id:'M4-06', t:'Mis clientes compran una vez y no regresan',                                chk:'Asistencia',    tooth:'Oferta', cl:{t:'Mis pacientes vienen una vez y no regresan'}},
-   {id:'M4-07', t:'Tengo equipo con guion y aun así cada quien cierra distinto',               chk:'Equipo',        tooth:'Equipo de ventas', cl:{t:'Tengo recepción con guion y aun así cada quien agenda distinto'}},
-   {id:'M4-08', t:'Ya cubrí mi mercado y no sé si abrir otra plaza u otro canal',              chk:'Campañas',      tooth:'Generación de ads'}
+   {id:'M4-07', t:'Mi equipo usa el mismo guion desde hace meses, y no sé en qué parte de la plática se pierden las ventas',               chk:'Equipo',        tooth:'Equipo de ventas', cl:{t:'Mi recepción usa el mismo guion desde hace meses, y no sé en qué parte de la plática se pierden las citas'}},
+   {id:'M4-08', t:'Siento que Meta ya no da más, y no sé si abrir otra plaza u otro canal',              chk:'Campañas',      tooth:'Generación de ads'},
+   {id:'M4-09', t:'Meta me trae gente que escribe, pero no gente que compra', chk:'Seguimiento', tooth:'Automatización', cl:{t:'Meta me trae gente que escribe, pero no pacientes que pagan'}},
+   {id:'M4-10', t:'Mis ventas ya no crecen, y me da miedo probar una oferta o un precio nuevo', chk:'Ventas', tooth:'Venta mensual'}
   ]
  };
 
@@ -2364,7 +2366,7 @@ function renderEspejo(){
            : `<h2 class="esp-h">Ya tienes tu tabla. Falta decidir por dónde empiezas.</h2>`;
  h+= tengo ? `<p class="esp-sub">Marca solo lo que ya tienes funcionando. Lo primero que no marques es por donde empiezas.</p>`
    : et===4
-  ? `<p class="esp-sub">Marca lo que te suene. A tu nivel casi siempre hay dos o tres pasando a la vez, pero una es la raíz de las otras. Con esto te digo cuál revisar primero.</p>`
+  ? `<p class="esp-sub">Marca lo que te pase. Si marcas varias, te digo cuál revisar primero.</p>`
   : `<p class="esp-sub">Marca lo que se parezca a tu semana. En esta etapa normalmente están pasando varias a la vez, pero una va primero: escoge las que más te suenen y con esto te digo con cuál empezar.</p>`;
  h+=`<div class="esp-l">`;
  const firstMissing = tengo && sel.length ? (espFaltan()[0]||{}).id : null;
@@ -2442,14 +2444,14 @@ function espEcho(){
   let tx;
   const M408 = P.some(m=>m.id==='M4-08');   // 20 sep: "abrir plaza/canal" es una decision, no un defecto: veredicto propio, siempre al socio
   if(M408){
-   go.innerHTML=`Casi nunca toca abrir canal: toca abrir lo que falta en el que ya tienes. ¿Corres más de un objetivo, o solo mensajes? ¿Pruebas anuncios nuevos cada semana? ¿Le hablas a más de un tipo de cliente? Si alguna es "no", ahí hay más que escalar sin salir de Meta. Meta topado de verdad se ve en la cuenta, no en el costo. Abajo te digo cómo lo vemos.<button type="button">Ver cómo lo revisamos \u2193</button>`;
+   go.innerHTML=`Antes de abrir otro canal, revisa lo que te falta en Meta. ¿Corres más de un objetivo, o solo mensajes? ¿Pruebas anuncios nuevos cada semana? ¿Le hablas a más de un tipo de cliente? Si alguna es "no", todavía puedes crecer sin salir de Meta. Que Meta ya no da más se comprueba con tres números de tu cuenta: alcance, frecuencia y anuncios nuevos (están en la fila de Campañas de tu tabla). Abajo te digo cómo lo vemos.<button type="button">Ver cómo lo revisamos \u2193</button>`;
    const bM=go.querySelector('button'); if(bM) bM.onclick=function(){ (document.getElementById('socio')||document.getElementById('unica')||document.getElementById('mapa')).scrollIntoView({behavior:'smooth',block:'start'}); };
    return;
   }
   if(!focoL) tx=`Eso, por tus respuestas, ya lo traes. Cuando todo sale en verde y aun así topas, lo que falta no está en el quiz: está en la cuenta. Abajo te digo cómo lo vemos.`;
   else if(P.length===1 && firstOk) tx=`Eso, por tus respuestas, ya lo traes resuelto. Lo que va primero en tu cuenta es <b>${nombreDiente(focoL)}</b>: abajo te dejo qué revisar esta semana.`;
   else if(P.length===1) tx=`Va. Lo tuyo es <b>${(first&&first.tooth)?nombreDiente(first.tooth):A[0]}</b>. A tu nivel eso no se arregla con una guía: se arregla entrando a la cuenta. Abajo te dejo qué revisar esta semana, y si quieres que lo vea contigo, ahí mismo está.`;
-  else tx=`Va, marcaste ${P.length}. A tu nivel casi siempre tienen la misma raíz. Empieza por <b>${focoL?nombreDiente(focoL):A[0]}</b>: abajo te dejo qué revisar esta semana.`;
+  else tx=`Va, marcaste ${P.length}. Empieza por <b>${focoL?nombreDiente(focoL):A[0]}</b>: abajo te dejo qué revisar esta semana.`;
   go.innerHTML=tx+`<button type="button">Ver qué revisar esta semana \u2193</button>`;
   const b4=go.querySelector('button'); if(b4) b4.onclick=function(){ const u=document.getElementById('unica'), so=document.getElementById('socio'); ((u&&u.style.display!=='none')?u:so||document.getElementById('mapa')).scrollIntoView({behavior:'smooth',block:'start'}); };
   return;
@@ -2479,7 +2481,7 @@ function espEcho(){
   go.innerHTML=`Va. Lo tuyo es <b>${A[0]}</b>, y abajo te lo marqué en tu checklist.${puente}<button type="button">${btn}</button>`;
  }else{
   const resto = A.length===2 ? 'La otra te la marqué abajo en tu checklist.' : 'Las otras te las marqué abajo en tu checklist.';
-  go.innerHTML=`Va, marcaste ${P.length}. En esta etapa casi siempre vienen juntas. Empieza por <b>${A[0]}</b>. ${resto}${puente}<button type="button">${btn}</button>`;
+  go.innerHTML=`Va, marcaste ${P.length}. Empieza por <b>${A[0]}</b>. ${resto}${puente}<button type="button">${btn}</button>`;
  }
  const bt=go.querySelector('button');
  if(bt) bt.onclick=function(){
