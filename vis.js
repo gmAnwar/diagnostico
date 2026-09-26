@@ -18,8 +18,7 @@
     vid = q.get("vid") || LS.getItem("as_vid") || uid();
     LS.setItem("as_vid", vid);
     sid = SS.getItem("as_sid");
-    var nueva = 0;
-    if (!sid) { sid = uid(); SS.setItem("as_sid", sid); nueva = 1; }
+    if (!sid) { sid = uid(); SS.setItem("as_sid", sid); }
 
     ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (k) {
       var v = q.get(k); if (v) u[k] = v;
@@ -48,7 +47,7 @@
       LS.setItem("as_first", JSON.stringify(first));
     }
 
-    var d = { tk: TK, pagina: PAGE, path: location.pathname, vid: vid, sid: sid, nueva: nueva,
+    var d = { tk: TK, pagina: PAGE, path: location.pathname, vid: vid, sid: sid, nueva: 0,
       utm_source: u.utm_source || "", utm_medium: u.utm_medium || "", utm_campaign: u.utm_campaign || "",
       utm_content: u.utm_content || "", utm_term: u.utm_term || "",
       first_source: first.s, first_medium: first.m, first_campaign: first.c,
@@ -57,9 +56,29 @@
             : (window.matchMedia && matchMedia("(max-width:768px)").matches ? "movil" : "escritorio")),
       pantalla: innerWidth + "x" + innerHeight, idioma: navigator.language || "" };
 
-    var body = new Blob([JSON.stringify(d)], { type: "text/plain;charset=UTF-8" });
-    if (navigator.sendBeacon) navigator.sendBeacon(EP, body);
-    else fetch(EP, { method: "POST", mode: "no-cors", body: JSON.stringify(d) });
+    /* la visita solo se registra si la ve una persona: nada de robots ni páginas precargadas/ocultas */
+    var robot = navigator.webdriver === true ||
+      /facebookexternalhit|facebot|meta-externalagent|bot|crawler|spider|headless/i.test(navigator.userAgent || "");
+    var enviada = false;
+    function visita() {
+      if (enviada || robot || document.visibilityState !== "visible" || document.prerendering) return;
+      enviada = true;
+      document.removeEventListener("visibilitychange", visita);
+      document.removeEventListener("prerenderingchange", visita);
+      try {
+        /* nueva = primera visita registrada de la sesión (si la primera carga nunca se vio, no cuenta) */
+        var v = Object.assign({}, d, { nueva: SS.getItem("as_vis_ok") ? 0 : 1 });
+        SS.setItem("as_vis_ok", "1");
+        var body = new Blob([JSON.stringify(v)], { type: "text/plain;charset=UTF-8" });
+        if (navigator.sendBeacon) navigator.sendBeacon(EP, body);
+        else fetch(EP, { method: "POST", mode: "no-cors", body: JSON.stringify(v) });
+      } catch (err) {}
+    }
+    if (!robot) {
+      document.addEventListener("visibilitychange", visita);
+      document.addEventListener("prerenderingchange", visita);
+      visita();
+    }
 
     /* eventos de página (clics que importan) -> misma pestaña VISITAS, path=/evento/<nombre> */
     function hit(name) {
