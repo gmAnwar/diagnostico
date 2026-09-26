@@ -204,6 +204,11 @@ table.diag td.area.weak-row,table.hz td:first-child.weak-row{background:#FFF9F0}
 .bio h2{text-align:left}
 .bio .lead{font-size:16px;margin-bottom:12px}
 .bio .promise{font-weight:800;color:var(--navy);font-size:16.5px;margin:16px 0}
+.bio .bio-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.bio .bio-head h2{margin:0}
+.bio .bio-foto{width:88px;height:88px;flex:0 0 88px;border-radius:50%;object-fit:cover;background:#e9edf3}
+.bio .bio-li{margin:0 0 12px;padding-left:22px}
+.bio .bio-li li{font-size:16px;margin-bottom:8px}
 .caso-real{margin-top:26px}
 .caso-real h3{font-size:22px;color:var(--navy);text-transform:uppercase;margin-bottom:10px}
 .resultado{text-align:center;margin:26px 0}
@@ -642,7 +647,7 @@ body.has-bar{padding-bottom:74px}
 #engrane-root .chl .it .act.ayuda{grid-column:2;grid-row:2;justify-self:end;border:1.5px solid var(--red);background:#fff;color:var(--red);border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap}
 #engrane-root .chl .it.ayuda .act.ayuda{background:var(--red);border-color:var(--red);color:#fff}
 #engrane-root .chl .it .fb{grid-column:1/-1}
-#engrane-root .chl .it.tengo .tx{color:#8a94a6;text-decoration:line-through}
+#engrane-root .chl .it.tengo .tx{color:#8a94a6;text-decoration:line-through} #engrane-root .chl .it.tengo .tx{max-height:2.9em;overflow:hidden} #engrane-root .chl .it.tengo .tx .ej,#engrane-root .chl .it.tengo .tx .pq,#engrane-root .chl .it.tengo .tx .how-row,#engrane-root .chl .it.tengo .tx .chk-start{display:none} #engrane-root .chl .it.has-pq:not(.pq-open):not(.ayuda) > .act.ayuda{display:none} #engrane-root .chl .it.has-pq:not(.pq-open) .how-row{display:none} #engrane-root .chk-sec .pq>summary{padding:7px 14px;border:1.5px solid #0A2E5C;border-radius:999px;background:#fff;line-height:1.2} #engrane-root .chk-sec .pq[open]>summary{background:#0A2E5C;color:#fff} .chk-sec .how-pq{display:none} .chk-sec.con-pq .how-pq{display:inline} .chk-sec.con-pq .how-nopq{display:none} .chk-sec .mini-pq{display:inline-block;border:1.5px solid #0A2E5C;border-radius:999px;padding:0 8px;font-weight:700;color:#0A2E5C;font-size:.92em;white-space:nowrap}
 #engrane-root .chl .it.ayuda{background:#FFF5F5}
 #engrane-root .chl .it.start{background:#FFF9F2}
 #engrane-root .chl .it.start.ayuda{background:#FFF5F5}
@@ -783,7 +788,7 @@ const CONFIG = {
         <h3 class="chk-h">Tu checklist para pasar a la etapa 2</h3>
         <p class="chk-sub">Es la columna derecha de tu mapa, en lista.</p>
         <p class="chk-prog" id="chkProg"></p>
-        <div class="chk-how"><b>Ya te marqué lo que, por tus respuestas, ya traes resuelto.</b> Si alguno no aplica a tu negocio o crees que me equivoqué, toca el círculo y lo cambias. Es tu lista.<br><br><b>Cómo se usa:</b> toca el círculo <span class="c-mini"></span> de lo que ya resolviste: se palomea <span class="c-mini on">✓</span> y se tacha. Si quieres ayuda en un punto, toca <span class="mini-a">Ayúdame con esto</span>. Regresa cuando quieras: aquí se te guarda.</div>
+        <div class="chk-how"><b>Ya te marqué lo que, por tus respuestas, ya traes resuelto.</b> Si alguno no aplica a tu negocio o crees que me equivoqué, toca el círculo y lo cambias. Es tu lista.<br><br><b>Cómo se usa:</b> toca el círculo <span class="c-mini"></span> de lo que ya resolviste: se palomea <span class="c-mini on">✓</span> y se tacha. Si quieres ayuda en un punto, <span class="how-nopq">toca <span class="mini-a">Ayúdame con esto</span>.</span><span class="how-pq">toca <span class="mini-pq">Ver por qué importa</span> y ahí te sale <span class="mini-a">Ayúdame con esto</span>.</span> Regresa cuando quieras: aquí se te guarda.</div>
         <div class="chl" id="chkList"></div>
         <div class="pide-res" id="pideRes"></div>
       </div>
@@ -808,12 +813,20 @@ const CONFIG = {
 
   <!-- BIO (reubicada: después del engrane, antes del exportbar) -->
   <section class="block wrap bio" id="sec-bio">
-    <h2 class="sec bebas" style="text-align:left">Hola, soy Anwar.</h2>
+    <div class="bio-head"><img class="bio-foto" src="anwar.jpg" width="88" height="88" loading="lazy" decoding="async" alt="Anwar Sepúlveda"><h2 class="sec bebas" style="text-align:left">Hola, soy Anwar.</h2></div>
     <p class="lead">En 2011 fundé völtoch, mi marca de artículos deportivos. Llegamos a vender en más de 5,000 puntos de venta, en las cadenas más grandes de México.</p>
     <p class="lead">Después escalé la venta en línea de 0 a $650,000 al mes. Y no sabía que estábamos perdiendo dinero.</p>
     <p class="lead"><b>No me lo escondió nadie. Yo no lo estaba midiendo.</b></p>
     <p class="lead">Empecé a medir. Y me metí a ver otros negocios por dentro: llevo más de 100, y he manejado pauta desde $6 mil hasta $5 millones de pesos al mes, en cuentas que hoy invierten más de 100 mil dólares mensuales.</p>
     <p class="lead">Eso se volvió mi trabajo. Hoy lo hago con OptimizAds en México y Taco Agency para las startups en Estados Unidos.</p>
+    <p class="lead">Y no lo hago a mano. Con mis clientes metemos sistemas con Inteligencia Artificial y automatizaciones que se quedan trabajando en su negocio:</p>
+    <ul class="bio-li">
+      <li>Las cuentas de anuncios revisadas todos los días, con los ajustes del día listos.</li>
+      <li>Cada llamada de venta calificada contra el guion, con lo que el equipo tiene que corregir al día siguiente.</li>
+      <li>Cada venta amarrada al anuncio que la trajo, no al que parece que funcionó.</li>
+      <li>Los números del día en un solo tablero, no en tres reportes que no cuadran.</li>
+    </ul>
+    <p class="lead"><b>Así, el dueño y yo vemos lo que pasa el mismo día, no a fin de mes.</b></p>
     <p class="promise">No te voy a decir que "hagas más anuncios". Te digo qué área te está frenando, y cuál mover primero.</p>
   </section>
 </div>
@@ -2329,7 +2342,7 @@ function pqTxt(s){ return String(s).split(/\n\n+/).map(function(par){ return '<p
 function pqHtml(c){
  if(CHKN()!==3) return '';
  const q=PQ3[c.area]; if(!q) return '';
- return '<details class="pq"><summary>¿Por qué importa? <span class="pq-ar">↓</span></summary><div class="pq-b">'+pqTxt(q.p)+
+ return '<details class="pq"><summary>Ver por qué importa <span class="pq-ar">↓</span></summary><div class="pq-b">'+pqTxt(q.p)+
   '<div class="pq-t">Esta semana:</div><ol>'+q.s.map(function(x){ return '<li>'+pqEsc(x).replace(/\n/g,'<br>')+'</li>'; }).join('')+'</ol>'+
   '<div class="pq-t">Ejemplo:</div><div class="pq-ej">'+pqTxt(q.e)+'</div></div></details>';
 }
@@ -2388,6 +2401,7 @@ function renderChecklist1(firstAny){
  function isAyuda(i){ return !!picked[i]; }
  window.chk1IsOn=isOn;
  function paint(){
+  const _pqOpen=[].map.call(list.querySelectorAll('details.pq[open]'),function(d){ const r=d.closest('.it'); return r?r.dataset.i:null; });
   let n=0, nAyuda=0;
   const rank=function(i){ const p=startIdx.indexOf(i); return p>=0?p:999; };
   const order=CHK().map((c,i)=>i).sort((a,b)=>rank(a)-rank(b));
@@ -2398,8 +2412,10 @@ function renderChecklist1(firstAny){
    const startSpan = sPos===0 ? ' <span class="chk-start">← Empieza por aquí</span>'
                    : sPos>0  ? ' <span class="chk-start alt">← Esto también lo marcaste</span>' : '';
    const stateCls=on?' tengo':(ay?' ayuda':'');
-   return `<div class="it${stateCls}${isStart?' start':''}" data-i="${i}"><button type="button" class="c" data-act="tengo" aria-label="Ya lo resolví"></button><div class="tx"><b>${c.area}:</b> ${nk(c,'text')}${startSpan}${nk(c,'ej')?`<div class="ej"><b>Ejemplo:</b> ${nk(c,'ej')}</div>`:''}${pqHtml(c)}<div class="how-row">↖ Si esto ya lo haces${c.na?' o no aplica para tu negocio':''}, toca el círculo para marcarlo como resuelto. Si quieres ayuda con esto, toca el botón ↘</div></div><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Ayúdame con esto':'Ayúdame con esto'}</button>${ay?((PIDE_COVERED_BY[CHKN()]||PIDE_COVERED).indexOf(c.area)>=0?`<div class="fb">Esto viene en la guía de etapa ${CHKN()}, ya la puedes apartar. <a href="#guia" class="fb-go">Ver la guía ↓</a></div>`:`<div class="fb">Anotado. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.</div>`):''}</div>`;
+   return `<div class="it${stateCls}${isStart?' start':''}${pqHtml(c)?' has-pq':''}" data-i="${i}"><button type="button" class="c" data-act="tengo" aria-label="Ya lo resolví"></button><div class="tx"><b>${c.area}:</b> ${nk(c,'text')}${startSpan}${nk(c,'ej')?`<div class="ej"><b>Ejemplo:</b> ${nk(c,'ej')}</div>`:''}${pqHtml(c)}<div class="how-row">↖ Si esto ya lo haces${c.na?' o no aplica para tu negocio':''}, toca el círculo para marcarlo como resuelto. Si quieres ayuda con esto, toca el botón ↘</div></div><button type="button" class="act ayuda" data-act="ayuda">${ay?'✓ Ayúdame con esto':'Ayúdame con esto'}</button>${ay?((PIDE_COVERED_BY[CHKN()]||PIDE_COVERED).indexOf(c.area)>=0?`<div class="fb">Anotado. Esto viene en la guía de etapa ${CHKN()}, que todavía no sale. En cuanto la saque, te aviso a tu correo.</div>`:`<div class="fb">Anotado. En cuanto junte a los que piden esto, hago la guía y te aviso a tu correo.</div>`):''}</div>`;
   }).join('');
+  _pqOpen.forEach(function(k){ if(k===null) return; const d=list.querySelector('.it[data-i="'+k+'"] details.pq'); if(d){ d.open=true; d.closest('.it').classList.add('pq-open'); } });
+  try{ const _cs=document.getElementById('chkSec'); if(_cs) _cs.classList.toggle('con-pq', !!list.querySelector('.it.has-pq')); }catch(e){}
   prog.innerHTML=`Llevas <b>${n}</b> de 11 · Pediste ayuda en <b>${nAyuda}</b>`;
   const bpT=document.getElementById('bpT'), bpA=document.getElementById('bpA');
   if(bpT) bpT.textContent=n;
@@ -2643,7 +2659,7 @@ function espEcho(){
    return;
   }
   const f0=F[0];
-  go.innerHTML=`Te falta${F.length===1?'':'n'} ${F.length}. Empieza por <b>${f0.chk}</b>: ${nk(f0,'por')}<br>Abajo te lo dejé de primero en tu checklist, con el cómo.<button type="button">Llévame \u2193</button>`;
+  go.innerHTML=`Te falta${F.length===1?'':'n'} ${F.length}. Empieza por <b>${f0.chk}</b>: ${nk(f0,'por')}<br>Abajo te lo dejé de primero en tu checklist, con el cómo.`;
   const bT=go.querySelector('button'); if(bT) bT.onclick=function(){
    let target=null;
    document.querySelectorAll('#chkList .it').forEach(function(r){ const lb=r.querySelector('.tx b'); if(lb&&lb.textContent.replace(':','').trim()===f0.chk) target=r; });
@@ -2655,12 +2671,12 @@ function espEcho(){
  const G=GUIA_ETAPA[state.etapa];
  const yaEsLaGuia = !G || A.some(function(a){ return G.filas.indexOf(a)>=0; });
  const puente = yaEsLaGuia ? '' : `<br>Una cosa antes: en tu etapa, <b>${G.nombre()}</b> va primero. Sin eso, lo que arregles en las otras áreas no se sostiene. Te lo dejo aquí abajo.`;
- const btn = yaEsLaGuia ? 'Llévame \u2193' : 'Ver por dónde empezar \u2193';
+ const btn = yaEsLaGuia ? '' : 'Ver por dónde empezar \u2193';
  if(A.length===1){
-  go.innerHTML=`Va. Lo tuyo es <b>${A[0]}</b>, y abajo te lo marqué en tu checklist.${puente}<button type="button">${btn}</button>`;
+  go.innerHTML=`Va. Lo tuyo es <b>${A[0]}</b>, y abajo te lo marqué en tu checklist.${puente}${btn?`<button type="button">${btn}</button>`:''}`;
  }else{
   const resto = A.length===2 ? 'La otra te la marqué abajo en tu checklist.' : 'Las otras te las marqué abajo en tu checklist.';
-  go.innerHTML=`Va, marcaste ${P.length}. Empieza por <b>${A[0]}</b>. ${resto}${puente}<button type="button">${btn}</button>`;
+  go.innerHTML=`Va, marcaste ${P.length}. Empieza por <b>${A[0]}</b>. ${resto}${puente}${btn?`<button type="button">${btn}</button>`:''}`;
  }
  const bt=go.querySelector('button');
  if(bt) bt.onclick=function(){
@@ -2693,15 +2709,15 @@ function renderPide(){
  const COV=marked.filter(i=>(PIDE_COVERED_BY[CHKN()]||PIDE_COVERED).indexOf(CHK()[i].area)>=0);
  const OTR=marked.filter(i=>(PIDE_COVERED_BY[CHKN()]||PIDE_COVERED).indexOf(CHK()[i].area)<0);
  const n=marked.length;
- const goHtml=`<a class="pide-go" href="#guia">Ver la guía ↓</a>`;
+ const goHtml='';
  function wireGo(){ const go=resEl.querySelector('.pide-go'); if(go) go.onclick=function(e){ e.preventDefault(); const u=document.getElementById('guia'); if(u) u.scrollIntoView({behavior:'smooth'}); }; }
  const otrNames=OTR.map(i=>CHK()[i].area).join(', ');
  if(COV.length>0 && OTR.length===0){
-  resEl.innerHTML=`<p class="pide-ok">${COV.length===1?'Lo que pediste viene':'Las '+COV.length+' que pediste vienen'} en la guía de etapa ${CHKN()}. Apártala hoy.</p>${goHtml}`;
+  resEl.innerHTML=`<p class="pide-ok">${COV.length===1?'Lo que pediste viene':'Las '+COV.length+' que pediste vienen'} en la guía de etapa ${CHKN()}, que todavía no sale. En cuanto la saque, te aviso a tu correo. No tienes que hacer nada más.</p>${goHtml}`;
   wireGo(); return;
  }
  if(COV.length){
-  resEl.innerHTML=`<p class="pide-ok">De las ${n} que pediste, ${COV.length===1?'una viene':COV.length+' vienen'} en la guía de etapa ${CHKN()}: apártala hoy. ${OTR.length===1?'La otra':'Las otras '+OTR.length} (${otrNames}) ya ${OTR.length===1?'quedó anotada':'quedaron anotadas'}: te aviso a tu correo en cuanto ${OTR.length===1?'salga':'salgan'}.</p>${goHtml}`;
+  resEl.innerHTML=`<p class="pide-ok">De las ${n} que pediste, ${COV.length===1?'una viene':COV.length+' vienen'} en la guía de etapa ${CHKN()}, que todavía no sale. ${OTR.length===1?'La otra':'Las otras '+OTR.length} (${otrNames}) ya ${OTR.length===1?'quedó anotada':'quedaron anotadas'}. Te aviso a tu correo en cuanto salga cada guía.</p>${goHtml}`;
   wireGo();
  } else {
   resEl.innerHTML=`<p class="pide-ok">${n===1?'Anotado':'Anotadas'}: ${otrNames}. Te aviso a tu correo en cuanto ${n===1?'salga':'salgan'}. No tienes que hacer nada más.</p>`;
@@ -2731,10 +2747,10 @@ function render(levels){
  document.getElementById('etTop').innerHTML=`<div class="et-k">TU DIAGNÓSTICO</div><h1 class="et-h1">Estás en la etapa ${et} de 4: <span class="et-nm">${STAGES[et-1]}</span></h1>${(et===1||et===2||et===3)?`<p class="mail-note">Ya te mandé tu mapa por correo. Si no llega en 2 minutos, revisa Promociones o Spam y muévelo a Principal.</p>`:''}`;
  const SC=STAGE_COPY[et];
  const atribOk = real.some(t=>t.l==='Atribución' && t.s==='g');
- const dentroTx = (et===4 && atribOk) ? SC.dentro.slice(0,3).concat(['Tienes CRM, tableros y reportes, y tú ya sabes de qué anuncio sale cada venta. La pregunta es si Meta lo sabe: si no le regresas los cierres, sigue optimizando hacia quien escribe.']) : SC.dentro;
+ const dentroTx = (et===4 && atribOk) ? SC.dentro.slice(0,3).concat(['Ya sabes de qué anuncio sale cada venta.']) : SC.dentro;
  document.getElementById('porDentro').innerHTML=`<div class="k">Así se ve por dentro</div><ul class="dentro">${dentroTx.map(x=>`<li>${x}</li>`).join('')}</ul>`;
- const frenaLead = (et===4 && atribOk) ? 'Que Meta no vea tus cierres, y el dato fresco.' : SC.frenaLead;
- const frenaTx   = (et===4 && atribOk) ? 'Tú ya atribuyes. Meta no. Y decides con el número del mes pasado.' : SC.frena;
+ const frenaLead = (et===4 && atribOk) ? 'Meta no sabe quién te compró.' : SC.frenaLead;
+ const frenaTx   = (et===4 && atribOk) ? 'Si no le regresas a Meta cada venta cerrada, no puede buscarte más gente como la que te compra.<br><br>Y si revisas tus ventas por anuncio una vez al mes, te enteras tarde: el anuncio que trae mensajes pero no ventas ya se llevó un mes de presupuesto.' : SC.frena;
  document.getElementById('frena').innerHTML=`<div class="k">Lo que frena a los de tu etapa</div><p><b class="frena-lead">${frenaLead}</b> ${frenaTx}</p>`;
  document.getElementById('paraPasar').innerHTML=`<div class="k">${SC.pasarTit}</div><ul class="pasar">${SC.pasar.map(x=>`<li>${x}</li>`).join('')}</ul>${SC.nota?`<p class="nota">${SC.nota}</p>`:''}`;
  const PRI=priority();
@@ -2762,7 +2778,7 @@ function render(levels){
   let tg=(ETAPA_GUIDE[et]&&real.find(x=>x.l===ETAPA_GUIDE[et]))||t;
   if(!tg.ofName){ const alt=PRI.map(l=>real.find(x=>x.l===l)).find(x=>x&&x.s!=='g'&&x.ofName); if(alt) tg=alt; } // 20 sep: Respuesta a leads no tiene guia
  if(et===4 && document.getElementById('socio')) h+=`<p class="u-bridge">Eso lo puedes revisar tú hoy. Si prefieres que lo vea contigo en tu cuenta, abajo está.</p>`;
- else if(tg.ofName) h+=`<p class="u-bridge">${tg===t?'¿Prefieres que te lo dé resuelto? Abajo está la guía.':'Eso es gratis y de hoy. Abajo está la guía de tu etapa.'}</p>`;
+ else if(tg.ofName) h+=`<p class="u-bridge">${tg===t?'¿Quieres ver cómo le hago yo? Abajo está la guía.':'Eso es gratis y de hoy. Abajo está la guía de tu etapa.'}</p>`;
   u.innerHTML=h; u.style.display='';
   if(tg.ofName && et!==4){  // 8.5: en E4 la oferta es la revision de cuenta, no la guia de $50
    const full=tg.ofFull||(tg.ofPrice?tg.ofPrice*2-1:0);
@@ -2799,9 +2815,9 @@ function render(levels){
  try{ const so=document.getElementById('socio');
   if(so){ const muestra = (et===4 && (tr===0 || !hayGuia)) || (et>=3 && bandaSocio()) || (et===4 && typeof espPicked==='function' && espPicked().some(m=>m.id==='M4-08'));
    if(muestra){
-    so.innerHTML=`<div class="k">Si quieres que lo vea contigo</div><h2>Revisar tu cuenta campaña por campaña, en 20 minutos, sin costo.</h2><p>Es lo que hago con mis clientes: entrar a la cuenta, ver de dónde sale cada venta y decirte qué apagar, qué dejar y a qué subirle. Déjame tu lugar y te escribo yo. Si no aplica para tu caso, también te lo digo.</p><button class="lq" data-wl="revision-cuenta" data-ok="✓ Listo. Te escribo yo.">Quiero que revises mi cuenta →</button><p class="fine">Sin costo y sin compromiso. Solo para negocios que ya invierten $40 mil o más al mes en anuncios.</p>`;
+    so.innerHTML=`<div class="k">Si quieres que lo vea contigo</div><h2>Revisar tu cuenta campaña por campaña, en 20 minutos, sin costo.</h2><p>Es lo que hago con mis clientes: entrar a la cuenta, ver de dónde sale cada venta y decirte qué apagar, qué dejar y a qué subirle. Déjame tu lugar y yo te escribo. Si no aplica para tu caso, también te lo digo.</p><button class="lq" data-wl="revision-cuenta" data-ok="✓ Listo. Yo te escribo.">Quiero que revises mi cuenta →</button><p class="fine">Sin costo y sin compromiso. Solo para negocios que ya invierten $40 mil o más al mes en anuncios.</p>`;
     so.style.display='';
-    if(state.wl&&state.wl['revision-cuenta']){ const bq=so.querySelector('[data-wl]'); if(bq){ bq.classList.add('done'); bq.textContent='✓ Listo. Te escribo yo.'; } }
+    if(state.wl&&state.wl['revision-cuenta']){ const bq=so.querySelector('[data-wl]'); if(bq){ bq.classList.add('done'); bq.textContent='✓ Listo. Yo te escribo.'; } }
    } else { so.innerHTML=''; so.style.display='none'; }
   } }catch(e){}
  const et1=(et===1||et===2||et===3);
@@ -2976,6 +2992,7 @@ function cerrarMapa(){
   document.body.style.overflow='';
 }
 document.addEventListener('click',function(e){var a=e.target.closest('a.fb-go');if(!a)return;e.preventDefault();var u=document.getElementById('guia');if(u)u.scrollIntoView({behavior:'smooth'});});
+document.addEventListener('toggle',function(e){var d=e.target;if(d&&d.matches&&d.matches('details.pq')){var r=d.closest('.it');if(r)r.classList.toggle('pq-open',d.open);}},true);
 </script>
 </body>
 </html>
