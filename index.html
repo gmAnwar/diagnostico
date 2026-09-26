@@ -23,9 +23,11 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "yiwjvgc0cb");
 </script>
+<!-- 8.5e: las letras ya no frenan la página (antes bloqueaban ~1.5 s en 4G). Mismas 4 familias, en una sola petición. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap"></noscript>
 <style>
 :root{
   --navy:#0A2E5C; --red:#EA1A20; --ink:#333333; --bg:#FFFFFF; --soft:#F5F5F5;
@@ -724,7 +726,7 @@ const CONFIG = {
   <span class="kicker">Diagnóstico gratis · 2 minutos</span>
   <h1 class="hero bebas"><span class="hero-0">Tu negocio está en</span><span class="hero-1"><em>1 de 4</em> etapas.</span><span class="hero-2">Aquí ves en cuál estás, y qué te <em>frena</em>.</span></h1>
   <p class="sub">Son 10 preguntas y 5 opcionales al final. Te toma 2 minutos.</p>
-  <div class="gate-mk"><img src="mockup-tablas.webp" width="1200" height="894" alt="Las 4 tablas del diagnóstico, una por cada etapa" loading="eager" decoding="async"></div>
+  <div class="gate-mk"><img src="mockup-tablas.webp" width="1200" height="894" alt="Las 4 tablas del diagnóstico, una por cada etapa" loading="eager" fetchpriority="high"></div>
   <p class="gate-win-h">Cuando termines vas a ver:</p>
   <ul class="gate-win">
     <li class="hit"><b>Qué hacer esta semana.</b> Una sola cosa, y sin gastar un peso.</li>
