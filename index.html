@@ -13,6 +13,8 @@
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <!-- v2.1-draft quick-wins UX (matriz móvil + bio comprimida + acordeón áreas) · v2.0-draft A/B (captura WhatsApp gate vs reveal) · v1.9-draft: conversión (costo inacción + CTA value stack + calendario embebido + nombre) -->
+<!-- 8.5b: la identidad del link del correo (&e= &n=) se lee a memoria y se borra de la barra ANTES de que carguen Clarity y el pixel -->
+<script>(function(){try{var p=new URLSearchParams(location.search),id={},t=false;["nombre","first_name","email","telefono","phone","e","n"].forEach(function(k){if(p.has(k)){id[k]=p.get(k);p.delete(k);t=true;}});var r=p.get("r");if(r){try{var o=JSON.parse(decodeURIComponent(escape(atob(r))));if(o&&(o.n||o.e)){if(o.n&&!id.n)id.n=o.n;if(o.e&&!id.e)id.e=o.e;delete o.n;delete o.e;p.set("r",btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/=+$/,""));t=true;}}catch(e){}}if(t){window.__dxId=id;var q=p.toString();history.replaceState(null,"",location.pathname+(q?"?"+q:"")+location.hash);}}catch(e){}})();</script>
 <!-- Microsoft Clarity · grabaciones y heatmaps. Async: no bloquea el render. -->
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -1055,9 +1057,10 @@ function init(){
   // A/B: variante de captura de WhatsApp (A=en el gate · B=en el reveal). ?ab=A|B fuerza.
   state.ab = "A"; // variante B (A/B del teléfono) desactivada para el MVP · un solo camino: WhatsApp en el gate → quiz → engrane
   // La identidad se lee a memoria y se limpia de la URL ANTES de que exista el pixel.
-  const _id = { nombre: params.get("nombre") || params.get("first_name") || params.get("n") || "",
-                email:  params.get("email") || params.get("e") || "",
-                telefono: params.get("telefono") || params.get("phone") || "" };
+  const _X = window.__dxId || {};   // 8.5b: lo que el <head> ya limpio de la barra
+  const _id = { nombre: params.get("nombre") || params.get("first_name") || params.get("n") || _X.nombre || _X.first_name || _X.n || "",
+                email:  params.get("email") || params.get("e") || _X.email || _X.e || "",
+                telefono: params.get("telefono") || params.get("phone") || _X.telefono || _X.phone || "" };
   scrubURL();
   loadPixel();
   if(state.ab==="B"){ const t=$("g_telefono"); if(t){ t.style.display="none"; t.required=false; } }
