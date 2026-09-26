@@ -58,7 +58,7 @@
 
     /* la visita solo se registra si la ve una persona: nada de robots ni páginas precargadas/ocultas */
     var robot = navigator.webdriver === true ||
-      /facebookexternalhit|facebot|meta-externalagent|bot|crawler|spider|headless/i.test(navigator.userAgent || "");
+      /facebookexternalhit|facebot|meta-externalagent|headless|crawler|spider|bot\//i.test(navigator.userAgent || "");
     var enviada = false;
     function visita() {
       if (enviada || robot || document.visibilityState !== "visible" || document.prerendering) return;
