@@ -704,7 +704,7 @@ body.has-bar{padding-bottom:74px}
 <!-- ======================= CONFIG · EDITAR ANTES DE PUBLICAR ======================= -->
 <script>
 const CONFIG = {
-  WEBHOOK_URL: "https://hook.us2.make.com/136bp8giaczmgcv5mh8k4betdqh7uwd1",  // Make · escenario DX Intake
+  WEBHOOK_URL: "https://dx-entrada.anwarhsg.workers.dev/",  // 8.5f: Worker dx-entrada (repo gmAnwar/dx-entrada) → Make DX Intake con llave
   CALENDLY_URL: "https://api.leadconnectorhq.com/widget/bookings/llamada-de-15-minutos-anwar",  // GHL · Llamada 15 min (link permanente)
   PIXEL_ID: "2192907038266074",  // Meta dataset · BM Anwar Sepúlveda
   VIDEO_GENERAL_URL: "",     // Video "Ve esto primero" (YouTube/Vimeo/Loom). Vacío = la sección NO aparece.
@@ -1228,6 +1228,12 @@ function renderQ(keepScroll){
   html += `<div class="qnum">${inB ? q.area : "Contexto"}</div><div class="qtext">${q.q}</div>`;
   if(inB && q.multi){
     html += renderMulti(q);
+  } else if(!inB && i===0 && state.rubroOtroAsk){
+    // 8.5f · eligió "Otro": una línea opcional para saber a qué se dedica (va a RAW como c1_rubro_otro)
+    html += `<div class="opts"><button class="opt" style="opacity:.55;pointer-events:none">Otro</button></div>`;
+    html += `<div class="ctx-note" style="margin-top:12px"><label for="rubroOtro" style="display:block;margin-bottom:8px"><b>¿Qué vendes?</b> <span class="small">(opcional, una línea)</span></label>`;
+    html += `<input id="rubroOtro" type="text" maxlength="80" autocomplete="organization" placeholder="Ej. refacciones para autos, consultas dentales, cursos de inglés" value="${esc(state.rubroOtro||"").replace(/"/g,"&quot;")}" style="width:100%;box-sizing:border-box;padding:12px 14px;font:inherit;border:1px solid rgba(0,0,0,.2);border-radius:10px" onkeydown="if(event.key==='Enter'){event.preventDefault();rubroOtroOk();}">`;
+    html += `<button class="opt" style="margin-top:10px" onclick="rubroOtroOk()">Continuar →</button></div>`;
   } else {
     html += `<div class="opts">`;
     q.opts.forEach((o,oi)=>{ html += `<button class="opt" onclick="pick(${oi})">${o}</button>`; });
@@ -1253,6 +1259,7 @@ function pick(oi){
     if(state.idx >= QUIZ.length){ state.phase="C"; state.idx=0; track("QuizComplete",{}); }
   } else {
     state.C[state.idx] = oi;
+    if(state.idx===0 && oi===CTX[0].opts.length-1){ state.rubroOtroAsk = true; renderQ(true); return; } // "Otro" → pregunta abierta
     state.idx++;
     // Clínica: el modelo de negocio (servicios a cliente final) es obvio → autocompletar y saltar
     if(state.idx===1 && state.C[0]===0){ state.C[1]=1; state.idx=2; }
@@ -1260,7 +1267,12 @@ function pick(oi){
   }
   renderQ();
 }
+function rubroOtroOk(){
+  const el = $("rubroOtro"); state.rubroOtro = el ? String(el.value||"").trim().slice(0,80) : "";
+  state.rubroOtroAsk = false; state.idx = 1; renderQ();
+}
 function goBack(){
+  if(state.phase==="C" && state.idx===0 && state.rubroOtroAsk){ state.rubroOtroAsk=false; renderQ(true); return; } // del campo abierto a las opciones
   if(state.phase==="C" && state.idx===0){ state.phase="B"; state.idx=QUIZ.length-1; }
   else if(state.phase==="C" && state.idx===2 && state.C[0]===0){ state.idx=0; } // clínica: saltó el modelo
   else if(state.idx>0){ state.idx--; }
@@ -1715,6 +1727,7 @@ function payload(action, extra={}){
     ...fbIds(), ...state.utm, ...extra };
   QUIZ.forEach((q,i)=>{ if(state.B[i]!=null) p[q.id]=state.B[i]+1; });
   CTX.forEach((q,i)=>{ const qq=qv(q); if(state.C[i]!=null) p[qq.id]=qq.opts[state.C[i]]; }); // guarda la redaccion que SI vio
+  p.c1_rubro_otro = (state.C[0]===CTX[0].opts.length-1 && state.rubroOtro) ? state.rubroOtro : "";   // 8.5f · texto libre si eligió "Otro"
   return p;
 }
 function sendWebhook(action, extra){
