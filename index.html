@@ -891,6 +891,42 @@ const CONFIG = {
   <p class="trust small">Lo ves aquí mismo cuando termines. Nada de spam.</p>
   <p class="legal">Al continuar aceptas el <a href="/aviso/">aviso de privacidad</a>.</p>
 </div>
+<script>/* EXP-01 · Propuesta de valor · A/B 50/50 en la puerta (ANALISTA/CRO, 27 sep · bitácora claude/CRO-bitacora-experimentos-diagnosticador.md).
+   c = puerta de la 8.7 tal cual · t = puerta nueva completa (H1, .sub, botón y formulario arriba; Anwar 27 sep: todo junto). Mide con ASV.hit() → pestaña VISITAS, path=/evento/exp01_<c|t>_<ver|empezo>.
+   Para cerrar: dejar fija la ganadora (100/0) y quitar este bloque. */
+(function(){try{
+  var q=new URLSearchParams(location.search), id=window.__dxId||{};
+  if(q.get('r')||id.email||id.e) return;                       // la puerta no se muestra: ni se sortea ni se cuenta
+  var v=null; try{v=localStorage.getItem('exp01');}catch(e){}
+  if(v!=='c'&&v!=='t'){ v=Math.random()<0.5?'c':'t'; try{localStorage.setItem('exp01',v);}catch(e){} }
+  window.__exp01=v;
+  var g=document.getElementById('screen-gate');
+  if(v==='t'&&g){
+    var h=g.querySelector('h1.hero'), s=g.querySelector('p.sub');
+    if(h) h.innerHTML='<span class="hero-1">¿En <em>qué etapa</em> está tu negocio?</span>';
+    if(s) s.textContent='Aquí ves qué te está frenando hoy y qué te falta para pasar a la siguiente etapa.';
+    // el formulario, el botón y sus dos líneas suben justo debajo del .sub (antes de la imagen): el botón queda en la primera pantalla
+    var f0=document.getElementById('gateForm'), tr=g.querySelector('p.trust'), lg=g.querySelector('p.legal');
+    if(f0&&s){ s.insertAdjacentElement('afterend',f0); f0.classList.add('exp01-arriba');
+      if(tr) f0.insertAdjacentElement('afterend',tr); if(lg&&tr) tr.insertAdjacentElement('afterend',lg);
+      f0.style.marginTop='20px'; if(lg) lg.style.marginBottom='26px';
+      var bt=f0.querySelector('button[type=submit]'); if(bt) bt.textContent='Ver en qué etapa estoy →'; }
+  }
+  var robot=navigator.webdriver===true||/facebookexternalhit|facebot|meta-externalagent|headless|crawler|spider|adsbot|bot\//i.test(navigator.userAgent||'');
+  if(robot) return;                                             // misma regla que vis.js: los robots no cuentan
+  var hit=function(n){ try{ if(window.ASV&&ASV.hit) ASV.hit('exp01_'+v+'_'+n); }catch(e){} };
+  var visto=false;
+  function ver(){
+    if(visto||document.visibilityState!=='visible'||document.prerendering) return;
+    if(!g||g.classList.contains('hidden')) return;
+    visto=true; document.removeEventListener('visibilitychange',ver); document.removeEventListener('prerenderingchange',ver);
+    hit('ver');
+  }
+  document.addEventListener('visibilitychange',ver); document.addEventListener('prerenderingchange',ver); ver();
+  var f=document.getElementById('gateForm'), emp=false;
+  if(f) f.addEventListener('submit',function(){ if(!emp&&visto){ emp=true; hit('empezo'); } });
+}catch(e){}})();
+</script>
 
 <!-- ======================= PANTALLA 1 · QUIZ ======================= -->
 <div class="screen wrap hidden" id="screen-quiz">
