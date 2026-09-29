@@ -953,6 +953,9 @@ const CONFIG = {
       if(g){ ['.gate-mk','.gate-win-h','.gate-win'].forEach(function(sel){ var el=g.querySelector(sel); if(el) ft.appendChild(el); }); }
       sq.appendChild(ft);
     }
+    // 8.9.1 · la puerta se oculta aquí mismo, no hasta init() al final del <body>: en celular lento nadie del test ve «dame tu correo» ni un instante,
+    // y «ver» sale en el mismo momento en los dos brazos (antes el test lo mandaba hasta DOMContentLoaded).
+    if(g) g.classList.add('hidden'); if(sq) sq.classList.remove('hidden');
   }
   var robot=navigator.webdriver===true||/facebookexternalhit|facebot|meta-externalagent|headless|crawler|spider|adsbot|bot\//i.test(navigator.userAgent||'');
   if(robot) return;                                             // misma regla que vis.js: los robots no cuentan
