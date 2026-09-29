@@ -330,9 +330,11 @@ body.has-bar{padding-bottom:74px}
 .gap-note{font-size:12px;color:var(--red);font-weight:700}
 
 /* v2.3.1 · gate centrado (se veía cargado a la izquierda en anchos medios) */
-#screen-gate,#screen-phone{text-align:center}
-#screen-gate .gate-form,#screen-phone .gate-form{margin-left:auto;margin-right:auto}
-#screen-gate .sub,#screen-phone .sub{margin-left:auto;margin-right:auto}
+#screen-gate,#screen-phone,#screen-correo{text-align:center}
+#screen-gate .gate-form,#screen-phone .gate-form,#screen-correo .gate-form{margin-left:auto;margin-right:auto}
+#screen-gate .sub,#screen-phone .sub,#screen-correo .sub{margin-left:auto;margin-right:auto}
+/* 8.9 · EXP-02 test: encabezado arriba de la pregunta 1 y «Cuando termines vas a ver» abajo */
+.x2-head{text-align:center;margin:0 0 16px}.x2-head .kicker{margin-bottom:14px}.x2-head .hero{font-size:clamp(33px,8.2vw,50px);line-height:1.02;margin:0 auto 10px;max-width:700px}.x2-head .hero em{font-style:normal;color:#EA1A20}.x2-head .hero .hero-0{display:block;font-size:.72em;line-height:1.05;white-space:nowrap}.x2-head .hero .hero-1{display:block;line-height:1.0;margin:2px 0 0}.x2-head .sub{max-width:400px;margin:0 auto;line-height:1.45}.x2-foot{margin-top:26px}@media(max-width:520px){.x2-head .kicker{margin-bottom:10px;padding:6px 14px}.x2-head{margin-bottom:12px}}
 #screen-gate h1.hero{margin-left:auto;margin-right:auto;max-width:700px}
 /* ================= ENGRANE (Círculo de los Engranes) · pantalla de resultados ================= */
 #engrane-root{
@@ -891,42 +893,7 @@ const CONFIG = {
   <p class="trust small">Lo ves aquí mismo cuando termines. Nada de spam.</p>
   <p class="legal">Al continuar aceptas el <a href="/aviso/">aviso de privacidad</a>.</p>
 </div>
-<script>/* EXP-01 · Propuesta de valor · A/B 50/50 en la puerta (ANALISTA/CRO, 27 sep · bitácora claude/CRO-bitacora-experimentos-diagnosticador.md).
-   c = puerta de la 8.7 tal cual · t = puerta nueva completa (H1, .sub, botón y formulario arriba; Anwar 27 sep: todo junto). Mide con ASV.hit() → pestaña VISITAS, path=/evento/exp01_<c|t>_<ver|empezo>.
-   Para cerrar: dejar fija la ganadora (100/0) y quitar este bloque. */
-(function(){try{
-  var q=new URLSearchParams(location.search), id=window.__dxId||{};
-  if(q.get('r')||id.email||id.e) return;                       // la puerta no se muestra: ni se sortea ni se cuenta
-  var v=null; try{v=localStorage.getItem('exp01');}catch(e){}
-  if(v!=='c'&&v!=='t'){ v=Math.random()<0.5?'c':'t'; try{localStorage.setItem('exp01',v);}catch(e){} }
-  window.__exp01=v;
-  var g=document.getElementById('screen-gate');
-  if(v==='t'&&g){
-    var h=g.querySelector('h1.hero'), s=g.querySelector('p.sub');
-    if(h) h.innerHTML='<span class="hero-1">¿En <em>qué etapa</em> está tu negocio?</span>';
-    if(s) s.textContent='Aquí ves qué te está frenando hoy y qué te falta para pasar a la siguiente etapa.';
-    // el formulario, el botón y sus dos líneas suben justo debajo del .sub (antes de la imagen): el botón queda en la primera pantalla
-    var f0=document.getElementById('gateForm'), tr=g.querySelector('p.trust'), lg=g.querySelector('p.legal');
-    if(f0&&s){ s.insertAdjacentElement('afterend',f0); f0.classList.add('exp01-arriba');
-      if(tr) f0.insertAdjacentElement('afterend',tr); if(lg&&tr) tr.insertAdjacentElement('afterend',lg);
-      f0.style.marginTop='20px'; if(lg) lg.style.marginBottom='26px';
-      var bt=f0.querySelector('button[type=submit]'); if(bt) bt.textContent='Ver en qué etapa estoy →'; }
-  }
-  var robot=navigator.webdriver===true||/facebookexternalhit|facebot|meta-externalagent|headless|crawler|spider|adsbot|bot\//i.test(navigator.userAgent||'');
-  if(robot) return;                                             // misma regla que vis.js: los robots no cuentan
-  var hit=function(n){ try{ if(window.ASV&&ASV.hit) ASV.hit('exp01_'+v+'_'+n); }catch(e){} };
-  var visto=false;
-  function ver(){
-    if(visto||document.visibilityState!=='visible'||document.prerendering) return;
-    if(!g||g.classList.contains('hidden')) return;
-    visto=true; document.removeEventListener('visibilitychange',ver); document.removeEventListener('prerenderingchange',ver);
-    hit('ver');
-  }
-  document.addEventListener('visibilitychange',ver); document.addEventListener('prerenderingchange',ver); ver();
-  var f=document.getElementById('gateForm'), emp=false;
-  if(f) f.addEventListener('submit',function(){ if(!emp&&visto){ emp=true; hit('empezo'); } });
-}catch(e){}})();
-</script>
+<!-- EXP-01 cerrado el 28 sep (sin ganador): queda la puerta 8.7. Bitácora: claude/CRO-bitacora-experimentos-diagnosticador.md -->
 
 <!-- ======================= PANTALLA 1 · QUIZ ======================= -->
 <div class="screen wrap hidden" id="screen-quiz">
@@ -946,6 +913,64 @@ const CONFIG = {
   </form>
   <button class="skiplink" id="phoneSkip" style="margin-top:16px">Prefiero verlo sin dejar mi WhatsApp →</button>
 </div>
+
+<!-- ============ 8.9 · EXP-02 · PANTALLA DEL CORREO (solo test: al final, antes del resultado) ============ -->
+<div class="screen wrap hidden" id="screen-correo">
+  <span class="kicker">Último paso</span>
+  <h1 class="hero bebas" style="font-size:clamp(30px,5vw,50px)">Tu diagnóstico está listo.</h1>
+  <p class="sub">¿A dónde te mando tu mapa? Lo ves aquí mismo en cuanto pongas tu correo, y te llega una copia.</p>
+  <form class="gate-form" id="correoForm">
+    <input type="text" id="c_nombre" placeholder="Tu nombre completo" required autocomplete="name">
+    <input type="email" id="c_email" placeholder="Tu correo" required autocomplete="email">
+    <button class="btn-red" type="submit">Ver mi diagnóstico →</button>
+  </form>
+  <p class="trust small">Nada de spam.</p>
+  <p class="legal">Al continuar aceptas el <a href="/aviso/">aviso de privacidad</a>.</p>
+  <button type="button" class="backlink" id="correoBack" style="margin-top:18px">← Regresar</button>
+</div>
+<script>/* EXP-02 · Pregunta primero, correo al final · A/B 50/50 (ANALISTA/CRO, aprobado por Anwar 28-29 sep · bitácora claude/CRO-bitacora-experimentos-diagnosticador.md).
+   c = puerta 8.7 → quiz → resultado (sin cambios) · t = sin puerta: la primera pantalla es la pregunta 1; el correo se pide al final, antes del resultado.
+   Mide con ASV.hit() → pestaña VISITAS, path=/evento/exp02_<c|t>_<ver|p1|p10|pcorreo|correo|termino>. Cada evento una vez por carga y solo si antes hubo _ver.
+   Para cerrar: dejar fijo el ganador y quitar este bloque + las líneas marcadas «EXP-02» en init, pick, continueMetrica, renderQ, finish y completeAndShow. */
+(function(){try{
+  window.EX2=function(){};
+  var q=new URLSearchParams(location.search), id=window.__dxId||{};
+  if(q.get('r')||id.email||id.e) return;                       // no ve la primera pantalla: ni se sortea ni se cuenta
+  var v=null; try{v=localStorage.getItem('exp02');}catch(e){}
+  if(v!=='c'&&v!=='t'){ v=Math.random()<0.5?'c':'t'; try{localStorage.setItem('exp02',v);}catch(e){} }
+  window.__exp02=v;
+  try{ if(window.clarity) clarity('set','exp02',v); else window.addEventListener('load',function(){ try{ window.clarity&&clarity('set','exp02',v); }catch(e){} }); }catch(e){}
+  if(v==='t'){
+    // encabezado arriba de la pregunta 1 (textos aprobados) y lo de «Cuando termines vas a ver» abajo (se mueve desde la puerta, que en el test no se usa)
+    var sq=document.getElementById('screen-quiz'), g=document.getElementById('screen-gate');
+    if(sq){
+      var hd=document.createElement('div'); hd.className='x2-head'; hd.id='x2Head';
+      hd.innerHTML='<span class="kicker">Diagnóstico gratis · 2 minutos</span>'
+        +'<h1 class="hero bebas"><span class="hero-0">Tu negocio está en</span><span class="hero-1"><em>1 de 4</em> etapas.</span></h1>'   // mismo título que la puerta 8.7 (control): la única diferencia entre brazos es el orden
+        +'<p class="sub">Contesta 10 preguntas rápidas y ve qué te está frenando hoy.</p>';
+      sq.insertBefore(hd, sq.firstChild);
+      var ft=document.createElement('div'); ft.className='x2-foot'; ft.id='x2Foot';
+      if(g){ ['.gate-mk','.gate-win-h','.gate-win'].forEach(function(sel){ var el=g.querySelector(sel); if(el) ft.appendChild(el); }); }
+      sq.appendChild(ft);
+    }
+  }
+  var robot=navigator.webdriver===true||/facebookexternalhit|facebot|meta-externalagent|headless|crawler|spider|adsbot|bot\//i.test(navigator.userAgent||'');
+  if(robot) return;                                             // misma regla que vis.js: los robots no cuentan
+  var hecho={}, visto=false;
+  var hit=function(n){ if(hecho[n]) return; hecho[n]=1; try{ if(window.ASV&&ASV.hit) ASV.hit('exp02_'+v+'_'+n); }catch(e){} };
+  function primera(){ var el=document.getElementById(v==='t'?'screen-quiz':'screen-gate'); return el&&!el.classList.contains('hidden'); }
+  function ver(){
+    if(visto||document.visibilityState!=='visible'||document.prerendering||!primera()) return;
+    visto=true; document.removeEventListener('visibilitychange',ver); document.removeEventListener('prerenderingchange',ver);
+    hit('ver');
+  }
+  document.addEventListener('visibilitychange',ver); document.addEventListener('prerenderingchange',ver);
+  document.addEventListener('DOMContentLoaded',ver); ver();
+  window.EX2=function(n){ try{ if(!visto) return; if(v!=='t'&&(n==='p1'||n==='p10'||n==='pcorreo')) return; hit(n); }catch(e){} };
+  var f=document.getElementById('gateForm');                    // control: el correo se deja en la puerta
+  if(f&&v==='c') f.addEventListener('submit',function(){ window.EX2('correo'); });
+}catch(e){}})();
+</script>
 
 <!-- ======================= PANTALLA 2 · RESULTADOS ======================= -->
 <div class="hidden" id="screen-results">
@@ -1193,6 +1218,7 @@ function init(){
   state.email  = _id.email;
   state.telefono = _id.telefono;
   if(state.email){ startQuiz(); } // directo al quiz
+  else if(window.__exp02==="t"){ startQuizSinCorreo(); } // EXP-02 test: sin puerta, directo a la pregunta 1
   $("gateForm").addEventListener("submit", e=>{
     e.preventDefault();
     state.nombre = capName($("g_nombre").value);
@@ -1211,6 +1237,25 @@ function init(){
   });
   ["g_telefono","p_telefono"].forEach(id=>{ const el=$(id); if(el) el.addEventListener("input", ()=>{ const n=normTel(el.value); if(el.value!==n) el.value=n; }); });
   const ps=$("phoneSkip"); if(ps) ps.addEventListener("click", ()=>completeAndShow());
+  // EXP-02 test: pantalla del correo al final
+  const cf=$("correoForm"); if(cf) cf.addEventListener("submit", e=>{
+    e.preventDefault();
+    if(state.done) return;                                   // doble toque: una sola vez
+    state.nombre = capName($("c_nombre").value);
+    state.email  = $("c_email").value.trim();
+    fbReinit();          // ya tenemos correo y nombre: se los pasamos al pixel
+    clarityTags();
+    try{ window.EX2&&EX2("correo"); }catch(e){}
+    const _sid = track("QuizStart",{});
+    const _qs = sendWebhook("quiz_start", {event_id:_sid});
+    $("screen-correo").classList.add("hidden");
+    completeAndShow({esperar:_qs});                          // quiz_complete sale cuando responde quiz_start o a los 3 s
+  });
+  const cb=$("correoBack"); if(cb) cb.addEventListener("click", ()=>{
+    $("screen-correo").classList.add("hidden");
+    $("screen-quiz").classList.remove("hidden");
+    renderQ();                                               // vuelve a la última pregunta que vio
+  });
   setupAcards();
 }
 
@@ -1250,6 +1295,14 @@ function startQuiz(){
   sendWebhook("quiz_start", {event_id:_sid});
   renderQ();
   loadRes();   // 8.6: resultados listos antes de la pregunta 10
+}
+
+/* EXP-02 test: la primera pantalla es la pregunta 1. QuizStart y quiz_start se mandan hasta que deja su correo, al final. */
+function startQuizSinCorreo(){
+  $("screen-gate").classList.add("hidden");
+  $("screen-quiz").classList.remove("hidden");
+  renderQ();
+  loadRes();
 }
 
 /* ---------- Abandono: si se va a medio quiz, avisamos con la última pregunta contestada ---------- */
@@ -1319,6 +1372,7 @@ function renderQ(keepScroll){
               : `<button class="skiplink" onclick="skipCtx()">Saltar y ver mi diagnóstico →</button>`;
   html += `</div>`;
   $("qcard").innerHTML = html;
+  try{ const p1 = inB && i===0, h=$("x2Head"), f=$("x2Foot"); if(h) h.style.display=p1?"":"none"; if(f) f.style.display=p1?"":"none"; }catch(e){} // EXP-02
   if(!keepScroll) window.scrollTo({top:0});
 }
 
@@ -1329,8 +1383,9 @@ function pick(oi){
   pickLock = now;
   if(state.phase==="B"){
     state.B[state.idx] = oi;                 // 0..3 = Etapa 1..4
+    if(state.idx===0){ try{ window.EX2&&EX2("p1"); }catch(e){} }   // EXP-02
     state.idx++;
-    if(state.idx >= QUIZ.length){ state.phase="C"; state.idx=0; track("QuizComplete",{}); }
+    if(state.idx >= QUIZ.length){ state.phase="C"; state.idx=0; track("QuizComplete",{}); try{ window.EX2&&EX2("p10"); }catch(e){} }
   } else {
     state.C[state.idx] = oi;
     if(state.idx===0 && oi===CTX[0].opts.length-1){ state.rubroOtroAsk = true; renderQ(true); return; } // "Otro" → pregunta abierta
@@ -1390,7 +1445,7 @@ function continueMetrica(){
   const lvl = n===0 ? 1 : n<=2 ? 2 : n<=4 ? 3 : 4;   // 0->1, 1-2->2, 3-4->3, 5->4
   state.B[3] = lvl - 1;                               // guardar como 0..3 (consistente con las demás)
   state.idx++;
-  if(state.idx >= QUIZ.length){ state.phase="C"; state.idx=0; track("QuizComplete",{}); }
+  if(state.idx >= QUIZ.length){ state.phase="C"; state.idx=0; track("QuizComplete",{}); try{ window.EX2&&EX2("p10"); }catch(e){} }
   renderQ();
 }
 
@@ -1433,10 +1488,20 @@ function computePerfil(){
 function finish(){
   try{ state.etapa = computeEtapa(state.B); }catch(e){ console.warn("etapa",e); state.etapa = state.etapa||1; }
   try{ state.weak  = computeWeak(state.B, state.etapa); }catch(e){ console.warn("weak",e); state.weak = []; }
+  if(window.__exp02==="t" && !state.email){ return showCorreo(); }   // EXP-02 test: el correo va al final
   completeAndShow();
 }
-function completeAndShow(){
+function showCorreo(){
+  if(state.idx >= CTX.length) state.idx = CTX.length-1;     // «← Regresar» vuelve a la última pregunta que vio
+  state.rubroOtroAsk = false;
+  $("screen-quiz").classList.add("hidden");
+  $("screen-correo").classList.remove("hidden");
+  window.scrollTo({top:0});
+  try{ window.EX2&&EX2("pcorreo"); }catch(e){}
+}
+function completeAndShow(op){
   state.done = true;
+  try{ window.EX2&&EX2("termino"); }catch(e){}   // EXP-02
   // El diagnóstico SIEMPRE se muestra primero — nada de analytics/permalink puede bloquearlo.
   try{ showResults(); }catch(e){ console.error("showResults", e); }
   try{ const enc = encodeResults(); history.replaceState(null,"", location.pathname+"?r="+enc); }catch(e){ console.warn("permalink",e); }
@@ -1444,7 +1509,11 @@ function completeAndShow(){
   const _eid = evid();
   try{ fbReinit(); }catch(e){}   // por si el telefono entro despues de la puerta
   try{ clarityTags(); }catch(e){}  // ahora si ya hay etapa y banda que etiquetar
-  try{ sendWebhook("quiz_complete", {event_id:_eid}); }catch(e){ console.warn("webhook",e); }
+  const _qc = ()=>{ try{ sendWebhook("quiz_complete", {event_id:_eid}); }catch(e){ console.warn("webhook",e); } };
+  if(op && op.esperar){                         // EXP-02 test: quiz_start acaba de salir; que Make/GHL lo reciban primero
+    let ya=false; const una=()=>{ if(!ya){ ya=true; _qc(); } };
+    Promise.resolve(op.esperar).then(una, una); setTimeout(una, 3000);
+  } else { _qc(); }
   // UN solo evento de conversion. Antes disparaban Lead y CompleteRegistration
   // juntos con el mismo eventID: Meta no sabia cual era el resultado.
   try{ track("Lead", { content_name:'diagnostico', etapa: state.etapa,
@@ -1474,6 +1543,7 @@ function showResults(){
   state.done = true; // visitas por permalink nunca cuentan como abandono
   $("screen-gate").classList.add("hidden");
   $("screen-quiz").classList.add("hidden");
+  try{ $("screen-correo").classList.add("hidden"); }catch(e){}
   $("screen-results").classList.remove("hidden");
   window.scrollTo({top:0}); // el diagnóstico arranca desde arriba, no donde quedó el gate
   $("exportbar").classList.add("on");
@@ -1566,7 +1636,7 @@ function payload(action, extra={}){
 function sendWebhook(action, extra){
   const data = payload(action, extra);
   if(!CONFIG.WEBHOOK_URL){ console.log("[webhook·simulado]", data); return; }
-  fetch(CONFIG.WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})
+  return fetch(CONFIG.WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})
     .catch(err=>console.warn("webhook error", err));
 }
 function loadPixel(){
