@@ -706,6 +706,16 @@ body.has-bar{padding-bottom:74px}
 .chk-sec .pq-b li{margin:0 0 8px}
 .chk-sec .pq-ej{background:#F7F7F5;border-left:3px solid #0A2E5C;border-radius:6px;padding:10px 12px}
 .chk-sec .pq-ej p:last-child{margin-bottom:0}
+/* 9.1 · EXP-04 · VSL en la puerta (solo con video) y botón que baja al formulario (los dos brazos). Play abajo a la derecha y duración arriba a la izquierda: así no tapan la cara, el gancho ni el subtítulo del poster */
+#vslBox{margin:16px auto 4px;max-width:560px}
+#vslBox .vsl-frame{position:relative;width:100%;height:0;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#0A2540;box-shadow:0 6px 20px rgba(10,37,64,.18)}
+#vslBox .vsl-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+#vslBox .vsl-play{position:absolute;inset:0;width:100%;height:100%;display:block;background:linear-gradient(180deg,rgba(10,37,64,0) 55%,rgba(10,37,64,.30));border:0;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#vslBox .vsl-pb{position:absolute;right:5%;bottom:7%;width:56px;height:56px;border-radius:50%;background:#EA1A20;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.28)}
+#vslBox .vsl-pb svg{margin-left:3px}
+#vslBox .vsl-dur{position:absolute;left:10px;top:10px;color:#fff;font:700 13px/1 Manrope,Inter,sans-serif;background:rgba(10,37,64,.6);padding:5px 9px;border-radius:999px;pointer-events:none}
+#vslBox video{position:absolute;inset:0;width:100%;height:100%;background:#000}
+#vslBox .vsl-go{display:block;width:100%;max-width:420px;margin:12px auto 0}
 </style>
 <!-- 8.7 · vis.js va adentro (misma versión que gmAnwar/diagnostico/vis.js del 27 sep): una petición bloqueante menos. Si cambias vis.js, cámbialo también aquí. -->
 <script>
@@ -894,6 +904,71 @@ const CONFIG = {
   <p class="legal">Al continuar aceptas el <a href="/aviso/">aviso de privacidad</a>.</p>
 </div>
 <!-- EXP-01 cerrado el 28 sep (sin ganador): queda la puerta 8.7. Bitácora: claude/CRO-bitacora-experimentos-diagnosticador.md -->
+<script>/* 9.1 · EXP-04 · VSL de Anwar en la puerta · A/B 50/50 (ANALISTA/CRO, 2 oct · bitácora claude/CRO-bitacora-experimentos-diagnosticador.md).
+   c = puerta sin video · t = puerta con video. Los dos brazos llevan el botón que baja al formulario: lo único distinto es el video (regla de una variable).
+   Mide con ASV.hit() → pestaña VISITAS: exp04_<c|t>_<ver|boton|correo|termino> y, solo con video, vsl_<play|25|50|75|100>. Cada evento una vez por carga.
+   El video y su sonido se bajan solo al tocar el poster. Archivos: vsl-1.mp4 · vsl-1.webm · vsl-1-poster.webp (si cambian, cámbiales el número aquí y en el repo).
+   Para cerrar: dejar fijo el ganador y quitar este bloque + la línea marcada «EXP-04» en completeAndShow. */
+(function(){try{
+  var VSL={mp4:'vsl-1.mp4', webm:'vsl-1.webm', poster:'vsl-1-poster.webp', dur:'0:46'};
+  var BOTON_EN_LOS_DOS=true;   // false = el botón que baja al formulario solo sale con el video
+  window.EX4=function(){};
+  var q=new URLSearchParams(location.search), id=window.__dxId||{};
+  if(q.get('r')||id.email||id.e) return;                     // viene del correo: no ve la puerta; ni se sortea ni se cuenta
+  var g=document.getElementById('screen-gate'); if(!g) return;
+  var v=null; try{v=localStorage.getItem('exp04');}catch(e){}
+  if(v!=='c'&&v!=='t'){ v=Math.random()<0.5?'c':'t'; try{localStorage.setItem('exp04',v);}catch(e){} }
+  window.__exp04=v;
+  try{ if(window.clarity) clarity('set','exp04',v); else window.addEventListener('load',function(){ try{ window.clarity&&clarity('set','exp04',v); }catch(e){} }); }catch(e){}
+  // --- se monta abajo del título y del sub, antes de la imagen de las tablas ---
+  var h='';
+  if(v==='t') h+='<div class="vsl-frame"><img class="vsl-poster" src="'+VSL.poster+'" width="640" height="360" alt="" decoding="async">'
+    +'<button type="button" class="vsl-play" aria-label="Ver el video de Anwar ('+VSL.dur+')"><span class="vsl-pb"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg></span></button>'
+    +'<span class="vsl-dur">'+VSL.dur+'</span></div>';
+  if(v==='t'||BOTON_EN_LOS_DOS) h+='<button type="button" class="btn-red vsl-go" id="vslGo">Empezar mi diagnóstico →</button>';
+  if(!h) return;
+  var box=document.createElement('div'); box.id='vslBox'; box.innerHTML=h;
+  var sub=g.querySelector('.sub'); if(sub&&sub.parentNode===g) g.insertBefore(box, sub.nextSibling); else g.insertBefore(box, g.querySelector('.gate-mk'));
+  // --- botón: baja al formulario y deja el cursor en el nombre ---
+  var go=document.getElementById('vslGo');
+  if(go) go.addEventListener('click',function(){
+    try{ window.EX4('boton'); }catch(e){}
+    var f=document.getElementById('gateForm'), n=document.getElementById('g_nombre');
+    if(f) f.scrollIntoView({behavior:'smooth',block:'center'});
+    if(n) setTimeout(function(){ try{ n.focus({preventScroll:true}); }catch(e){ try{ n.focus(); }catch(e2){} } },450);
+  });
+  // --- video: el elemento se crea solo al tocar el poster ---
+  var robot=navigator.webdriver===true||/facebookexternalhit|facebot|meta-externalagent|headless|crawler|spider|adsbot|bot\//i.test(navigator.userAgent||'');
+  var vd=null, vh={};
+  var vhit=function(n){ if(vh[n]||robot) return; vh[n]=1; try{ if(window.ASV&&ASV.hit) ASV.hit('vsl_'+n); }catch(e){} };
+  var pb=box.querySelector('.vsl-play');
+  if(pb) pb.addEventListener('click',function(){
+    if(vd) return;
+    var fr=box.querySelector('.vsl-frame');
+    vd=document.createElement('video');
+    vd.setAttribute('playsinline',''); vd.setAttribute('webkit-playsinline',''); vd.controls=true; vd.preload='auto'; vd.poster=VSL.poster;
+    vd.innerHTML='<source src="'+VSL.mp4+'" type="video/mp4"><source src="'+VSL.webm+'" type="video/webm">';
+    vd.addEventListener('play',function(){ vhit('play'); });
+    vd.addEventListener('timeupdate',function(){ var d=vd.duration; if(!d||!isFinite(d)) return; var p=vd.currentTime/d;
+      if(p>=0.25) vhit('25'); if(p>=0.5) vhit('50'); if(p>=0.75) vhit('75'); if(p>=0.98) vhit('100'); });
+    vd.addEventListener('ended',function(){ vhit('100'); });
+    fr.appendChild(vd); pb.style.display='none';
+    var pp=vd.play(); if(pp&&pp.catch) pp.catch(function(){});
+  });
+  if(robot) return;                                          // misma regla que vis.js: los robots no cuentan (el módulo sí se monta)
+  var hecho={}, visto=false;
+  var hit=function(n){ if(hecho[n]) return; hecho[n]=1; try{ if(window.ASV&&ASV.hit) ASV.hit('exp04_'+v+'_'+n); }catch(e){} };
+  function ver(){
+    if(visto||document.visibilityState!=='visible'||document.prerendering||g.classList.contains('hidden')) return;
+    visto=true; document.removeEventListener('visibilitychange',ver); document.removeEventListener('prerenderingchange',ver);
+    hit('ver');
+  }
+  document.addEventListener('visibilitychange',ver); document.addEventListener('prerenderingchange',ver);
+  document.addEventListener('DOMContentLoaded',ver); ver();
+  window.EX4=function(n){ try{ if(visto) hit(n); }catch(e){} };
+  var f=document.getElementById('gateForm'); if(f) f.addEventListener('submit',function(){ window.EX4('correo'); });
+}catch(e){}})();
+</script>
 
 <!-- ======================= PANTALLA 1 · QUIZ ======================= -->
 <div class="screen wrap hidden" id="screen-quiz">
@@ -928,51 +1003,11 @@ const CONFIG = {
   <p class="legal">Al continuar aceptas el <a href="/aviso/">aviso de privacidad</a>.</p>
   <button type="button" class="backlink" id="correoBack" style="margin-top:18px">← Regresar</button>
 </div>
-<script>/* EXP-02 · Pregunta primero, correo al final · A/B 50/50 (ANALISTA/CRO, aprobado por Anwar 28-29 sep · bitácora claude/CRO-bitacora-experimentos-diagnosticador.md).
-   c = puerta 8.7 → quiz → resultado (sin cambios) · t = sin puerta: la primera pantalla es la pregunta 1; el correo se pide al final, antes del resultado.
-   Mide con ASV.hit() → pestaña VISITAS, path=/evento/exp02_<c|t>_<ver|p1|p10|pcorreo|correo|termino>. Cada evento una vez por carga y solo si antes hubo _ver.
-   Para cerrar: dejar fijo el ganador y quitar este bloque + las líneas marcadas «EXP-02» en init, pick, continueMetrica, renderQ, finish y completeAndShow. */
-(function(){try{
-  window.EX2=function(){};
-  var q=new URLSearchParams(location.search), id=window.__dxId||{};
-  if(q.get('r')||id.email||id.e) return;                       // no ve la primera pantalla: ni se sortea ni se cuenta
-  var v=null; try{v=localStorage.getItem('exp02');}catch(e){}
-  if(v!=='c'&&v!=='t'){ v=Math.random()<0.5?'c':'t'; try{localStorage.setItem('exp02',v);}catch(e){} }
-  window.__exp02=v;
-  try{ if(window.clarity) clarity('set','exp02',v); else window.addEventListener('load',function(){ try{ window.clarity&&clarity('set','exp02',v); }catch(e){} }); }catch(e){}
-  if(v==='t'){
-    // encabezado arriba de la pregunta 1 (textos aprobados) y lo de «Cuando termines vas a ver» abajo (se mueve desde la puerta, que en el test no se usa)
-    var sq=document.getElementById('screen-quiz'), g=document.getElementById('screen-gate');
-    if(sq){
-      var hd=document.createElement('div'); hd.className='x2-head'; hd.id='x2Head';
-      hd.innerHTML='<span class="kicker">Diagnóstico gratis · 2 minutos</span>'
-        +'<h1 class="hero bebas"><span class="hero-0">Tu negocio está en</span><span class="hero-1"><em>1 de 4</em> etapas.</span></h1>'   // mismo título que la puerta 8.7 (control): la única diferencia entre brazos es el orden
-        +'<p class="sub">Contesta 10 preguntas rápidas y ve qué te está frenando hoy.</p>';
-      sq.insertBefore(hd, sq.firstChild);
-      var ft=document.createElement('div'); ft.className='x2-foot'; ft.id='x2Foot';
-      if(g){ ['.gate-mk','.gate-win-h','.gate-win'].forEach(function(sel){ var el=g.querySelector(sel); if(el) ft.appendChild(el); }); }
-      sq.appendChild(ft);
-    }
-    // 8.9.1 · la puerta se oculta aquí mismo, no hasta init() al final del <body>: en celular lento nadie del test ve «dame tu correo» ni un instante,
-    // y «ver» sale en el mismo momento en los dos brazos (antes el test lo mandaba hasta DOMContentLoaded).
-    if(g) g.classList.add('hidden'); if(sq) sq.classList.remove('hidden');
-  }
-  var robot=navigator.webdriver===true||/facebookexternalhit|facebot|meta-externalagent|headless|crawler|spider|adsbot|bot\//i.test(navigator.userAgent||'');
-  if(robot) return;                                             // misma regla que vis.js: los robots no cuentan
-  var hecho={}, visto=false;
-  var hit=function(n){ if(hecho[n]) return; hecho[n]=1; try{ if(window.ASV&&ASV.hit) ASV.hit('exp02_'+v+'_'+n); }catch(e){} };
-  function primera(){ var el=document.getElementById(v==='t'?'screen-quiz':'screen-gate'); return el&&!el.classList.contains('hidden'); }
-  function ver(){
-    if(visto||document.visibilityState!=='visible'||document.prerendering||!primera()) return;
-    visto=true; document.removeEventListener('visibilitychange',ver); document.removeEventListener('prerenderingchange',ver);
-    hit('ver');
-  }
-  document.addEventListener('visibilitychange',ver); document.addEventListener('prerenderingchange',ver);
-  document.addEventListener('DOMContentLoaded',ver); ver();
-  window.EX2=function(n){ try{ if(!visto) return; if(v!=='t'&&(n==='p1'||n==='p10'||n==='pcorreo')) return; hit(n); }catch(e){} };
-  var f=document.getElementById('gateForm');                    // control: el correo se deja en la puerta
-  if(f&&v==='c') f.addEventListener('submit',function(){ window.EX2('correo'); });
-}catch(e){}})();
+<script>/* 9.1 · EXP-02 se cierra al subir este archivo: se queda la puerta (correo primero) por decisión de Anwar del 6 oct, con empate en terminados
+   (la regla escrita decía «se queda el test»). Lectura final en la bitácora: claude/CRO-bitacora-experimentos-diagnosticador.md. Todos ven la puerta. window.__exp02 ya no se define, así que el código del test
+   (líneas marcadas «EXP-02») no corre; se borra en la siguiente limpieza. */
+window.EX2=function(){};
+try{ localStorage.removeItem('exp02'); }catch(e){}
 </script>
 
 <!-- ======================= PANTALLA 2 · RESULTADOS ======================= -->
@@ -1505,6 +1540,7 @@ function showCorreo(){
 function completeAndShow(op){
   state.done = true;
   try{ window.EX2&&EX2("termino"); }catch(e){}   // EXP-02
+  try{ window.EX4&&EX4("termino"); }catch(e){}   // EXP-04
   // El diagnóstico SIEMPRE se muestra primero — nada de analytics/permalink puede bloquearlo.
   try{ showResults(); }catch(e){ console.error("showResults", e); }
   try{ const enc = encodeResults(); history.replaceState(null,"", location.pathname+"?r="+enc); }catch(e){ console.warn("permalink",e); }
