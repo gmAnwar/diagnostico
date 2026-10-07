@@ -906,7 +906,8 @@ const CONFIG = {
 <!-- EXP-01 cerrado el 28 sep (sin ganador): queda la puerta 8.7. Bitácora: claude/CRO-bitacora-experimentos-diagnosticador.md -->
 <script>/* 9.1 · EXP-04 · VSL de Anwar en la puerta · A/B 50/50 (ANALISTA/CRO, 2 oct · bitácora claude/CRO-bitacora-experimentos-diagnosticador.md).
    c = puerta sin video · t = puerta con video. Los dos brazos llevan el botón que baja al formulario: lo único distinto es el video (regla de una variable).
-   Mide con ASV.hit() → pestaña VISITAS: exp04_<c|t>_<ver|boton|correo|termino> y, solo con video, vsl_<play|25|50|75|100>. Cada evento una vez por carga.
+   Mide con ASV.hit() → pestaña VISITAS: exp04_<c|t>_<ver|boton|correo|termino> y, solo con video, vsl_<play|3s|25|50|75|100>. Cada evento una vez por carga.
+   9.1.1 (7 oct): + vsl_3s = pasó de 3 segundos. «play» sale al tocar aunque el video no baje; 3s y 25 son la prueba de que sí corre.
    El video y su sonido se bajan solo al tocar el poster. Archivos: vsl-1.mp4 · vsl-1.webm · vsl-1-poster.webp (si cambian, cámbiales el número aquí y en el repo).
    Para cerrar: dejar fijo el ganador y quitar este bloque + la línea marcada «EXP-04» en completeAndShow. */
 (function(){try{
@@ -949,7 +950,7 @@ const CONFIG = {
     vd.setAttribute('playsinline',''); vd.setAttribute('webkit-playsinline',''); vd.controls=true; vd.preload='auto'; vd.poster=VSL.poster;
     vd.innerHTML='<source src="'+VSL.mp4+'" type="video/mp4"><source src="'+VSL.webm+'" type="video/webm">';
     vd.addEventListener('play',function(){ vhit('play'); });
-    vd.addEventListener('timeupdate',function(){ var d=vd.duration; if(!d||!isFinite(d)) return; var p=vd.currentTime/d;
+    vd.addEventListener('timeupdate',function(){ if(vd.currentTime>=3) vhit('3s'); var d=vd.duration; if(!d||!isFinite(d)) return; var p=vd.currentTime/d;
       if(p>=0.25) vhit('25'); if(p>=0.5) vhit('50'); if(p>=0.75) vhit('75'); if(p>=0.98) vhit('100'); });
     vd.addEventListener('ended',function(){ vhit('100'); });
     fr.appendChild(vd); pb.style.display='none';
