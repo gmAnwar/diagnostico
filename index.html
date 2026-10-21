@@ -1144,8 +1144,14 @@ const CTX = [
   opts:["Salud y belleza (clínicas, estéticas, dentistas, spas)","Bienes raíces","Educación y coaching","Servicios profesionales","Comercio y retail","Restaurantes y alimentos","Automotriz","Fitness y deporte","Otro"]},
  {id:"c2_modelo", q:"¿A quién le vendes?",
   opts:["Vendo productos al cliente final","Vendo servicios al cliente final","Vendo a otras empresas","Vendo a distribuidores o mayoristas"]},
- {id:"c3_costo", q:"Cada persona que te escribe por un anuncio te costó dinero. ¿Cómo ves ese costo?",
-  opts:["No lo sé, no mido eso","Me parece barato, me sobra margen","Está bien, pero podría mejorar","Se siente caro para lo que vendo","Es tan caro que dudo si vale la pena"]},
+ // 9.1.2 (21 oct) · c3 en 2 pasos: primero el número, como lo enseña Facebook; luego cómo lo siente.
+ // Antes era solo «¿cómo ves ese costo?» y la primera opción era «No lo sé, no mido eso» (19 de 40 al 11 oct).
+ // El paso 2 sale SIEMPRE, también con «No me he fijado» (como el Notion 4P: todos dicen si sus mensajes son caros o no).
+ // Rangos según sus llamadas (banco de voz: de $2 a $70 por mensaje, la mayoría entre $5 y $17). En RAW sigue en c3_costo: «<número> · <cómo lo siente>».
+ {id:"c3_costo", q:"¿Cuánto te cobra Facebook por cada mensaje que te llega?<span class='small' style='display:block;margin-top:8px;font-size:14px;font-weight:400'>Lo ves en los resultados de tu anuncio: lo que te costó cada conversación. Si no aparece, divide lo que gastaste entre las personas que te escribieron.</span>",
+  opts:["Menos de $10","Entre $10 y $25","Entre $25 y $60","Más de $60","No me he fijado"],
+  sientes:{q:"Y para lo que vendes, tus mensajes te salen…",
+   opts:["Baratos, me dejan buen margen","Bien, pero podrían bajar","Caros para lo que vendo","Tan caros que dudo si vale la pena"]}},
  {id:"c4_traba", q:"¿Qué es lo que más te está frenando para vender más?",
   opts:["Me llegan pocos interesados","Me llegan muchos, pero no del perfil correcto","Me contactan, pero no compran","Vendo bien, pero el costo es alto y me queda poco","Vendo bien, pero no puedo crecer sin que todo dependa de mí"]},
  // c5 · estructura. Dos redacciones: el del boton azul no sabe que es un conjunto
@@ -1400,6 +1406,12 @@ function renderQ(keepScroll){
     html += `<div class="ctx-note" style="margin-top:12px"><label for="rubroOtro" style="display:block;margin-bottom:8px"><b>¿Qué vendes?</b> <span class="small">(opcional, una línea)</span></label>`;
     html += `<input id="rubroOtro" type="text" maxlength="80" autocomplete="organization" placeholder="Ej. refacciones para autos, consultas dentales, cursos de inglés" value="${esc(state.rubroOtro||"").replace(/"/g,"&quot;")}" style="width:100%;box-sizing:border-box;padding:12px 14px;font:inherit;border:1px solid rgba(0,0,0,.2);border-radius:10px" onkeydown="if(event.key==='Enter'){event.preventDefault();rubroOtroOk();}">`;
     html += `<button class="opt" style="margin-top:10px" onclick="rubroOtroOk()">Continuar →</button></div>`;
+  } else if(!inB && i===2 && state.c3SientesAsk && q.sientes && state.C[2]!=null){
+    // 9.1.2 · c3 paso 2: ya dijo cuánto le cuesta; ahora, cómo lo siente
+    html += `<div class="opts"><button class="opt" style="opacity:.55;pointer-events:none">${q.opts[state.C[2]]}</button></div>`;
+    html += `<div class="qtext" style="margin-top:22px">${q.sientes.q}</div><div class="opts">`;
+    q.sientes.opts.forEach((o,oi)=>{ html += `<button class="opt" onclick="pickSientes(${oi})">${o}</button>`; });
+    html += `</div>`;
   } else {
     html += `<div class="opts">`;
     q.opts.forEach((o,oi)=>{ html += `<button class="opt" onclick="pick(${oi})">${o}</button>`; });
@@ -1428,6 +1440,7 @@ function pick(oi){
   } else {
     state.C[state.idx] = oi;
     if(state.idx===0 && oi===CTX[0].opts.length-1){ state.rubroOtroAsk = true; renderQ(true); return; } // "Otro" → pregunta abierta
+    if(state.idx===2 && CTX[2].sientes){ state.c3s = null; state.c3SientesAsk = true; renderQ(true); c3VerPaso2(); return; } // 9.1.2 · c3: paso 2 siempre
     state.idx++;
     // Clínica: el modelo de negocio (servicios a cliente final) es obvio → autocompletar y saltar
     if(state.idx===1 && state.C[0]===0){ state.C[1]=1; state.idx=2; }
@@ -1435,11 +1448,27 @@ function pick(oi){
   }
   renderQ();
 }
+function c3VerPaso2(){                    // 9.1.2 · en celulares chicos el paso 2 queda abajo del corte: se sube para que se vean las 4 opciones
+  try{
+    const qs = document.querySelectorAll('#qcard .qtext'), t = qs[qs.length-1];
+    const bs = document.querySelectorAll('#qcard .opts button'), last = bs[bs.length-1];
+    if(!t || !last || last.getBoundingClientRect().bottom <= window.innerHeight) return;  // ya se ve todo: no se mueve nada
+    const tb = document.querySelector('.topbar'), arriba = (tb ? tb.getBoundingClientRect().height : 0) + 12;
+    window.scrollTo({ top: Math.max(0, t.getBoundingClientRect().top + window.scrollY - arriba), behavior: 'smooth' });
+  }catch(e){}
+}
+function pickSientes(oi){                 // 9.1.2 · c3 paso 2
+  const now = Date.now(); if(now - pickLock < 300) return; pickLock = now;
+  state.c3s = oi; state.c3SientesAsk = false; state.idx = 3;
+  if(state.idx >= CTX.length){ return finish(); }
+  renderQ();
+}
 function rubroOtroOk(){
   const el = $("rubroOtro"); state.rubroOtro = el ? String(el.value||"").trim().slice(0,80) : "";
   state.rubroOtroAsk = false; state.idx = 1; renderQ();
 }
 function goBack(){
+  if(state.phase==="C" && state.idx===2 && state.c3SientesAsk){ state.c3SientesAsk=false; renderQ(true); return; } // 9.1.2 · del paso 2 de c3 al paso 1
   if(state.phase==="C" && state.idx===0 && state.rubroOtroAsk){ state.rubroOtroAsk=false; renderQ(true); return; } // del campo abierto a las opciones
   if(state.phase==="C" && state.idx===0){ state.phase="B"; state.idx=QUIZ.length-1; }
   else if(state.phase==="C" && state.idx===2 && state.C[0]===0){ state.idx=0; } // clínica: saltó el modelo
@@ -1514,12 +1543,15 @@ function bandaSocio(){
   }catch(e){ return state.etapa>=3; }
 }
 
+/* 9.1.2 · la c3 de antes (hasta el 21 oct), para los links viejos que se vuelven a abrir */
+const C3_ANTES = ["No lo sé, no mido eso","Me parece barato, me sobra margen","Está bien, pero podría mejorar","Se siente caro para lo que vendo","Es tan caro que dudo si vale la pena"];
 /* ---------- Perfil de curso 4P: se deduce de C3 (costo) + C4 (traba) ---------- */
 function computePerfil(){
   const c3 = state.C[2], c4 = state.C[3];
   if(c3==null || c4==null) return null;             // null SOLO si de verdad saltó el Bloque C
   if(c4===4) return 1;                              // escalamiento: vende bien, quiere más
-  const caro = (c3===3 || c3===4);                  // costo por contacto percibido como alto
+  const caro = state.c3v2===false ? (c3===3 || c3===4)         // link de antes del 9.1.2: «se siente caro» / «tan caro»
+                                  : (state.c3s===2 || state.c3s===3); // 9.1.2 · paso 2: «caros» / «tan caros»
   if(c4===3) return caro ? 4 : 5;                   // rentabilidad: caros=4 · costo ok=5
   return caro ? 3 : 2;                              // c4 0,1,2 = todavía no vende: caros=3 · baratos=2
 }
@@ -1562,6 +1594,7 @@ function completeAndShow(op){
 /* ---------- Permalink: respuestas codificadas en la URL ---------- */
 function encodeResults(){
   const payload = {b:state.B, c:state.C, m:state.metricas}; if(K()) payload.k=K(); // sin identidad: la URL la ve Meta
+  if(state.c3v2!==false){ payload.v=2; if(state.c3s!=null) payload.s=state.c3s; }  // 9.1.2 · c3 nueva + paso 2
   return btoa(unescape(encodeURIComponent(JSON.stringify(payload)))).replace(/=+$/,"");
 }
 function hydrateFromURL(){
@@ -1569,6 +1602,7 @@ function hydrateFromURL(){
     const raw = JSON.parse(decodeURIComponent(escape(atob(params.get("r")))));
     if(raw.n && !state.nombre) state.nombre=capName(raw.n); if(raw.e && !state.email) state.email=raw.e; // links viejos
     state.B=raw.b||[]; state.C=raw.c||[]; if(raw.k==='clinicas') state.k='clinicas';
+    state.c3v2 = raw.v===2; state.c3s = (state.c3v2 && (raw.s===0||raw.s>0)) ? raw.s : null; // 9.1.2 · links de antes: c3 era otra pregunta
     state.metricas=Array.isArray(raw.m)?raw.m:[false,false,false,false,false];
     if(state.B.length!==10) throw 0;
     state.etapa=computeEtapa(state.B); state.weak=computeWeak(state.B,state.etapa);
@@ -1670,6 +1704,10 @@ function payload(action, extra={}){
     ...fbIds(), ...state.utm, ...extra };
   QUIZ.forEach((q,i)=>{ if(state.B[i]!=null) p[q.id]=state.B[i]+1; });
   CTX.forEach((q,i)=>{ const qq=qv(q); if(state.C[i]!=null) p[qq.id]=qq.opts[state.C[i]]; }); // guarda la redaccion que SI vio
+  if(state.C[2]!=null){                                                                     // 9.1.2 · c3
+    if(state.c3v2===false) p.c3_costo = C3_ANTES[state.C[2]] || "";                        // link de antes: la redacción que vio entonces
+    else if(state.c3s!=null) p.c3_costo = CTX[2].opts[state.C[2]] + " · " + CTX[2].sientes.opts[state.c3s];
+  }
   p.c1_rubro_otro = (state.C[0]===CTX[0].opts.length-1 && state.rubroOtro) ? state.rubroOtro : "";   // 8.5f · texto libre si eligió "Otro"
   return p;
 }
